@@ -146,6 +146,16 @@ unmodified opinion containing an emphasis or going-concern paragraph; the
 pledge target observes a later controller change without claiming that the
 pledge alone caused it.
 
+Version 0.7 turns the first business-decision case into two matched pairs.
+寒武纪 is the no-event R&D control for 海光信息 under the same growth, margin,
+and cash-conversion logic. 宁德时代's 湖西 expansion and 德方纳米's announced
+磷酸铁锂前驱体 project form a factory-allocation event/control pair. The factory
+contract requires a disclosed construction milestone, at least 20% revenue
+CAGR, at least 10% gross margin, positive operating cash flow, and at least 75%
+capacity utilization. These are later commercial-validation tests, not claims
+that one project caused the company-wide result or proofs of counterfactual
+optimality.
+
 ```bash
 uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
 uv run finagentbench a-share search \
@@ -245,6 +255,27 @@ that the contract can test a joint operating outcome and that models identify
 cash conversion, customer concentration, and supply-chain constraints instead
 of treating high R&D as sufficient evidence.
 
+### Matched business-decision replay
+
+Version 0.7 reran the complete four-case decision suite as twelve independent
+sessions. Every session used frozen search and completed. All three models
+correctly placed 海光信息 above 寒武纪 and 宁德时代 above 德方纳米, and all twelve
+thresholded predictions matched the labels.
+
+| Model | Brier loss | Log loss | Accuracy | Mean searches |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-5.6 Luna | 0.0792 | 0.3293 | 100.0% | 3.50 |
+| GPT-5.6 Sol | 0.1187 | 0.4065 | 100.0% | 5.25 |
+| GPT-5.6 Terra | 0.1308 | 0.4459 | 100.0% | 1.75 |
+
+The paired probability gaps were positive for every model: 0.31-0.44 for the
+R&D pair and 0.26-0.44 for the factory pair. This is still only four public
+cases with one repeat, so the ordering is a harness diagnostic rather than a
+model ranking. Full answers and tool counts are in
+[`results/2026-08-12-business-decisions-frozen-web-low.json`](results/2026-08-12-business-decisions-frozen-web-low.json),
+with the compact report in
+[`results/2026-08-12-business-decisions-frozen-web-low.md`](results/2026-08-12-business-decisions-frozen-web-low.md).
+
 ## Live-shadow sealing
 
 Version 0.5 makes the future-generalization layer executable. A live-shadow
@@ -299,9 +330,9 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- 19 real A-share walk-forward scenarios with frozen official-search corpora:
+- 22 real A-share walk-forward scenarios with frozen official-search corpora:
   six matched goodwill/impairment cases, six additional matched trap families,
-  and one business-decision case;
+  and two matched business-decision families for R&D and factory allocation;
 - a real-Web live-shadow runner with full-trace commitments and maturity-gated
   resolution;
 - case validation, rubric-free prompt rendering, and deterministic scoring;

@@ -38,7 +38,7 @@ def test_builtin_goodwill_slice_is_balanced_and_all_cases_are_point_in_time() ->
         if case.scenario.suite == "a_share_walk_forward_v1"
     )
 
-    assert len(cases) >= 19
+    assert len(cases) >= 22
     assert len(goodwill_cases) == 6
     assert sum(case.label.event_occurred for case in goodwill_cases) == 3
     for case in cases:
@@ -137,6 +137,57 @@ def test_hygon_business_decision_case_has_generic_auditable_outcome() -> None:
     assert "revenue_2024" not in rendered
     assert "event_occurred" not in rendered
     assert "rqdata" not in rendered.lower()
+
+
+def test_business_decisions_have_matched_rnd_and_factory_controls() -> None:
+    business_cases = tuple(
+        case
+        for case in _cases()
+        if case.scenario.suite == "a_share_business_decision_v1"
+    )
+    rnd_cases = tuple(
+        case for case in business_cases if "-rd-commercial-validation" in case.scenario.id
+    )
+    factory_cases = tuple(
+        case
+        for case in business_cases
+        if "-factory-commercial-validation" in case.scenario.id
+    )
+
+    assert len(business_cases) == 4
+    assert len(rnd_cases) == 2
+    assert {case.label.event_occurred for case in rnd_cases} == {False, True}
+    assert len(factory_cases) == 2
+    assert {case.label.event_occurred for case in factory_cases} == {False, True}
+
+    factory_contracts = {
+        tuple(
+            (criterion.metric, criterion.comparison, criterion.value)
+            for criterion in case.scenario.criteria
+        )
+        for case in factory_cases
+    }
+    assert len(factory_contracts) == 1
+    assert all(
+        "run-llama/liteparse 2.11.1 git 53e4fc8"
+        in case.scenario.authoring_provenance["pdf_text_tool"]
+        for case in business_cases
+        if case.scenario.id != "cn-a-2022-hygon-rd-commercial-validation"
+    )
+
+    catl = next(
+        case for case in factory_cases if case.scenario.security.ticker == "300750"
+    )
+    dynanonic = next(
+        case for case in factory_cases if case.scenario.security.ticker == "300769"
+    )
+    assert catl.label.realized_metrics[
+        "announced_factory_schedule_validation"
+    ] == 1
+    assert dynanonic.label.realized_metrics[
+        "announced_factory_schedule_validation"
+    ] == 0
+    assert dynanonic.label.realized_metrics["gross_margin_outcome"] < 0
 
 
 def test_generic_label_rejects_a_tampered_derived_metric() -> None:

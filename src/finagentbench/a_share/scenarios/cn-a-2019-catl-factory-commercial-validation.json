@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019-catl-factory-commercial-validation",
+  "suite": "a_share_business_decision_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "300750.XSHE",
+    "ticker": "300750",
+    "name_as_of": "宁德时代",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-04-25",
+  "prediction_window": {
+    "end": "2023-04-30",
+    "description": "覆盖公告约36个月建设期和2022年年度报告，最晚不超过2023-04-30"
+  },
+  "target": {
+    "event": "announced_factory_commercial_validation_by_fy2022",
+    "definition": "工厂投资的后续商业验证而非单项目因果回报证明：建设进度、公司增长、毛利、经营现金流和产能利用率同时满足预先声明条件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "announced_factory_schedule_validation",
+        "comparison": ">=",
+        "value": 1,
+        "description": "公告项目在原计划期附近被正式披露达到预定可使用状态或等价明确里程碑"
+      },
+      {
+        "metric": "revenue_cagr_baseline_to_outcome",
+        "comparison": ">=",
+        "value": 0.2,
+        "description": "公告前完整年度至结果年度营业收入复合年增长率不低于20%"
+      },
+      {
+        "metric": "gross_margin_outcome",
+        "comparison": ">=",
+        "value": 0.1,
+        "description": "结果年度综合毛利率不低于10%"
+      },
+      {
+        "metric": "operating_cash_flow_outcome",
+        "comparison": ">",
+        "value": 0,
+        "description": "结果年度经营活动产生的现金流量净额为正"
+      },
+      {
+        "metric": "capacity_utilization_outcome",
+        "comparison": ">=",
+        "value": 0.75,
+        "description": "结果年度相关制造业务披露的产能利用率不低于75%"
+      }
+    ]
+  },
+  "prompt": "你处在2019-04-25收盘后的信息环境。宁德时代公告拟以不超过46.24亿元建设湖西锂离子电池扩建项目，计划建设期36个月。请使用冻结搜索工具，预测该工厂投资能否在2022年年报时达到target定义的后续商业验证。请综合项目规模与资金、既有产能和市场份额、行业需求、客户与竞争、技术迭代、原材料和周期风险、现金创造及产能消化能力。结果规则检验项目里程碑和公司层面的经营兑现，不声称该项目单独造成收入增长，也不是严格的反事实“最优投资”证明。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-04-25",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=300750.XSHE; if_adjusted=0; earliest info_date per annual report; 2018 agent baseline; 2022 outcome",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "causal_guardrail": "The label combines a disclosed project milestone with company-level commercial validation; it does not attribute company outcomes solely to this factory or prove counterfactual optimality."
+  }
+}

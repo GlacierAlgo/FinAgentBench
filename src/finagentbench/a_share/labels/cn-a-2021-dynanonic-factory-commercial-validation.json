@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-dynanonic-factory-commercial-validation",
+  "resolved_at": "2025-04-29",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "announced_factory_schedule_validation": 0,
+      "revenue_baseline": 942128306.07,
+      "revenue_outcome": 7612941216.46,
+      "operating_cost_outcome": 7965986554.15,
+      "operating_cash_flow_outcome": 143079360.69,
+      "capacity_utilization_outcome": 0.7727
+    },
+    "derivations": [
+      {
+        "metric": "revenue_cagr_baseline_to_outcome",
+        "operation": "cagr",
+        "inputs": ["revenue_baseline", "revenue_outcome"],
+        "periods": 4,
+        "value": 0.6860117852523948
+      },
+      {
+        "metric": "gross_margin_outcome",
+        "operation": "margin",
+        "inputs": ["revenue_outcome", "operating_cost_outcome"],
+        "value": -0.04637436802042789
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "precursor-framework-announcement",
+    "fy2020-margin-and-expansion-base",
+    "h1-2021-demand-cash-and-risk"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "德方纳米2023年向特定对象发行股票审核问询函回复报告",
+      "published_at": "2023-09-20",
+      "url": "https://static.cninfo.com.cn/finalpage/2023-09-20/1217904923.PDF",
+      "fields": ["年产20万吨磷酸铁锂前驱体项目建设进展", "远期规划与建设时间计划"]
+    },
+    {
+      "type": "official_filing",
+      "title": "深圳市德方纳米科技股份有限公司2024年年度报告",
+      "published_at": "2025-04-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2025-04-29/1223370444.PDF",
+      "fields": ["营业收入", "营业成本", "经营活动现金流量净额", "磷酸盐系正极材料产能利用率"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": [
+        "data/db/rq_income_statement_pit/quarter=2020q4/data.parquet",
+        "data/db/rq_income_statement_pit/quarter=2024q4/data.parquet",
+        "data/db/rq_cash_flow_pit/quarter=2024q4/data.parquet"
+      ],
+      "fields": ["revenue", "gross_profit", "cash_flow_from_operating_activities"],
+      "row_policy": "stock_code=300769.XSHE; if_adjusted=0; earliest info_date"
+    }
+  ]
+}

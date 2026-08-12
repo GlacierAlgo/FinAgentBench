@@ -121,6 +121,32 @@ RQData snapshot does not contain a populated family-specific announcement
 table. RQData remains the source for PIT financial cross-checks and ST metadata;
 the checked-in label preserves raw observations and recomputable derivations.
 
+## Version 4 matched business-decision controls
+
+Business-decision cases now contain an event and a non-event example for each
+decision family. This prevents a policy such as “high R&D is always good” or
+“announced capacity in a growing industry is always validated” from succeeding.
+
+| Decision family | Event case | Control case | Predeclared joint outcome |
+| --- | --- | --- | --- |
+| Pre-listing R&D/product route | 688041 海光信息, 2022 | 688256 寒武纪, 2020 | at least 30% revenue CAGR, at least 50% gross margin, positive operating cash flow |
+| Factory allocation | 300750 宁德时代湖西扩建, 2019 | 300769 德方纳米前驱体项目, 2021 | disclosed schedule milestone, at least 20% revenue CAGR, at least 10% gross margin, positive operating cash flow, at least 75% utilization |
+
+The R&D pair uses company-specific baseline and outcome years but the same
+economic thresholds. The factory pair uses an identical machine-readable
+criterion contract. 宁德时代's 2022 annual report records the 湖西 project as
+having reached its planned usable state and discloses realized project benefits.
+德方纳米's September 2023 official inquiry response still classifies the named
+20万吨 precursor project as a long-range plan without a construction timetable;
+its FY2024 company-wide gross margin was also negative even though revenue,
+operating cash flow, and reported utilization crossed their individual gates.
+
+“Commercial validation” is intentionally narrower than “this investment caused
+the outcome” and broader than stock return. It is also not a causal answer to
+whether management's choice was counterfactually optimal. The benchmark asks
+whether an agent could identify, from the frozen evidence, which announced
+allocation was more likely to clear a fixed, auditable operating hurdle.
+
 ## PDF-to-text authoring
 
 PDF extraction is standardized on the latest tested Rust-based

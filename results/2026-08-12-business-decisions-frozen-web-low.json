@@ -1,0 +1,513 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T10:52:49.446437+00:00",
+  "completed_at": "2026-08-12T10:54:52.472772+00:00",
+  "duration_seconds": 123.026,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen official-disclosure corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 4,
+    "repeats": 1,
+    "case_suite_sha256": "2e856b71376b8c5d740b863e5724a21555bfb965303423b96e867d422d23e2ea"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2019-catl-factory-commercial-validation",
+      "case_sha256": "e7fc17b9b557a007454c8f064a93d825ad5ccdb6a1670ef36c2696b3372d6531",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 27.011,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "huxi-expansion-announcement",
+          "fy2018-market-and-capacity-base"
+        ],
+        "analysis_summary": "截至2019-04-25，湖西项目投资上限46.24亿元、建设期36个月，存在接近2022年形成正式里程碑的明确时间表。公司2018年收入296.11亿元，动力电池系统销量同比增长47.18%，国内装机约23.4GWh、市场份额约41%，为扩产后的需求消化和收入增长提供较强基础；以此规模基础推断，达到收入年复合增长不低于20%、毛利率不低于10%及经营现金流为正具有较高可能。主要扣分项是公告明确提示审批、资金、市场环境、设备爬坡、竞争、技术路线、原材料、客户集中和存货等风险，且未承诺产能利用率或现金回报，因此75%以上产能利用率及全部条件同时满足仍存在不确定性。该判断是公司层面后续商业兑现概率，不声称湖西项目单独造成增长或构成反事实最优投资证明。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 46281,
+        "cached_input_tokens": 14080,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 767,
+        "reasoning_output_tokens": 123
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2020-cambricon-rd-commercial-validation",
+      "case_sha256": "e0b27c89aa00039e25a94b4bf2eae07508d04776f91b7772f3f4a54a3647a46b",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.433,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.24,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "prospectus-product-transition",
+          "inquiry-customer-ecosystem-risk",
+          "second-inquiry-orders-and-roadmap"
+        ],
+        "analysis_summary": "2019年收入已快速增长，但主要由低基数、关联方云端收入及一次性智能计算集群项目驱动，边缘产品尚未规模化，且公司持续亏损。前五大客户占比95.44%，软件生态弱于英伟达，多个产品仍处于研发、测试或客户导入阶段；Fabless模式还依赖集中且部分境外供应商。上述证据支持成长潜力，但难以同时满足2022年收入复合增长不低于30%、毛利率不低于50%及经营现金流为正三项条件，因此预测未发生。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 95.104,
+        "brier_score": 94.24,
+        "brier_loss": 0.0576,
+        "log_loss": 0.27443685,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45922,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 557,
+        "reasoning_output_tokens": 126
+      },
+      "event_count": 8
+    },
+    {
+      "scenario_id": "cn-a-2021-dynanonic-factory-commercial-validation",
+      "case_sha256": "c4e3e3e7422fce87ffedbc06999d2381fc5f57c37bc9919bfd92804e87f4c847",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.57,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.28,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "precursor-framework-announcement",
+          "fy2020-margin-and-expansion-base",
+          "h1-2021-demand-cash-and-risk"
+        ],
+        "analysis_summary": "截至2021-09-04，该项目仍是框架协议，土地、审批、环评、资金和具体投资均未确定，距离24个月建设期完成尚有较大执行风险。公司既有扩产曾出现进度影响，且多个项目并行增加资本开支与爬坡压力。新能源汽车和储能需求、2021年上半年收入增长支持未来收入达到20% CAGR，但行业集中扩产、价格波动和2020年约10.18%的较低毛利率使结果年度毛利率、经营现金流及75%产能利用率同时达标的不确定性较高；按全条件同时满足，预测为no_event。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 48955,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 781,
+        "reasoning_output_tokens": 209
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2022-hygon-rd-commercial-validation",
+      "case_sha256": "2ac15a5827d7cad9b1380511fe110880fba32539445824a39a53d2e0047c048b",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.421,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.68,
+        "prediction": "event",
+        "evidence_ids": [
+          "listing-announcement-risk-financials",
+          "ipo-inquiry-commercialization",
+          "registration-feedback-product-roadmap"
+        ],
+        "analysis_summary": "截至2022-08-11，2021年收入约23.10亿元、毛利约12.93亿元（毛利率约56%），已有CPU/DCU商业化和约21亿元在手订单；产品已通过浪潮、联想、新华三、同方适配，并进入金融、电信等场景，CPU/DCU持续迭代，支持收入增长和较高毛利达标。主要扣分项是客户及关联销售高度集中（前五大客户占比91.23%，在手关联方订单约12.74亿元）、研发资本化比例高、实体清单带来的流片/EDA/IP及供应链约束，以及现金流可能受扩产和营运资金影响。综合判断，2024年收入达到2021年的约2.20倍、毛利率维持50%以上且经营现金流转正具有较高但非确定概率；这是对三项结果规则的预测，不构成研发投入导致结果的因果证明。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 48992,
+        "cached_input_tokens": 40192,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 783,
+        "reasoning_output_tokens": 169
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2019-catl-factory-commercial-validation",
+      "case_sha256": "e7fc17b9b557a007454c8f064a93d825ad5ccdb6a1670ef36c2696b3372d6531",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 34.116,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "huxi-expansion-announcement",
+          "fy2018-market-and-capacity-base"
+        ],
+        "analysis_summary": "截至2019-04-25，项目投资上限46.24亿元、企业自筹且计划建设期36个月，提供了在2022年前后形成正式建设里程碑的明确基准，但资金安排、审批和市场环境可能导致延期。公司2018年收入296.11亿元，动力电池系统销量同比增长47.18%，国内装机约23.4GWh、份额约41%，较强的客户、规模和既有制造基础使收入年复合增长不低于20%、毛利率不低于10%、经营现金流为正及产能利用率不低于75%具备较可信的共同实现条件。主要下行风险是补贴政策变化、竞争与技术路线迭代、原材料价格、客户集中，以及扩产集中释放后需求不足或爬坡延期。由于target要求五项条件全部满足，尤其正式项目里程碑和75%利用率存在较大尾部风险，故仅给出温和偏正面的58%概率；该判断是公司层面商业验证预测，不代表湖西项目单独造成后续增长。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 69055,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 925,
+        "reasoning_output_tokens": 162
+      },
+      "event_count": 17
+    },
+    {
+      "scenario_id": "cn-a-2020-cambricon-rd-commercial-validation",
+      "case_sha256": "e0b27c89aa00039e25a94b4bf2eae07508d04776f91b7772f3f4a54a3647a46b",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 34.891,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.14,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "prospectus-product-transition",
+          "inquiry-customer-ecosystem-risk",
+          "second-inquiry-orders-and-roadmap"
+        ],
+        "analysis_summary": "截至2020-06-22，2019年收入4.44亿元且此前增长很快；达到30% CAGR要求意味着2022年收入约需不低于9.75亿元，国产AI算力需求及云、边、端产品路线提供一定可能性。但商业验证仍弱：2019年云端收入主要来自关联方中科曙光，边缘芯片未规模化，集群系统大额收入尚无同类重复订单；前五大客户占比95.44%，订单持续性和回款质量高度敏感。产品还面临英伟达主导、软件生态和销售网络较弱、客户导入周期长等竞争约束，Fabless模式亦依赖台积电及境外EDA/IP供应商。持续亏损和高研发投入使2022年经营现金流转正尤其困难，同时产品结构向芯片及集群系统切换可能压低或扰动综合毛利率。三项条件必须同时满足，因此即使收入增长或毛利率单项达标，联合事件概率仍较低；这些证据仅支持商业兑现概率判断，不证明研发投入与收入增长之间的因果关系。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 98.334,
+        "brier_score": 98.04,
+        "brier_loss": 0.0196,
+        "log_loss": 0.15082289,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 70058,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 913,
+        "reasoning_output_tokens": 104
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2021-dynanonic-factory-commercial-validation",
+      "case_sha256": "c4e3e3e7422fce87ffedbc06999d2381fc5f57c37bc9919bfd92804e87f4c847",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 26.479,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.32,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "precursor-framework-announcement",
+          "fy2020-margin-and-expansion-base",
+          "h1-2021-demand-cash-and-risk"
+        ],
+        "analysis_summary": "截至2021-09-04，该项目仍只是框架协议，土地、审批、环评、融资和最终投资均未落实；即使按24个月建设，也还要经历客户认证与产能爬坡，正式里程碑存在明显执行风险。需求反弹和公司既有客户、技术基础提高了收入持续增长及产能消化的可能性，但行业集中扩产可能压低价格和利用率。2020年毛利率仅约10.18%，几乎贴近10%阈值，且公司同时推进多个项目，资本开支、现金创造和资源配置承压。由于五项条件必须全部满足，其中项目按期落地、2024年毛利率不低于10%、经营现金流为正及相关业务利用率不低于75%的联合兑现难度较高，故判断未达到商业验证的概率更大；这只是公司层面后续兑现预测，不主张该项目单独导致增长。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 52375,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 749,
+        "reasoning_output_tokens": 86
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2022-hygon-rd-commercial-validation",
+      "case_sha256": "2ac15a5827d7cad9b1380511fe110880fba32539445824a39a53d2e0047c048b",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 37.913,
+      "search_calls": 7,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "listing-announcement-risk-financials",
+          "registration-feedback-product-roadmap",
+          "ipo-inquiry-commercialization"
+        ],
+        "analysis_summary": "偏向事件发生，但把握中等。2021年收入23.10亿元、毛利12.93亿元，对应毛利率约56%，已高于50%门槛；要实现2021—2024年收入CAGR不低于30%，2024年收入需达到约50.77亿元。支持因素包括：截至2022年1月在手订单约21.07亿元；CPU已进入政府、运营商、银行等场景，DCU已规模销售；产品通过多家整机厂适配认证；海光三号性能提升且后续CPU/DCU持续迭代，兼容x86及类CUDA生态，显示产品竞争力与早期客户验证。主要下行风险是Intel、AMD占据绝大多数x86市场，关联订单和销售占比较高、前五大客户集中度超过90%，商业验证的独立性与持续性有限；实体清单可能制约流片、EDA、IP、工艺升级和供给；高研发强度及较高资本化比例也带来减值和财务质量风险。收入与毛利条件具备较好起点，但经营现金流转正受回款、备货和持续研发投入影响，且三项必须同时满足，因此未给予高概率。该判断仅预测可审计结果，不将研发投入视为增长的唯一原因。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 77843,
+        "cached_input_tokens": 51456,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1034,
+        "reasoning_output_tokens": 144
+      },
+      "event_count": 21
+    },
+    {
+      "scenario_id": "cn-a-2019-catl-factory-commercial-validation",
+      "case_sha256": "e7fc17b9b557a007454c8f064a93d825ad5ccdb6a1670ef36c2696b3372d6531",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 27.388,
+      "search_calls": 1,
+      "submission": {
+        "event_probability": 0.64,
+        "prediction": "event",
+        "evidence_ids": [
+          "huxi-expansion-announcement",
+          "fy2018-market-and-capacity-base"
+        ],
+        "analysis_summary": "项目公告给出46.24亿元自筹、36个月建设期的明确可检验节点；2018年收入296.11亿元、动力电池销量同比增长47.18%、国内装机约23.4GWh及约41%份额，显示需求承接、客户与制造规模基础较强，因而公司层面收入、毛利、经营现金流及产能消化条件同时达标的先验概率偏高。判断不将扩建视为这些结果的单独因果来源。下调概率以反映公告明确提示的资金安排、审批和市场进度不确定性，以及政策、竞争、技术路线、原材料、客户集中、产能爬坡和存货风险；尤其36个月工期附近的正式里程碑及75%利用率是联合条件中较难部分。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 88.984,
+        "brier_score": 87.04,
+        "brier_loss": 0.1296,
+        "log_loss": 0.4462871,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50898,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 774,
+        "reasoning_output_tokens": 122
+      },
+      "event_count": 7
+    },
+    {
+      "scenario_id": "cn-a-2020-cambricon-rd-commercial-validation",
+      "case_sha256": "e0b27c89aa00039e25a94b4bf2eae07508d04776f91b7772f3f4a54a3647a46b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 32.278,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.27,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "prospectus-product-transition",
+          "inquiry-customer-ecosystem-risk",
+          "second-inquiry-orders-and-roadmap"
+        ],
+        "analysis_summary": "截至2020-06-22，收入增长和软硬件协同路线构成正面基础，但2019年收入结构跳变：云端收入高度依赖关联方、边缘产品尚未规模化、集群业务缺少其他同类订单；前五大客户占比95.44%，客户导入与量产仍在验证。软件生态、开发者与销售网络相对弱，且晶圆、EDA/IP等供应链集中依赖；持续亏损也削弱现金流门槛的把握。三项条件须同时满足，故预测2022年未达成该商业兑现事件；这仅是对可审计结果的预测，不构成研发与收入间因果证明。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 93.8035,
+        "brier_score": 92.71,
+        "brier_loss": 0.0729,
+        "log_loss": 0.31471074,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 92599,
+        "cached_input_tokens": 80640,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 917,
+        "reasoning_output_tokens": 236
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2021-dynanonic-factory-commercial-validation",
+      "case_sha256": "c4e3e3e7422fce87ffedbc06999d2381fc5f57c37bc9919bfd92804e87f4c847",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.197,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.38,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "precursor-framework-announcement",
+          "fy2020-margin-and-expansion-base",
+          "h1-2021-demand-cash-and-risk"
+        ],
+        "analysis_summary": "该项目仅处于框架协议阶段，土地、审批、环评和具体投资尚未落实，且需自筹资金；虽建设期为24个月，但按期形成正式可使用里程碑仍有执行风险。2021年需求回升支持收入增长和产能消化的可能，但行业集中扩产、价格波动、客户认证及爬坡压力使毛利率、经营现金流和75%利用率难以同时稳健满足；2020年毛利率仅约10.18%，也显示利润缓冲有限。因此预计至2024年五项条件同时满足的概率低于五成。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 51913,
+        "cached_input_tokens": 32256,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 701,
+        "reasoning_output_tokens": 121
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2022-hygon-rd-commercial-validation",
+      "case_sha256": "2ac15a5827d7cad9b1380511fe110880fba32539445824a39a53d2e0047c048b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.384,
+      "search_calls": 1,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "listing-announcement-risk-financials",
+          "registration-feedback-product-roadmap",
+          "ipo-inquiry-commercialization"
+        ],
+        "analysis_summary": "倾向满足三项口径：2021年收入23.10亿元、毛利率约55.9%，DCU已规模销售，且约21亿元在手订单、整机厂适配及金融/电信等场景认证为后续放量提供了可审计的早期商业验证；CPU/DCU迭代与x86/类CUDA生态兼容也支持产品竞争力。判断并非将研发视为收入增长的已证实因果。主要下行风险是Intel/AMD占据超过95%市场、后续产品仍处研发或验证阶段，以及实体清单带来的流片、EDA、IP和供应链约束；客户集中度极高、关联销售及关联订单占比较大，且较高研发资本化使财务质量存在减值与兑现不及预期风险。综合看，收入三年复合增速达到30%、毛利率维持50%以上及经营现金流转正的联合概率略高于五成。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 52374,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 794,
+        "reasoning_output_tokens": 119
+      },
+      "event_count": 7
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 4,
+      "failed": 0,
+      "mean_score": 93.268,
+      "mean_brier_loss": 0.0792,
+      "mean_log_loss": 0.329277,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 28.35875,
+      "input_tokens": 190150,
+      "cached_input_tokens": 112640,
+      "output_tokens": 2888
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 4,
+      "failed": 0,
+      "mean_score": 89.9105,
+      "mean_brier_loss": 0.1187,
+      "mean_log_loss": 0.406485,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 33.34975,
+      "input_tokens": 269331,
+      "cached_input_tokens": 178432,
+      "output_tokens": 3621
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 4,
+      "failed": 0,
+      "mean_score": 88.879875,
+      "mean_brier_loss": 0.130825,
+      "mean_log_loss": 0.44594,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 29.06175,
+      "input_tokens": 247784,
+      "cached_input_tokens": 175360,
+      "output_tokens": 3186
+    }
+  ]
+}
