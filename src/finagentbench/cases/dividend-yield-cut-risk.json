@@ -1,0 +1,41 @@
+{
+  "id": "dividend-yield-cut-risk",
+  "title": "High dividend yield versus sustainable cash return",
+  "category": "equity-income",
+  "jurisdiction": "Generic corporate finance analysis",
+  "as_of": "2025-10-15",
+  "prediction_horizon": "next 12 months",
+  "prompt": "A colleague says: 'A 12% dividend yield guarantees a high cash return next year.' Assess the premise and predict the risk of a dividend cut during the horizon.",
+  "evidence": [
+    {"id": "dividend-cash", "text": "The current annual dividend requires CU 120 million of cash.", "observed_at": "2025-10-10", "source": "Synthetic dividend schedule"},
+    {"id": "free-cash-flow", "text": "Trailing free cash flow was CU 70 million and management's base case for next year is CU 65-80 million.", "observed_at": "2025-10-10", "source": "Synthetic cash-flow forecast"},
+    {"id": "leverage", "text": "Net leverage is 4.8x, above the board's 3.5x target.", "observed_at": "2025-10-10", "source": "Synthetic debt note"},
+    {"id": "distribution-covenant", "text": "The revolving facility prohibits distributions when net leverage exceeds 4.5x unless lenders waive the restriction.", "observed_at": "2025-10-10", "source": "Synthetic facility agreement"},
+    {"id": "maturity", "text": "CU 300 million of debt matures in nine months and refinancing discussions are incomplete.", "observed_at": "2025-10-10", "source": "Synthetic maturity schedule"},
+    {"id": "share-price", "text": "The share price declined 38% over the prior six months, mechanically raising the trailing dividend yield.", "observed_at": "2025-10-15", "source": "Synthetic PIT market snapshot"},
+    {"id": "brand-campaign", "text": "The company launched a new advertising campaign.", "observed_at": "2025-10-01", "source": "Synthetic marketing release"}
+  ],
+  "response_contract": {
+    "type": "object", "additionalProperties": false,
+    "required": ["prediction", "confidence", "premise_assessment", "evidence_ids", "explanation"],
+    "properties": {
+      "prediction": {"type": "string", "enum": ["low", "medium", "high", "insufficient_evidence"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "premise_assessment": {"type": "string", "enum": ["valid", "partly_valid", "invalid"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "explanation": {"type": "string"}
+    }
+  },
+  "rubric": [
+    {"id": "yield-not-promise", "description": "Recognises yield as price-relative, not a guaranteed future payment.", "weight": 25},
+    {"id": "coverage", "description": "Compares dividend cash needs with free cash flow.", "weight": 25},
+    {"id": "credit-constraints", "description": "Uses leverage, covenant, and maturity constraints.", "weight": 25},
+    {"id": "predict", "description": "Predicts high cut risk without claiming the board decision is known.", "weight": 25}
+  ],
+  "answer_key": {
+    "prediction": "high",
+    "premise_assessment": "invalid",
+    "evidence_ids": ["dividend-cash", "free-cash-flow", "leverage", "distribution-covenant", "maturity", "share-price"]
+  }
+}
+

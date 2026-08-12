@@ -1,0 +1,1469 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T05:26:06.489764+00:00",
+  "completed_at": "2026-08-12T05:29:36.213662+00:00",
+  "duration_seconds": 209.724,
+  "harness": {
+    "name": "codex-cli",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": false,
+    "session_persistence": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 12,
+    "repeats": 1,
+    "case_suite_sha256": "2e0e72f6ff80f088d485fb82ed4e34e17a91f57a60d4f4c4f8c2440fa34e54ea"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "prediction_points": 40,
+    "premise_points": 25,
+    "evidence_f1_points": 25,
+    "calibration_points": 10
+  },
+  "results": [
+    {
+      "case_id": "bank-nim-rate-cuts",
+      "case_sha256": "0cd79708911d3f6242778a8c144ee900f1cf1d8f036a879d07d15b1cd63d510b",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.652,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.95,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "rate-path",
+          "nim-sensitivity",
+          "deposit-floor",
+          "deposit-beta",
+          "hedges"
+        ],
+        "explanation": "The premise is invalid because policy-rate cuts do not automatically compress every bank's NIM; the effect depends on asset repricing, deposit floors and betas, and hedges. For this bank, the stated 75 bp cut path is estimated to reduce NIM by 27 bp after swap offsets, exceeding the 20 bp threshold, implying high risk over the next two quarters."
+      },
+      "score": {
+        "total": 97.7023,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.7273,
+        "calibration": 9.975,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.9091
+      },
+      "usage": {
+        "input_tokens": 14235,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 130,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "bond-duration-coupon",
+      "case_sha256": "fc8d242b05fe745ceefde5feff4c7247e1cb7f10d1d89511a139618e1463fedb",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 14.589,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "bond-h",
+          "shock",
+          "duration-rule",
+          "convexity"
+        ],
+        "explanation": "A 100 bp yield increase implies an estimated market-value loss of about 7.64% using Bond H's duration and convexity, exceeding 6%. Thus, the 10% coupon does not make the bond safe from interest-rate losses."
+      },
+      "score": {
+        "total": 97.2182,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.2222,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 14219,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 133,
+        "reasoning_output_tokens": 32
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "buyback-dilution",
+      "case_sha256": "787d4ee3717f0a7c797c8c4d22548a9ab8955f852d840d5a7a71c753185879ef",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 16.289,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.96,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "authorisation",
+          "market-cap",
+          "historic-execution",
+          "share-comp",
+          "cash-priority"
+        ],
+        "explanation": "The authorization is discretionary, not a commitment. Even full execution equals only 5% of market capitalisation, while historical execution was 42% and expected awards add 3.8% to diluted shares. Debt maturity also ranks ahead of repurchases, making a diluted share-count decline exceeding 5% unlikely; EPS accretion is therefore not guaranteed."
+      },
+      "score": {
+        "total": 99.984,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.984,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14134,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 241,
+        "reasoning_output_tokens": 113
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "commodity-fx-translation",
+      "case_sha256": "d377314d7f8b8e60eefca79ec98cb7198885bc318e5ca4ae3319ca2f7042f928",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 18.491,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.97,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "revenue-currency",
+          "revenue-hedge",
+          "usd-costs",
+          "wage-reset",
+          "fx-shock"
+        ],
+        "explanation": "The 15% depreciation increases only the unhedged 20% of USD revenue, adding about CU27 million, while USD-linked costs increase by about CU38.4 million. Local wage resets also raise costs, so EBITDA is unlikely to increase—much less by more than 10%—and the claim that depreciation always produces a large gain is invalid."
+      },
+      "score": {
+        "total": 99.991,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.991,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14185,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 311,
+        "reasoning_output_tokens": 176
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "covenant-adjusted-ebitda",
+      "case_sha256": "c4e4b19b0a06e64bd7d85aea2a2e3184a157dcceab9d44083ad2c9f14fa0ef87",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.781,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.99,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "management-ebitda",
+          "covenant-definition",
+          "debt",
+          "threshold"
+        ],
+        "explanation": "The 20% management-adjusted EBITDA growth is not applicable to the covenant because projected synergies are excluded and restructuring add-backs are capped. Using covenant EBITDA of CU 80 million and net debt of CU 400 million produces a 5.0x ratio, exceeding the 4.5x maximum, so breach risk at the next test is high."
+      },
+      "score": {
+        "total": 97.2212,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.2222,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 14151,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 201,
+        "reasoning_output_tokens": 74
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "deferred-revenue-cash-receipts",
+      "case_sha256": "b6c626494eb6cafdbd874435b0381ff65aadc27c392fb6955e65da0073e4bf67",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 16.262,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.96,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "accounting-policy",
+          "acquisition-effect",
+          "bookings",
+          "renewals",
+          "churn"
+        ],
+        "explanation": "Deferred revenue is recognized over multi-year terms and can reflect cash collected before the period, so its growth does not directly imply next-year receipts. Moreover, 31 percentage points of the growth came from customers who had already paid before the acquisition, while organic bookings grew only 3%, 46% of the opening base is not scheduled for renewal, and gross retention declined to 88%. These factors make 20% growth in customer cash receipts unlikely."
+      },
+      "score": {
+        "total": 99.984,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.984,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14154,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 210,
+        "reasoning_output_tokens": 64
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "dividend-yield-cut-risk",
+      "case_sha256": "059eb1c6a86c2b856e707779438d9e785816708bb5559ccf6f0a8525af692352",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 16.224,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.99,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "dividend-cash",
+          "free-cash-flow",
+          "leverage",
+          "distribution-covenant",
+          "maturity",
+          "share-price"
+        ],
+        "explanation": "The 12% yield does not guarantee next year's cash return. The CU 120 million dividend materially exceeds expected free cash flow of CU 65–80 million, implying poor cash coverage. Net leverage of 4.8x exceeds both the board's 3.5x target and the 4.5x covenant threshold that restricts distributions absent lender waiver. A CU 300 million maturity in nine months with incomplete refinancing further raises pressure to preserve cash. The 38% share-price decline also mechanically inflated the trailing yield, making it an unreliable indicator of sustainable return."
+      },
+      "score": {
+        "total": 99.999,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14194,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 227,
+        "reasoning_output_tokens": 48
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "goodwill-impairment-risk",
+      "case_sha256": "4464dda56a5671e5b59c73214de97564465d44d60ae86d2d2a94265824453dc2",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 16.271,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "balance-sheet",
+          "accounting-policy",
+          "operating-trend",
+          "headroom",
+          "sensitivity",
+          "rates"
+        ],
+        "explanation": "Under IFRS, goodwill is not depreciated or amortised, so its 45% share of assets does not imply high depreciation expense. However, a material impairment charge risk is high: the major goodwill-bearing CGU has deteriorated operating performance, only 6% impairment-test headroom, and disclosed sensitivity showing that a 50-basis-point discount-rate increase would eliminate headroom. The subsequent 35-basis-point yield increase materially narrows that buffer, while the large goodwill balance makes any impairment potentially material."
+      },
+      "score": {
+        "total": 99.996,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14245,
+        "cached_input_tokens": 13056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 207,
+        "reasoning_output_tokens": 44
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "insurer-combined-ratio",
+      "case_sha256": "dc29ced24b845fd84971908af9d31b4c9fe34af8512cbc12d98c2405cec250c1",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 16.624,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.99,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "underwriting",
+          "investment-assets",
+          "investment-yield",
+          "other-costs",
+          "tax"
+        ],
+        "explanation": "A 105% combined ratio implies a CU 50 million underwriting loss, but expected pre-tax investment income is CU 145.6 million (CU 2.8 billion × 5.2%). After CU 32 million of other costs, pre-tax income is approximately CU 63.6 million; applying 22% tax gives estimated net income of about CU 49.6 million. Therefore, a 105% combined ratio does not guarantee a full-year net loss, and the base case implies a low likelihood of one."
+      },
+      "score": {
+        "total": 99.999,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14135,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 245,
+        "reasoning_output_tokens": 82
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "inventory-write-down-risk",
+      "case_sha256": "8ed477c243ed30276c3bb0a40b8c4dd03a2af3e992fd1e6ffef3db8e726cb2b2",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 17.309,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "inventory-growth",
+          "inventory-days",
+          "product-age",
+          "pricing",
+          "orders"
+        ],
+        "explanation": "Inventory growth is contradicted by an 8% shipment decline, inventory days rising from 70 to 128, aging stock increasing to 22%, weaker backlog coverage, and 15% channel rebates on the prior generation. These signals indicate excess or obsolescing inventory, making a material write-down or discounting-related gross-margin pressure highly likely over the next two quarters."
+      },
+      "score": {
+        "total": 99.996,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14125,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 175,
+        "reasoning_output_tokens": 47
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "negative-working-capital-slowdown",
+      "case_sha256": "5dc5573bc29185757f1646637285850ffed17d7923aa9683d27fa0fa466f0180",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 18.266,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.99,
+        "premise_assessment": "partly_valid",
+        "evidence_ids": [
+          "customer-terms",
+          "revenue-outlook",
+          "unwind-model",
+          "cash"
+        ],
+        "explanation": "Negative working capital can provide cash during growth because customer prepayments fund operations, but it reverses during a slowdown. Revenue is expected to decline 20% sequentially in each quarter, customer prepayments are projected to fall CU 90 million before supplier payables decline, and the modeled result is a CU 70 million cash outflow. With CU 110 million of unrestricted cash against CU 60 million of minimum operating cash, the projected outflow would leave only CU 40 million, below the minimum."
+      },
+      "score": {
+        "total": 72.2212,
+        "prediction": 40.0,
+        "premise": 0.0,
+        "evidence": 22.2222,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": false,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 14147,
+        "cached_input_tokens": 13056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 226,
+        "reasoning_output_tokens": 68
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "operating-leverage-eps",
+      "case_sha256": "83ec8429731e3007895587e3fb4e13ac3bcd1f9ba29025b3b4a49ac3a4616944",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 20.866,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "base-income",
+          "scenario",
+          "cost-behaviour",
+          "below-ebit",
+          "calculation"
+        ],
+        "explanation": "A 5% revenue decline reduces contribution by CU 30 million because variable costs fall only CU 20 million while fixed costs remain unchanged. EBIT therefore falls 30%, not 5%. With interest expense, tax rate, and diluted shares unchanged, EPS is expected to fall by more than 15%."
+      },
+      "score": {
+        "total": 99.996,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 14166,
+        "cached_input_tokens": 13056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 298,
+        "reasoning_output_tokens": 180
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "bank-nim-rate-cuts",
+      "case_sha256": "0cd79708911d3f6242778a8c144ee900f1cf1d8f036a879d07d15b1cd63d510b",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 17.097,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.9,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "rate-path",
+          "nim-sensitivity",
+          "deposit-floor",
+          "deposit-beta",
+          "hedges"
+        ],
+        "explanation": "The premise is invalid because rate cuts do not automatically compress every bank's NIM; the outcome depends on asset and deposit repricing, rate floors, and hedging. For this bank, however, the forward curve implies 75 basis points of cuts and ALCO estimates 27 basis points of NIM compression after the 4-basis-point swap offset, exceeding the 20-basis-point threshold. The high risk assessment is tempered by the estimate's constant-balance-sheet assumption and by deposit rates already near floors, which limit funding-cost relief."
+      },
+      "score": {
+        "total": 97.6273,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.7273,
+        "calibration": 9.9,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.9091
+      },
+      "usage": {
+        "input_tokens": 15539,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 163,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "bond-duration-coupon",
+      "case_sha256": "fc8d242b05fe745ceefde5feff4c7247e1cb7f10d1d89511a139618e1463fedb",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 21.359,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.99,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "bond-h",
+          "shock",
+          "duration-rule",
+          "convexity"
+        ],
+        "explanation": "A high coupon does not eliminate interest-rate risk, especially for an 18-year bond. Under the immediate 100 bp yield increase, Bond H's supplied duration and positive-convexity inputs imply an approximate market-value change of -7.64%, exceeding the 6% loss threshold."
+      },
+      "score": {
+        "total": 97.2212,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.2222,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 15525,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 108,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "buyback-dilution",
+      "case_sha256": "787d4ee3717f0a7c797c8c4d22548a9ab8955f852d840d5a7a71c753185879ef",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 21.455,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.96,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "authorisation",
+          "market-cap",
+          "historic-execution",
+          "share-comp",
+          "cash-priority"
+        ],
+        "explanation": "The authorisation is discretionary and therefore does not guarantee repurchases or EPS accretion. At the current market capitalisation, CU 1 billion represents only about 5% of equity value, so even full execution near the current price would imply roughly 5% gross repurchases—not a greater-than-5% reduction—before considering 3.8% expected dilution from employee awards. Historically low execution and the higher-priority CU 600 million debt maturity further reduce the likelihood that diluted weighted-average shares fall by more than 5%."
+      },
+      "score": {
+        "total": 99.984,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.984,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15442,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 226,
+        "reasoning_output_tokens": 61
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "commodity-fx-translation",
+      "case_sha256": "d377314d7f8b8e60eefca79ec98cb7198885bc318e5ca4ae3319ca2f7042f928",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 18.049,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.96,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "revenue-currency",
+          "revenue-hedge",
+          "usd-costs",
+          "wage-reset",
+          "fx-shock"
+        ],
+        "explanation": "The premise is invalid because EBITDA depends on net unhedged currency exposure, not depreciation alone. Base EBITDA is CU 200 million. Only 20% of the CU 900 million USD revenue is unhedged, so a 15% depreciation adds roughly CU 27 million of revenue. Meanwhile, CU 256 million of USD-linked costs would rise by roughly CU 38.4 million, already more than the unhedged revenue benefit, while inflation-linked wage resets add further pressure. With flat commodity prices and volumes, a greater-than-10% EBITDA uplift is therefore unlikely; the stated exposures instead suggest EBITDA could decline."
+      },
+      "score": {
+        "total": 99.984,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.984,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15614,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 336,
+        "reasoning_output_tokens": 147
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "covenant-adjusted-ebitda",
+      "case_sha256": "c4e4b19b0a06e64bd7d85aea2a2e3184a157dcceab9d44083ad2c9f14fa0ef87",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 14.135,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.99,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "covenant-definition",
+          "debt",
+          "threshold",
+          "cure"
+        ],
+        "explanation": "The covenant must be assessed using covenant EBITDA of CU 80 million, not management-adjusted EBITDA. Covenant net leverage is 5.0x (CU 400 million / CU 80 million), exceeding the 4.5x maximum. With no committed equity cure, breach risk at the next test is high."
+      },
+      "score": {
+        "total": 97.2212,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.2222,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 15461,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 114,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "deferred-revenue-cash-receipts",
+      "case_sha256": "b6c626494eb6cafdbd874435b0381ff65aadc27c392fb6955e65da0073e4bf67",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.365,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.93,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "accounting-policy",
+          "acquisition-effect",
+          "bookings",
+          "renewals",
+          "churn"
+        ],
+        "explanation": "Deferred revenue is a balance-sheet amount, not a direct forecast of future cash receipts. Most subscriptions are billed upfront, and 31 percentage points of the 40% growth came from acquired contracts whose cash had already been collected before closing, so that growth does not imply comparable cash inflows during the horizon. Organic bookings grew only 3%, 46% of the opening subscription base is not scheduled to renew within 12 months, and gross retention declined to 88%. Together, the supplied evidence makes at least 20% growth in customer cash receipts unlikely."
+      },
+      "score": {
+        "total": 99.951,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.951,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15462,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 166,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "dividend-yield-cut-risk",
+      "case_sha256": "059eb1c6a86c2b856e707779438d9e785816708bb5559ccf6f0a8525af692352",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.458,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.97,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "dividend-cash",
+          "free-cash-flow",
+          "leverage",
+          "distribution-covenant",
+          "maturity",
+          "share-price"
+        ],
+        "explanation": "A 12% trailing yield does not guarantee next year's cash return. The CU 120 million dividend materially exceeds trailing and forecast free cash flow of CU 65-80 million. Net leverage of 4.8x is above both the board's target and the facility's 4.5x distribution threshold, so distributions require a lender waiver. The CU 300 million maturity within nine months and incomplete refinancing add further pressure to preserve cash. Moreover, the yield was mechanically elevated by a 38% share-price decline. Together, these factors imply a high risk of a dividend cut during the next 12 months."
+      },
+      "score": {
+        "total": 99.991,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.991,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15500,
+        "cached_input_tokens": 6912,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 185,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "goodwill-impairment-risk",
+      "case_sha256": "4464dda56a5671e5b59c73214de97564465d44d60ae86d2d2a94265824453dc2",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.315,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.93,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "accounting-policy",
+          "operating-trend",
+          "headroom",
+          "sensitivity",
+          "rates",
+          "balance-sheet"
+        ],
+        "explanation": "The depreciation premise is invalid: under the group's IFRS policy, goodwill is not amortised or depreciated, but is tested for impairment. The risk of a material goodwill-related earnings charge in the next 12 months is high because the CGU containing 76% of goodwill has deteriorating revenue and margins, its impairment-test headroom is only 6%, and a 50-basis-point discount-rate increase would eliminate that headroom. The subsequent 35-basis-point market-yield increase moves materially toward that sensitivity threshold. Any impairment could be material given goodwill of CU 4.5 billion, equal to 45% of assets and 82% of equity."
+      },
+      "score": {
+        "total": 99.951,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.951,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15553,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 192,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "insurer-combined-ratio",
+      "case_sha256": "dc29ced24b845fd84971908af9d31b4c9fe34af8512cbc12d98c2405cec250c1",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 18.993,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "underwriting",
+          "investment-assets",
+          "investment-yield",
+          "other-costs",
+          "tax"
+        ],
+        "explanation": "A 105% combined ratio implies an underwriting loss, not necessarily a net loss. The base case produces CU 50.0 million of underwriting loss, but investment income is CU 145.6 million (CU 2.8 billion × 5.2%). After CU 32 million of other costs, forecast pre-tax income is CU 63.6 million and after-tax income is about CU 49.6 million. Therefore, assuming the base case holds, a full-year net loss is unlikely."
+      },
+      "score": {
+        "total": 99.996,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15443,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 156,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "inventory-write-down-risk",
+      "case_sha256": "8ed477c243ed30276c3bb0a40b8c4dd03a2af3e992fd1e6ffef3db8e726cb2b2",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 17.138,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.95,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "inventory-growth",
+          "inventory-days",
+          "product-age",
+          "pricing",
+          "orders"
+        ],
+        "explanation": "The 55% finished-goods increase does not prove strong demand because shipments fell 8%, inventory days nearly doubled, and backlog coverage dropped sharply. The growing share of products older than nine months and 15% rebates on the prior generation further indicate aging stock and pricing pressure. Together, these signals imply a high risk of a material inventory-related gross-margin charge or discounting within the next two quarters."
+      },
+      "score": {
+        "total": 99.975,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.975,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15431,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 131,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "negative-working-capital-slowdown",
+      "case_sha256": "5dc5573bc29185757f1646637285850ffed17d7923aa9683d27fa0fa466f0180",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 19.541,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "customer-terms",
+          "revenue-outlook",
+          "unwind-model",
+          "cash"
+        ],
+        "explanation": "Negative working capital is a source of cash during growth here because customer prepayments create contract liabilities, but that benefit reverses as orders and revenue decline. The confirmed slowdown is projected to reduce prepayments before supplier payables decline, causing a CU 70 million cash outflow. This exceeds the CU 50 million cushion above minimum operating cash, indicating high risk of a material working-capital cash outflow and liquidity pressure within the next two quarters."
+      },
+      "score": {
+        "total": 97.2182,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.2222,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 15455,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 141,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "operating-leverage-eps",
+      "case_sha256": "83ec8429731e3007895587e3fb4e13ac3bcd1f9ba29025b3b4a49ac3a4616944",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 13.744,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.97,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "base-income",
+          "scenario",
+          "cost-behaviour",
+          "below-ebit",
+          "calculation"
+        ],
+        "explanation": "Operating leverage makes the premise invalid: the 5% revenue decline reduces EBIT by 30% because fixed costs remain unchanged. With interest expense, tax rate, and diluted share count unchanged, EPS would decline by more than 15% under the scenario (and potentially by more than the EBIT percentage if unchanged interest expense is positive)."
+      },
+      "score": {
+        "total": 99.991,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.991,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15474,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 120,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "bank-nim-rate-cuts",
+      "case_sha256": "0cd79708911d3f6242778a8c144ee900f1cf1d8f036a879d07d15b1cd63d510b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 17.158,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.88,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "rate-path",
+          "nim-sensitivity"
+        ],
+        "explanation": "The premise is invalid: rate cuts do not automatically reduce every bank's NIM, since liability repricing, deposit floors/betas, hedging, and balance-sheet mix can materially alter the outcome. For this bank, however, the forward curve implies 75 basis points of cuts over the horizon and ALCO estimates that exact path reduces NIM by 27 basis points after swap offsets, exceeding the 20-basis-point threshold."
+      },
+      "score": {
+        "total": 87.356,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 12.5,
+        "calibration": 9.856,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.5
+      },
+      "usage": {
+        "input_tokens": 15658,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 131,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "bond-duration-coupon",
+      "case_sha256": "fc8d242b05fe745ceefde5feff4c7247e1cb7f10d1d89511a139618e1463fedb",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 17.2,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "bond-h",
+          "shock",
+          "duration-rule",
+          "convexity"
+        ],
+        "explanation": "A 10% coupon does not eliminate interest-rate risk; Bond H still has modified duration of 8.1. Under the immediate parallel 100 bp yield increase, the supplied second-order duration/convexity estimate is a 7.64% market-value decline, exceeding 6%. Therefore, the risk of a loss greater than 6% is high."
+      },
+      "score": {
+        "total": 97.2182,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.2222,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.8889
+      },
+      "usage": {
+        "input_tokens": 15638,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 123,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "buyback-dilution",
+      "case_sha256": "787d4ee3717f0a7c797c8c4d22548a9ab8955f852d840d5a7a71c753185879ef",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.828,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.9,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "authorisation",
+          "market-cap",
+          "historic-execution",
+          "share-comp",
+          "cash-priority"
+        ],
+        "explanation": "The authorisation is discretionary, not a commitment. Even full CU 1 billion execution equals roughly 5% of current market capitalisation before considering timing and price; expected employee awards add 3.8% to diluted shares. Historic execution was only 42% and management prioritises a CU 600 million debt maturity, making a greater-than-5% fall in diluted weighted-average shares unlikely and EPS accretion unguaranteed."
+      },
+      "score": {
+        "total": 99.9,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.9,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15557,
+        "cached_input_tokens": 9984,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 143,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "commodity-fx-translation",
+      "case_sha256": "d377314d7f8b8e60eefca79ec98cb7198885bc318e5ca4ae3319ca2f7042f928",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 25.056,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.88,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "revenue-currency",
+          "revenue-hedge",
+          "usd-costs",
+          "wage-reset",
+          "fx-shock"
+        ],
+        "explanation": "The 15% depreciation affects only the unhedged 20% of USD revenue: about CU27m of uplift on CU180m. USD-linked costs rise by about CU38.4m on CU256m, already exceeding that benefit; quarterly wage resets linked to inflation may further raise local costs. With flat prices and volumes, a >10% uplift versus base EBITDA of CU200m (more than CU20m) is unlikely. Depreciation is therefore not an automatic or necessarily large EBITDA benefit for a USD exporter."
+      },
+      "score": {
+        "total": 99.856,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.856,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15610,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 409,
+        "reasoning_output_tokens": 239
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "covenant-adjusted-ebitda",
+      "case_sha256": "c4e4b19b0a06e64bd7d85aea2a2e3184a157dcceab9d44083ad2c9f14fa0ef87",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 14.818,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.99,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "covenant-definition",
+          "debt",
+          "threshold"
+        ],
+        "explanation": "The covenant uses CU 80 million of EBITDA, not management's CU 120 million adjusted EBITDA. Net debt of CU 400 million divided by covenant EBITDA of CU 80 million equals 5.0x, above the 4.5x maximum, implying a breach at the next test absent a material change before testing."
+      },
+      "score": {
+        "total": 93.749,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 18.75,
+        "calibration": 9.999,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.75
+      },
+      "usage": {
+        "input_tokens": 15574,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 113,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "deferred-revenue-cash-receipts",
+      "case_sha256": "b6c626494eb6cafdbd874435b0381ff65aadc27c392fb6955e65da0073e4bf67",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 15.436,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.88,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "accounting-policy",
+          "acquisition-effect",
+          "bookings",
+          "renewals",
+          "churn"
+        ],
+        "explanation": "Deferred revenue is a balance-sheet timing measure, not a direct forecast of next-year cash receipts. Most subscriptions are billed upfront, and 31 percentage points of the 40% deferred-revenue increase came from acquired customers that had already paid before closing, which does not create new post-closing receipts. Organic bookings grew only 3%, 46% of the opening base is not due for renewal within the horizon, and declining gross revenue retention further weakens the case for 20% cash-receipts growth."
+      },
+      "score": {
+        "total": 99.856,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.856,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15579,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 157,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "dividend-yield-cut-risk",
+      "case_sha256": "059eb1c6a86c2b856e707779438d9e785816708bb5559ccf6f0a8525af692352",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 19.738,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.96,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "dividend-cash",
+          "free-cash-flow",
+          "leverage",
+          "distribution-covenant",
+          "maturity",
+          "share-price"
+        ],
+        "explanation": "A 12% trailing yield does not guarantee next year's cash return: the dividend requires CU 120m versus CU 65-80m expected free cash flow, while leverage is 4.8x and the facility restricts distributions above 4.5x absent a lender waiver. The CU 300m refinancing need within nine months adds further pressure. The yield was mechanically elevated by a 38% share-price decline, so it is not evidence of sustainability."
+      },
+      "score": {
+        "total": 99.984,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.984,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15621,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 155,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "goodwill-impairment-risk",
+      "case_sha256": "4464dda56a5671e5b59c73214de97564465d44d60ae86d2d2a94265824453dc2",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 16.357,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.88,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "accounting-policy",
+          "operating-trend",
+          "headroom",
+          "sensitivity",
+          "rates"
+        ],
+        "explanation": "Under IFRS, goodwill is not amortised, so its size does not imply high depreciation expense. The risk of a material impairment charge is high: 76% of goodwill sits in a CGU with declining revenue and sharply lower EBITDA margin, only 6% headroom, and disclosed sensitivity showing a 50 bp discount-rate increase eliminates that headroom. Relevant market yields subsequently rose 35 bp, increasing the likelihood that the remaining headroom is eroded during the next 12 months."
+      },
+      "score": {
+        "total": 97.5833,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 22.7273,
+        "calibration": 9.856,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.9091
+      },
+      "usage": {
+        "input_tokens": 15668,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 153,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "insurer-combined-ratio",
+      "case_sha256": "dc29ced24b845fd84971908af9d31b4c9fe34af8512cbc12d98c2405cec250c1",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 14.953,
+      "submission": {
+        "prediction": "low",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "underwriting",
+          "investment-assets",
+          "investment-yield",
+          "other-costs",
+          "tax"
+        ],
+        "explanation": "A 105% combined ratio implies a CU 50 million underwriting loss, not a guaranteed net loss. Base-case pre-tax investment income is CU 145.6 million (CU 2.8 billion × 5.2%); after the underwriting loss and CU 32 million of other costs, pre-tax income is CU 63.6 million. Applying the 22% tax rate yields estimated net income of about CU 49.6 million, so a full-year net loss is unlikely if the base case holds."
+      },
+      "score": {
+        "total": 99.996,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15558,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 159,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "inventory-write-down-risk",
+      "case_sha256": "8ed477c243ed30276c3bb0a40b8c4dd03a2af3e992fd1e6ffef3db8e726cb2b2",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 13.992,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.93,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "inventory-growth",
+          "inventory-days",
+          "product-age",
+          "pricing",
+          "orders"
+        ],
+        "explanation": "The inventory increase does not prove strong demand: finished goods rose 55% while unit shipments fell 8%. Days on hand nearly doubled, aged inventory increased materially, backlog coverage of finished goods fell sharply, and channel rebates on the prior generation indicate price pressure. Together these support a high risk over the next two quarters of inventory-related discounting and/or a gross-margin charge."
+      },
+      "score": {
+        "total": 99.951,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.951,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15548,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 125,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "negative-working-capital-slowdown",
+      "case_sha256": "5dc5573bc29185757f1646637285850ffed17d7923aa9683d27fa0fa466f0180",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 14.771,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.96,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "revenue-outlook",
+          "unwind-model",
+          "cash"
+        ],
+        "explanation": "Negative working capital can generate cash during growth, but a revenue contraction can reverse customer prepayments before supplier payables decline. Confirmed orders indicate 20% sequential revenue declines, and the treasury stress test projects a CU 70 million working-capital cash outflow. That would reduce unrestricted cash from CU 110 million to CU 40 million, below the CU 60 million minimum operating cash."
+      },
+      "score": {
+        "total": 93.734,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 18.75,
+        "calibration": 9.984,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 0.75
+      },
+      "usage": {
+        "input_tokens": 15572,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 127,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    },
+    {
+      "case_id": "operating-leverage-eps",
+      "case_sha256": "83ec8429731e3007895587e3fb4e13ac3bcd1f9ba29025b3b4a49ac3a4616944",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 14.298,
+      "submission": {
+        "prediction": "high",
+        "confidence": 0.98,
+        "premise_assessment": "invalid",
+        "evidence_ids": [
+          "base-income",
+          "scenario",
+          "cost-behaviour",
+          "below-ebit",
+          "calculation"
+        ],
+        "explanation": "The 5% revenue decline reduces EBIT by 30% because variable costs decline with revenue while fixed costs remain unchanged. With interest expense, tax rate, and diluted shares unchanged, EPS also declines by approximately 30%, making an EPS fall greater than 15% highly likely. The premise that EPS should fall about 5% is invalid under this operating-leverage scenario."
+      },
+      "score": {
+        "total": 99.996,
+        "prediction": 40.0,
+        "premise": 25.0,
+        "evidence": 25.0,
+        "calibration": 9.996,
+        "prediction_correct": true,
+        "premise_correct": true,
+        "evidence_f1": 1.0
+      },
+      "usage": {
+        "input_tokens": 15591,
+        "cached_input_tokens": 12032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 129,
+        "reasoning_output_tokens": 0
+      },
+      "event_count": 4
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 12,
+      "failed": 0,
+      "mean_score": 97.0257,
+      "prediction_accuracy": 1.0,
+      "premise_accuracy": 0.9167,
+      "mean_evidence_f1": 0.9647,
+      "mean_latency_seconds": 16.8853,
+      "input_tokens": 170090,
+      "cached_input_tokens": 39168,
+      "output_tokens": 2604
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 12,
+      "failed": 0,
+      "mean_score": 99.0926,
+      "prediction_accuracy": 1.0,
+      "premise_accuracy": 1.0,
+      "mean_evidence_f1": 0.9647,
+      "mean_latency_seconds": 17.3041,
+      "input_tokens": 185899,
+      "cached_input_tokens": 79104,
+      "output_tokens": 2038
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 12,
+      "failed": 0,
+      "mean_score": 97.4316,
+      "prediction_accuracy": 1.0,
+      "premise_accuracy": 1.0,
+      "mean_evidence_f1": 0.8998,
+      "mean_latency_seconds": 16.6337,
+      "input_tokens": 187174,
+      "cached_input_tokens": 118272,
+      "output_tokens": 1924
+    }
+  ]
+}

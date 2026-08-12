@@ -29,6 +29,13 @@ class RubricItem:
 
 
 @dataclass(frozen=True)
+class AnswerKey:
+    prediction: str
+    premise_assessment: str
+    evidence_ids: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class BenchmarkCase:
     id: str
     title: str
@@ -40,9 +47,12 @@ class BenchmarkCase:
     evidence: tuple[EvidenceItem, ...]
     response_contract: dict[str, Any]
     rubric: tuple[RubricItem, ...]
+    answer_key: AnswerKey
 
     @classmethod
-    def from_dict(cls, payload: dict[str, Any], *, source: str = "<memory>") -> BenchmarkCase:
+    def from_dict(
+        cls, payload: dict[str, Any], *, source: str = "<memory>"
+    ) -> BenchmarkCase:
         required = {
             "id",
             "title",
@@ -54,6 +64,7 @@ class BenchmarkCase:
             "evidence",
             "response_contract",
             "rubric",
+            "answer_key",
         }
         missing = sorted(required - payload.keys())
         if missing:
@@ -80,7 +91,9 @@ class BenchmarkCase:
                 )
             evidence.append(
                 EvidenceItem(
-                    id=_non_empty_string(item.get("id"), field="id", source=item_source),
+                    id=_non_empty_string(
+                        item.get("id"), field="id", source=item_source
+                    ),
                     text=_non_empty_string(
                         item.get("text"), field="text", source=item_source
                     ),
@@ -91,12 +104,62 @@ class BenchmarkCase:
                 )
             )
 
-        _ensure_unique((item.id for item in evidence), field="evidence IDs", source=source)
+        _ensure_unique(
+            (item.id for item in evidence), field="evidence IDs", source=source
+        )
 
         response_contract = payload["response_contract"]
         if not isinstance(response_contract, dict) or not response_contract:
             raise CaseValidationError(
                 f"{source}: response_contract must be a non-empty object"
+            )
+
+        raw_answer_key = payload["answer_key"]
+        if not isinstance(raw_answer_key, dict):
+            raise CaseValidationError(f"{source}: answer_key must be an object")
+        prediction = _non_empty_string(
+            raw_answer_key.get("prediction"),
+            field="prediction",
+            source=f"{source}: answer_key",
+        )
+        allowed_predictions = (
+            response_contract.get("properties", {})
+            .get("prediction", {})
+            .get("enum", [])
+        )
+        if prediction not in allowed_predictions:
+            raise CaseValidationError(
+                f"{source}: answer_key prediction is not allowed by response_contract"
+            )
+        premise_assessment = _non_empty_string(
+            raw_answer_key.get("premise_assessment"),
+            field="premise_assessment",
+            source=f"{source}: answer_key",
+        )
+        if premise_assessment not in {"valid", "partly_valid", "invalid"}:
+            raise CaseValidationError(
+                f"{source}: answer_key premise_assessment must be valid, partly_valid, or invalid"
+            )
+        raw_expected_evidence = raw_answer_key.get("evidence_ids")
+        if not isinstance(raw_expected_evidence, list) or not raw_expected_evidence:
+            raise CaseValidationError(
+                f"{source}: answer_key evidence_ids must be a non-empty list"
+            )
+        expected_evidence_ids = tuple(
+            _non_empty_string(
+                item, field="evidence_ids item", source=f"{source}: answer_key"
+            )
+            for item in raw_expected_evidence
+        )
+        _ensure_unique(
+            expected_evidence_ids, field="answer_key evidence_ids", source=source
+        )
+        unknown_evidence = sorted(
+            set(expected_evidence_ids) - {item.id for item in evidence}
+        )
+        if unknown_evidence:
+            raise CaseValidationError(
+                f"{source}: answer_key references unknown evidence: {', '.join(unknown_evidence)}"
             )
 
         raw_rubric = payload["rubric"]
@@ -110,10 +173,14 @@ class BenchmarkCase:
                 raise CaseValidationError(f"{item_source} must be an object")
             weight = item.get("weight")
             if not isinstance(weight, int) or isinstance(weight, bool) or weight <= 0:
-                raise CaseValidationError(f"{item_source}: weight must be a positive integer")
+                raise CaseValidationError(
+                    f"{item_source}: weight must be a positive integer"
+                )
             rubric.append(
                 RubricItem(
-                    id=_non_empty_string(item.get("id"), field="id", source=item_source),
+                    id=_non_empty_string(
+                        item.get("id"), field="id", source=item_source
+                    ),
                     description=_non_empty_string(
                         item.get("description"), field="description", source=item_source
                     ),
@@ -147,6 +214,11 @@ class BenchmarkCase:
             evidence=tuple(evidence),
             response_contract=response_contract,
             rubric=tuple(rubric),
+            answer_key=AnswerKey(
+                prediction=prediction,
+                premise_assessment=premise_assessment,
+                evidence_ids=expected_evidence_ids,
+            ),
         )
 
     def agent_payload(self) -> dict[str, Any]:
@@ -211,4 +283,3 @@ def _ensure_unique(values: Any, *, field: str, source: str) -> None:
     items = list(values)
     if len(items) != len(set(items)):
         raise CaseValidationError(f"{source}: {field} must be unique")
-

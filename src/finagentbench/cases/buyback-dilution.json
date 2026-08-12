@@ -1,0 +1,40 @@
+{
+  "id": "buyback-dilution",
+  "title": "Buyback authorisation versus net share-count reduction",
+  "category": "capital-allocation",
+  "jurisdiction": "US GAAP",
+  "as_of": "2025-03-01",
+  "prediction_horizon": "next 12 months",
+  "prompt": "A colleague says: 'The new CU 1 billion buyback guarantees EPS accretion.' Assess the premise and predict the likelihood that diluted weighted-average shares fall by more than 5% during the horizon.",
+  "evidence": [
+    {"id": "authorisation", "text": "The board authorised up to CU 1 billion of repurchases but stated that timing and amount remain discretionary.", "observed_at": "2025-02-25", "source": "Synthetic board announcement"},
+    {"id": "market-cap", "text": "The current market capitalisation is CU 20 billion.", "observed_at": "2025-03-01", "source": "Synthetic PIT market snapshot"},
+    {"id": "historic-execution", "text": "Only 42% of the prior two authorisations was executed before expiry.", "observed_at": "2025-02-25", "source": "Synthetic capital allocation history"},
+    {"id": "share-comp", "text": "Outstanding employee awards are expected to add 3.8% to diluted shares over the next year at the current share price.", "observed_at": "2025-02-25", "source": "Synthetic compensation note"},
+    {"id": "cash-priority", "text": "Management ranks a CU 600 million debt maturity ahead of discretionary repurchases.", "observed_at": "2025-02-25", "source": "Synthetic earnings call"},
+    {"id": "conference", "text": "The CFO will speak at an industry conference in June.", "observed_at": "2025-02-28", "source": "Synthetic event calendar"}
+  ],
+  "response_contract": {
+    "type": "object", "additionalProperties": false,
+    "required": ["prediction", "confidence", "premise_assessment", "evidence_ids", "explanation"],
+    "properties": {
+      "prediction": {"type": "string", "enum": ["low", "medium", "high", "insufficient_evidence"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "premise_assessment": {"type": "string", "enum": ["valid", "partly_valid", "invalid"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "explanation": {"type": "string"}
+    }
+  },
+  "rubric": [
+    {"id": "authorisation-not-execution", "description": "Distinguishes authorisation from actual repurchases.", "weight": 25},
+    {"id": "quantify-cap", "description": "Recognises that the full authorisation equals only about 5% of market value.", "weight": 25},
+    {"id": "net-dilution", "description": "Offsets likely repurchases against share compensation.", "weight": 25},
+    {"id": "capital-priority", "description": "Uses execution history and debt priority to calibrate a low prediction.", "weight": 25}
+  ],
+  "answer_key": {
+    "prediction": "low",
+    "premise_assessment": "invalid",
+    "evidence_ids": ["authorisation", "market-cap", "historic-execution", "share-comp", "cash-priority"]
+  }
+}
+

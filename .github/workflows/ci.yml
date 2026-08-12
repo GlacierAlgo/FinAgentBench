@@ -18,4 +18,4 @@ jobs:
           python-version: "3.11"
       - run: uv sync --dev
       - run: uv run ruff check src tests
-      - run: uv run pytest tests/test_cases.py
+      - run: uv run pytest tests

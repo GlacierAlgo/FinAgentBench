@@ -1,0 +1,39 @@
+{
+  "id": "operating-leverage-eps",
+  "title": "Revenue decline versus EPS decline under operating leverage",
+  "category": "earnings-sensitivity",
+  "jurisdiction": "Generic management accounting",
+  "as_of": "2025-11-01",
+  "prediction_horizon": "next fiscal year under the supplied scenario",
+  "prompt": "A colleague says: 'If revenue falls 5%, EPS should also fall about 5%.' Assess the premise and predict the likelihood that EPS falls by more than 15% under the supplied scenario.",
+  "evidence": [
+    {"id": "base-income", "text": "Base revenue is CU 1.0 billion, variable operating costs are CU 400 million, and fixed operating costs are CU 500 million, producing CU 100 million EBIT.", "observed_at": "2025-11-01", "source": "Synthetic base-case income statement"},
+    {"id": "scenario", "text": "The scenario is a 5% revenue decline with constant unit pricing and mix.", "observed_at": "2025-11-01", "source": "Synthetic scenario definition"},
+    {"id": "cost-behaviour", "text": "Variable costs move proportionally with revenue; fixed costs do not change during the horizon.", "observed_at": "2025-11-01", "source": "Synthetic cost behaviour assumption"},
+    {"id": "below-ebit", "text": "Interest expense, tax rate, and diluted share count remain unchanged in the scenario.", "observed_at": "2025-11-01", "source": "Synthetic EPS bridge assumptions"},
+    {"id": "calculation", "text": "A 5% revenue decline reduces revenue by CU 50 million and variable cost by CU 20 million, so EBIT falls CU 30 million or 30%.", "observed_at": "2025-11-01", "source": "Synthetic verifier calculation"},
+    {"id": "uniform", "text": "Employees received new uniforms during the quarter.", "observed_at": "2025-10-15", "source": "Synthetic internal newsletter"}
+  ],
+  "response_contract": {
+    "type": "object", "additionalProperties": false,
+    "required": ["prediction", "confidence", "premise_assessment", "evidence_ids", "explanation"],
+    "properties": {
+      "prediction": {"type": "string", "enum": ["low", "medium", "high", "insufficient_evidence"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "premise_assessment": {"type": "string", "enum": ["valid", "partly_valid", "invalid"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "explanation": {"type": "string"}
+    }
+  },
+  "rubric": [
+    {"id": "reject-linearity", "description": "Rejects a one-for-one revenue-to-EPS assumption.", "weight": 25},
+    {"id": "contribution-margin", "description": "Uses variable-cost savings to derive the EBIT change.", "weight": 25},
+    {"id": "operating-leverage", "description": "Recognises the 30% EBIT decline from a 5% revenue decline.", "weight": 25},
+    {"id": "eps-bridge", "description": "Uses unchanged below-EBIT items and shares to infer an EPS decline above 15%.", "weight": 25}
+  ],
+  "answer_key": {
+    "prediction": "high",
+    "premise_assessment": "invalid",
+    "evidence_ids": ["base-income", "scenario", "cost-behaviour", "below-ebit", "calculation"]
+  }
+}

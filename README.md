@@ -58,12 +58,31 @@ uv sync --dev
 uv run finagentbench validate
 uv run finagentbench list
 uv run finagentbench render goodwill-impairment-risk
-uv run pytest tests/test_cases.py
+uv run pytest tests
 ```
 
-The bundled public case is intentionally small and fully inspectable. Its role
-is to demonstrate the case contract and evaluation philosophy, not to provide a
-contamination-resistant leaderboard score.
+The repository contains 12 fully inspectable synthetic cases spanning
+accounting, cash flow, inventory, banking, fixed income, capital allocation,
+liquidity, commodities and FX, insurance, credit covenants, equity income, and
+operating leverage. Their role is to exercise the contract and runner, not to
+provide a contamination-resistant leaderboard score.
+
+Run the same cases through current locally available Codex models:
+
+```bash
+uv run finagentbench benchmark \
+  --model gpt-5.6-sol \
+  --model gpt-5.6-terra \
+  --model gpt-5.6-luna \
+  --reasoning-effort low \
+  --workers 3 \
+  --output results/codex-low.json \
+  --report-output results/codex-low.md
+```
+
+This command uses the signed-in local Codex account and consumes its usage. Each
+case gets an independent ephemeral session, a read-only sandbox, no external
+data, and a JSON Schema-constrained final answer.
 
 ## Case contract
 
@@ -72,7 +91,7 @@ A case is a JSON evidence packet with:
 - a stable ID, as-of date, and prediction horizon;
 - a financial question and only the evidence visible to the agent;
 - a machine-readable response contract;
-- a weighted evaluation rubric.
+- a weighted semantic rubric and public smoke-test answer key.
 
 Public examples may include their rubrics. Formal benchmark cases should keep
 labels and rubrics in the verifier so agents cannot read the answer from the
@@ -85,14 +104,47 @@ uv run finagentbench validate --cases-dir /path/to/cases
 uv run finagentbench render CASE_ID --cases-dir /path/to/cases
 ```
 
-## Initial scope
+## Public contract score
 
-This repository starts with the narrow, auditable benchmark core:
+The deterministic smoke score totals 100 points:
 
-- case schema and validation;
-- prompt rendering that excludes the rubric;
-- public reference cases;
-- focused contract tests.
+- prediction class: 40;
+- premise assessment: 25;
+- causal evidence selection F1: 25;
+- confidence calibration: 10.
+
+The model sees neither the answer key nor the rubric. The case and suite hashes
+in every run bind results to the exact evidence, labels, and scoring version.
+Free-text explanations remain available for semantic or human review; the
+deterministic score does not pretend to grade private reasoning.
+
+## First measured baseline
+
+The first controlled run used Codex CLI 0.146.0, low reasoning effort, one
+repeat, and the same 12 public synthetic cases for all three models. Full model
+answers and per-case scores are in
+[`results/2026-08-12-codex-low.json`](results/2026-08-12-codex-low.json).
+
+| Model | Score | Prediction accuracy | Premise accuracy | Evidence F1 |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-5.6 Sol | 99.09 | 100.0% | 100.0% | 0.965 |
+| GPT-5.6 Terra | 97.43 | 100.0% | 100.0% | 0.900 |
+| GPT-5.6 Luna | 97.03 | 100.0% | 91.7% | 0.965 |
+
+This is a harness smoke baseline, not a model ranking. All three models reached
+100% prediction accuracy, revealing a ceiling effect. A defensible radar needs
+harder sealed cases, repeated runs, real point-in-time evidence, and semantic
+adjudication for cases where a categorical premise label hides an otherwise
+correct explanation.
+
+## Current scope
+
+The repository now includes:
+
+- 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
+- case validation, rubric-free prompt rendering, and deterministic scoring;
+- a controlled Codex CLI matrix runner with raw answer and token capture;
+- reproducible case-suite hashes, Markdown reports, focused tests, and CI.
 
 The intended next layers are runner adapters for multiple agent harnesses, a
 server-side verifier for sealed cases, and a public radar that compares
@@ -117,10 +169,10 @@ format.
 
 ## Status
 
-FinAgentBench is at the repository-foundation stage. The public case contract is
-expected to evolve before the first stable benchmark release.
+FinAgentBench is pre-alpha. The public synthetic suite is useful for authoring
+and harness verification but is intentionally not presented as a frontier-model
+leaderboard.
 
 ## License
 
 [MIT](LICENSE)
-

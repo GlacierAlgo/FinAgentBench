@@ -1,0 +1,40 @@
+{
+  "id": "covenant-adjusted-ebitda",
+  "title": "Management-adjusted EBITDA versus covenant EBITDA",
+  "category": "credit-and-covenants",
+  "jurisdiction": "Contract-defined credit analysis",
+  "as_of": "2025-09-30",
+  "prediction_horizon": "next covenant test in 30 days",
+  "prompt": "A colleague says: 'Adjusted EBITDA grew 20%, so the leverage covenant is safe.' Assess the premise and predict the risk of a covenant breach at the next test.",
+  "evidence": [
+    {"id": "management-ebitda", "text": "Management reports trailing adjusted EBITDA of CU 120 million after CU 40 million of projected synergies and restructuring add-backs.", "observed_at": "2025-09-25", "source": "Synthetic investor presentation"},
+    {"id": "covenant-definition", "text": "The credit agreement permits no projected synergies and caps restructuring add-backs at CU 5 million; covenant EBITDA is CU 80 million.", "observed_at": "2025-09-25", "source": "Synthetic credit agreement calculation"},
+    {"id": "debt", "text": "Covenant net debt is CU 400 million at the as-of date.", "observed_at": "2025-09-30", "source": "Synthetic lender certificate"},
+    {"id": "threshold", "text": "The maximum net-debt-to-covenant-EBITDA ratio is 4.5x.", "observed_at": "2025-09-25", "source": "Synthetic credit agreement"},
+    {"id": "cure", "text": "No equity cure has been committed and the company has 30 days after testing to deliver the certificate.", "observed_at": "2025-09-25", "source": "Synthetic treasury note"},
+    {"id": "award", "text": "The company received an industry safety award.", "observed_at": "2025-09-20", "source": "Synthetic press release"}
+  ],
+  "response_contract": {
+    "type": "object", "additionalProperties": false,
+    "required": ["prediction", "confidence", "premise_assessment", "evidence_ids", "explanation"],
+    "properties": {
+      "prediction": {"type": "string", "enum": ["low", "medium", "high", "insufficient_evidence"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "premise_assessment": {"type": "string", "enum": ["valid", "partly_valid", "invalid"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "explanation": {"type": "string"}
+    }
+  },
+  "rubric": [
+    {"id": "definitions", "description": "Uses lender-defined rather than management-adjusted EBITDA.", "weight": 25},
+    {"id": "calculate", "description": "Calculates 400/80 = 5.0x versus the 4.5x maximum.", "weight": 25},
+    {"id": "reject-growth", "description": "Rejects headline adjusted growth as proof of compliance.", "weight": 25},
+    {"id": "cure", "description": "Notes the absence of a committed cure while avoiding certainty.", "weight": 25}
+  ],
+  "answer_key": {
+    "prediction": "high",
+    "premise_assessment": "invalid",
+    "evidence_ids": ["management-ebitda", "covenant-definition", "debt", "threshold", "cure"]
+  }
+}
+

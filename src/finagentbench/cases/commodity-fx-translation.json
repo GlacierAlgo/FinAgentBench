@@ -1,0 +1,39 @@
+{
+  "id": "commodity-fx-translation",
+  "title": "Currency depreciation and exporter EBITDA",
+  "category": "commodities-and-fx",
+  "jurisdiction": "Functional-currency analysis",
+  "as_of": "2025-08-01",
+  "prediction_horizon": "next six months",
+  "prompt": "A colleague says: 'Local-currency depreciation always produces a large EBITDA gain for a USD commodity exporter.' Assess the premise and predict the likelihood of a greater-than-10% EBITDA uplift from the stated 15% depreciation during the horizon.",
+  "evidence": [
+    {"id": "revenue-currency", "text": "Base-case revenue is CU 1.0 billion and operating costs are CU 800 million. Ninety percent of revenue is USD-denominated and 60% of operating costs are local-currency-denominated.", "observed_at": "2025-07-28", "source": "Synthetic currency exposure note"},
+    {"id": "revenue-hedge", "text": "Eighty percent of the CU 900 million forecast USD revenue is sold forward at the pre-depreciation exchange rate.", "observed_at": "2025-07-28", "source": "Synthetic hedge schedule"},
+    {"id": "usd-costs", "text": "Fuel, royalties, and imported equipment equal 32% of operating costs, or CU 256 million, and are USD-linked.", "observed_at": "2025-07-28", "source": "Synthetic cost breakdown"},
+    {"id": "wage-reset", "text": "Union wages reset quarterly to 70% of trailing local inflation; current inflation is 11% annualised.", "observed_at": "2025-07-28", "source": "Synthetic labour agreement"},
+    {"id": "fx-shock", "text": "The scenario assumes a 15% local-currency depreciation with flat USD commodity prices and volumes.", "observed_at": "2025-08-01", "source": "Synthetic scenario definition"},
+    {"id": "mine-name", "text": "The newest mine was named after a local river.", "observed_at": "2025-07-15", "source": "Synthetic community release"}
+  ],
+  "response_contract": {
+    "type": "object", "additionalProperties": false,
+    "required": ["prediction", "confidence", "premise_assessment", "evidence_ids", "explanation"],
+    "properties": {
+      "prediction": {"type": "string", "enum": ["low", "medium", "high", "insufficient_evidence"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "premise_assessment": {"type": "string", "enum": ["valid", "partly_valid", "invalid"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "explanation": {"type": "string"}
+    }
+  },
+  "rubric": [
+    {"id": "recognise-natural-long", "description": "Recognises the unhedged USD revenue/local cost benefit.", "weight": 25},
+    {"id": "hedge-offset", "description": "Accounts for the large forward hedge.", "weight": 25},
+    {"id": "cost-offset", "description": "Accounts for USD-linked costs and wage resets.", "weight": 25},
+    {"id": "threshold", "description": "Calibrates the probability against the greater-than-10% threshold.", "weight": 25}
+  ],
+  "answer_key": {
+    "prediction": "low",
+    "premise_assessment": "invalid",
+    "evidence_ids": ["revenue-currency", "revenue-hedge", "usd-costs", "wage-reset", "fx-shock"]
+  }
+}

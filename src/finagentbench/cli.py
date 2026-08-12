@@ -8,6 +8,8 @@ from pathlib import Path
 import click
 
 from finagentbench.case import BenchmarkCase, CaseValidationError, load_cases
+from finagentbench.runner import render_markdown_report, run_codex_matrix
+from finagentbench.scoring import score_submission
 
 BUILTIN_CASES = Path(__file__).with_name("cases")
 
@@ -75,7 +77,119 @@ def show(case_id: str, include_rubric: bool, cases_dir: Path) -> None:
             }
             for item in case.rubric
         ]
+        payload["answer_key"] = {
+            "prediction": case.answer_key.prediction,
+            "premise_assessment": case.answer_key.premise_assessment,
+            "evidence_ids": list(case.answer_key.evidence_ids),
+        }
     click.echo(json.dumps(payload, ensure_ascii=False, indent=2))
+
+
+@main.command()
+@click.argument("case_id")
+@click.argument("submission", type=click.Path(path_type=Path, dir_okay=False))
+@cases_dir_option
+def score(case_id: str, submission: Path, cases_dir: Path) -> None:
+    """Score one structured submission against a public answer key."""
+    case = _find_case(case_id, _load_or_fail(cases_dir))
+    try:
+        payload = json.loads(submission.read_text(encoding="utf-8"))
+        breakdown = score_submission(case, payload)
+    except (OSError, json.JSONDecodeError, CaseValidationError) as error:
+        raise click.ClickException(str(error)) from error
+    click.echo(json.dumps(breakdown.to_dict(), ensure_ascii=False, indent=2))
+
+
+@main.command()
+@click.option("--model", "models", multiple=True, required=True)
+@click.option(
+    "--case-id",
+    "case_ids",
+    multiple=True,
+    help="Run only selected case IDs. Repeat for more than one case.",
+)
+@click.option(
+    "--reasoning-effort",
+    type=click.Choice(["low", "medium", "high", "xhigh", "max"]),
+    default="low",
+    show_default=True,
+)
+@click.option("--workers", type=click.IntRange(1, 8), default=1, show_default=True)
+@click.option(
+    "--timeout-seconds", type=click.IntRange(10), default=180, show_default=True
+)
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+    help="JSON result artifact.",
+)
+@click.option(
+    "--report-output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    help="Optional Markdown report artifact.",
+)
+@cases_dir_option
+def benchmark(
+    models: tuple[str, ...],
+    case_ids: tuple[str, ...],
+    reasoning_effort: str,
+    workers: int,
+    timeout_seconds: int,
+    output: Path,
+    report_output: Path | None,
+    cases_dir: Path,
+) -> None:
+    """Run a controlled Codex CLI model matrix over all selected cases."""
+    cases = _load_or_fail(cases_dir)
+    if case_ids:
+        cases = tuple(_find_case(case_id, cases) for case_id in case_ids)
+    click.echo(
+        f"Running {len(models)} model(s) × {len(cases)} case(s) "
+        f"at effort={reasoning_effort} with {workers} worker(s)"
+    )
+
+    def progress(item: dict) -> None:
+        marker = "ok" if item["status"] == "completed" else "FAILED"
+        click.echo(f"[{marker}] {item['model']} / {item['case_id']}", err=True)
+
+    run = run_codex_matrix(
+        cases,
+        models=models,
+        reasoning_effort=reasoning_effort,
+        workers=workers,
+        timeout_seconds=timeout_seconds,
+        progress=progress,
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
+        json.dumps(run, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    click.echo(f"Wrote {output}")
+    if report_output is not None:
+        report_output.parent.mkdir(parents=True, exist_ok=True)
+        report_output.write_text(render_markdown_report(run), encoding="utf-8")
+        click.echo(f"Wrote {report_output}")
+
+
+@main.command()
+@click.argument("result", type=click.Path(path_type=Path, dir_okay=False))
+@click.option(
+    "--output", type=click.Path(path_type=Path, dir_okay=False), help="Markdown file."
+)
+def report(result: Path, output: Path | None) -> None:
+    """Render a Markdown comparison from a benchmark result artifact."""
+    try:
+        run = json.loads(result.read_text(encoding="utf-8"))
+        markdown = render_markdown_report(run)
+    except (OSError, json.JSONDecodeError, KeyError, TypeError) as error:
+        raise click.ClickException(str(error)) from error
+    if output is None:
+        click.echo(markdown, nl=False)
+        return
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(markdown, encoding="utf-8")
+    click.echo(f"Wrote {output}")
 
 
 def _load_or_fail(cases_dir: Path) -> tuple[BenchmarkCase, ...]:
@@ -95,4 +209,3 @@ def _find_case(case_id: str, cases: tuple[BenchmarkCase, ...]) -> BenchmarkCase:
 
 if __name__ == "__main__":
     main()
-

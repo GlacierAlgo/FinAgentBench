@@ -1,0 +1,40 @@
+{
+  "id": "bond-duration-coupon",
+  "title": "Coupon size versus interest-rate sensitivity",
+  "category": "fixed-income",
+  "jurisdiction": "Market-value analysis",
+  "as_of": "2025-05-01",
+  "prediction_horizon": "immediate parallel 100 bp yield shock",
+  "prompt": "A colleague says: 'A 10% coupon makes a bond safe from interest-rate losses.' Assess the premise and predict the risk that Bond H loses more than 6% of market value under the stated shock.",
+  "evidence": [
+    {"id": "bond-h", "text": "Bond H has a 10% coupon, 18 years to maturity, a 4.0% yield, modified duration of 8.1, and positive convexity of 92.", "observed_at": "2025-05-01", "source": "Synthetic bond analytics snapshot"},
+    {"id": "shock", "text": "The scenario is an immediate parallel 100 basis point increase in yield with no credit-spread change.", "observed_at": "2025-05-01", "source": "Synthetic scenario definition"},
+    {"id": "duration-rule", "text": "For a small yield change, approximate percentage price change is negative modified duration times the yield change, with a convexity adjustment.", "observed_at": "2025-05-01", "source": "Case-supplied valuation rule"},
+    {"id": "convexity", "text": "Using the supplied duration and convexity, the second-order approximation is about -7.64%.", "observed_at": "2025-05-01", "source": "Synthetic verifier calculation"},
+    {"id": "spread-constant", "text": "The scenario holds Bond H's credit spread constant, isolating the Treasury-yield effect.", "observed_at": "2025-05-01", "source": "Synthetic scenario definition"},
+    {"id": "credit-rating", "text": "Bond H is rated investment grade.", "observed_at": "2025-05-01", "source": "Synthetic security terms"},
+    {"id": "issuer-logo", "text": "The issuer introduced a new corporate logo last quarter.", "observed_at": "2025-04-10", "source": "Synthetic press release"}
+  ],
+  "response_contract": {
+    "type": "object", "additionalProperties": false,
+    "required": ["prediction", "confidence", "premise_assessment", "evidence_ids", "explanation"],
+    "properties": {
+      "prediction": {"type": "string", "enum": ["low", "medium", "high", "insufficient_evidence"]},
+      "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+      "premise_assessment": {"type": "string", "enum": ["valid", "partly_valid", "invalid"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "explanation": {"type": "string"}
+    }
+  },
+  "rubric": [
+    {"id": "reject-coupon-alone", "description": "Rejects coupon size as sufficient protection from rate risk.", "weight": 25},
+    {"id": "use-duration", "description": "Uses modified duration as the primary sensitivity measure.", "weight": 25},
+    {"id": "use-scenario", "description": "Applies the defined 100 bp shock and convexity adjustment.", "weight": 25},
+    {"id": "separate-credit", "description": "Does not rely on credit rating when spread is held constant.", "weight": 25}
+  ],
+  "answer_key": {
+    "prediction": "high",
+    "premise_assessment": "invalid",
+    "evidence_ids": ["bond-h", "shock", "duration-rule", "convexity", "spread-constant"]
+  }
+}
