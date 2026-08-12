@@ -136,6 +136,16 @@ revenue CAGR from 2021, at least 50% gross margin, and positive operating cash
 flow. This measures later validation under an auditable rule; it does not claim
 that R&D alone caused the outcome and it does not score stock return.
 
+Version 0.6 adds twelve real scenarios as six matched event/control pairs. They
+cover new ST or *ST treatment, modified audit opinions, incremental credit
+impairment, inventory write-downs, acquisition performance-commitment
+shortfalls, and controller changes following high equity-pledge risk. Each
+family uses a predeclared observable target rather than scoring a vague notion
+of distress. The audit target distinguishes a modified opinion from an
+unmodified opinion containing an emphasis or going-concern paragraph; the
+pledge target observes a later controller change without claiming that the
+pledge alone caused it.
+
 ```bash
 uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
 uv run finagentbench a-share search \
@@ -152,6 +162,15 @@ Historical replay never uses today's unrestricted web. It searches a frozen
 corpus of official disclosures published no later than the scenario's as-of
 date. The future annual report and the RQData-derived realized outcome live in
 a separate label file and never enter the agent payload or search corpus.
+
+All PDF-to-text authoring for the new slice uses the Rust CLI from
+[`run-llama/liteparse`](https://github.com/run-llama/liteparse), pinned in case
+provenance to version 2.11.1 and git revision
+`53e4fc813d35f76d0169923d2c451b3c8700edb0`. Native PDFium extraction is used
+when a text layer exists; scanned official reports use LiteParse's Tesseract OCR
+path with Chinese and English language data. The parser is an authoring aid;
+official signed filings and recomputable RQData values remain the evidence and
+label authority.
 
 The primary prediction metric is a proper probability score (Brier loss), not
 only threshold accuracy. Evidence citation F1 is secondary, and the short
@@ -179,6 +198,32 @@ on probability quality. Luna's one threshold error was a 0.56 event forecast
 for the no-event 蓝色光标 case. Six public cases still cannot support a stable
 model ranking or calibration claim; the result is evidence that the replay
 contract works and that matched controls prevent a trivial always-event rule.
+
+### Matched trap-family replay
+
+The version 0.6 replay ran all twelve new scenarios through the same three
+models, one isolated low-effort session per model and scenario. All 36 sessions
+used frozen search and completed successfully.
+
+| Model | Composite | Brier loss | Log loss | Accuracy |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-5.6 Sol | 85.79 | 0.1672 | 0.5073 | 83.3% |
+| GPT-5.6 Luna | 84.11 | 0.1870 | 0.5608 | 75.0% |
+| GPT-5.6 Terra | 78.25 | 0.2558 | 0.6945 | 50.0% |
+
+This slice no longer has the synthetic suite's ceiling effect. Across the 18
+model-family comparisons, the event case received a strictly higher
+probability than its matched control in 14. The same-company 2022/2023 audit
+pair was particularly hard: Sol and Luna assigned more risk to the no-event
+2022 control, while Terra separated it by only two probability points. All
+three models also overestimated ST-transition risk for the no-event 银宝山新
+control. These are development diagnostics, not a stable model ranking: each
+configuration still has only one run per public case.
+
+Full answers, searches, per-case probabilities, and scores are in
+[`results/2026-08-12-a-share-traps-frozen-web-low.json`](results/2026-08-12-a-share-traps-frozen-web-low.json),
+with a compact report in
+[`results/2026-08-12-a-share-traps-frozen-web-low.md`](results/2026-08-12-a-share-traps-frozen-web-low.md).
 
 ### First business-decision replay
 
@@ -254,8 +299,9 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- seven real A-share walk-forward scenarios with frozen official-search corpora,
-  including six matched impairment cases and one business-decision case;
+- 19 real A-share walk-forward scenarios with frozen official-search corpora:
+  six matched goodwill/impairment cases, six additional matched trap families,
+  and one business-decision case;
 - a real-Web live-shadow runner with full-trace commitments and maturity-gated
   resolution;
 - case validation, rubric-free prompt rendering, and deterministic scoring;

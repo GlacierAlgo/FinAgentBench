@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019q3-receivables-300461",
+  "resolved_at": "2020-04-29",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "fy_credit_impairment_loss": 203509634.42,
+      "q3_credit_impairment_loss": 86537669.39,
+      "q3_parent_equity": 160765575.9
+    },
+    "derivations": [
+      {
+        "metric": "incremental_credit_impairment_loss",
+        "operation": "difference",
+        "inputs": ["fy_credit_impairment_loss", "q3_credit_impairment_loss"],
+        "value": 116971965.03
+      },
+      {
+        "metric": "incremental_credit_impairment_to_q3_equity",
+        "operation": "ratio",
+        "inputs": ["incremental_credit_impairment_loss", "q3_parent_equity"],
+        "value": 0.7275933568188709
+      }
+    ]
+  },
+  "expected_evidence_ids": ["2019-h1-receivables-warning", "2019-q3-receivables-divergence"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "田中精机2019年年度报告",
+      "published_at": "2020-04-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-29/1207666231.PDF",
+      "fields": ["信用减值损失", "应收账款坏账损失"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_balance_sheet_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q4/data.parquet"],
+      "fields": ["equity_parent_company", "adjust_credit_asset_impairment"],
+      "row_policy": "300461.XSHE; if_adjusted=0; first visible filing row per quarter; loss signs normalized to positive magnitudes"
+    }
+  ]
+}

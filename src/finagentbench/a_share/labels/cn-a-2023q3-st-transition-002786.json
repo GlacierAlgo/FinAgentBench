@@ -1,0 +1,30 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2023q3-st-transition-002786",
+  "resolved_at": "2024-04-29",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "new_st_or_star_st_flag": 0,
+      "fy2023_parent_equity": 493636920.63,
+      "fy2023_parent_net_profit": 244790653.93
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["2022-annual-losses", "2023-q3-thin-equity-control"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "银宝山新2023年年度报告",
+      "published_at": "2024-04-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-04-29/1219865365.PDF",
+      "fields": ["归属于上市公司股东的净资产", "归属于上市公司股东的净利润", "非标准审计意见提示"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/is_st.parquet", "data/db/rq_balance_sheet_pit/quarter=2023q4/data.parquet", "data/db/rq_income_statement_pit/quarter=2023q4/data.parquet"],
+      "fields": ["is_st", "equity_parent_company", "net_profit_parent_company"],
+      "row_policy": "002786.XSHE; is_st false at both 2023-10-31 and 2024-06-28; first visible FY2023 filing row"
+    }
+  ]
+}

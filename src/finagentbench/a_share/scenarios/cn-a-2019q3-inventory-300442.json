@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019q3-inventory-300442",
+  "suite": "a_share_traps_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "300442.XSHE",
+    "ticker": "300442",
+    "name_as_of": "普丽盛",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-10-26",
+  "prediction_window": {
+    "end": "2020-06-30",
+    "description": "截至2019年年度报告首次披露，最晚不超过2020-06-30"
+  },
+  "target": {
+    "event": "material_inventory_write_down",
+    "definition": "2019年年度报告确认的存货跌价损失绝对值超过2019Q3归母权益的10%",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "inventory_write_down_to_q3_equity",
+        "comparison": ">",
+        "value": 0.1,
+        "description": "年度存货跌价损失占2019Q3归母权益比例超过10%"
+      }
+    ]
+  },
+  "prompt": "你处在2019-10-26收盘后的信息环境。请使用冻结搜索工具，预测普丽盛2019年年度报告确认的存货跌价损失是否会超过2019Q3归母权益的10%。重点综合存货/权益、未结转项目、订单与验收、行业需求、周转和现金流；不要把高存货余额或负现金流机械等同于跌价。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-10-26",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_balance_sheet_pit", "rq_income_statement_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=300442.XSHE; if_adjusted=0; first visible 2019q3 and 2019q4 filing rows",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0; Rust CLI; --no-ocr"
+  }
+}

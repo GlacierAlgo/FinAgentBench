@@ -1,0 +1,1344 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T07:22:13.012595+00:00",
+  "completed_at": "2026-08-12T07:26:10.752196+00:00",
+  "duration_seconds": 237.74,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen official-disclosure corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 12,
+    "repeats": 1,
+    "case_suite_sha256": "a6cbd558b1fb4ee90b2b576a889edee8a21393bfb43222cd046dc6dd4ae60c1b"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2017q3-pledge-control-002310",
+      "case_sha256": "e4e813cf1eb36492cd1c095cd311dc3e33ec9d35b822c1c80434a1d54f5253c8",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 37.181,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.56,
+        "prediction": "event",
+        "evidence_ids": [
+          "2017-high-pledge",
+          "2017-q3-growth-and-cash"
+        ],
+        "analysis_summary": "截至2017-10-27，何巧女持股41.54%，其中68.55%已质押（占公司总股本28.48%），且公告明确用途为个人融资，集中质押使未来融资或履约压力下出现控制权安排的概率明显上升。但公司前三季度收入、净利润及经营现金流均高速增长，且当时尚无冻结、补充质押或控制权安排，因此不能将高质押视为必然导致变更；综合判断未来约12个月发生控股股东/实际控制人变更的概率略高于50%。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 73.344,
+        "brier_score": 68.64,
+        "brier_loss": 0.3136,
+        "log_loss": 0.82098055,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 44685,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 767,
+        "reasoning_output_tokens": 262
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2018q3-pledge-control-002310",
+      "case_sha256": "ca2a45ee32dbcee39b531f2f53652e5f44b197333b820f1e34155679910682fa",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.392,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.68,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-q3-cash-and-pledge",
+          "2018-pledge-supplements"
+        ],
+        "analysis_summary": "截至2018-10-31，何巧女所持股份质押约占其持股90.65%，且实际控制人存在补充质押；公司前三季度经营现金流同比下降94.09%，显示融资与流动性压力显著。公司仍盈利且预计全年盈利，构成反向证据，因此不能将高质押视为控制权必然转移，但股权质押集中、现金流恶化与融资压力共同提高未来12个月发生股份处置、表决权安排或其他控制权变更的概率，故预测为event。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45359,
+        "cached_input_tokens": 13056,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 689,
+        "reasoning_output_tokens": 138
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2019q3-inventory-300278",
+      "case_sha256": "765f5344d0b27c205eaeb8a244412e43af5bdf44daf12ad35341568a5e60a055",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 27.482,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.68,
+        "prediction": "event",
+        "evidence_ids": [
+          "2019-q3-inventory-overhang",
+          "2019-h1-auto-project-stress"
+        ],
+        "analysis_summary": "截至2019-09-30，存货11.31亿元，高于归母权益10.35亿元，因此达到目标所需的跌价损失仅需约占存货9.2%。同时前三季度收入同比下降42.67%、累计归母亏损6.71亿元，经营现金流同比大降89.52%；公司披露诉讼、汽车行业环境及完工验收项目减少。这些因素共同提高存货可变现净值受损和年末计提大额跌价准备的风险，但并不能单独证明跌价损失必然超过阈值。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45066,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 644,
+        "reasoning_output_tokens": 103
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2019q3-inventory-300442",
+      "case_sha256": "bc4867a9b4c865b45fda17d25add31907bf6b5c0002fb84cde2d636490ac63cf",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 36.952,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.18,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-unbilled-projects-control",
+          "2019-h1-packaging-inventory"
+        ],
+        "analysis_summary": "2019Q3存货6.59亿元、归母权益7.46亿元，虽存货占权益88.40%且经营现金流净额为-1.25亿元，但公司解释增量主要是已生产完成、尚未结转收入的汾酒和蒙牛项目，不能据此直接认定发生大额减值。上半年披露下游需求萎缩、竞争加剧，构成减值风险；但要超过7,460万元（权益10%）仍需大范围、重大可变现价值损失，现有截至时点证据不足，故预测不超过阈值。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 97.246,
+        "brier_score": 96.76,
+        "brier_loss": 0.0324,
+        "log_loss": 0.19845094,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44583,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 627,
+        "reasoning_output_tokens": 111
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-performance-commitment-300276",
+      "case_sha256": "98e0f0bfd4fdd1783933e46645c41dc1eb8ea89c79554b7caac50dbe00ee9c87",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 27.86,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.35,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2018-commitment-met",
+          "2019-q3-orders-and-cash"
+        ],
+        "analysis_summary": "2018年鑫燕隆经专项审核的承诺口径净利润为2.1896亿元，完成率100.62%，未出现缺口；2019年承诺值2.582亿元，需同比增长17.93%，因此存在执行压力。三季度披露的34.21亿元在手订单及部分项目预计四季度验收，对达标有支持，但验收节奏和汽车行业周期使现金流及确认时点存在风险。上市公司合并净利润1.84亿元、现金流6624.65万元不能直接替代鑫燕隆承诺口径净利润，综合判断实际净利润低于2.0656亿元的概率偏低但非 negligible。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 89.5875,
+        "brier_score": 87.75,
+        "brier_loss": 0.1225,
+        "log_loss": 0.43078292,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44945,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 596,
+        "reasoning_output_tokens": 101
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2019q3-performance-commitment-300467",
+      "case_sha256": "edb88598011edf32cef2bee2a1ff76e412f74f8e1eb6e223c5e1db9b80aeefb9",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 26.666,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.78,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-commitment-warning",
+          "2019-q3-consolidated-results"
+        ],
+        "analysis_summary": "2018年狮之吼承诺口径净利润仅2.2459亿元，较2.496亿元承诺短缺10.02%；2019年承诺值升至3.2448亿元，需同比增长44.47%，在已有未达标基础上形成较高兑现压力。上市公司前三季度合并盈利、正经营现金流及商誉减值信息属于背景或反向证据，不能替代狮之吼专项审核的承诺口径利润，因此判断2019年实际承诺口径净利润较承诺低20%以上的概率较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 95.886,
+        "brier_score": 95.16,
+        "brier_loss": 0.0484,
+        "log_loss": 0.24846136,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45228,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 544,
+        "reasoning_output_tokens": 78
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2019q3-receivables-300455",
+      "case_sha256": "1fd4041702ecd1315a86c19db81218deb727d63b985427c419f77e23ee2fcf01",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 25.726,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.12,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-high-ar-control",
+          "2019-h1-state-customer-context"
+        ],
+        "analysis_summary": "截至2019-09-30应收账款3.24亿元、归母权益7.65亿元，事件阈值对应新增信用减值损失需超过1.53亿元，约占应收账款47%。虽然应收/前三季度营收约1.95倍构成风险信号，但公司客户主要为全国铁路局集团，铁路结算模式可导致高应收；同时上半年经营现金流为正、前三季度仍盈利且利润稳定，未见足以支持巨额Q4集中减值的公开证据。因此判断超过阈值的概率较低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 98.776,
+        "brier_score": 98.56,
+        "brier_loss": 0.0144,
+        "log_loss": 0.12783337,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45124,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 576,
+        "reasoning_output_tokens": 93
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2019q3-receivables-300461",
+      "case_sha256": "d996d8fdcd9c81603a1795d5cb78c9d581697a9808a435e076d0a450854e31ac",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.008,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.68,
+        "prediction": "event",
+        "evidence_ids": [
+          "2019-h1-receivables-warning",
+          "2019-q3-receivables-divergence"
+        ],
+        "analysis_summary": "截至2019-10-29，三季度末应收账款约3.50亿元，约为前三季度营收4.46亿元的78.5%，而前三季度经营现金流仅1,795.27万元且同比下降78.02%，公司明确预计全年亏损并将信用减值列为原因。半年报还已提示应收回收及坏账风险，并确认信用减值损失7,805.43万元，其中应收账款和长期应收款坏账损失合计约7,420万元。虽然高应收余额本身不能证明四季度新增损失，但现金回收恶化、持续的减值风险提示及仅1.61亿元的三季度归母权益，使四季度新增信用减值超过约3,220万元（权益20%）的概率偏高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45185,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 652,
+        "reasoning_output_tokens": 124
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2022q3-audit-opinion-000506",
+      "case_sha256": "a0c80d9a9dc96187a9f31202a9a2416c92a73c67ad27bbfd3815e602d543122a",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 31.598,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "2021-qualified-opinion",
+          "2022-q3-disposal-profit"
+        ],
+        "analysis_summary": "截至2022-10-26，2021年度已被出具保留意见，且涉及大额应收债权预期信用损失及证据不足，显示审计调整事项延续风险较高。2022年前三季度净利润主要来自处置平武中金的3.02亿元投资收益，扣非净利润为-9700.81万元、经营现金流净额为-9457.25万元，并提示现金流恶化可能导致停工停产，表明处置收益质量和持续经营基础偏弱。因此预计2022年度再次出现保留、否定或无法表示意见的概率较高；现有证据支持修改意见风险，不足以证明必然为否定或无法表示意见，也不将强调事项或持续经营重大不确定性段单独计入事件。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 55.936,
+        "brier_score": 48.16,
+        "brier_loss": 0.5184,
+        "log_loss": 1.27296568,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 45091,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 628,
+        "reasoning_output_tokens": 80
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2023q3-audit-opinion-000506",
+      "case_sha256": "d87daba82cab36e64e431e40f875584fd4204194c70a68094dce3885968a83fd",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 24.284,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.62,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-swap-profit-liquidity",
+          "2023-asset-swap-implementation"
+        ],
+        "analysis_summary": "截至2023-10-30，重大资产置换涉及跨境矿业资产、无现金对价及债务承接，增加了权属、关联关系、商业实质和估值等审计证据要求；前三季度归母利润主要来自置换投资收益，而扣非归母净利润为-8872.40万元、经营现金流为负，且披露贷款转列其他应付款、矿山产量未达预期和利息负担较高。这些因素共同提高审计范围、估值及持续经营判断出现重大错报或证据不足的风险，但并未直接证明必然出具修改意见；无保留意见中的强调事项或持续经营重大不确定性段本身不计入目标事件，因此判断为事件概率偏高但非确定。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45272,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 608,
+        "reasoning_output_tokens": 88
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2023q3-st-transition-002786",
+      "case_sha256": "b7a4c79381a79610cdf2b1d7ee40124ad53fcb6962569cad78671e0ea64360c2",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 41.838,
+      "search_calls": 7,
+      "submission": {
+        "event_probability": 0.8,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-thin-equity-control",
+          "2022-annual-losses"
+        ],
+        "analysis_summary": "截至2023-09-30归母净资产仅9532.73万元，前三季度归母净利润-1.43亿元、扣非后-1.70亿元；若四季度无法显著扭亏，年末净资产转负的可能性较高，可能触发财务类风险警示。前三季度收入17.21亿元，暂不支持单凭“收入低于1亿元”触发；且2022年连续亏损但净资产2.41亿元、收入25.97亿元并未被实施风险警示，说明连续亏损本身不足以机械判定。扣非亏损大于归母亏损，非经常性收益对结果有一定缓冲但不足以覆盖前三季度亏损，因此综合判断2024-06-30前首次ST或*ST为事件。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 45.6,
+        "brier_score": 36.0,
+        "brier_loss": 0.64,
+        "log_loss": 1.60943791,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 80038,
+        "cached_input_tokens": 58368,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1138,
+        "reasoning_output_tokens": 277
+      },
+      "event_count": 19
+    },
+    {
+      "scenario_id": "cn-a-2023q3-st-transition-600375",
+      "case_sha256": "78a850f7b73bfab4d49e856d652036cc99f2651322c57c46b94071c77fe2b86a",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 34.927,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.68,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-thin-equity",
+          "2022-annual-risk-buffer"
+        ],
+        "analysis_summary": "截至2023-09-30归母净资产仅2368.64万元，前三季度扣非净利润亏损5.78亿元，净资产缓冲极薄；若第四季度继续亏损或年审发生减值、重分类等调整，存在净资产转负或审计意见触发风险警示的较高可能。2022年已连续大额亏损且年末归母净资产仅1.70亿元。正经营现金流和单季经营改善是反向证据，因此判断为较高概率但非确定事件；亏损本身不直接等同于ST。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 59984,
+        "cached_input_tokens": 42240,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 766,
+        "reasoning_output_tokens": 247
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2017q3-pledge-control-002310",
+      "case_sha256": "e4e813cf1eb36492cd1c095cd311dc3e33ec9d35b822c1c80434a1d54f5253c8",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 27.931,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.2,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2017-high-pledge",
+          "2017-q3-growth-and-cash"
+        ],
+        "analysis_summary": "截至2017-10-27，何巧女累计质押占其持股68.55%，个人融资需求使控制权风险明显高于低质押情形；但其仍持有公司41.54%，质押公告未显示补充质押、冻结或控制权安排。同时，公司前三季度营收和归母净利润分别增长72.29%和67.64%，经营现金流净额为7.23亿元、同比增长236.27%，经营与回款表现形成重要缓冲。综合判断，高质押是风险信号但不足以机械推出控制权变更，未来约12个月发生目标事件的概率低于50%。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 96.6,
+        "brier_score": 96.0,
+        "brier_loss": 0.04,
+        "log_loss": 0.22314355,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50096,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 711,
+        "reasoning_output_tokens": 132
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2018q3-pledge-control-002310",
+      "case_sha256": "ca2a45ee32dbcee39b531f2f53652e5f44b197333b820f1e34155679910682fa",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 26.779,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.62,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-q3-cash-and-pledge",
+          "2018-pledge-supplements"
+        ],
+        "analysis_summary": "截至2018-09-30，何巧女持股41.52%，其中约90.65%已质押，控制权风险高度集中；此前实际控制人还曾多次补充质押，两名实际控制人及一致行动人的累计质押比例较高。同时，公司前三季度经营现金流净额同比下降94.09%，融资和流动性压力明显，未来12个月通过股权或表决权安排引入承接方的概率上升。反向因素是公司仍实现96.49亿元营收和9.75亿元归母净利润、预计全年盈利，且截至时点没有直接证据显示控制权转让协议已经形成。因此判断事件略高于均衡概率，但高质押和现金流恶化仅是风险信号，不代表其必然导致控制权变更。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50069,
+        "cached_input_tokens": 30208,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 647,
+        "reasoning_output_tokens": 49
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2019q3-inventory-300278",
+      "case_sha256": "765f5344d0b27c205eaeb8a244412e43af5bdf44daf12ad35341568a5e60a055",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 38.901,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "2019-q3-inventory-overhang",
+          "2019-h1-auto-project-stress"
+        ],
+        "analysis_summary": "2019Q3归母权益约10.35亿元，对应事件阈值约1.04亿元，仅相当于期末11.31亿元存货的约9.2%。存货从半年末11.03亿元继续升至11.31亿元，而前三季度收入同比下降42.67%、完工验收项目减少，且诉讼及汽车行业环境对经营形成压力，项目存货可变现净值风险较高；前三季度经营现金流仅686.50万元也显示周转承压。另一方面，项目验收推迟和高存货余额并不必然构成跌价，半年报披露的其他减值及损失也不能替代存货减值判断，因此仅作略高于五成的事件预测。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 67801,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 865,
+        "reasoning_output_tokens": 110
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2019q3-inventory-300442",
+      "case_sha256": "bc4867a9b4c865b45fda17d25add31907bf6b5c0002fb84cde2d636490ac63cf",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.172,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.24,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-unbilled-projects-control",
+          "2019-h1-packaging-inventory"
+        ],
+        "analysis_summary": "2019Q3归母权益约7.46亿元，对应事件阈值约7460万元，相当于期末6.59亿元存货的约11.3%，需发生幅度较大的跌价。存货较年初增长33.54%、下游需求萎缩、竞争加剧及经营现金流为负均提高减值风险；但公司明确将主要增量归因于两个已生产完成、尚未结转收入的具体项目，负现金流亦有回款减少和采购支出增加的解释，不能据此直接认定存货失去可变现价值。综合判断存在风险，但超过阈值并非基准情形。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 95.104,
+        "brier_score": 94.24,
+        "brier_loss": 0.0576,
+        "log_loss": 0.27443685,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50248,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 660,
+        "reasoning_output_tokens": 75
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2019q3-performance-commitment-300276",
+      "case_sha256": "98e0f0bfd4fdd1783933e46645c41dc1eb8ea89c79554b7caac50dbe00ee9c87",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.603,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.28,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2018-commitment-met",
+          "2019-q3-orders-and-cash"
+        ],
+        "analysis_summary": "20%缺口对应鑫燕隆2019年实际承诺口径净利润低于2.0656亿元。2018年鑫燕隆该口径实现2.1896亿元、完成率100.62%，因此触发事件需较2018年下降约5.7%，但2019年承诺本身要求同比增长17.93%，存在压力。2019年前三季度披露的1.84亿元归母净利润是上市公司合并口径，不能等同于鑫燕隆利润或专项审核的承诺口径；同样，34.21亿元含税在手订单也不能直接换算为当年利润。不过，较大订单储备、部分项目预计第四季度验收以及合并经营现金流净额为正，对完成业绩形成支持。主要风险是汽车项目验收集中于年末，订单可能跨期，且行业环境可能影响验收与盈利。综合上年刚好完成承诺、当年增长要求较高但订单和现金流尚有支撑，判断发生超过20%重大缺口的概率低于50%。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50715,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 868,
+        "reasoning_output_tokens": 182
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2019q3-performance-commitment-300467",
+      "case_sha256": "edb88598011edf32cef2bee2a1ff76e412f74f8e1eb6e223c5e1db9b80aeefb9",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.799,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.74,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-commitment-warning",
+          "2019-q3-consolidated-results"
+        ],
+        "analysis_summary": "重大缺口阈值对应实际承诺口径净利润低于2.59584亿元。狮之吼2018年实际承诺口径净利润仅2.2459亿元，已低于该阈值；2019年需同比增长约15.6%才能避免本事件、增长44.47%才能完成承诺，而其上年已短缺10.02%。收购形成的22.70亿元商誉此前已计提8.53亿元减值，也提示原盈利预期明显承压。反向证据是上市公司2019年前三季度合并归母净利润1.18亿元、经营现金流净额1.33亿元，但这些是合并口径，不能等同于狮之吼扣非并剔除特定项目收益后的承诺口径。综合判断，出现超过20%承诺缺口的概率较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 94.254,
+        "brier_score": 93.24,
+        "brier_loss": 0.0676,
+        "log_loss": 0.30110509,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 66571,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 805,
+        "reasoning_output_tokens": 73
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2019q3-receivables-300455",
+      "case_sha256": "1fd4041702ecd1315a86c19db81218deb727d63b985427c419f77e23ee2fcf01",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.307,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.02,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-high-ar-control",
+          "2019-h1-state-customer-context"
+        ],
+        "analysis_summary": "2019Q3归母权益为7.65亿元，事件阈值约为1.53亿元；该新增减值相当于期末3.24亿元应收账款的约47%，需要第四季度出现极端信用恶化。虽然应收账款约为前三季度营收的1.95倍、前三季度经营现金流仅710万元，风险信号明显，但半年报说明高应收主要与铁路行业结算模式有关，客户主要为全国铁路局集团，且上半年经营现金流为正、前三季度盈利稳定。三季报未单列累计信用减值损失，增加了测算不确定性，但现有证据不足以支持第四季度发生超过阈值的大额新增减值，不能把高应收余额机械等同于坏账确认。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 99.966,
+        "brier_score": 99.96,
+        "brier_loss": 0.0004,
+        "log_loss": 0.02020271,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 67379,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 795,
+        "reasoning_output_tokens": 73
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2019q3-receivables-300461",
+      "case_sha256": "d996d8fdcd9c81603a1795d5cb78c9d581697a9808a435e076d0a450854e31ac",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 42.771,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.62,
+        "prediction": "event",
+        "evidence_ids": [
+          "2019-h1-receivables-warning",
+          "2019-q3-receivables-divergence"
+        ],
+        "analysis_summary": "阈值约为3220万元（2019Q3归母权益1.61亿元的20%）。半年报已确认信用减值损失7805.43万元，其中应收账款坏账损失6247.54万元；同期应收账款3.62亿元、经营现金流仅79.95万元，并明确提示回收及坏账风险。三季度末应收账款仍达3.50亿元，接近前三季度营收4.46亿元，经营现金流同比下降78.02%，且公司预计全年可能因信用减值等因素亏损。虽然应收余额较半年末略降，且此前已经计提较多，不能由高应收机械推定新增损失，但持续偏弱的现金回收、较大的风险敞口及全年亏损提示，使年末新增计提超过3220万元略高于不超过该阈值的可能性。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 86669,
+        "cached_input_tokens": 65536,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1011,
+        "reasoning_output_tokens": 159
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2022q3-audit-opinion-000506",
+      "case_sha256": "a0c80d9a9dc96187a9f31202a9a2416c92a73c67ad27bbfd3815e602d543122a",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.65,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.78,
+        "prediction": "event",
+        "evidence_ids": [
+          "2021-qualified-opinion",
+          "2022-q3-disposal-profit"
+        ],
+        "analysis_summary": "2021年度已被出具保留意见，基础是两项合计约3.93亿元的应收债权预期信用损失缺乏充分适当审计证据，且可能继续影响2022年度比较数据；截至历史时点未见该事项已消除的证据。2022年前三季度归母净利润虽为2.08亿元，但主要来自处置平武中金形成的3.02亿元投资收益，扣非净利润为-0.97亿元、经营现金流净额为-0.95亿元，且披露现金流若不改善可能导致矿山临时停工停产。这些情况分别提高了处置会计处理审计风险和持续经营压力。持续经营压力本身可能仅导致无保留意见中的重大不确定性段，不满足目标定义；本判断为event，主要依据仍是上年保留事项可能延续及重大处置收益带来的修改意见风险。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 48.286,
+        "brier_score": 39.16,
+        "brier_loss": 0.6084,
+        "log_loss": 1.51412773,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 66773,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 813,
+        "reasoning_output_tokens": 58
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2023q3-audit-opinion-000506",
+      "case_sha256": "d87daba82cab36e64e431e40f875584fd4204194c70a68094dce3885968a83fd",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 44.906,
+      "search_calls": 8,
+      "submission": {
+        "event_probability": 0.62,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-asset-swap-implementation",
+          "2023-q3-swap-profit-liquidity"
+        ],
+        "analysis_summary": "重大资产置换采用跨境矿业股权换取境内地产股权并伴随债务承接、无现金对价，虽已完成过户，但交易链条、商业实质、权属及估值均对审计证据提出较高要求。前三季度扣非净利润为-8872.40万元、经营现金流为负，而三季度主要依靠置换产生的1.75亿元投资收益扭亏；同时新增大额无形资产、1.89亿元银行贷款转列其他应付款，核心矿山技改及利息负担显示流动性压力。持续经营压力本身可能仅形成无保留意见中的持续经营重大不确定性段，不计入目标事件；本判断主要基于置换收益及相关资产、负债的重大性和审计证据风险，认为形成保留意见的概率略高于无保留意见。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 70890,
+        "cached_input_tokens": 33280,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 945,
+        "reasoning_output_tokens": 113
+      },
+      "event_count": 23
+    },
+    {
+      "scenario_id": "cn-a-2023q3-st-transition-002786",
+      "case_sha256": "b7a4c79381a79610cdf2b1d7ee40124ad53fcb6962569cad78671e0ea64360c2",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 43.846,
+      "search_calls": 9,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-thin-equity-control",
+          "2022-annual-losses"
+        ],
+        "analysis_summary": "截至2023年三季度末，归母净资产仅0.95亿元，较年初下降60.49%，前三季度归母净亏损1.43亿元、扣非亏损1.70亿元，年末净资产转负或审计强调持续经营不确定性的风险较高。2022年扣除后营业收入仍达25.25亿元，因此“亏损且营业收入低于1亿元”的组合指标并不成立，连续亏损本身也不会机械触发风险警示；但公司已连续多年亏损，若2023年审计报告新增持续经营重大不确定性，可能触发ST，若全年审计净资产转负则可能触发*ST。经营现金流为正及可能的非经常性收益提供一定缓冲，但相对于极薄的净资产不足以消除风险，故判断窗口内首次实施ST或*ST的概率偏高。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 55.936,
+        "brier_score": 48.16,
+        "brier_loss": 0.5184,
+        "log_loss": 1.27296568,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 71044,
+        "cached_input_tokens": 56320,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1268,
+        "reasoning_output_tokens": 430
+      },
+      "event_count": 23
+    },
+    {
+      "scenario_id": "cn-a-2023q3-st-transition-600375",
+      "case_sha256": "78a850f7b73bfab4d49e856d652036cc99f2651322c57c46b94071c77fe2b86a",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 35.467,
+      "search_calls": 8,
+      "submission": {
+        "event_probability": 0.84,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-thin-equity",
+          "2022-annual-risk-buffer"
+        ],
+        "analysis_summary": "核心可识别触发路径是2023年经审计期末净资产转负，从而被实施*ST退市风险警示，而不是把亏损本身机械视为ST。2022年末归母净资产尚有1.70亿元，但在连续两年巨亏后，至2023年三季度末仅余2,368.64万元；同期归母净利润-1.28亿元、扣非净利润-5.78亿元，净资产缓冲极薄，第四季度经营损失或年审调整均较可能令全年经审计净资产为负。前三季度营业收入26.55亿元，明显不支持“亏损且低营业收入”路径；经营现金流为正和单季改善也是反向证据。但相较这些因素，净资产距离零点过近且历史亏损持续，使年报披露后、2024-06-30前首次实施*ST的概率较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 97.824,
+        "brier_score": 97.44,
+        "brier_loss": 0.0256,
+        "log_loss": 0.17435339,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 70873,
+        "cached_input_tokens": 61440,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 985,
+        "reasoning_output_tokens": 124
+      },
+      "event_count": 23
+    },
+    {
+      "scenario_id": "cn-a-2017q3-pledge-control-002310",
+      "case_sha256": "e4e813cf1eb36492cd1c095cd311dc3e33ec9d35b822c1c80434a1d54f5253c8",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.067,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.24,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2017-high-pledge",
+          "2017-q3-growth-and-cash"
+        ],
+        "analysis_summary": "何巧女累计质押占其持股68.55%、占总股本28.48%，个人融资需求使控制权风险上升；但截至时点未见冻结、补充质押或控制权安排。其仍持有41.54%股份并与唐凯共同控制公司，控制权缓冲较大；前三季度收入、利润和经营现金流均高增。综合判断高质押是风险信号而非控制权变更的充分证据，未来约12个月发生控制权变更的概率低于五成。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 95.104,
+        "brier_score": 94.24,
+        "brier_loss": 0.0576,
+        "log_loss": 0.27443685,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 66320,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 727,
+        "reasoning_output_tokens": 208
+      },
+      "event_count": 8
+    },
+    {
+      "scenario_id": "cn-a-2018q3-pledge-control-002310",
+      "case_sha256": "ca2a45ee32dbcee39b531f2f53652e5f44b197333b820f1e34155679910682fa",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 36.393,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.43,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2018-q3-cash-and-pledge",
+          "2018-pledge-supplements"
+        ],
+        "analysis_summary": "实际控制人质押高度集中且多笔补充质押，叠加经营现金流同比大幅走弱，显示融资与潜在控制权压力显著上升；但截至时点何巧女仍持有41.52%，前三季度盈利9.75亿元且预计全年盈利，尚不足以证明12个月内必然发生控制权变更。因此给出偏高但未过半的事件概率，判断为不发生。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 72.3835,
+        "brier_score": 67.51,
+        "brier_loss": 0.3249,
+        "log_loss": 0.84397007,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 84853,
+        "cached_input_tokens": 76544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 874,
+        "reasoning_output_tokens": 242
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2019q3-inventory-300278",
+      "case_sha256": "765f5344d0b27c205eaeb8a244412e43af5bdf44daf12ad35341568a5e60a055",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 47.283,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-inventory-overhang",
+          "2019-h1-auto-project-stress"
+        ],
+        "analysis_summary": "存货规模（2019Q3为11.31亿元）与权益（10.35亿元）接近，且收入、验收项目和经营现金流显著承压，表明存货可变现净值存在较高风险。但题目阈值对应年度跌价损失需超过约1.04亿元，属于存货余额的较大比例；截至时点披露的压力主要归因于验收减少、诉讼及汽车行业环境，尚无项目取消、存货报废或明确存货减值迹象。半年度已确认的预计负债、商誉及固定资产相关损失亦不能证明会形成该规模的存货跌价，因此判断不超过阈值，但保留较高不确定性。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 71.406,
+        "brier_score": 66.36,
+        "brier_loss": 0.3364,
+        "log_loss": 0.86750057,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 119818,
+        "cached_input_tokens": 97792,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1042,
+        "reasoning_output_tokens": 165
+      },
+      "event_count": 14
+    },
+    {
+      "scenario_id": "cn-a-2019q3-inventory-300442",
+      "case_sha256": "bc4867a9b4c865b45fda17d25add31907bf6b5c0002fb84cde2d636490ac63cf",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 45.629,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-unbilled-projects-control",
+          "2019-h1-packaging-inventory"
+        ],
+        "analysis_summary": "Q3存货6.59亿元、占归母权益88.4%，且需求走弱与经营现金流为负，确有项目延迟和可变现价值风险；但披露将新增存货具体归因于博雅汾酒及COMAN蒙牛项目已生产完成、尚待结转收入，而非已取消或无法验收。仅凭高存货和负现金流不足以推断超过7,460万元（Q3权益10%）的年度跌价损失，故判断不发生，但保留较高不确定性。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 87927,
+        "cached_input_tokens": 77568,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1129,
+        "reasoning_output_tokens": 389
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-performance-commitment-300276",
+      "case_sha256": "98e0f0bfd4fdd1783933e46645c41dc1eb8ea89c79554b7caac50dbe00ee9c87",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 36.082,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.63,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-commitment-met",
+          "2019-q3-orders-and-cash"
+        ],
+        "analysis_summary": "2018年鑫燕隆承诺口径净利润仅以2.1896亿元、100.62%勉强完成2.176亿元承诺；2019年承诺升至2.582亿元，需同比增长17.93%，而超过20%缺口的临界实际值仅为2.0656亿元，低于其2018实际值约5.7%。截至2019-10-19，上市公司前三季度合并归母净利润基本持平、经营现金流仅0.66亿元；34.21亿元在手订单及部分四季度验收计划提供支持，但它们是合并口径且受汽车项目验收节奏影响，不能证明标的承诺口径利润已实现。综合上一年余量极薄、增长要求和验收/现金流不确定性，判断重大缺口概率略高于五成。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 66.2635,
+        "brier_score": 60.31,
+        "brier_loss": 0.3969,
+        "log_loss": 0.99425227,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 69104,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1064,
+        "reasoning_output_tokens": 356
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2019q3-performance-commitment-300467",
+      "case_sha256": "edb88598011edf32cef2bee2a1ff76e412f74f8e1eb6e223c5e1db9b80aeefb9",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 45.254,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-commitment-warning",
+          "2019-q3-consolidated-results"
+        ],
+        "analysis_summary": "截至2019-10-30，狮之吼2018年承诺口径净利润已较承诺低约10.02%，而2019年承诺值3.2448亿元较2018年实际值仍需增长44.47%，构成较强的未达20%缺口风险信号。此前对收购形成商誉已计提8.53亿元减值，也与标的盈利能力承压相一致。上市公司2019年前三季度合并盈利及经营现金流为正是反向证据，但不能替代狮之吼扣非、剔除募投收益后的承诺口径；因此判断发生重大短缺的概率偏高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 68203,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 820,
+        "reasoning_output_tokens": 104
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2019q3-receivables-300455",
+      "case_sha256": "1fd4041702ecd1315a86c19db81218deb727d63b985427c419f77e23ee2fcf01",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 31.532,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.04,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-q3-high-ar-control",
+          "2019-h1-state-customer-context"
+        ],
+        "analysis_summary": "阈值约为1.53亿元（2019Q3归母权益7.65亿元的20%），相对3.24亿元应收账款亦属极大单季新增减值。虽Q3应收/营收达1.95倍且现金流仅710万元，存在回款压力；但披露的高应收与铁路行业结算模式相关、客户主要为全国铁路局集团，且上半年经营现金流为正、Q3盈利稳定。现有证据不足以支持年末发生如此规模的新增信用减值，故判断不发生。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 99.864,
+        "brier_score": 99.84,
+        "brier_loss": 0.0016,
+        "log_loss": 0.04082199,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 67906,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 739,
+        "reasoning_output_tokens": 104
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2019q3-receivables-300461",
+      "case_sha256": "d996d8fdcd9c81603a1795d5cb78c9d581697a9808a435e076d0a450854e31ac",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 40.978,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.25,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2019-h1-receivables-warning",
+          "2019-q3-receivables-divergence"
+        ],
+        "analysis_summary": "截至9月末应收账款3.50亿元、前三季度经营现金流仅1,795.27万元且同比大降，回款风险和全年减值预期均偏高；但半年报已累计确认信用减值7,805万元，其中应收账款坏账6,248万元，且9月末应收较6月末略降。现有证据支持持续风险，但不足以证明第四季度还会新增超过归母权益20%（约3,220万元）的信用减值。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 52.1875,
+        "brier_score": 43.75,
+        "brier_loss": 0.5625,
+        "log_loss": 1.38629436,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 101703,
+        "cached_input_tokens": 92672,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1050,
+        "reasoning_output_tokens": 275
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2022q3-audit-opinion-000506",
+      "case_sha256": "a0c80d9a9dc96187a9f31202a9a2416c92a73c67ad27bbfd3815e602d543122a",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 34.777,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.7,
+        "prediction": "event",
+        "evidence_ids": [
+          "2021-qualified-opinion",
+          "2022-q3-disposal-profit"
+        ],
+        "analysis_summary": "2021年已因两项历史应收债权减值（约3.58亿元及0.35亿元）证据不足被出具保留意见，且截至时点未见已解决该审计范围受限的证据，故其延续为2022年修改意见的风险较高。2022年前三季度盈利主要来自3.02亿元资产处置收益，扣非亏损9700.81万元、经营现金流净流出9457.25万元，并有现金流恶化或停产提示；这些情况支持财务报表风险判断，但本身至多可能形成无保留意见中的持续经营重大不确定性段，不能单独计入目标事件。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 58.35,
+        "brier_score": 51.0,
+        "brier_loss": 0.49,
+        "log_loss": 1.2039728,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 67974,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 832,
+        "reasoning_output_tokens": 124
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2023q3-audit-opinion-000506",
+      "case_sha256": "d87daba82cab36e64e431e40f875584fd4204194c70a68094dce3885968a83fd",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 62.13,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-asset-swap-implementation",
+          "2023-q3-swap-profit-liquidity"
+        ],
+        "analysis_summary": "预测为修改意见事件。已完成交割并不等于审计证据充分：重大资产置换涉及跨境矿业资产、无现金对价、债务承接及交易对手链条，权属、关联关系、商业实质和估值均需取得更强证据（2023-asset-swap-implementation）。截至三季报，利润主要由1.75亿元置换投资收益驱动，而扣非净利润和经营现金流为负，新并入资产形成大额无形资产；矿山技改、产量未达预期及利息负担亦提高资产计量和持续经营审计风险（2023-q3-swap-profit-liquidity）。这些事实不能证明必然修改意见，但审计范围/证据受限及重大错报风险较高；本判断针对保留、否定或无法表示意见，不将单纯强调事项或持续经营重大不确定性段计入。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 69706,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 955,
+        "reasoning_output_tokens": 162
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2023q3-st-transition-002786",
+      "case_sha256": "b7a4c79381a79610cdf2b1d7ee40124ad53fcb6962569cad78671e0ea64360c2",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 43.211,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-thin-equity-control",
+          "2022-annual-losses"
+        ],
+        "analysis_summary": "截至2023-09-30，归母净资产仅0.95亿元、较年末降60.49%，而前三季度归母及扣非利润分别亏损1.43亿元和1.70亿元，净资产缓冲很薄；2022年亦亏损2.58亿元且扣非亏损2.49亿元，显示盈利持续性弱。虽然2022年扣除后营收25.25亿元、2023年前三季度营收17.21亿元，不能把连续亏损直接等同于财务类ST触发，但若四季度延续亏损并使经审计期末净资产转负，存在明确的风险警示路径。基于薄净资产与持续扣非亏损，判断窗口内首次实施ST/*ST的概率偏高。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 55.936,
+        "brier_score": 48.16,
+        "brier_loss": 0.5184,
+        "log_loss": 1.27296568,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 84526,
+        "cached_input_tokens": 64512,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1003,
+        "reasoning_output_tokens": 283
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2023q3-st-transition-600375",
+      "case_sha256": "78a850f7b73bfab4d49e856d652036cc99f2651322c57c46b94071c77fe2b86a",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 40.028,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.78,
+        "prediction": "event",
+        "evidence_ids": [
+          "2023-q3-thin-equity",
+          "2022-annual-risk-buffer"
+        ],
+        "analysis_summary": "截至2023-09-30，归母净资产仅2,368.64万元，前三季度归母净利润-1.28亿元、扣非归母净利润-5.78亿元；在2021—2022年已连续大额亏损且2022年末归母净资产仅1.70亿元的背景下，年末亏损或审计调整使经审计期末净资产转负、从而触发财务类风险警示的风险很高。正经营现金流及单季改善构成反向证据，因此并非把亏损本身等同于ST；判断依据是极薄净资产缓冲与持续亏损共同提高具体净资产规则触发的可能性。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 95.886,
+        "brier_score": 95.16,
+        "brier_loss": 0.0484,
+        "log_loss": 0.24846136,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 84536,
+        "cached_input_tokens": 64512,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 936,
+        "reasoning_output_tokens": 222
+      },
+      "event_count": 13
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 12,
+      "failed": 0,
+      "mean_score": 84.107125,
+      "mean_brier_loss": 0.186975,
+      "mean_log_loss": 0.5608,
+      "classification_accuracy": 0.75,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 30.9095,
+      "input_tokens": 590560,
+      "cached_input_tokens": 357888,
+      "output_tokens": 8235
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 12,
+      "failed": 0,
+      "mean_score": 85.790833,
+      "mean_brier_loss": 0.167167,
+      "mean_log_loss": 0.507306,
+      "classification_accuracy": 0.833333,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 35.094333,
+      "input_tokens": 769128,
+      "cached_input_tokens": 513792,
+      "output_tokens": 10373
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 12,
+      "failed": 0,
+      "mean_score": 78.254875,
+      "mean_brier_loss": 0.255825,
+      "mean_log_loss": 0.694534,
+      "classification_accuracy": 0.5,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 41.113667,
+      "input_tokens": 972576,
+      "cached_input_tokens": 762880,
+      "output_tokens": 11171
+    }
+  ]
+}

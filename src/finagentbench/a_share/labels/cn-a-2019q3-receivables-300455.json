@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019q3-receivables-300455",
+  "resolved_at": "2020-04-28",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "fy_credit_impairment_loss": 2085612.83,
+      "q3_credit_impairment_loss": 0,
+      "q3_parent_equity": 765478113.33
+    },
+    "derivations": [
+      {
+        "metric": "incremental_credit_impairment_loss",
+        "operation": "difference",
+        "inputs": ["fy_credit_impairment_loss", "q3_credit_impairment_loss"],
+        "value": 2085612.83
+      },
+      {
+        "metric": "incremental_credit_impairment_to_q3_equity",
+        "operation": "ratio",
+        "inputs": ["incremental_credit_impairment_loss", "q3_parent_equity"],
+        "value": 0.002724588454824816
+      }
+    ]
+  },
+  "expected_evidence_ids": ["2019-h1-state-customer-context", "2019-q3-high-ar-control"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "康拓红外2019年年度报告",
+      "published_at": "2020-04-28",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-28/1207645014.PDF",
+      "fields": ["信用减值损失", "应收账款坏账准备"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_balance_sheet_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q4/data.parquet"],
+      "fields": ["equity_parent_company", "adjust_credit_asset_impairment"],
+      "row_policy": "300455.XSHE; if_adjusted=0; first visible filing row per quarter; absent Q3 credit impairment normalized to zero; loss signs normalized to positive magnitudes"
+    }
+  ]
+}

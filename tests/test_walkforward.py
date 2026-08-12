@@ -38,7 +38,7 @@ def test_builtin_goodwill_slice_is_balanced_and_all_cases_are_point_in_time() ->
         if case.scenario.suite == "a_share_walk_forward_v1"
     )
 
-    assert len(cases) == 7
+    assert len(cases) >= 19
     assert len(goodwill_cases) == 6
     assert sum(case.label.event_occurred for case in goodwill_cases) == 3
     for case in cases:
@@ -46,6 +46,60 @@ def test_builtin_goodwill_slice_is_balanced_and_all_cases_are_point_in_time() ->
             document.published_at <= case.scenario.as_of
             for document in case.corpus.documents
         )
+
+
+def test_a_share_trap_families_have_matched_positive_and_negative_cases() -> None:
+    trap_cases = tuple(
+        case for case in _cases() if case.scenario.suite == "a_share_traps_v1"
+    )
+    families = {
+        "st_transition": tuple(
+            case for case in trap_cases if "st-transition" in case.scenario.id
+        ),
+        "receivables": tuple(
+            case for case in trap_cases if "receivables" in case.scenario.id
+        ),
+        "inventory": tuple(
+            case for case in trap_cases if "inventory" in case.scenario.id
+        ),
+        "audit_opinion": tuple(
+            case for case in trap_cases if "audit-opinion" in case.scenario.id
+        ),
+        "performance_commitment": tuple(
+            case
+            for case in trap_cases
+            if "performance-commitment" in case.scenario.id
+        ),
+        "pledge_control": tuple(
+            case for case in trap_cases if "pledge-control" in case.scenario.id
+        ),
+    }
+
+    assert len(trap_cases) >= 12
+    for cases in families.values():
+        assert len(cases) == 2
+        assert {case.label.event_occurred for case in cases} == {False, True}
+        assert all(
+            "run-llama/liteparse 2.11.1 git 53e4fc8"
+            in case.scenario.authoring_provenance["pdf_text_tool"]
+            for case in cases
+        )
+
+
+def test_generic_derivation_chain_recomputes_incremental_credit_impairment() -> None:
+    case = next(
+        item
+        for item in _cases()
+        if item.scenario.id == "cn-a-2019q3-receivables-300461"
+    )
+
+    assert case.label.event_occurred
+    assert case.label.realized_metrics[
+        "incremental_credit_impairment_loss"
+    ] == pytest.approx(116971965.03)
+    assert case.label.realized_metrics[
+        "incremental_credit_impairment_to_q3_equity"
+    ] == pytest.approx(0.7275933568188709)
 
 
 def test_agent_payload_does_not_expose_outcome_or_rqdata_provenance() -> None:

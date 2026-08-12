@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2018q3-pledge-control-002310",
+  "suite": "a_share_traps_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002310.XSHE",
+    "ticker": "002310",
+    "name_as_of": "东方园林",
+    "exchange": "SZSE"
+  },
+  "as_of": "2018-10-31",
+  "prediction_window": {
+    "end": "2019-10-31",
+    "description": "as-of后12个月内，观察控股股东和实际控制人是否发生变更"
+  },
+  "target": {
+    "event": "control_transfer_after_high_pledge_risk",
+    "definition": "as-of后12个月内，原实际控制人通过股份转让、表决权委托、司法处置或其他安排使上市公司控股股东或实际控制人发生变更；该规则不声称高质押是唯一原因",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "control_transfer_flag",
+        "comparison": ">=",
+        "value": 1,
+        "description": "预测窗口内控股股东或实际控制人变更记为1，否则记为0"
+      }
+    ]
+  },
+  "prompt": "你处在2018-10-31收盘后的信息环境。请使用冻结搜索工具，预测东方园林未来12个月内是否会通过股份转让、表决权委托、司法处置或其他安排发生控股股东/实际控制人变更。重点综合实际控制人质押比例、补充质押、经营现金流、融资环境、股权结构和经营基本面；不要把高质押机械等同于控制权必然变化，也不要把相关性写成因果。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2018-10-31",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "official CNINFO filings",
+    "access": "read_only",
+    "data_lake_gap": "main_shareholder.parquet in the local RQData snapshot has no populated share_pledge/share_freeze values for the screened period; official notices are authority.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0; Rust CLI; PDFium native text"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019q3-receivables-300455",
+  "suite": "a_share_traps_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "300455.XSHE",
+    "ticker": "300455",
+    "name_as_of": "康拓红外",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-10-30",
+  "prediction_window": {
+    "end": "2020-06-30",
+    "description": "截至2019年年度报告首次披露，最晚不超过2020-06-30"
+  },
+  "target": {
+    "event": "large_incremental_q4_credit_impairment",
+    "definition": "2019年报累计信用减值损失减去前三季度已确认信用减值损失后的新增金额，超过2019Q3归母权益的20%",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "incremental_credit_impairment_to_q3_equity",
+        "comparison": ">",
+        "value": 0.2,
+        "description": "第四季度新增信用减值损失占2019Q3归母权益比例超过20%"
+      }
+    ]
+  },
+  "prompt": "你处在2019-10-30收盘后的信息环境。请使用冻结搜索工具，预测康拓红外2019年报累计信用减值损失相对三季报已确认金额的新增部分，是否会超过2019Q3归母权益的20%。重点综合应收账款/营收、现金回收、客户性质、结算模式、账龄和已确认损失；不要把高应收余额机械等同于新增坏账。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-10-30",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_balance_sheet_pit", "rq_income_statement_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=300455.XSHE; if_adjusted=0; first visible 2019q3 and 2019q4 filing rows",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0; Rust CLI; --no-ocr"
+  }
+}

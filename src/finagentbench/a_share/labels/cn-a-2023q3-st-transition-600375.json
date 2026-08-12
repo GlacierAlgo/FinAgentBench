@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2023q3-st-transition-600375",
+  "resolved_at": "2024-04-01",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "new_st_or_star_st_flag": 1,
+      "fy2023_parent_equity": -814580276.71,
+      "fy2023_parent_net_profit": -962688930.49
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["2022-annual-risk-buffer", "2023-q3-thin-equity"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "汉马科技2023年年度报告",
+      "published_at": "2024-03-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-03-29/1219443117.PDF",
+      "fields": ["归属于上市公司股东的净资产", "归属于上市公司股东的净利润"]
+    },
+    {
+      "type": "official_risk_warning_notice",
+      "title": "关于公司股票被实施退市风险警示及叠加其他风险警示暨公司股票停牌的公告",
+      "published_at": "2024-03-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-03-29/1219443094.PDF",
+      "effective_at": "2024-04-01"
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/is_st.parquet", "data/db/special_treatment_info.parquet", "data/db/rq_balance_sheet_pit/quarter=2023q4/data.parquet"],
+      "fields": ["is_st", "type", "description", "equity_parent_company"],
+      "row_policy": "600375.XSHG; is_st false at 2023-10-31 and true at 2024-06-28; special treatment effective 2024-04-01"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2023q3-st-transition-600375",
+  "suite": "a_share_traps_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600375.XSHG",
+    "ticker": "600375",
+    "name_as_of": "汉马科技",
+    "exchange": "SSE"
+  },
+  "as_of": "2023-10-28",
+  "prediction_window": {
+    "end": "2024-06-30",
+    "description": "截至2023年年度报告披露后的首个交易风险警示决定，最晚不超过2024-06-30"
+  },
+  "target": {
+    "event": "new_st_or_star_st_by_2024_06_30",
+    "definition": "公司在as-of时未被实施ST或*ST，并在预测窗口内首次被实施ST或*ST风险警示",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "new_st_or_star_st_flag",
+        "comparison": ">=",
+        "value": 1,
+        "description": "预测窗口内出现新的ST或*ST状态记为1，否则记为0"
+      }
+    ]
+  },
+  "prompt": "你处在2023-10-28收盘后的信息环境，汉马科技当时尚未被实施ST或*ST。请使用冻结搜索工具，结合交易所风险警示规则、前三季度与历史年报、盈利持续性、净资产缓冲和审计风险，预测公司是否会在2024-06-30前首次被实施ST或*ST。不要把亏损本身机械等同于ST；需要识别可能触发的具体规则。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2023-10-28",
+    "allowed_domains": ["cninfo.com.cn", "sse.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["is_st", "special_treatment_info", "rq_balance_sheet_pit", "rq_income_statement_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=600375.XSHG; if_adjusted=0; first visible 2023q3 row; is_st at 2023-10-31 and 2024-06-28",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0; Rust CLI; --no-ocr"
+  }
+}

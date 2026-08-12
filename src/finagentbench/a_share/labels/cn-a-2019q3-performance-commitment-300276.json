@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019q3-performance-commitment-300276",
+  "resolved_at": "2020-04-30",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "promised_profit": 258200000,
+      "actual_commitment_basis_profit": 260239200
+    },
+    "derivations": [
+      {
+        "metric": "performance_commitment_shortfall",
+        "operation": "difference",
+        "inputs": ["promised_profit", "actual_commitment_basis_profit"],
+        "value": -2039200
+      },
+      {
+        "metric": "performance_commitment_shortfall_rate",
+        "operation": "ratio",
+        "inputs": ["performance_commitment_shortfall", "promised_profit"],
+        "value": -0.007897753679318357
+      }
+    ]
+  },
+  "expected_evidence_ids": ["2018-commitment-met", "2019-q3-orders-and-cash"],
+  "outcome_sources": [
+    {
+      "type": "official_special_assurance_report",
+      "title": "三丰智能业绩承诺完成情况审核报告",
+      "published_at": "2020-04-30",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-30/1207679569.PDF",
+      "fields": ["业绩承诺金额", "实际实现金额", "预测完成率"]
+    }
+  ]
+}

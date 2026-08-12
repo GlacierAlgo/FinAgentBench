@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019q3-performance-commitment-300467",
+  "resolved_at": "2020-04-28",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "promised_profit": 324480000,
+      "actual_commitment_basis_profit": 44690003.24
+    },
+    "derivations": [
+      {
+        "metric": "performance_commitment_shortfall",
+        "operation": "difference",
+        "inputs": ["promised_profit", "actual_commitment_basis_profit"],
+        "value": 279789996.76
+      },
+      {
+        "metric": "performance_commitment_shortfall_rate",
+        "operation": "ratio",
+        "inputs": ["performance_commitment_shortfall", "promised_profit"],
+        "value": 0.8622719328155818
+      }
+    ]
+  },
+  "expected_evidence_ids": ["2018-commitment-warning", "2019-q3-consolidated-results"],
+  "outcome_sources": [
+    {
+      "type": "official_special_assurance_report",
+      "title": "关于成都狮之吼科技有限公司2019年度业绩承诺实现情况说明专项审核报告",
+      "published_at": "2020-04-28",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-28/1207642649.PDF",
+      "fields": ["利润预测数", "实际盈利数", "差异"]
+    }
+  ]
+}
