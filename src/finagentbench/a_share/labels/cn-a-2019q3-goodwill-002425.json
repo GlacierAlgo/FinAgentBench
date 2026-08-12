@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2019q3-goodwill-002425",
+  "resolved_at": "2020-04-29",
+  "event_occurred": false,
+  "realized": {
+    "asset_impairment_loss": 79003054.76,
+    "pre_as_of_equity": 4074066394.03,
+    "ratio": 0.019391695450954954
+  },
+  "expected_evidence_ids": ["q3-report", "h1-goodwill-note"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "凯撒文化2019年年度报告",
+      "published_at": "2020-04-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-29/1207663699.PDF"
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_balance_sheet_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q4/data.parquet"],
+      "fields": ["equity_parent_company", "adjust_asset_impairment"],
+      "row_policy": "stock_code=002425.XSHE; if_adjusted=0; earliest info_date"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2019q3-goodwill-300058",
+  "resolved_at": "2020-04-28",
+  "event_occurred": false,
+  "realized": {
+    "asset_impairment_loss": 26037927.96,
+    "pre_as_of_equity": 8708205806.75,
+    "ratio": 0.0029900450836631808
+  },
+  "expected_evidence_ids": ["q3-report", "h1-goodwill-note"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "蓝色光标2019年年度报告",
+      "published_at": "2020-04-28",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-28/1207639736.PDF"
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_balance_sheet_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q4/data.parquet"],
+      "fields": ["equity_parent_company", "adjust_asset_impairment"],
+      "row_policy": "stock_code=300058.XSHE; if_adjusted=0; earliest info_date"
+    }
+  ]
+}

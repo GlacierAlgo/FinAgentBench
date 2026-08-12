@@ -58,6 +58,8 @@ uv sync --dev
 uv run finagentbench validate
 uv run finagentbench list
 uv run finagentbench render goodwill-impairment-risk
+uv run finagentbench a-share validate
+uv run finagentbench a-share list
 uv run pytest tests
 ```
 
@@ -118,6 +120,57 @@ in every run bind results to the exact evidence, labels, and scoring version.
 Free-text explanations remain available for semantic or human review; the
 deterministic score does not pretend to grade private reasoning.
 
+## Real A-share walk-forward slice
+
+Version 0.3 adds six real 2019Q3 A-share scenarios: three companies that later
+recorded material asset impairment and three matched high-goodwill companies
+that did not cross the same threshold. The cases are deliberately balanced so
+that “high goodwill means impairment” is not a winning shortcut.
+
+```bash
+uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
+uv run finagentbench a-share search \
+  cn-a-2019q3-goodwill-300467 '商誉 减值 狮之吼'
+uv run finagentbench a-share score \
+  cn-a-2019q3-goodwill-300467 /path/to/submission.json
+uv run finagentbench a-share benchmark \
+  --model gpt-5.6-sol --model gpt-5.6-terra \
+  --workers 2 --output results/a-share.json \
+  --report-output results/a-share.md
+```
+
+Historical replay never uses today's unrestricted web. It searches a frozen
+corpus of official disclosures published no later than the scenario's as-of
+date. The future annual report and the RQData-derived realized outcome live in
+a separate label file and never enter the agent payload or search corpus.
+
+The primary prediction metric is a proper probability score (Brier loss), not
+only threshold accuracy. Evidence citation F1 is secondary, and the short
+analysis remains available for semantic review. See
+[`docs/a-share-walk-forward.md`](docs/a-share-walk-forward.md) for the data
+contract, leakage boundary, and path from public historical development cases
+to sealed live-shadow evaluation.
+
+### First real-data replay
+
+The first frozen-search run used Codex CLI 0.146.0, low reasoning effort, one
+repeat, and independent sessions for all 18 model-scenario pairs. Every run
+called the frozen search tool and completed successfully. Full answers and
+probabilities are in
+[`results/2026-08-12-a-share-frozen-web-low.json`](results/2026-08-12-a-share-frozen-web-low.json).
+
+| Model | Composite | Brier loss | Log loss | Accuracy |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-5.6 Terra | 94.32 | 0.0668 | 0.2816 | 100.0% |
+| GPT-5.6 Sol | 92.74 | 0.0854 | 0.3328 | 100.0% |
+| GPT-5.6 Luna | 90.75 | 0.1088 | 0.3737 | 83.3% |
+
+Unlike the synthetic smoke suite, this slice separates the three configurations
+on probability quality. Luna's one threshold error was a 0.56 event forecast
+for the no-event 蓝色光标 case. Six public cases still cannot support a stable
+model ranking or calibration claim; the result is evidence that the replay
+contract works and that matched controls prevent a trivial always-event rule.
+
 ## First measured baseline
 
 The first controlled run used Codex CLI 0.146.0, low reasoning effort, one
@@ -142,6 +195,7 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
+- six real A-share walk-forward scenarios with frozen official-search corpora;
 - case validation, rubric-free prompt rendering, and deterministic scoring;
 - a controlled Codex CLI matrix runner with raw answer and token capture;
 - reproducible case-suite hashes, Markdown reports, focused tests, and CI.

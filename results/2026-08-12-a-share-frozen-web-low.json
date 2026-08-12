@@ -1,0 +1,714 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T06:01:12.885807+00:00",
+  "completed_at": "2026-08-12T06:06:47.314785+00:00",
+  "duration_seconds": 334.429,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen official CNINFO corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 6,
+    "repeats": 1,
+    "case_suite_sha256": "d2673f02f6d75b2ef804d448bdd7182db822f3c5eb5704bc21b08acb7f8d2d22"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002425",
+      "case_sha256": "ec920b6600ea4595c4b4d52d0cc5d69ebf1dd2963a42556e1b69d90998d3afde",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.202,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.28,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "截至2019-09-30归母权益约40.74亿元，阈值约4.07亿元。三季报显示1-9月归母净利润约2.03亿元、经营现金流净额约1.35亿元；半年报商誉减值准备表未列示期初或本期计提金额。尽管商誉余额约22.35亿元、存在潜在减值暴露，但冻结证据未显示截至时点已有明显经营恶化或减值迹象，因此判断2019年报资产减值损失超过阈值的概率较低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44087,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 580,
+        "reasoning_output_tokens": 99
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002681",
+      "case_sha256": "768fe67f868bbde688c37b44b49f5cfff5ab4f1d530414e7686a115018534d95",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 23.441,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.82,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "截至2019-09-30归母权益为53.59亿元，10%阈值约5.36亿元；公司仍有27.997亿元商誉，且半年报显示商誉原值高度集中于欧朋达、富诚达两个并购资产组，年末需按资产组可收回金额进行减值测试。商誉规模及集中度使年度确认超过阈值的减值风险较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 97.246,
+        "brier_score": 96.76,
+        "brier_loss": 0.0324,
+        "log_loss": 0.19845094,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44536,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 531,
+        "reasoning_output_tokens": 117
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002739",
+      "case_sha256": "70c0df7086c736f617d8b0596a4ab8f25c653775c6aa6dadaf27547127731dc6",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.733,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.82,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "2019Q3归母权益为195.17亿元，10%阈值约19.52亿元；期末商誉134.53亿元，约为权益的68.9%。截至2019-10-30，公司收入同比下降7.45%、归母净利润下降57.25%、经营现金流下降45.78%，显示相关资产组盈利与现金流承压；半年报亦披露年末需进行商誉减值测试。基于商誉规模、业绩恶化和年末集中测试，判断2019年报确认超过阈值的重大减值概率较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 97.246,
+        "brier_score": 96.76,
+        "brier_loss": 0.0324,
+        "log_loss": 0.19845094,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 61978,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 740,
+        "reasoning_output_tokens": 163
+      },
+      "event_count": 14
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300058",
+      "case_sha256": "31691d45e786f91d2494025880cd59ffc3007b2a3e02d1672f71cb362908739e",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.129,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.56,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "截至2019-09-30商誉账面额约49.11亿元，归母权益约87.08亿元，10%阈值约8.71亿元；商誉规模足以形成重大减值。半年报已确认商誉减值准备约2.89亿元，且商誉分散于多个资产组、年末需重新进行可收回金额测试。尽管前三季度收入、归母净利润及经营现金流为正，公开证据仍显示存在较高的年末集中减值风险，故略偏向超过阈值。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 73.344,
+        "brier_score": 68.64,
+        "brier_loss": 0.3136,
+        "log_loss": 0.82098055,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 59431,
+        "cached_input_tokens": 41216,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 823,
+        "reasoning_output_tokens": 321
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300276",
+      "case_sha256": "2f190c4125f5f7564df212eaa22fbd725fc2acfa09cd888ddd956b9fb4251d02",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.635,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "截至2019-10-19，2019Q3归母权益为36.94亿元，10%阈值约3.69亿元；商誉为20.72亿元，确有较大的潜在减值暴露。但三季报显示1-9月归母净利润1.84亿元、同比上升0.49%，主营业务平稳增长、在手订单含税34.21亿元，并预计部分项目于四季度验收；半年报披露商誉主要来自上海鑫燕隆且未提示已发生明显恶化。基于冻结证据，暂判年度确认超过阈值的资产减值损失概率低于50%。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44194,
+        "cached_input_tokens": 27136,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 673,
+        "reasoning_output_tokens": 176
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300467",
+      "case_sha256": "f0d834fa8a8a39a40d38223a8feaf6cd0d2e75417cc876ceaf8c2fe7fb301905",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 138.25,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.86,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "截至2019-09-30归母权益为23.44亿元，10%阈值约2.34亿元；公司仍有14.17亿元商誉，且商誉集中于单一并购资产组。半年报显示该资产组商誉原值22.70亿元、此前已计提8.53亿元减值，表明后续减值暴露较高；因此预计2019年年报确认的资产减值损失超过2.34亿元。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 98.334,
+        "brier_score": 98.04,
+        "brier_loss": 0.0196,
+        "log_loss": 0.15082289,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44116,
+        "cached_input_tokens": 40192,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 654,
+        "reasoning_output_tokens": 181
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002425",
+      "case_sha256": "ec920b6600ea4595c4b4d52d0cc5d69ebf1dd2963a42556e1b69d90998d3afde",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 43.833,
+      "search_calls": 8,
+      "submission": {
+        "event_probability": 0.22,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为4.074亿元（2019Q3归母权益40.741亿元的10%）。截至2019年三季度，公司商誉22.352亿元，虽占归母权益约54.9%，构成显著潜在风险，但要触发本题事件需确认相当于商誉约18.2%的减值。2019年半年报商誉减值准备未列示期初或本期计提，三季度末商誉金额亦未下降；同时前三季度归母净利润2.031亿元、经营现金流净额1.346亿元，未显示足以支持超4亿元年度减值的明确恶化信号。因此判断不超过阈值，但因商誉规模很大保留22%的事件概率。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 95.886,
+        "brier_score": 95.16,
+        "brier_loss": 0.0484,
+        "log_loss": 0.24846136,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 69265,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 871,
+        "reasoning_output_tokens": 100
+      },
+      "event_count": 23
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002681",
+      "case_sha256": "768fe67f868bbde688c37b44b49f5cfff5ab4f1d530414e7686a115018534d95",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 38.309,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为5.36亿元（2019Q3归母权益53.59亿元的10%）。截至三季末商誉净额约28.00亿元，超过归母权益一半；半年报显示商誉原值约34.56亿元，且高度集中于欧朋达、富诚达两个并购资产组，年末须进行减值测试。虽然前三季度公司仍盈利且经营现金流为正，降低了巨额减值的确定性，但只需现有商誉约19%发生减值便会越过阈值，集中度和敞口使重大减值风险略高于不发生。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 66621,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 729,
+        "reasoning_output_tokens": 78
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002739",
+      "case_sha256": "70c0df7086c736f617d8b0596a4ab8f25c653775c6aa6dadaf27547127731dc6",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 31.335,
+      "search_calls": 6,
+      "submission": {
+        "event_probability": 0.62,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为19.52亿元（2019Q3归母权益195.17亿元的10%）。截至三季度末，公司商誉高达134.53亿元，约为阈值的6.9倍；半年报同时显示商誉集中于多个金额较大的资产组，并明确年末进行减值测试。2019年前三季度归母净利润同比下降57.25%、经营现金流下降45.78%，构成资产组盈利能力和估值假设恶化的显著迹象。只需约14.5%的期末商誉发生减值即可越过阈值，因此判断事件发生的可能性略高于不发生，但因当期仍盈利且披露中未明确预告大额减值，概率不设得更高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 67179,
+        "cached_input_tokens": 46336,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 877,
+        "reasoning_output_tokens": 174
+      },
+      "event_count": 17
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300058",
+      "case_sha256": "31691d45e786f91d2494025880cd59ffc3007b2a3e02d1672f71cb362908739e",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 31.867,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.18,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值为2019Q3归母权益87.082亿元的10%，约8.71亿元。公司前三季度归母净利润6.28亿元、经营现金流净额3.57亿元，未呈现足以支持如此大额年度减值的明显经营崩塌；但期末商誉约49.11亿元，风险敞口较大。半年报显示商誉分散于多个资产组、累计减值准备仅2.89亿元，且须在年末按可收回金额测试。综合判断存在年末商誉减值风险，但新增资产减值损失超过8.71亿元的概率较低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 97.246,
+        "brier_score": 96.76,
+        "brier_loss": 0.0324,
+        "log_loss": 0.19845094,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 85011,
+        "cached_input_tokens": 75520,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 855,
+        "reasoning_output_tokens": 107
+      },
+      "event_count": 17
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300276",
+      "case_sha256": "2f190c4125f5f7564df212eaa22fbd725fc2acfa09cd888ddd956b9fb4251d02",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.516,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.18,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为3.694亿元（2019Q3归母权益36.938亿元的10%）。公司商誉20.718亿元，主要集中于上海鑫燕隆，虽构成潜在减值风险，但截至2019Q3，公司前三季度归母净利润同比仍增长0.49%，在手含税订单34.21亿元，且预计部分项目于四季度验收，未见足以支持年报确认超过阈值减值的明确经营恶化迹象。达到阈值相当于主要商誉约18%的减值，基于当时披露判断概率较低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 97.246,
+        "brier_score": 96.76,
+        "brier_loss": 0.0324,
+        "log_loss": 0.19845094,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 51757,
+        "cached_input_tokens": 32256,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 758,
+        "reasoning_output_tokens": 177
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300467",
+      "case_sha256": "f0d834fa8a8a39a40d38223a8feaf6cd0d2e75417cc876ceaf8c2fe7fb301905",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 32.338,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "2019Q3归母权益为23.437亿元，对应事件阈值约2.344亿元。期末商誉净额14.173亿元，约为阈值的6倍，且全部集中于狮之吼资产组；该商誉原值22.701亿元，此前已计提8.528亿元减值，说明该资产组已出现显著估值下修。虽然前三季度归母净利润1.178亿元、经营现金流1.329亿元，构成反向证据，但相对于集中且已有大额减值历史的商誉敞口，年末再次减值超过2.344亿元的风险仍较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 65899,
+        "cached_input_tokens": 58368,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 881,
+        "reasoning_output_tokens": 147
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002425",
+      "case_sha256": "ec920b6600ea4595c4b4d52d0cc5d69ebf1dd2963a42556e1b69d90998d3afde",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 47.598,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.16,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为4.07亿元（2019Q3归母权益40.74亿元的10%）。截至9月末，公司商誉22.35亿元且半年报商誉减值准备未列示期初或本期计提；同时1—9月归母净利润2.03亿元、经营现金流净额1.35亿元，未见已披露的重大经营恶化信号。虽商誉规模很高且集中于三项游戏/内容业务，存在年末测试风险，但仅据截至2019-10-25的正式披露，确认超过阈值减值的概率较低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 97.824,
+        "brier_score": 97.44,
+        "brier_loss": 0.0256,
+        "log_loss": 0.17435339,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 122695,
+        "cached_input_tokens": 98816,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1075,
+        "reasoning_output_tokens": 225
+      },
+      "event_count": 16
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002681",
+      "case_sha256": "768fe67f868bbde688c37b44b49f5cfff5ab4f1d530414e7686a115018534d95",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 54.846,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.86,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "10%阈值约为5.36亿元（2019Q3归母权益53.59亿元）。半年报商誉原值34.56亿元且高度集中于富诚达、欧朋达两个并购资产组；三季报商誉已降至28.00亿元，较该余额少约6.56亿元，已超过阈值。商誉集中度高且年末仍须按资产组可收回金额测试，故判断年报确认超过阈值的资产减值损失概率较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 98.334,
+        "brier_score": 98.04,
+        "brier_loss": 0.0196,
+        "log_loss": 0.15082289,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 86160,
+        "cached_input_tokens": 49408,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1028,
+        "reasoning_output_tokens": 313
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-002739",
+      "case_sha256": "70c0df7086c736f617d8b0596a4ab8f25c653775c6aa6dadaf27547127731dc6",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 32.928,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为19.52亿元归母权益的10%（约19.5亿元）。截至三季度，公司商誉高达134.53亿元，且主要商誉资产组中多个单项规模已接近或超过阈值；公司披露将在年末逐项进行商誉减值测试。同期收入同比下降7.45%、归母净利下降57.25%、经营现金流下降45.78%，显示盈利与现金流显著承压，因此年末确认超过阈值的资产减值损失概率较高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 67043,
+        "cached_input_tokens": 46336,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 791,
+        "reasoning_output_tokens": 246
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300058",
+      "case_sha256": "31691d45e786f91d2494025880cd59ffc3007b2a3e02d1672f71cb362908739e",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.34,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.15,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为8.71亿元（2019Q3归母权益87.08亿元的10%）。截至三季度，公司1—9月归母净利润6.28亿元且仍有正经营现金流，未见已披露的重大经营恶化信号；虽商誉余额49.11亿元、资产组较多且年末须进行减值测试，但据此判断年报确认超过8.71亿元的大额资产减值概率较低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 98.0875,
+        "brier_score": 97.75,
+        "brier_loss": 0.0225,
+        "log_loss": 0.16251893,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 66078,
+        "cached_input_tokens": 46336,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 545,
+        "reasoning_output_tokens": 62
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300276",
+      "case_sha256": "2f190c4125f5f7564df212eaa22fbd725fc2acfa09cd888ddd956b9fb4251d02",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 44.871,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "阈值约为3.69亿元（2019Q3归母权益36.94亿元的10%）。商誉20.72亿元且几乎集中于上海鑫燕隆，风险敞口很高；但截至时点披露的1—9月归母净利同比微增、在手订单34.21亿元，并称主营平稳增长及部分项目将于四季度验收。现有正式披露未显示足以支持超过阈值减值的明确触发迹象，故判断不发生，但保留较高尾部风险。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 102822,
+        "cached_input_tokens": 93696,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1187,
+        "reasoning_output_tokens": 418
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2019q3-goodwill-300467",
+      "case_sha256": "f0d834fa8a8a39a40d38223a8feaf6cd0d2e75417cc876ceaf8c2fe7fb301905",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 42.348,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.72,
+        "prediction": "event",
+        "evidence_ids": [
+          "q3-report",
+          "h1-goodwill-note"
+        ],
+        "analysis_summary": "10%阈值约为2.34亿元（2019Q3归母权益23.44亿元）。截至9月末，公司仍有14.17亿元商誉，且集中于狮之吼并购资产组；该资产组此前已计提8.53亿元大额商誉减值，显示其估值与经营兑现风险持续且单一集中。虽前三季度归母净利1.18亿元、经营现金流为正，未直接显示当期减值，但不足以消除年末对该重大资产组复核后确认超过阈值减值的风险，因此判断更可能发生。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 93.336,
+        "brier_score": 92.16,
+        "brier_loss": 0.0784,
+        "log_loss": 0.32850407,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 86428,
+        "cached_input_tokens": 64512,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1164,
+        "reasoning_output_tokens": 364
+      },
+      "event_count": 13
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 6,
+      "failed": 0,
+      "mean_score": 90.752,
+      "mean_brier_loss": 0.1088,
+      "mean_log_loss": 0.373656,
+      "classification_accuracy": 0.833333,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 46.731667,
+      "input_tokens": 298342,
+      "cached_input_tokens": 206080,
+      "output_tokens": 4001
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 6,
+      "failed": 0,
+      "mean_score": 92.741,
+      "mean_brier_loss": 0.0854,
+      "mean_log_loss": 0.332772,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 34.699667,
+      "input_tokens": 405732,
+      "cached_input_tokens": 291072,
+      "output_tokens": 4971
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 6,
+      "failed": 0,
+      "mean_score": 94.320583,
+      "mean_brier_loss": 0.066817,
+      "mean_log_loss": 0.281572,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 42.155167,
+      "input_tokens": 531226,
+      "cached_input_tokens": 399104,
+      "output_tokens": 5790
+    }
+  ]
+}

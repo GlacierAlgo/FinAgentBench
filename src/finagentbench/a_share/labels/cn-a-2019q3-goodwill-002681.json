@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2019q3-goodwill-002681",
+  "resolved_at": "2020-04-30",
+  "event_occurred": true,
+  "realized": {
+    "asset_impairment_loss": 3152473982.19,
+    "pre_as_of_equity": 5358780810.08,
+    "ratio": 0.5882819420902826
+  },
+  "expected_evidence_ids": ["q3-report", "h1-goodwill-note"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "奋达科技2019年年度报告",
+      "published_at": "2020-04-30",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-30/1207687470.PDF"
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_balance_sheet_pit/quarter=2019q3/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q4/data.parquet"],
+      "fields": ["equity_parent_company", "adjust_asset_impairment"],
+      "row_policy": "stock_code=002681.XSHE; if_adjusted=0; earliest info_date"
+    }
+  ]
+}

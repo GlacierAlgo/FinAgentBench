@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "finagentbench"
-version = "0.2.0"
+version = "0.3.0"
 description = "Evidence-grounded financial reasoning benchmarks for agentic LLM harnesses"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -20,7 +20,12 @@ finagentbench = "finagentbench.cli:main"
 dev = ["pytest>=8,<9", "ruff>=0.11,<1"]
 
 [tool.setuptools.package-data]
-finagentbench = ["cases/*.json"]
+finagentbench = [
+  "cases/*.json",
+  "a_share/scenarios/*.json",
+  "a_share/corpora/*.json",
+  "a_share/labels/*.json",
+]
 
 [tool.pytest.ini_options]
 addopts = "-q"
