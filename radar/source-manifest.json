@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "title": "FinAgentBench A-share Reasoning Radar",
+  "subtitle": "Point-in-time financial prediction with frozen official disclosures",
+  "suites": [
+    {
+      "id": "goodwill",
+      "title": "商誉减值",
+      "result_path": "results/2026-08-12-a-share-frozen-web-low.json"
+    },
+    {
+      "id": "financial-traps",
+      "title": "财务陷阱",
+      "result_path": "results/2026-08-12-a-share-traps-frozen-web-low.json"
+    },
+    {
+      "id": "business-decisions",
+      "title": "商业兑现",
+      "result_path": "results/2026-08-12-business-decisions-frozen-web-low.json"
+    }
+  ],
+  "family_labels": {
+    "goodwill": {
+      "label": "商誉/资产减值",
+      "events": ["material_asset_impairment"]
+    },
+    "pledge-control": {
+      "label": "质押与控制权",
+      "events": ["control_transfer_after_high_pledge_risk"]
+    },
+    "inventory": {
+      "label": "存货跌价",
+      "events": ["material_inventory_write_down"]
+    },
+    "performance-commitment": {
+      "label": "业绩承诺",
+      "events": ["material_performance_commitment_shortfall"]
+    },
+    "receivables": {
+      "label": "应收与信用减值",
+      "events": ["large_incremental_q4_credit_impairment"]
+    },
+    "audit-opinion": {
+      "label": "审计意见",
+      "events": ["modified_financial_statement_audit_opinion"]
+    },
+    "st-transition": {
+      "label": "ST 规则",
+      "events": ["new_st_or_star_st_by_2024_06_30"]
+    },
+    "rd-validation": {
+      "label": "研发商业兑现",
+      "events": [
+        "pre_listing_rnd_commercial_validation_by_fy2022",
+        "pre_listing_rnd_commercial_validation_by_fy2024"
+      ]
+    },
+    "factory-validation": {
+      "label": "扩产商业兑现",
+      "events": [
+        "announced_factory_commercial_validation_by_fy2022",
+        "announced_factory_commercial_validation_by_fy2024"
+      ]
+    }
+  },
+  "methodology": [
+    "Historical replay only: each search corpus stops at the scenario as-of date.",
+    "Primary probability diagnostic is mean Brier loss; lower is better.",
+    "Public replay results are development diagnostics, not a formal leaderboard.",
+    "Formal ranking requires a matured pre-registered sealed hard-case suite."
+  ]
+}

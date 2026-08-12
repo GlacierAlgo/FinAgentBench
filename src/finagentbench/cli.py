@@ -18,6 +18,7 @@ from finagentbench.live_shadow import (
     verify_live_shadow_resolution,
     verify_live_shadow_seal,
 )
+from finagentbench.radar import build_radar_data, render_radar_data_js
 from finagentbench.runner import (
     render_markdown_report,
     run_adapter_matrix,
@@ -452,6 +453,45 @@ def a_share_benchmark(
         report_output.parent.mkdir(parents=True, exist_ok=True)
         report_output.write_text(render_walkforward_report(run), encoding="utf-8")
         click.echo(f"Wrote {report_output}")
+
+
+@main.group("radar")
+def radar_group() -> None:
+    """Build the offline public benchmark radar."""
+
+
+@radar_group.command("build")
+@click.option(
+    "--repo-root",
+    type=click.Path(path_type=Path, file_okay=False),
+    default=Path.cwd(),
+    show_default=True,
+)
+@click.option(
+    "--manifest",
+    type=click.Path(path_type=Path, dir_okay=False),
+    default=Path("radar/source-manifest.json"),
+    show_default=True,
+)
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    default=Path("radar/data.js"),
+    show_default=True,
+)
+def radar_build(repo_root: Path, manifest: Path, output: Path) -> None:
+    """Compile committed result artifacts into an offline JavaScript payload."""
+    try:
+        payload = build_radar_data(repo_root, manifest)
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(render_radar_data_js(payload), encoding="utf-8")
+    click.echo(
+        f"Wrote {payload['coverage']['case_count']} cases and "
+        f"{payload['coverage']['attempt_count']} attempts to {output}: "
+        f"{payload['data_sha256']}"
+    )
 
 
 @main.group("suite")

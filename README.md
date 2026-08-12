@@ -9,6 +9,12 @@ formula. The agent must reject false premises, connect accounting and business
 facts through a causal chain, identify missing evidence, and express an
 appropriately calibrated prediction.
 
+**[Open the public A-share reasoning radar →](https://glacieralgo.github.io/FinAgentBench/)**
+
+The radar currently presents 22 real A-share historical replays and 66 model
+attempts as development diagnostics. It explicitly keeps the formal sealed
+leaderboard empty until a pre-registered future cohort has matured.
+
 > Example: “A company has a lot of goodwill, so its future depreciation will be
 > high.” A strong agent should reject the premise: goodwill is generally not
 > depreciated. The economically relevant risk is a future **impairment**, and a
@@ -60,6 +66,7 @@ uv run finagentbench list
 uv run finagentbench render goodwill-impairment-risk
 uv run finagentbench a-share validate
 uv run finagentbench a-share list
+uv run finagentbench radar build
 uv run finagentbench shadow --help
 uv run pytest tests
 ```
@@ -88,6 +95,12 @@ case gets an independent ephemeral session, a read-only sandbox, no external
 data, and a JSON Schema-constrained final answer.
 
 Version 0.8 adds the provider-neutral `finagentbench-stdio-v1` harness contract.
+
+Version 0.10 adds a dependency-free public radar generated from committed result
+artifacts. It compares Brier loss across models, task suites and nine financial
+logic families; exposes per-case event probabilities; and keeps experiment
+identity and coverage visible beside the plots. Open `radar/index.html` directly
+or rebuild `radar/data.js` with `finagentbench radar build`.
 An external adapter receives only the outcome-free prompt and schema, then
 returns a structured submission, usage, tool counts, and compact event metadata.
 Its manifest hash, runtime version, sandbox, external-data policy, session
@@ -369,13 +382,14 @@ The repository now includes:
 - case validation, rubric-free prompt rendering, and deterministic scoring;
 - controlled Codex CLI runners plus a provider-neutral stdio adapter contract
   and restricted OpenCode reference adapter;
+- an offline-capable public radar with reproducible artifact hashes, family-level
+  diagnostics, case filtering, and an explicit sealed-ranking eligibility gate;
 - reproducible case-suite hashes, Markdown reports, focused tests, and CI.
 
-The intended next layers are a server-side verifier for sealed cases and a
-public radar that compares
-accuracy, calibration, cost, latency, and stability over time. Distributed task
-claims and community leaderboards belong in that service layer, not in the case
-format.
+The intended next layer is a server-side verifier for sealed cases. Once
+pre-registered live-shadow cohorts mature, the radar can add stability, cost and
+formal ranking without trusting client-reported scores. Distributed task claims
+and community leaderboards belong in that service layer, not in the case format.
 
 ## Design principles
 
