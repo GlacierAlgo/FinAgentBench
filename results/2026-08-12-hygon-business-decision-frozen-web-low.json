@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T06:25:27.321647+00:00",
+  "completed_at": "2026-08-12T06:26:19.587158+00:00",
+  "duration_seconds": 52.266,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen official-disclosure corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 1,
+    "repeats": 1,
+    "case_suite_sha256": "8270063389d3b0fbbe7779d062c8d0a35dca11e36ed1be8e55032187137a7773"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2022-hygon-rd-commercial-validation",
+      "case_sha256": "2ac15a5827d7cad9b1380511fe110880fba32539445824a39a53d2e0047c048b",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.351,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.68,
+        "prediction": "event",
+        "evidence_ids": [
+          "listing-announcement-risk-financials",
+          "registration-feedback-product-roadmap",
+          "ipo-inquiry-commercialization"
+        ],
+        "analysis_summary": "截至2022-08-11，海光信息已实现2021年收入23.10亿元、毛利率约56%，且DCU开始规模销售；CPU已在政府、运营商、银行等场景应用，深算一号已量产并规模化应用，约21亿元在手订单及多家整机厂适配支持后续放量。若2021-2024年收入保持约30%以上复合增长，收入门槛和50%毛利率门槛具有较高可达性。主要下行风险是客户及关联交易高度集中、关联方订单占比较高，前三年客户集中度超过90%，实体清单导致晶圆、EDA、IP和工艺迭代受限，且高研发资本化、供应与产能风险可能削弱现金流。因此判断三项条件同时满足的概率偏高但非确定，尤其经营现金流是最不确定项；该判断是结果规则预测，不将研发投入与收入增长视为已证明的因果关系。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 48879,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 700,
+        "reasoning_output_tokens": 129
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2022-hygon-rd-commercial-validation",
+      "case_sha256": "2ac15a5827d7cad9b1380511fe110880fba32539445824a39a53d2e0047c048b",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 41.613,
+      "search_calls": 7,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "listing-announcement-risk-financials",
+          "registration-feedback-product-roadmap",
+          "ipo-inquiry-commercialization"
+        ],
+        "analysis_summary": "以2021年收入23.10亿元计算，2024年达到30% CAGR要求收入至少约50.76亿元。正面证据是2021年毛利率约55.95%，已高于50%门槛；截至2022年1月在手订单约21.07亿元；CPU/DCU已有规模销售、整机厂适配和金融电信等终端验证，后续代际产品亦在验证或研发中，兼容x86及类CUDA生态有助于商业推广。主要下调因素是Intel与AMD占据95%以上市场、产品仍需复杂适配认证，且前三年前五大客户收入占比均超91%、关联订单和销售占比较高；实体清单还可能制约流片、EDA、IP、工艺迭代及产能。同时，高研发资本化和无形资产减值风险削弱财务质量，现有证据也不足以确认2024年经营现金流必然为正。综合判断三项条件同时实现略高于五成，但现金流、供应链及集中度使联合事件存在显著落空风险；该判断仅预测可审计结果，不主张研发投入与收入增长之间存在已证明的唯一因果关系。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 77823,
+        "cached_input_tokens": 58368,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 982,
+        "reasoning_output_tokens": 120
+      },
+      "event_count": 21
+    },
+    {
+      "scenario_id": "cn-a-2022-hygon-rd-commercial-validation",
+      "case_sha256": "2ac15a5827d7cad9b1380511fe110880fba32539445824a39a53d2e0047c048b",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 51.861,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.6,
+        "prediction": "event",
+        "evidence_ids": [
+          "listing-announcement-risk-financials",
+          "registration-feedback-product-roadmap",
+          "ipo-inquiry-commercialization"
+        ],
+        "analysis_summary": "判断为事件发生。2021年收入23.10亿元、毛利12.93亿元，隐含毛利率约55.9%，已高于目标毛利门槛；截至2022年1月在手订单约21亿元，且CPU/DCU已有量产、规模销售、整机厂适配及金融、电信等终端应用，产品迭代与生态验证支持未来三年收入扩张和经营现金流转正的可能性。收入需在2024年约达50.8亿元才满足30% CAGR，门槛不低，故仅给中等偏上概率。下调因素是客户及关联销售高度集中、仅少数产品已商业化、强研发资本化带来财务质量与减值风险，以及实体清单对流片、EDA/IP和供应链的约束；这些因素使订单和产品进展不能视为对三项财务结果的因果证明。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 86.4,
+        "brier_score": 84.0,
+        "brier_loss": 0.16,
+        "log_loss": 0.51082562,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 114018,
+        "cached_input_tokens": 97792,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1259,
+        "reasoning_output_tokens": 181
+      },
+      "event_count": 13
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 1,
+      "failed": 0,
+      "mean_score": 91.296,
+      "mean_brier_loss": 0.1024,
+      "mean_log_loss": 0.385662,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 29.351,
+      "input_tokens": 48879,
+      "cached_input_tokens": 29184,
+      "output_tokens": 700
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 1,
+      "failed": 0,
+      "mean_score": 85.006,
+      "mean_brier_loss": 0.1764,
+      "mean_log_loss": 0.544727,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 41.613,
+      "input_tokens": 77823,
+      "cached_input_tokens": 58368,
+      "output_tokens": 982
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 1,
+      "failed": 0,
+      "mean_score": 86.4,
+      "mean_brier_loss": 0.16,
+      "mean_log_loss": 0.510826,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 51.861,
+      "input_tokens": 114018,
+      "cached_input_tokens": 97792,
+      "output_tokens": 1259
+    }
+  ]
+}

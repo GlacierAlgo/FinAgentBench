@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 import pytest
 
@@ -10,6 +11,7 @@ from finagentbench.cli import (
 )
 from finagentbench.walkforward import (
     FrozenCorpus,
+    WalkForwardLabel,
     load_walkforward_suite,
     score_walkforward_submission,
 )
@@ -28,11 +30,17 @@ def _cases():
     )
 
 
-def test_builtin_a_share_suite_is_balanced_and_point_in_time() -> None:
+def test_builtin_goodwill_slice_is_balanced_and_all_cases_are_point_in_time() -> None:
     cases = _cases()
+    goodwill_cases = tuple(
+        case
+        for case in cases
+        if case.scenario.suite == "a_share_walk_forward_v1"
+    )
 
-    assert len(cases) == 6
-    assert sum(case.label.event_occurred for case in cases) == 3
+    assert len(cases) == 7
+    assert len(goodwill_cases) == 6
+    assert sum(case.label.event_occurred for case in goodwill_cases) == 3
     for case in cases:
         assert all(
             document.published_at <= case.scenario.as_of
@@ -47,6 +55,60 @@ def test_agent_payload_does_not_expose_outcome_or_rqdata_provenance() -> None:
     assert "resolved_at" not in rendered
     assert "asset_impairment_loss" not in rendered
     assert "download_rqdata" not in rendered
+
+
+def test_hygon_business_decision_case_has_generic_auditable_outcome() -> None:
+    case = next(
+        item
+        for item in _cases()
+        if item.scenario.id == "cn-a-2022-hygon-rd-commercial-validation"
+    )
+
+    assert case.scenario.schema_version == 2
+    assert case.scenario.criteria_mode == "all"
+    assert {item.metric for item in case.scenario.criteria} == {
+        "revenue_cagr_2021_2024",
+        "gross_margin_2024",
+        "operating_cash_flow_2024",
+    }
+    assert case.label.event_occurred
+    assert case.label.realized_metrics["revenue_cagr_2021_2024"] == pytest.approx(
+        0.5828353892403499
+    )
+    assert case.label.realized_metrics["gross_margin_2024"] == pytest.approx(
+        0.6372019640046754
+    )
+
+    rendered = json.dumps(case.scenario.agent_payload(), ensure_ascii=False)
+    assert "revenue_2024" not in rendered
+    assert "event_occurred" not in rendered
+    assert "rqdata" not in rendered.lower()
+
+
+def test_generic_label_rejects_a_tampered_derived_metric() -> None:
+    case = next(
+        item
+        for item in _cases()
+        if item.scenario.id == "cn-a-2022-hygon-rd-commercial-validation"
+    )
+    payload = {
+        "schema_version": case.label.schema_version,
+        "scenario_id": case.label.scenario_id,
+        "resolved_at": case.label.resolved_at.isoformat(),
+        "event_occurred": case.label.event_occurred,
+        "realized": deepcopy(case.label.realized),
+        "expected_evidence_ids": list(case.label.expected_evidence_ids),
+        "outcome_sources": list(case.label.outcome_sources),
+    }
+    payload["realized"]["derivations"][0]["value"] = 0.1
+
+    with pytest.raises(CaseValidationError, match="does not match cagr"):
+        WalkForwardLabel.from_dict(
+            payload,
+            scenario=case.scenario,
+            corpus=case.corpus,
+            source="tampered-label",
+        )
 
 
 def test_frozen_search_finds_relevant_pre_as_of_filings() -> None:

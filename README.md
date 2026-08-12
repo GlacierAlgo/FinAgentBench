@@ -122,10 +122,18 @@ deterministic score does not pretend to grade private reasoning.
 
 ## Real A-share walk-forward slice
 
-Version 0.3 adds six real 2019Q3 A-share scenarios: three companies that later
+Version 0.3 added six real 2019Q3 A-share scenarios: three companies that later
 recorded material asset impairment and three matched high-goodwill companies
 that did not cross the same threshold. The cases are deliberately balanced so
 that “high goodwill means impairment” is not a winning shortcut.
+
+Version 0.4 adds the first business-decision-quality case. Starting from 海光信息
+on 2022-08-11, an agent must decide whether the company's unusually intensive
+pre-listing R&D and CPU/DCU product roadmap will receive later commercial
+validation. The predeclared FY2024 outcome requires all three of: at least 30%
+revenue CAGR from 2021, at least 50% gross margin, and positive operating cash
+flow. This measures later validation under an auditable rule; it does not claim
+that R&D alone caused the outcome and it does not score stock return.
 
 ```bash
 uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
@@ -171,6 +179,26 @@ for the no-event 蓝色光标 case. Six public cases still cannot support a stab
 model ranking or calibration claim; the result is evidence that the replay
 contract works and that matched controls prevent a trivial always-event rule.
 
+### First business-decision replay
+
+The first 海光信息 replay used the same controlled frozen-search harness. All
+three models cited the product roadmap, commercialization/ordering evidence,
+and risk disclosures, and all predicted the realized event. Their probabilities
+still differed materially:
+
+| Model | Event probability | Brier loss | Searches |
+| --- | ---: | ---: | ---: |
+| GPT-5.6 Luna | 0.68 | 0.1024 | 4 |
+| GPT-5.6 Terra | 0.60 | 0.1600 | 3 |
+| GPT-5.6 Sol | 0.58 | 0.1764 | 7 |
+
+Full outputs are in
+[`results/2026-08-12-hygon-business-decision-frozen-web-low.json`](results/2026-08-12-hygon-business-decision-frozen-web-low.json).
+One public case is not a ranking or calibration sample. Its value is showing
+that the contract can test a joint operating outcome and that models identify
+cash conversion, customer concentration, and supply-chain constraints instead
+of treating high R&D as sufficient evidence.
+
 ## First measured baseline
 
 The first controlled run used Codex CLI 0.146.0, low reasoning effort, one
@@ -195,7 +223,8 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- six real A-share walk-forward scenarios with frozen official-search corpora;
+- seven real A-share walk-forward scenarios with frozen official-search corpora,
+  including six matched impairment cases and one business-decision case;
 - case validation, rubric-free prompt rendering, and deterministic scoring;
 - a controlled Codex CLI matrix runner with raw answer and token capture;
 - reproducible case-suite hashes, Markdown reports, focused tests, and CI.

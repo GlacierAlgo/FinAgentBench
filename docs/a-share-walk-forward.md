@@ -20,7 +20,7 @@ Historical cases must not use today's unrestricted search results: a result
 title, snippet, revised filing, company rename, or retrospective article can
 reveal the later event even when the agent never opens the page.
 
-## Version 1 target
+## Version 1 impairment target
 
 The first slice asks whether the asset-impairment loss confirmed in the 2019
 annual report exceeds 10% of equity attributable to the parent at 2019Q3. It has
@@ -62,6 +62,36 @@ separate. Validation rejects future-dated corpus documents, non-allowlisted
 domains, label dates outside the prediction window, mismatched scenario IDs,
 and outcome ratios that do not recompute from the stored numerator and
 denominator.
+
+## Version 2 generic outcome target
+
+Business decisions rarely resolve to one accounting line. Schema version 2
+therefore declares one or more numeric criteria and whether `all` or `any` must
+hold. Labels preserve raw observations and machine-checkable derivations such
+as ratios, margins, differences, percentage changes, and CAGR. Validation
+recomputes every derived metric and then recomputes the event label from the
+scenario's published criteria.
+
+The first case starts from 海光信息 on 2022-08-11. It asks whether the company's
+pre-listing R&D and CPU/DCU product roadmap will receive commercial validation
+by FY2024. The event requires all of:
+
+- 2021-2024 revenue CAGR of at least 30%;
+- FY2024 gross margin of at least 50%;
+- positive FY2024 operating cash flow.
+
+The frozen evidence includes the official IPO inquiry replies and listing
+announcement available by the as-of date. It exposes competing evidence:
+product generations, customer certification and orders on one side; market
+share, R&D capitalization, customer/related-party concentration, export-control
+and supply-chain risks on the other. The later annual report and RQData PIT rows
+remain label-only.
+
+This rule is intentionally called **commercial validation**, not R&D causal
+impact. Observational financial outcomes cannot establish that R&D was the sole
+cause. For a Fabless designer such as 海光信息, the relevant allocation choices
+are product generations, IP/licensing, tape-out and validation, and software
+ecosystem investment—not factory construction.
 
 ## Scoring
 

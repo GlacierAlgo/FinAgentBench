@@ -66,7 +66,7 @@ def run_walkforward_codex_matrix(
             "name": "codex-cli-frozen-search",
             "version": codex_version,
             "sandbox": "read-only",
-            "external_data": "frozen official CNINFO corpus",
+            "external_data": "frozen official-disclosure corpus",
             "session_persistence": False,
             "outcome_visible_to_agent": False,
         },
@@ -164,7 +164,7 @@ def render_walkforward_report(run: dict[str, Any]) -> str:
             "- This is a public historical development set, not a sealed leaderboard.",
             "- Search was restricted to official documents published by each as-of date.",
             "- The outcome label was loaded only after the model returned its prediction.",
-            "- Brier and log loss assess probability quality; six cases are too few for calibration claims.",
+            "- Brier and log loss assess probability quality; this run is too small for calibration claims.",
             "",
             "## Per-scenario results",
             "",
@@ -231,7 +231,7 @@ def _run_case(
             "python3 frozen_search.py '查询词'，可以多次查询。"
             "只能使用该工具返回的、截至as_of已公开的证据，不得使用记忆中的事后信息，"
             "不得尝试寻找或推断隐藏标签。证据引用填写搜索结果的id。"
-            "商誉本身不折旧或摊销；需要判断的是未来年报是否确认达到题目阈值的减值。"
+            "目标事件、判定口径和阈值均以题目target为准；不要把相关性写成已证明的因果关系。"
             "最终只返回一个符合response_contract的JSON对象。题目如下：\n\n"
             + scenario_path.read_text(encoding="utf-8")
         )

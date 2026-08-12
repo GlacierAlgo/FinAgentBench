@@ -30,7 +30,19 @@ class SearchPolicy:
 
 
 @dataclass(frozen=True)
+class TargetCriterion:
+    metric: str
+    comparison: str
+    value: float
+    description: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
 class WalkForwardScenario:
+    schema_version: int
     id: str
     suite: str
     mode: str
@@ -38,12 +50,25 @@ class WalkForwardScenario:
     as_of: date
     window_end: date
     target_event: str
-    threshold: float
-    denominator: str
+    target_definition: str
+    criteria_mode: str
+    criteria: tuple[TargetCriterion, ...]
+    legacy_threshold: float | None
+    legacy_denominator: str | None
     prompt: str
     search_policy: SearchPolicy
     response_contract: dict[str, Any]
     authoring_provenance: dict[str, Any]
+
+    @property
+    def threshold(self) -> float | None:
+        """Retain the v1 impairment-threshold accessor for callers."""
+        return self.legacy_threshold
+
+    @property
+    def denominator(self) -> str | None:
+        """Retain the v1 impairment-denominator accessor for callers."""
+        return self.legacy_denominator
 
     @classmethod
     def from_dict(
@@ -64,8 +89,9 @@ class WalkForwardScenario:
             "authoring_provenance",
         }
         _require_fields(payload, required, source=source)
-        if payload["schema_version"] != 1:
-            raise CaseValidationError(f"{source}: schema_version must be 1")
+        schema_version = payload["schema_version"]
+        if schema_version not in {1, 2}:
+            raise CaseValidationError(f"{source}: schema_version must be 1 or 2")
 
         mode = _string(payload["mode"], field="mode", source=source)
         if mode not in {"historical_frozen_web", "live_shadow"}:
@@ -110,16 +136,54 @@ class WalkForwardScenario:
             )
 
         target = _object(payload["target"], "target", source)
-        _require_fields(
-            target,
-            {"event", "threshold", "denominator", "definition"},
-            source=f"{source}: target",
-        )
-        threshold = _probability(
-            target["threshold"], field="threshold", source=f"{source}: target"
-        )
-        if threshold == 0:
-            raise CaseValidationError(f"{source}: target threshold must be positive")
+        target_source = f"{source}: target"
+        if schema_version == 1:
+            _require_fields(
+                target,
+                {"event", "threshold", "denominator", "definition"},
+                source=target_source,
+            )
+            threshold = _probability(
+                target["threshold"], field="threshold", source=target_source
+            )
+            if threshold == 0:
+                raise CaseValidationError(
+                    f"{source}: target threshold must be positive"
+                )
+            denominator = _string(
+                target["denominator"], field="denominator", source=target_source
+            )
+            criteria_mode = "all"
+            criteria = (
+                TargetCriterion(
+                    metric="asset_impairment_ratio",
+                    comparison=">",
+                    value=threshold,
+                    description=_string(
+                        target["definition"],
+                        field="definition",
+                        source=target_source,
+                    ),
+                ),
+            )
+        else:
+            _require_fields(
+                target,
+                {"event", "definition", "criteria_mode", "criteria"},
+                source=target_source,
+            )
+            threshold = None
+            denominator = None
+            criteria_mode = _string(
+                target["criteria_mode"],
+                field="criteria_mode",
+                source=target_source,
+            )
+            if criteria_mode not in {"all", "any"}:
+                raise CaseValidationError(
+                    f"{target_source}: criteria_mode must be all or any"
+                )
+            criteria = _target_criteria(target["criteria"], source=target_source)
 
         policy_payload = _object(payload["search_policy"], "search_policy", source)
         _require_fields(
@@ -170,6 +234,7 @@ class WalkForwardScenario:
             )
 
         return cls(
+            schema_version=schema_version,
             id=_string(payload["id"], field="id", source=source),
             suite=_string(payload["suite"], field="suite", source=source),
             mode=mode,
@@ -179,12 +244,13 @@ class WalkForwardScenario:
             target_event=_string(
                 target["event"], field="event", source=f"{source}: target"
             ),
-            threshold=threshold,
-            denominator=_string(
-                target["denominator"],
-                field="denominator",
-                source=f"{source}: target",
+            target_definition=_string(
+                target["definition"], field="definition", source=target_source
             ),
+            criteria_mode=criteria_mode,
+            criteria=criteria,
+            legacy_threshold=threshold,
+            legacy_denominator=denominator,
             prompt=_string(payload["prompt"], field="prompt", source=source),
             search_policy=SearchPolicy(
                 mode=policy_mode,
@@ -199,6 +265,19 @@ class WalkForwardScenario:
 
     def agent_payload(self) -> dict[str, Any]:
         """Return the scenario without author-only provenance or outcome data."""
+        if self.schema_version == 1:
+            target = {
+                "event": self.target_event,
+                "threshold": self.legacy_threshold,
+                "denominator": self.legacy_denominator,
+            }
+        else:
+            target = {
+                "event": self.target_event,
+                "definition": self.target_definition,
+                "criteria_mode": self.criteria_mode,
+                "criteria": [criterion.to_dict() for criterion in self.criteria],
+            }
         return {
             "scenario_id": self.id,
             "suite": self.suite,
@@ -206,11 +285,7 @@ class WalkForwardScenario:
             "security": asdict(self.security),
             "as_of": self.as_of.isoformat(),
             "prediction_window_end": self.window_end.isoformat(),
-            "target": {
-                "event": self.target_event,
-                "threshold": self.threshold,
-                "denominator": self.denominator,
-            },
+            "target": target,
             "prompt": self.prompt,
             "search_tool": {
                 "name": "frozen_search",
@@ -341,14 +416,29 @@ class FrozenCorpus:
 
 @dataclass(frozen=True)
 class WalkForwardLabel:
+    schema_version: int
     scenario_id: str
     resolved_at: date
     event_occurred: bool
-    impairment_loss: float
-    pre_as_of_equity: float
-    realized_ratio: float
+    realized: dict[str, Any]
+    realized_metrics: dict[str, float]
     expected_evidence_ids: tuple[str, ...]
     outcome_sources: tuple[dict[str, Any], ...]
+
+    @property
+    def impairment_loss(self) -> float | None:
+        """Return the v1 impairment numerator when present."""
+        return self.realized_metrics.get("asset_impairment_loss")
+
+    @property
+    def pre_as_of_equity(self) -> float | None:
+        """Return the v1 impairment denominator when present."""
+        return self.realized_metrics.get("pre_as_of_equity")
+
+    @property
+    def realized_ratio(self) -> float | None:
+        """Return the v1 impairment ratio when present."""
+        return self.realized_metrics.get("asset_impairment_ratio")
 
     @classmethod
     def from_dict(
@@ -369,8 +459,11 @@ class WalkForwardLabel:
             "outcome_sources",
         }
         _require_fields(payload, required, source)
-        if payload["schema_version"] != 1:
-            raise CaseValidationError(f"{source}: schema_version must be 1")
+        schema_version = payload["schema_version"]
+        if schema_version != scenario.schema_version:
+            raise CaseValidationError(
+                f"{source}: label schema_version must match scenario"
+            )
         scenario_id = _string(
             payload["scenario_id"], field="scenario_id", source=source
         )
@@ -387,32 +480,22 @@ class WalkForwardLabel:
         if not isinstance(event_occurred, bool):
             raise CaseValidationError(f"{source}: event_occurred must be boolean")
         realized = _object(payload["realized"], "realized", source)
-        _require_fields(
-            realized,
-            {"asset_impairment_loss", "pre_as_of_equity", "ratio"},
-            f"{source}: realized",
+        if schema_version == 1:
+            realized_metrics = _legacy_realized_metrics(realized, source=source)
+        else:
+            realized_metrics = _generic_realized_metrics(realized, source=source)
+        criterion_results = [
+            _criterion_matches(criterion, realized_metrics, source=source)
+            for criterion in scenario.criteria
+        ]
+        calculated_event = (
+            all(criterion_results)
+            if scenario.criteria_mode == "all"
+            else any(criterion_results)
         )
-        loss = _non_negative_number(
-            realized["asset_impairment_loss"],
-            field="asset_impairment_loss",
-            source=f"{source}: realized",
-        )
-        equity = _positive_number(
-            realized["pre_as_of_equity"],
-            field="pre_as_of_equity",
-            source=f"{source}: realized",
-        )
-        ratio = _non_negative_number(
-            realized["ratio"], field="ratio", source=f"{source}: realized"
-        )
-        calculated = loss / equity
-        if not math.isclose(ratio, calculated, rel_tol=1e-8, abs_tol=1e-10):
+        if event_occurred != calculated_event:
             raise CaseValidationError(
-                f"{source}: realized ratio does not equal loss / equity"
-            )
-        if event_occurred != (ratio > scenario.threshold):
-            raise CaseValidationError(
-                f"{source}: event label disagrees with target threshold"
+                f"{source}: event label disagrees with target criteria"
             )
         expected = _string_list(
             payload["expected_evidence_ids"],
@@ -434,12 +517,12 @@ class WalkForwardLabel:
                 f"{source}: outcome_sources items must be non-empty objects"
             )
         return cls(
+            schema_version=schema_version,
             scenario_id=scenario_id,
             resolved_at=resolved_at,
             event_occurred=event_occurred,
-            impairment_loss=loss,
-            pre_as_of_equity=equity,
-            realized_ratio=ratio,
+            realized=realized,
+            realized_metrics=realized_metrics,
             expected_evidence_ids=expected,
             outcome_sources=tuple(sources),
         )
@@ -570,6 +653,211 @@ def _read_object(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise CaseValidationError(f"{path}: top-level value must be an object")
     return payload
+
+
+def _target_criteria(value: Any, *, source: str) -> tuple[TargetCriterion, ...]:
+    if not isinstance(value, list) or not value:
+        raise CaseValidationError(f"{source}: criteria must be a non-empty list")
+    criteria = []
+    for index, raw in enumerate(value):
+        item_source = f"{source}: criteria[{index}]"
+        item = _object(raw, "criterion", item_source)
+        _require_fields(
+            item,
+            {"metric", "comparison", "value", "description"},
+            item_source,
+        )
+        comparison = _string(
+            item["comparison"], field="comparison", source=item_source
+        )
+        if comparison not in {">", ">=", "<", "<=", "=="}:
+            raise CaseValidationError(
+                f"{item_source}: unsupported comparison {comparison!r}"
+            )
+        criteria.append(
+            TargetCriterion(
+                metric=_metric_name(item["metric"], source=item_source),
+                comparison=comparison,
+                value=_number(item["value"], field="value", source=item_source),
+                description=_string(
+                    item["description"], field="description", source=item_source
+                ),
+            )
+        )
+    signatures = (
+        (item.metric, item.comparison, item.value) for item in criteria
+    )
+    _unique(signatures, "criteria", source)
+    return tuple(criteria)
+
+
+def _legacy_realized_metrics(
+    realized: dict[str, Any], *, source: str
+) -> dict[str, float]:
+    realized_source = f"{source}: realized"
+    _require_fields(
+        realized,
+        {"asset_impairment_loss", "pre_as_of_equity", "ratio"},
+        realized_source,
+    )
+    loss = _non_negative_number(
+        realized["asset_impairment_loss"],
+        field="asset_impairment_loss",
+        source=realized_source,
+    )
+    equity = _positive_number(
+        realized["pre_as_of_equity"],
+        field="pre_as_of_equity",
+        source=realized_source,
+    )
+    ratio = _non_negative_number(
+        realized["ratio"], field="ratio", source=realized_source
+    )
+    calculated = loss / equity
+    if not math.isclose(ratio, calculated, rel_tol=1e-8, abs_tol=1e-10):
+        raise CaseValidationError(
+            f"{source}: realized ratio does not equal loss / equity"
+        )
+    return {
+        "asset_impairment_loss": loss,
+        "pre_as_of_equity": equity,
+        "asset_impairment_ratio": ratio,
+    }
+
+
+def _generic_realized_metrics(
+    realized: dict[str, Any], *, source: str
+) -> dict[str, float]:
+    realized_source = f"{source}: realized"
+    _require_fields(realized, {"observations", "derivations"}, realized_source)
+    raw_observations = _object(
+        realized["observations"], "observations", realized_source
+    )
+    metrics = {
+        _metric_name(name, source=f"{realized_source}: observations"): _number(
+            value,
+            field=str(name),
+            source=f"{realized_source}: observations",
+        )
+        for name, value in raw_observations.items()
+    }
+    raw_derivations = realized["derivations"]
+    if not isinstance(raw_derivations, list):
+        raise CaseValidationError(f"{realized_source}: derivations must be a list")
+    for index, raw in enumerate(raw_derivations):
+        item_source = f"{realized_source}: derivations[{index}]"
+        item = _object(raw, "derivation", item_source)
+        _require_fields(
+            item,
+            {"metric", "operation", "inputs", "value"},
+            item_source,
+        )
+        metric = _metric_name(item["metric"], source=item_source)
+        if metric in metrics:
+            raise CaseValidationError(f"{item_source}: duplicate metric {metric!r}")
+        inputs = _string_list(
+            item["inputs"], field="inputs", source=item_source
+        )
+        unknown = sorted(set(inputs) - metrics.keys())
+        if unknown:
+            raise CaseValidationError(
+                f"{item_source}: unknown input metrics: {', '.join(unknown)}"
+            )
+        operation = _string(
+            item["operation"], field="operation", source=item_source
+        )
+        calculated = _calculate_derivation(
+            operation,
+            [metrics[name] for name in inputs],
+            item,
+            source=item_source,
+        )
+        stated = _number(item["value"], field="value", source=item_source)
+        if not math.isclose(stated, calculated, rel_tol=1e-8, abs_tol=1e-10):
+            raise CaseValidationError(
+                f"{item_source}: value does not match {operation} calculation"
+            )
+        metrics[metric] = stated
+    return metrics
+
+
+def _calculate_derivation(
+    operation: str,
+    inputs: list[float],
+    payload: dict[str, Any],
+    *,
+    source: str,
+) -> float:
+    if operation == "ratio":
+        _require_input_count(inputs, 2, operation, source)
+        if inputs[1] == 0:
+            raise CaseValidationError(f"{source}: ratio denominator must be nonzero")
+        return inputs[0] / inputs[1]
+    if operation == "margin":
+        _require_input_count(inputs, 2, operation, source)
+        if inputs[0] == 0:
+            raise CaseValidationError(f"{source}: margin revenue must be nonzero")
+        return (inputs[0] - inputs[1]) / inputs[0]
+    if operation == "difference":
+        _require_input_count(inputs, 2, operation, source)
+        return inputs[0] - inputs[1]
+    if operation == "pct_change":
+        _require_input_count(inputs, 2, operation, source)
+        if inputs[0] == 0:
+            raise CaseValidationError(
+                f"{source}: pct_change starting value must be nonzero"
+            )
+        return inputs[1] / inputs[0] - 1
+    if operation == "cagr":
+        _require_input_count(inputs, 2, operation, source)
+        periods = _positive_number(
+            payload.get("periods"), field="periods", source=source
+        )
+        if inputs[0] <= 0 or inputs[1] < 0:
+            raise CaseValidationError(
+                f"{source}: cagr requires a positive start and non-negative end"
+            )
+        return (inputs[1] / inputs[0]) ** (1 / periods) - 1
+    raise CaseValidationError(f"{source}: unsupported operation {operation!r}")
+
+
+def _require_input_count(
+    inputs: list[float], expected: int, operation: str, source: str
+) -> None:
+    if len(inputs) != expected:
+        raise CaseValidationError(
+            f"{source}: {operation} requires exactly {expected} inputs"
+        )
+
+
+def _criterion_matches(
+    criterion: TargetCriterion,
+    metrics: dict[str, float],
+    *,
+    source: str,
+) -> bool:
+    if criterion.metric not in metrics:
+        raise CaseValidationError(
+            f"{source}: realized metrics are missing {criterion.metric!r}"
+        )
+    actual = metrics[criterion.metric]
+    expected = criterion.value
+    return {
+        ">": actual > expected,
+        ">=": actual >= expected,
+        "<": actual < expected,
+        "<=": actual <= expected,
+        "==": math.isclose(actual, expected, rel_tol=1e-9, abs_tol=1e-12),
+    }[criterion.comparison]
+
+
+def _metric_name(value: Any, *, source: str) -> str:
+    metric = _string(value, field="metric", source=source)
+    if not re.fullmatch(r"[a-z][a-z0-9_]*", metric):
+        raise CaseValidationError(
+            f"{source}: metric must use lowercase snake_case"
+        )
+    return metric
 
 
 def _json_paths(directory: Path, kind: str) -> list[Path]:
