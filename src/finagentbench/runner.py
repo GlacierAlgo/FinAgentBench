@@ -14,6 +14,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from finagentbench.adapter import (
+    AdapterError,
+    StdioAdapter,
+    build_adapter_request,
+)
 from finagentbench.case import BenchmarkCase
 from finagentbench.scoring import score_submission
 
@@ -89,6 +94,67 @@ def run_codex_matrix(
     }
 
 
+def run_adapter_matrix(
+    cases: tuple[BenchmarkCase, ...],
+    *,
+    models: tuple[str, ...],
+    reasoning_effort: str,
+    workers: int,
+    timeout_seconds: int,
+    adapter: StdioAdapter,
+    progress: Callable[[dict[str, Any]], None] | None = None,
+) -> dict[str, Any]:
+    """Run public cases through a provider-neutral stdio harness adapter."""
+    specs = [
+        RunSpec(model=model, reasoning_effort=reasoning_effort, case=case)
+        for model in models
+        for case in cases
+    ]
+    started_at = datetime.now(UTC)
+    harness = adapter.harness_metadata(external_data=False)
+    results: list[dict[str, Any]] = []
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(
+                _run_adapter_case,
+                spec,
+                adapter=adapter,
+                timeout_seconds=timeout_seconds,
+            ): spec
+            for spec in specs
+        }
+        for future in as_completed(futures):
+            result = future.result()
+            results.append(result)
+            if progress is not None:
+                progress(result)
+    results.sort(key=lambda item: (item["model"], item["case_id"]))
+    completed_at = datetime.now(UTC)
+    return {
+        "schema_version": 1,
+        "started_at": started_at.isoformat(),
+        "completed_at": completed_at.isoformat(),
+        "duration_seconds": round((completed_at - started_at).total_seconds(), 3),
+        "harness": harness,
+        "matrix": {
+            "models": list(models),
+            "reasoning_effort": reasoning_effort,
+            "case_count": len(cases),
+            "repeats": 1,
+            "case_suite_sha256": _case_suite_digest(cases),
+        },
+        "scoring_contract": {
+            "version": 1,
+            "prediction_points": 40,
+            "premise_points": 25,
+            "evidence_f1_points": 25,
+            "calibration_points": 10,
+        },
+        "results": results,
+        "summary": summarize_results(results),
+    }
+
+
 def summarize_results(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
     models = sorted({item["model"] for item in results})
     summaries = []
@@ -124,11 +190,12 @@ def summarize_results(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def render_markdown_report(run: dict[str, Any]) -> str:
+    harness_label = _harness_label(run["harness"])
     lines = [
         "# FinAgentBench public synthetic smoke baseline",
         "",
         (
-            f"Harness: `{run['harness']['version']}` · effort: "
+            f"Harness: `{harness_label}` · effort: "
             f"`{run['matrix']['reasoning_effort']}` · "
             f"cases: {run['matrix']['case_count']} · repeats: {run['matrix']['repeats']}"
         ),
@@ -295,6 +362,64 @@ def _run_codex_case(spec: RunSpec, *, timeout_seconds: int) -> dict[str, Any]:
         }
 
 
+def _run_adapter_case(
+    spec: RunSpec,
+    *,
+    adapter: StdioAdapter,
+    timeout_seconds: int,
+) -> dict[str, Any]:
+    started = time.monotonic()
+    prompt = (
+        "You are being evaluated on a point-in-time financial prediction case. "
+        "Use only the supplied evidence. Do not browse, inspect files, or use external "
+        "knowledge to add facts. Return only one JSON object conforming to the response "
+        "contract. evidence_ids must contain only the evidence that materially supports "
+        "your conclusion; do not select every item by default.\n\n"
+        + json.dumps(spec.case.agent_payload(), ensure_ascii=False, indent=2)
+    )
+    request = build_adapter_request(
+        task="synthetic",
+        model=spec.model,
+        reasoning_effort=spec.reasoning_effort,
+        prompt=prompt,
+        response_contract=spec.case.response_contract,
+    )
+    with tempfile.TemporaryDirectory(prefix="finagentbench-adapter-") as raw_dir:
+        try:
+            output = adapter.run(
+                request,
+                directory=Path(raw_dir),
+                timeout_seconds=timeout_seconds,
+            )
+            score = score_submission(spec.case, output.submission)
+        except (AdapterError, ValueError) as error:
+            return {
+                "case_id": spec.case.id,
+                "case_sha256": _case_digest(spec.case),
+                "model": spec.model,
+                "reasoning_effort": spec.reasoning_effort,
+                "status": "failed",
+                "latency_seconds": round(time.monotonic() - started, 3),
+                "error": str(error),
+                "usage": {},
+            }
+    result = {
+        "case_id": spec.case.id,
+        "case_sha256": _case_digest(spec.case),
+        "model": spec.model,
+        "reasoning_effort": spec.reasoning_effort,
+        "status": "completed",
+        "latency_seconds": round(time.monotonic() - started, 3),
+        "submission": output.submission,
+        "score": score.to_dict(),
+        "usage": output.usage,
+        "event_count": len(output.events),
+    }
+    if output.metadata:
+        result["adapter_metadata"] = output.metadata
+    return result
+
+
 def _failure_result(
     spec: RunSpec, *, started: float, error: str, stdout: str | bytes
 ) -> dict[str, Any]:
@@ -355,6 +480,14 @@ def _command_output(command: list[str]) -> str:
         command, text=True, capture_output=True, check=True, timeout=10
     )
     return completed.stdout.strip()
+
+
+def _harness_label(harness: dict[str, Any]) -> str:
+    name = str(harness.get("name", "")).strip()
+    version = str(harness.get("version", "")).strip()
+    if name and name.lower() not in version.lower():
+        return f"{name} {version}".strip()
+    return version or name or "unknown"
 
 
 def _case_digest(case: BenchmarkCase) -> str:

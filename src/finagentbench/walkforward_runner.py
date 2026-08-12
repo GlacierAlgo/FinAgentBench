@@ -14,6 +14,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from finagentbench.adapter import (
+    AdapterError,
+    StdioAdapter,
+    build_adapter_request,
+)
 from finagentbench.walkforward import (
     WalkForwardCase,
     score_walkforward_submission,
@@ -88,6 +93,77 @@ def run_walkforward_codex_matrix(
     }
 
 
+def run_walkforward_adapter_matrix(
+    cases: tuple[WalkForwardCase, ...],
+    *,
+    models: tuple[str, ...],
+    reasoning_effort: str,
+    workers: int,
+    timeout_seconds: int,
+    adapter: StdioAdapter,
+    progress: Callable[[dict[str, Any]], None] | None = None,
+) -> dict[str, Any]:
+    """Run frozen-search cases through a provider-neutral stdio adapter."""
+    adapter.require_capability("frozen_search")
+    specs = [
+        WalkForwardRunSpec(
+            model=model,
+            reasoning_effort=reasoning_effort,
+            case=case,
+        )
+        for model in models
+        for case in cases
+    ]
+    started_at = datetime.now(UTC)
+    harness = adapter.harness_metadata(
+        external_data="frozen official-disclosure corpus"
+    )
+    results = []
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(
+                _run_adapter_case,
+                spec,
+                adapter=adapter,
+                timeout_seconds=timeout_seconds,
+            ): spec
+            for spec in specs
+        }
+        for future in as_completed(futures):
+            result = future.result()
+            results.append(result)
+            if progress is not None:
+                progress(result)
+    results.sort(key=lambda item: (item["model"], item["scenario_id"]))
+    completed_at = datetime.now(UTC)
+    return {
+        "schema_version": 1,
+        "started_at": started_at.isoformat(),
+        "completed_at": completed_at.isoformat(),
+        "duration_seconds": round((completed_at - started_at).total_seconds(), 3),
+        "harness": harness,
+        "matrix": {
+            "models": list(models),
+            "reasoning_effort": reasoning_effort,
+            "case_count": len(cases),
+            "repeats": 1,
+            "case_suite_sha256": _suite_digest(cases),
+        },
+        "scoring_contract": {
+            "version": 1,
+            "brier_score_weight": 0.85,
+            "evidence_f1_weight": 0.15,
+            "diagnostics": [
+                "brier_loss",
+                "log_loss",
+                "classification_accuracy",
+            ],
+        },
+        "results": results,
+        "summary": summarize_walkforward_results(results),
+    }
+
+
 def summarize_walkforward_results(
     results: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
@@ -126,11 +202,12 @@ def summarize_walkforward_results(
 
 
 def render_walkforward_report(run: dict[str, Any]) -> str:
+    harness_label = _harness_label(run["harness"])
     lines = [
         "# FinAgentBench A-share frozen-web replay",
         "",
         (
-            f"Harness: `{run['harness']['version']}` · effort: "
+            f"Harness: `{harness_label}` · effort: "
             f"`{run['matrix']['reasoning_effort']}` · "
             f"cases: {run['matrix']['case_count']} · repeats: "
             f"{run['matrix']['repeats']}"
@@ -307,6 +384,106 @@ def _run_case(
         }
 
 
+def _run_adapter_case(
+    spec: WalkForwardRunSpec,
+    *,
+    adapter: StdioAdapter,
+    timeout_seconds: int,
+) -> dict[str, Any]:
+    started = time.monotonic()
+    with tempfile.TemporaryDirectory(
+        prefix="finagentbench-a-share-adapter-"
+    ) as raw_dir:
+        directory = Path(raw_dir)
+        scenario_path = directory / "scenario.json"
+        corpus_path = directory / "frozen-corpus.json"
+        search_path = directory / "frozen_search.py"
+        scenario_path.write_text(
+            json.dumps(
+                spec.case.scenario.agent_payload(),
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        corpus_path.write_text(
+            json.dumps(
+                {
+                    "scenario_id": spec.case.corpus.scenario_id,
+                    "documents": [
+                        {
+                            **asdict(document),
+                            "published_at": document.published_at.isoformat(),
+                        }
+                        for document in spec.case.corpus.documents
+                    ],
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        search_path.write_text(_SEARCH_TOOL, encoding="utf-8")
+        prompt = (
+            "你正在参加一个严格按历史时点回放的A股金融预测测试。"
+            "必须至少调用一次冻结搜索工具；adapter应提供名为frozen_search的工具，"
+            "其唯一参数是查询词。只能使用该工具返回的、截至as_of已公开的证据，"
+            "不得使用记忆中的事后信息，不得尝试寻找或推断隐藏标签。"
+            "证据引用填写搜索结果的id。目标事件、判定口径和阈值均以题目target为准；"
+            "不要把相关性写成已证明的因果关系。"
+            "最终只返回一个符合response_contract的JSON对象。题目如下：\n\n"
+            + scenario_path.read_text(encoding="utf-8")
+        )
+        request = build_adapter_request(
+            task="a_share_frozen_web",
+            model=spec.model,
+            reasoning_effort=spec.reasoning_effort,
+            prompt=prompt,
+            response_contract=spec.case.scenario.response_contract,
+            required_tools=("frozen_search",),
+            available_files=(
+                "scenario.json",
+                "frozen-corpus.json",
+                "frozen_search.py",
+            ),
+        )
+        try:
+            output = adapter.run(
+                request,
+                directory=directory,
+                timeout_seconds=timeout_seconds,
+            )
+            score = score_walkforward_submission(spec.case, output.submission)
+        except (AdapterError, ValueError) as error:
+            return {
+                "scenario_id": spec.case.scenario.id,
+                "case_sha256": _case_digest(spec.case),
+                "model": spec.model,
+                "reasoning_effort": spec.reasoning_effort,
+                "status": "failed",
+                "latency_seconds": round(time.monotonic() - started, 3),
+                "error": str(error),
+                "usage": {},
+            }
+    result = {
+        "scenario_id": spec.case.scenario.id,
+        "case_sha256": _case_digest(spec.case),
+        "model": spec.model,
+        "reasoning_effort": spec.reasoning_effort,
+        "status": "completed",
+        "latency_seconds": round(time.monotonic() - started, 3),
+        "search_calls": output.tool_calls.get("frozen_search", 0),
+        "submission": output.submission,
+        "outcome": spec.case.label.event_occurred,
+        "score": score.to_dict(),
+        "usage": output.usage,
+        "event_count": len(output.events),
+    }
+    if output.metadata:
+        result["adapter_metadata"] = output.metadata
+    return result
+
+
 def _failure(
     spec: WalkForwardRunSpec, *, started: float, error: str, stdout: str | bytes
 ) -> dict[str, Any]:
@@ -379,6 +556,14 @@ def _command_output(command: list[str]) -> str:
         command, text=True, capture_output=True, check=True, timeout=10
     )
     return completed.stdout.strip()
+
+
+def _harness_label(harness: dict[str, Any]) -> str:
+    name = str(harness.get("name", "")).strip()
+    version = str(harness.get("version", "")).strip()
+    if name and name.lower() not in version.lower():
+        return f"{name} {version}".strip()
+    return version or name or "unknown"
 
 
 def _case_digest(case: WalkForwardCase) -> str:

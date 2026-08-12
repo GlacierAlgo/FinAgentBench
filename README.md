@@ -87,6 +87,26 @@ This command uses the signed-in local Codex account and consumes its usage. Each
 case gets an independent ephemeral session, a read-only sandbox, no external
 data, and a JSON Schema-constrained final answer.
 
+Version 0.8 adds the provider-neutral `finagentbench-stdio-v1` harness contract.
+An external adapter receives only the outcome-free prompt and schema, then
+returns a structured submission, usage, tool counts, and compact event metadata.
+Its manifest hash, runtime version, sandbox, external-data policy, session
+persistence, and reasoning-effort mapping become part of the result identity.
+The included OpenCode reference adapter can run any authenticated OpenCode
+provider/model while denying all tools except the frozen A-share search command.
+
+```bash
+opencode providers login
+uv run finagentbench a-share benchmark \
+  --adapter-manifest examples/adapters/opencode.json \
+  --model provider/model-id \
+  --scenario-id cn-a-2020-cambricon-rd-commercial-validation \
+  --output results/opencode-a-share.json
+```
+
+See [`docs/harness-adapters.md`](docs/harness-adapters.md) for the protocol,
+security boundary, manifest schema, and reasoning-variant rules.
+
 ## Case contract
 
 A case is a JSON evidence packet with:
@@ -336,11 +356,12 @@ The repository now includes:
 - a real-Web live-shadow runner with full-trace commitments and maturity-gated
   resolution;
 - case validation, rubric-free prompt rendering, and deterministic scoring;
-- a controlled Codex CLI matrix runner with raw answer and token capture;
+- controlled Codex CLI runners plus a provider-neutral stdio adapter contract
+  and restricted OpenCode reference adapter;
 - reproducible case-suite hashes, Markdown reports, focused tests, and CI.
 
-The intended next layers are runner adapters for multiple agent harnesses, a
-server-side verifier for sealed cases, and a public radar that compares
+The intended next layers are a server-side verifier for sealed cases and a
+public radar that compares
 accuracy, calibration, cost, latency, and stability over time. Distributed task
 claims and community leaderboards belong in that service layer, not in the case
 format.

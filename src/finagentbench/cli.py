@@ -7,6 +7,7 @@ from pathlib import Path
 
 import click
 
+from finagentbench.adapter import AdapterError, StdioAdapter
 from finagentbench.case import BenchmarkCase, CaseValidationError, load_cases
 from finagentbench.live_shadow import (
     ARTIFACT_TYPE,
@@ -17,7 +18,11 @@ from finagentbench.live_shadow import (
     verify_live_shadow_resolution,
     verify_live_shadow_seal,
 )
-from finagentbench.runner import render_markdown_report, run_codex_matrix
+from finagentbench.runner import (
+    render_markdown_report,
+    run_adapter_matrix,
+    run_codex_matrix,
+)
 from finagentbench.scoring import score_submission
 from finagentbench.walkforward import (
     WalkForwardCase,
@@ -26,6 +31,7 @@ from finagentbench.walkforward import (
 )
 from finagentbench.walkforward_runner import (
     render_walkforward_report,
+    run_walkforward_adapter_matrix,
     run_walkforward_codex_matrix,
 )
 
@@ -141,6 +147,11 @@ def score(case_id: str, submission: Path, cases_dir: Path) -> None:
     "--timeout-seconds", type=click.IntRange(10), default=180, show_default=True
 )
 @click.option(
+    "--adapter-manifest",
+    type=click.Path(path_type=Path, dir_okay=False, exists=True),
+    help="Use a finagentbench-stdio-v1 harness manifest instead of Codex CLI.",
+)
+@click.option(
     "--output",
     type=click.Path(path_type=Path, dir_okay=False),
     required=True,
@@ -158,31 +169,41 @@ def benchmark(
     reasoning_effort: str,
     workers: int,
     timeout_seconds: int,
+    adapter_manifest: Path | None,
     output: Path,
     report_output: Path | None,
     cases_dir: Path,
 ) -> None:
-    """Run a controlled Codex CLI model matrix over all selected cases."""
+    """Run a controlled harness/model matrix over selected public cases."""
     cases = _load_or_fail(cases_dir)
     if case_ids:
         cases = tuple(_find_case(case_id, cases) for case_id in case_ids)
+    adapter = _load_adapter_or_fail(adapter_manifest)
+    harness_name = adapter.name if adapter is not None else "codex-cli"
     click.echo(
         f"Running {len(models)} model(s) × {len(cases)} case(s) "
-        f"at effort={reasoning_effort} with {workers} worker(s)"
+        f"through {harness_name} at effort={reasoning_effort} "
+        f"with {workers} worker(s)"
     )
 
     def progress(item: dict) -> None:
         marker = "ok" if item["status"] == "completed" else "FAILED"
         click.echo(f"[{marker}] {item['model']} / {item['case_id']}", err=True)
 
-    run = run_codex_matrix(
-        cases,
-        models=models,
-        reasoning_effort=reasoning_effort,
-        workers=workers,
-        timeout_seconds=timeout_seconds,
-        progress=progress,
-    )
+    run_function = run_adapter_matrix if adapter is not None else run_codex_matrix
+    run_kwargs = {
+        "models": models,
+        "reasoning_effort": reasoning_effort,
+        "workers": workers,
+        "timeout_seconds": timeout_seconds,
+        "progress": progress,
+    }
+    if adapter is not None:
+        run_kwargs["adapter"] = adapter
+    try:
+        run = run_function(cases, **run_kwargs)
+    except AdapterError as error:
+        raise click.ClickException(str(error)) from error
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         json.dumps(run, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -349,6 +370,11 @@ def a_share_score(
     "--timeout-seconds", type=click.IntRange(10), default=180, show_default=True
 )
 @click.option(
+    "--adapter-manifest",
+    type=click.Path(path_type=Path, dir_okay=False, exists=True),
+    help="Use a frozen-search stdio harness manifest instead of Codex CLI.",
+)
+@click.option(
     "--output",
     type=click.Path(path_type=Path, dir_okay=False),
     required=True,
@@ -366,33 +392,47 @@ def a_share_benchmark(
     reasoning_effort: str,
     workers: int,
     timeout_seconds: int,
+    adapter_manifest: Path | None,
     output: Path,
     report_output: Path | None,
     scenarios_dir: Path,
     corpora_dir: Path,
     labels_dir: Path,
 ) -> None:
-    """Compare Codex models using only the frozen historical search tool."""
+    """Compare models using only the frozen historical search tool."""
     cases = _load_a_share_or_fail(scenarios_dir, corpora_dir, labels_dir)
     if scenario_ids:
         cases = tuple(_find_a_share(scenario_id, cases) for scenario_id in scenario_ids)
+    adapter = _load_adapter_or_fail(adapter_manifest)
+    harness_name = adapter.name if adapter is not None else "codex-cli"
     click.echo(
         f"Running {len(models)} model(s) × {len(cases)} A-share scenario(s) "
-        f"at effort={reasoning_effort} with {workers} worker(s)"
+        f"through {harness_name} at effort={reasoning_effort} "
+        f"with {workers} worker(s)"
     )
 
     def progress(item: dict) -> None:
         marker = "ok" if item["status"] == "completed" else "FAILED"
         click.echo(f"[{marker}] {item['model']} / {item['scenario_id']}", err=True)
 
-    run = run_walkforward_codex_matrix(
-        cases,
-        models=models,
-        reasoning_effort=reasoning_effort,
-        workers=workers,
-        timeout_seconds=timeout_seconds,
-        progress=progress,
+    run_function = (
+        run_walkforward_adapter_matrix
+        if adapter is not None
+        else run_walkforward_codex_matrix
     )
+    run_kwargs = {
+        "models": models,
+        "reasoning_effort": reasoning_effort,
+        "workers": workers,
+        "timeout_seconds": timeout_seconds,
+        "progress": progress,
+    }
+    if adapter is not None:
+        run_kwargs["adapter"] = adapter
+    try:
+        run = run_function(cases, **run_kwargs)
+    except AdapterError as error:
+        raise click.ClickException(str(error)) from error
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         json.dumps(run, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
@@ -511,6 +551,15 @@ def _load_or_fail(cases_dir: Path) -> tuple[BenchmarkCase, ...]:
     try:
         return load_cases(cases_dir)
     except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+
+
+def _load_adapter_or_fail(path: Path | None) -> StdioAdapter | None:
+    if path is None:
+        return None
+    try:
+        return StdioAdapter.from_path(path)
+    except AdapterError as error:
         raise click.ClickException(str(error)) from error
 
 

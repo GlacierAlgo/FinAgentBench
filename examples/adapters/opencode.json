@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "name": "opencode",
+  "version_command": ["opencode", "--version"],
+  "command": ["python3", "{manifest_dir}/opencode_stdio.py"],
+  "capabilities": {
+    "structured_output": true,
+    "frozen_search": true
+  },
+  "execution": {
+    "sandbox": "OpenCode permissions deny all tools; A-share runs allow only python3 frozen_search.py in the temporary case directory",
+    "external_data_access": false,
+    "session_persistence": true,
+    "outcome_visible_to_agent": false,
+    "reasoning_effort_contract": "Provider-specific --variant is applied only when FINAGENTBENCH_OPENCODE_VARIANTS maps the requested model and effort; otherwise the provider default is recorded"
+  }
+}
