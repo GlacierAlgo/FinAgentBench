@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019q3-public-debt-default-002310",
+  "suite": "a_share_public_debt_default_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002310.XSHE",
+    "ticker": "002310",
+    "name_as_of": "东方园林",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-10-31",
+  "prediction_window": {
+    "end": "2020-02-28",
+    "description": "2019年三季报披露后的未来120个自然日"
+  },
+  "target": {
+    "event": "material_public_debt_payment_failure_120d",
+    "definition": "发行人在未来120个自然日内，至少一次对计划兑付金额不低于5000万元的公开发行公司债、中期票据、短融或超短融本金、利息或投资者回售款，截至法定兑付日营业终了未按约足额支付，并由发行人或清算机构正式披露。后续补足不撤销已发生事件；银行贷款、供应商欠款、商业承兑汇票及未公开私人展期不计入。本题预测近期公开兑付失败，不等同于预测最终财务造假、ST或长期破产",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "material_public_debt_payment_failure_count_120d",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内满足口径的公开债务兑付失败至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2019-10-31收盘后的信息环境。请使用冻结搜索工具，判断东方园林未来120个自然日是否会发生target定义的重大公开债务兑付失败。先确认19东林01和19东林02的付息与投资者回售窗口，再综合账面现金、受限资金、经营现金流、应收和存货沉淀、亏损与融资成本、历史技术性延迟、国资控制权交割和外部担保。国资背景不能机械等同于兜底，历史延迟也不能机械等同于再次违约；应判断支持是否已经落地且覆盖哪些债务。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-10-31",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002310.XSHE; quarter=2019q3; info_date=2019-10-31; if_adjusted=0",
+    "matching_group": "reported-cash-public-maturity-120d-v1",
+    "matching_role": "no_event_hard_control",
+    "opportunity_contract": "At least one ex-ante identifiable public-debt payment of CNY50m or more falls inside the 120-day window.",
+    "hard_negative_reason": "Severe negative operating cash flow, losses, a prior technical payment delay and near-term put dates coexist with completed state-control transfer and concrete credit support.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2019_q3_report": "5c00d92e78bd3620e736cc881a6cc2a7083028c5665bb982b94f4c6aabd08d91",
+      "2019_half_year_report": "f93530bde18603f6de3f90793f5aea2046881c6dba1dd32d268a76b925bb4d7e",
+      "state_guarantee_notice": "ca8916533da142c308c4f6aa1a47ac3c7f692197f1bf435984fd5e5940f3592a"
+    },
+    "outcome_label_policy": "Only issuer or clearing-house end-of-due-date disclosures count; later cure does not erase an event.",
+    "leakage_guard": "Post-as-of put elections, payment-completion notices and later financial reports are label-side only."
+  }
+}

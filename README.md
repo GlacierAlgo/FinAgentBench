@@ -11,7 +11,7 @@ appropriately calibrated prediction.
 
 **[Open the public A-share reasoning radar →](https://glacieralgo.github.io/FinAgentBench/)**
 
-The radar currently presents 24 real A-share historical replays and 72 model
+The radar currently presents 90 real A-share historical replays and 270 model
 attempts as development diagnostics. It explicitly keeps the formal sealed
 leaderboard empty until a pre-registered future cohort has matured.
 
@@ -113,6 +113,14 @@ persistence, and reasoning-effort mapping become part of the result identity.
 The included OpenCode reference adapter can run any authenticated OpenCode
 provider/model while denying all tools except the frozen A-share search command.
 
+Version 0.12 expands the real A-share development set from 24 to 90 cases,
+balanced at 45 event / 45 no-event across 17 financial logic families. The new
+cohorts test announced cash that cannot actually be paid, public debt defaults,
+later regulatory confirmation of large misstatements, the next annual audit
+opinion, complete removal of every ST warning, forced-delisting decisions, and
+post-ST speculative market paths. ST cause, remediation, restructuring and
+commodity narratives are explicit evidence dimensions, never causal labels.
+
 ```bash
 opencode providers login
 uv run finagentbench a-share benchmark \
@@ -202,6 +210,17 @@ repeated supplemental pledges, and the boundary between listed-company cash and
 controller liabilities. The four business-decision corpora now also combine
 issuer disclosures with contemporaneous news/industry context.
 
+Version 0.12 adds 66 real A-share scenarios centered on investor-hostile edge
+cases. The new 7 cohorts are independently balanced: 2 cash-payment reality
+cases, 4 public-debt defaults, 6 final enforcement outcomes, 12 next-annual
+audit opinions, 12 complete ST-remediation outcomes, 12 forced-delisting
+decisions, and 18 post-ST market paths. The last cohort is deliberately not a
+generic “ST rises” label: an event requires both a 100% backward-adjusted close
+return and an 80 percentage-point excess return over 510300 within a fixed
+365-calendar-day window. Suspended or delisted observations are not imputed.
+ST加加 is a boundary no-event even though its stock maximum was +100.74%,
+because its maximum excess return was only +79.07 percentage points.
+
 ```bash
 uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
 uv run finagentbench a-share search \
@@ -225,8 +244,11 @@ All PDF-to-text authoring for the new slice uses the Rust CLI from
 [`run-llama/liteparse`](https://github.com/run-llama/liteparse), pinned in case
 provenance to version 2.11.1 and git revision
 `53e4fc813d35f76d0169923d2c451b3c8700edb0`. Native PDFium extraction is used
-when a text layer exists; scanned official reports use LiteParse's Tesseract OCR
-path with Chinese and English language data. The parser is an authoring aid;
+when a text layer exists. Every version 0.12 source selected for the checked-in
+corpora had a usable text layer and was parsed with `--no-ocr`; anti-bot HTML and
+a cross-company filing discovered during source validation were rejected before
+authoring. Earlier scanned sources use LiteParse's Tesseract OCR path with
+Chinese and English language data. The parser is an authoring aid;
 official signed filings and recomputable RQData values remain the evidence and
 label authority.
 
@@ -236,6 +258,41 @@ analysis remains available for semantic review. See
 [`docs/a-share-walk-forward.md`](docs/a-share-walk-forward.md) for the data
 contract, leakage boundary, and path from public historical development cases
 to sealed live-shadow evaluation.
+
+### Full 90-case replay (version 0.12)
+
+The current public radar is generated from one complete, comparable matrix:
+90 cases × 3 models × 1 independent low-effort Codex CLI session. All 270 runs
+completed, every run used frozen search, and no outcome was visible to the
+agent. Full answers, probabilities, usage and tool counts are in
+[`results/2026-08-13-a-share-all-frozen-web-low.json`](results/2026-08-13-a-share-all-frozen-web-low.json),
+with a compact report in
+[`results/2026-08-13-a-share-all-frozen-web-low.md`](results/2026-08-13-a-share-all-frozen-web-low.md).
+
+| Model | Composite | Brier loss | Log loss | Accuracy |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-5.6 Sol | 87.92 | 0.1405 | 0.4430 | 83.3% |
+| GPT-5.6 Terra | 86.93 | 0.1529 | 0.4703 | 80.0% |
+| GPT-5.6 Luna | 85.20 | 0.1729 | 0.5150 | 75.6% |
+
+The 18-case post-ST market-path family was substantially harder than the full
+set. Models were good at rejecting terminal paths such as *ST凯迪、ST长生 and
+*ST雏鹰, but systematically underpredicted realized run-ups after severe
+operating or governance failures:
+
+| Model | Brier loss | Accuracy | Mean P(event), events | Mean P(event), controls |
+| --- | ---: | ---: | ---: | ---: |
+| GPT-5.6 Luna | 0.1593 | 77.8% | 0.488 | 0.161 |
+| GPT-5.6 Sol | 0.1850 | 61.1% | 0.414 | 0.129 |
+| GPT-5.6 Terra | 0.2068 | 66.7% | 0.399 | 0.147 |
+
+All three missed the positive ST德威 path at the 0.5 threshold; Sol and Terra
+also put only 0.32 on positive *ST藏格, while the models differed sharply on
+court-restructuring case *ST大集. The next-annual-audit family was another hard
+anti-shortcut slice: accuracy was only 58.3%–66.7%, because models often treated
+the current audit/governance problem as mechanically persistent into the first
+future annual report. These are one-repeat public development diagnostics, not
+a stable model ranking or an estimate of real-world ST base rates.
 
 ### First real-data replay
 
@@ -411,9 +468,11 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- 24 real A-share walk-forward scenarios with frozen point-in-time corpora:
-  six goodwill/impairment cases, seven matched trap families, and two matched
-  business-decision families for R&D and factory allocation;
+- 90 real A-share walk-forward scenarios with frozen point-in-time corpora,
+  balanced at 45 event / 45 no-event across 17 logic families;
+- ST/scandal cohorts spanning cash-payment reality, public debt default,
+  regulator-confirmed misstatement, next-year audit outcomes, full warning
+  removal, forced delisting, and strict post-ST market paths;
 - a real-Web live-shadow runner with full-trace commitments and maturity-gated
   resolution;
 - pre-registered hard-suite commitments that bind case families, model matrices,

@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-enforcement-002310",
+  "resolved_at": "2022-04-30",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "qualifying_final_enforcement_decision_count_30m": 0,
+      "largest_confirmed_material_amount_rmb": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-distress-and-completed-control-transfer",
+    "h1-restricted-cash-and-explicit-distress",
+    "state-credit-support-already-effective"
+  ],
+  "outcome_sources": [
+    {
+      "type": "csrc_final_enforcement_registry_search",
+      "title": "中国证监会及派出机构行政处罚决定检索：北京东方园林环境股份有限公司",
+      "queried_at": "2026-08-12",
+      "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=3",
+      "query": "北京东方园林环境股份有限公司",
+      "window_end": "2022-04-30",
+      "qualifying_decisions_through_window_end": 0,
+      "result": "截至预设窗口终点没有日期落在窗口内且满足本题口径的最终行政处罚决定。"
+    },
+    {
+      "type": "official_post_window_subthreshold_decision_context",
+      "title": "北京证监局行政处罚决定书〔2024〕1号",
+      "decision_date": "2024-01-29",
+      "published_at": "2024-01-30",
+      "url": "https://www.csrc.gov.cn/beijing/c105546/c7460231/content.shtml",
+      "sha256": "1f7587d170b95adaee5018d03cf954da156cbc129bbf4d9ae879e43daa61c8fc",
+      "not_counted": true,
+      "classification": "post_window_and_below_materiality_context",
+      "confirmed_amount_rmb": 35418400,
+      "finding": "2024年最终决定认定2019年收入、利润和资产各虚增3541.84万元；决定日期晚于窗口且金额低于1亿元门槛，两个条件均不满足。"
+    }
+  ]
+}

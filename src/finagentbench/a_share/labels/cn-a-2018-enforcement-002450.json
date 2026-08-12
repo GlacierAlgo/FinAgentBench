@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018-enforcement-002450",
+  "resolved_at": "2020-09-22",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "qualifying_final_enforcement_decision_count_30m": 1,
+      "largest_confirmed_material_amount_rmb": 10288447275.09
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "annual-inquiry-and-auditor-cash-assurance",
+    "h1-consolidated-parent-liquidity-and-pledge",
+    "q3-cash-profit-and-financing-paradox"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_final_administrative_penalty_decision",
+      "title": "中国证监会行政处罚决定书（康得新、钟玉等13人）",
+      "decision_no": "〔2020〕71号",
+      "decision_date": "2020-09-22",
+      "published_at": "2020-09-22",
+      "url": "https://www.csrc.gov.cn/csrc/c101928/c1042302/content.shtml",
+      "sha256": "4fae13599f4f0d5bd016ea058cd1c96dae1c3a3bdd70b2eeb16e92c46709a7c5",
+      "qualifying_pre_as_of_document": "2017年年度报告",
+      "largest_confirmed_material_amount_rmb": 10288447275.09,
+      "finding": "最终决定认定2017年年报中北京银行账户组披露余额102.8845亿元但实际余额为0，并认定当年虚增利润39.0821亿元及未披露重大关联担保；决定日期在30个月窗口内。"
+    }
+  ]
+}

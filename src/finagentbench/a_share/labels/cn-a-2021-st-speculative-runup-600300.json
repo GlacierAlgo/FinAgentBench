@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-st-speculative-runup-600300",
+  "resolved_at": "2022-04-27",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 26.9628848,
+      "peak_adjusted_close_365d": 34.6478433,
+      "as_of_510300_close": 5.089,
+      "stock_close_on_max_excess_date": 33.103035,
+      "etf_close_on_max_excess_date": 4.101,
+      "common_trading_sessions": 243,
+      "risk_warning_removed_by_window_end": 1
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "peak_adjusted_close_365d"],
+        "value": 0.28501989149172946
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "stock_close_on_max_excess_date"],
+        "value": 0.2277260109793593
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_510300_close", "etf_close_on_max_excess_date"],
+        "value": -0.19414423265867564
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": ["stock_return_on_max_excess_date", "etf_return_on_max_excess_date"],
+        "value": 0.42187024363803494
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "st-notice-remediation-before-first-st-day",
+    "annual-core-profit-disposal-gains-and-capacity",
+    "contemporaneous-governance-history-and-sanctions"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2021-04-27/2022-04-27",
+      "stock_code": "600300.XSHG",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2022-03-03",
+      "max_excess_date": "2022-04-11",
+      "window_end_return": -0.08602619182647686,
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return"
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "st_start": "2021-04-27",
+      "risk_warning_removed": "2022-04-12"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-enforcement-000413",
+  "resolved_at": "2022-04-30",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "qualifying_final_enforcement_decision_count_30m": 0,
+      "largest_confirmed_material_amount_rmb": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-cash-profit-and-working-capital-pressure",
+    "annual-mtn-and-positive-assurances",
+    "finance-company-concentration-and-self-assessed-safety"
+  ],
+  "outcome_sources": [
+    {
+      "type": "csrc_final_enforcement_registry_search",
+      "title": "中国证监会及派出机构行政处罚决定检索：东旭光电科技股份有限公司",
+      "queried_at": "2026-08-12",
+      "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=3",
+      "query": "东旭光电科技股份有限公司",
+      "window_end": "2022-04-30",
+      "qualifying_decisions_through_window_end": 0,
+      "result": "截至预设窗口终点没有日期落在窗口内且满足本题口径的最终行政处罚决定。"
+    },
+    {
+      "type": "official_post_window_final_decision_context",
+      "title": "河北证监局行政处罚决定书〔2025〕2号",
+      "decision_date": "2025-06-05",
+      "published_at": "2025-06-06",
+      "url": "https://www.csrc.gov.cn/hebei/c103646/c7562784/content.shtml",
+      "sha256": "e54386983d78330ab60aeb125b8b858a65fab7949c53334c62c413a835affd4d",
+      "not_counted": true,
+      "classification": "post_window_hard_negative_context",
+      "finding": "该决定在窗口结束三年多后才正式认定2015至2019年虚增收入和利润及长期资金占用；它证明本例不是干净公司，却不能反向改写固定窗口标签。"
+    }
+  ]
+}

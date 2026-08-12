@@ -4,24 +4,9 @@
   "subtitle": "Point-in-time financial prediction with frozen disclosures and contemporaneous news",
   "suites": [
     {
-      "id": "goodwill",
-      "title": "商誉减值",
-      "result_path": "results/2026-08-12-a-share-frozen-web-low.json"
-    },
-    {
-      "id": "financial-traps",
-      "title": "财务陷阱",
-      "result_path": "results/2026-08-12-a-share-traps-frozen-web-low.json"
-    },
-    {
-      "id": "pledge-freeze",
-      "title": "质押与司法冻结",
-      "result_path": "results/2026-08-12-pledge-freeze-frozen-web-low.json"
-    },
-    {
-      "id": "business-decisions",
-      "title": "商业兑现",
-      "result_path": "results/2026-08-12-business-decisions-frozen-web-low.json"
+      "id": "a-share-full-v012",
+      "title": "A股点时推理全套",
+      "result_path": "results/2026-08-13-a-share-all-frozen-web-low.json"
     }
   ],
   "family_labels": {
@@ -70,11 +55,43 @@
         "announced_factory_commercial_validation_by_fy2022",
         "announced_factory_commercial_validation_by_fy2024"
       ]
+    },
+    "cash-reality": {
+      "label": "账面现金与支付能力",
+      "events": ["announced_cash_dividend_payment_failure_10d"]
+    },
+    "public-debt-default": {
+      "label": "公开债务违约",
+      "events": ["material_public_debt_payment_failure_120d"]
+    },
+    "enforcement": {
+      "label": "监管确认重大错报",
+      "events": ["regulator_confirmed_material_financial_misstatement_30m"]
+    },
+    "next-annual-audit": {
+      "label": "下一年审计意见",
+      "events": [
+        "first_post_snapshot_annual_financial_statement_nonstandard_audit_18m"
+      ]
+    },
+    "st-remediation": {
+      "label": "完整撤销风险警示",
+      "events": ["exchange_approved_full_risk_warning_removal_24m"]
+    },
+    "forced-delisting": {
+      "label": "强制退市终局",
+      "events": ["exchange_decided_forced_delisting_60m"]
+    },
+    "st-market-path": {
+      "label": "戴帽后异常行情",
+      "events": ["large_post_st_speculative_runup"]
     }
   },
   "methodology": [
     "Historical replay only: each disclosure/news corpus stops at the scenario as-of date.",
     "Primary probability diagnostic is mean Brier loss; lower is better.",
+    "Market-path labels use fixed calendar windows and aligned closing prices; suspensions and delistings are not imputed.",
+    "An ST cause, remediation, restructuring, scandal, or commodity narrative is never treated as causal proof of a later price path.",
     "Public replay results are development diagnostics, not a formal leaderboard.",
     "Formal ranking requires a matured pre-registered sealed hard-case suite."
   ]

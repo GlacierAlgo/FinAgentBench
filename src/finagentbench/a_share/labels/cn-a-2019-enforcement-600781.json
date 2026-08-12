@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-enforcement-600781",
+  "resolved_at": "2020-10-13",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "qualifying_final_enforcement_decision_count_30m": 1,
+      "largest_confirmed_material_amount_rmb": 1336632800
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "annual-clean-opinion-and-parent-cash-gap",
+    "q1-consolidated-parent-cash-chasm"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_final_administrative_penalty_decision",
+      "title": "中国证监会行政处罚决定书（辅仁药业）",
+      "decision_no": "〔2020〕79号",
+      "decision_date": "2020-10-13",
+      "published_at": "2020-10-13",
+      "url": "https://www.csrc.gov.cn/csrc/c101928/c1042297/content.shtml",
+      "sha256": "0e467e2458ef186222c12664a680b1b520777ada6cf80f5cec803628fb6439b5",
+      "qualifying_pre_as_of_document": "2018年年度报告",
+      "largest_confirmed_material_amount_rmb": 1336632800,
+      "finding": "最终决定认定2018年报未披露关联方资金占用期末余额13.3663亿元并相应虚增货币资金，另有4笔合计1.4亿元关联担保未披露；决定日期在30个月窗口内。"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018q3-public-debt-default-002450",
+  "resolved_at": "2019-01-15",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "scheduled_material_public_debt_payment_count_120d": 3,
+      "scheduled_material_public_debt_payment_amount_rmb": 1617247945.21,
+      "material_public_debt_payment_failure_count_120d": 3,
+      "material_public_debt_payment_failure_amount_rmb": 1617247945.21,
+      "material_public_debt_payment_completed_count_120d": 0,
+      "material_public_debt_payment_completed_amount_rmb": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-cash-profit-and-financing-paradox",
+    "two-scp-maturities-inside-window"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_default_notice",
+      "title": "2018年度第一期超短期融资券未按期兑付本息的公告",
+      "published_at": "2019-01-16",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-01-16/1205773010.PDF",
+      "sha256": "fd7fb5854b3175b6c3b1e41365cbd493aa9a8861afd20b95b2ebb4eddfd71572",
+      "instrument": "18康得新SCP001",
+      "due_at": "2019-01-15",
+      "amount_rmb": 1040684931.51,
+      "result": "截至兑付日营业终了未按期足额偿付本息，构成实质违约"
+    },
+    {
+      "type": "official_issuer_default_notice",
+      "title": "2018年度第二期超短期融资券未能按期足额偿付本息的公告",
+      "published_at": "2019-01-22",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-01-22/1205786098.PDF",
+      "sha256": "d46c5a28407585dea45e676401b4f6683eae88258de9eb06889965c0e03869e0",
+      "instrument": "18康得新SCP002",
+      "due_at": "2019-01-21",
+      "amount_rmb": 521563013.70,
+      "result": "截至兑付日营业终了未按期足额偿付本息，构成实质违约"
+    },
+    {
+      "type": "official_issuer_default_notice",
+      "title": "2017年度第一期中期票据未能按期足额偿付利息的公告",
+      "published_at": "2019-02-18",
+      "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2019/0218/LTN201902189995_C.PDF",
+      "sha256": "6a20d7f9ebe1a198b72c93d9f5daa0bf7d9719cc92c425aceeb48a64ca04e176",
+      "instrument": "17康得新MTN001",
+      "due_at": "2019-02-15",
+      "amount_rmb": 55000000,
+      "result": "截至付息日终未按期足额偿付利息，构成实质性违约"
+    }
+  ]
+}

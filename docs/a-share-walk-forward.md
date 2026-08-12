@@ -157,6 +157,79 @@ whether management's choice was counterfactually optimal. The benchmark asks
 whether an agent could identify, from the frozen evidence, which announced
 allocation was more likely to clear a fixed, auditable operating hurdle.
 
+## Version 5 ST, scandal, and market-path cohorts
+
+Version 0.12 expands the real development set to 90 cases, balanced at 45 event
+and 45 no-event. Seven new cohorts contain 66 cases; each cohort is balanced
+independently so a generic “distressed” or “ST will recover” policy cannot win.
+
+| Cohort | Cases | Balance | Observable target |
+| --- | ---: | ---: | --- |
+| Cash-payment reality | 2 | 1 / 1 | failure to complete at least RMB 50m of an already announced dividend on its fixed payment schedule |
+| Public debt default | 4 | 2 / 2 | officially disclosed failure to pay at least RMB 50m of public debt within 120 calendar days |
+| Final enforcement | 6 | 3 / 3 | final CSRC decision within 30 months confirming at least RMB 100m of misstatement, occupation, or illegal guarantee |
+| Next annual audit | 12 | 6 / 6 | whether the strictly first annual financial-statement audit disclosed after the snapshot is nonstandard within 18 months |
+| Full ST remediation | 12 | 6 / 6 | exchange-approved removal of every ST/*ST warning within 24 months |
+| Forced delisting | 12 | 6 / 6 | final exchange decision to forcibly terminate listing within 60 months |
+| Post-ST market path | 18 | 9 / 9 | at least 100% adjusted-close return and at least 80 percentage points of excess return versus 510300 within 365 days |
+
+The ST cohorts deliberately separate four questions that are often collapsed
+in casual reasoning: what caused the warning, whether the next audit remains
+nonstandard, whether every warning is eventually removed, and what tradeable
+price path occurs in a fixed window. A company can remediate yet fail the market
+path, remain ST yet rally, or avoid forced delisting without receiving a clean
+audit. Reusing the identical frozen corpus across those targets makes this
+cross-target consistency directly testable.
+
+### ST cause is a feature, not a label
+
+`st_cause_taxonomy` distinguishes non-operating governance failures (fund
+occupation, illegal guarantees, internal-control opinions), operating/financial
+failures, mixed cases, court restructuring, and major-illegality/terminal risk.
+The taxonomy guides matched analysis but never determines the outcome. In the
+18-case market-path slice, non-operating governance cases contain both realized
+run-ups (for example ST舍得、ST红太阳、ST华钰、ST德威) and controls (for example
+ST华仪、ST康美、ST辅仁、ST加加、ST摩登、ST维维). Catastrophic operating or
+major-illegality controls such as *ST凯迪、ST长生 and *ST雏鹰 prevent the suite
+from teaching the opposite shortcut that every distressed company eventually
+becomes a speculative winner.
+
+The sample is curated and balanced, so its event proportions are not estimates
+of A-share base rates. Its purpose is conditional reasoning: given an exact
+snapshot, can the agent distinguish cash/debt survival, governance credibility,
+resource or restructuring optionality, trading continuity, and already-priced
+speculation without claiming any one factor caused the later path?
+
+### Fixed-window market labels
+
+The post-ST label uses the first trading day of the current warning episode, not
+necessarily the first ST episode in the issuer's entire history. Stock closes
+come from read-only backward-adjusted RQData prices; 510300 uses raw closes.
+Observations are aligned by trade date, use closing prices only, and stop at the
+fixed calendar endpoint. No price is synthesized across a suspension or after
+delisting. This leaves *ST雏鹰 with only 113 aligned sessions, which is part of
+the real tradeable path rather than missing data to be filled.
+
+Both event gates must pass. ST加加 is the deliberate threshold control: its
+maximum adjusted-close return was 100.74%, but the same-window maximum excess
+return was 79.07 percentage points, below the 80-point gate. Risk-warning
+removal is stored as a diagnostic only and cannot change the event label.
+
+### Full replay diagnostics
+
+The 2026-08-13 matrix contains 270 completed frozen-search runs with no failures:
+90 cases each for GPT-5.6 Sol, Terra, and Luna at low reasoning effort. Overall
+Brier loss was 0.1405, 0.1529, and 0.1729 respectively. The strict post-ST
+market-path family remained difficult: Sol/Terra/Luna accuracy was
+61.1%/66.7%/77.8%, and their mean probability on realized event cases was only
+0.414/0.399/0.488. The next-annual-audit family was also hard
+(58.3%/66.7%/58.3% accuracy), exposing a tendency to extrapolate a current
+audit problem mechanically into the next annual report.
+
+These numbers are public one-repeat diagnostics. They validate task difficulty
+and expose failure modes; they do not qualify as a sealed leaderboard or model
+stability claim.
+
 ## PDF-to-text authoring
 
 PDF extraction is standardized on the latest tested Rust-based
@@ -168,6 +241,13 @@ OCR path with `chi_sim` and `eng` data. Every new scenario records the exact
 version, revision, and extraction mode in `authoring_provenance` so later
 authors can reproduce the evidence preparation. Parser output never overrides
 the signed filing or the numeric label derivation.
+
+All version 0.12 ST/scandal source PDFs selected for the checked-in corpora had
+a usable text layer and were extracted with LiteParse `--no-ocr`. Source
+validation checks the PDF container, issuer name, security code, publication
+date, document title, and SHA-256. This caught and rejected both exchange
+anti-bot HTML masquerading as a PDF response and an initially located quarterly
+report belonging to a different issuer.
 
 ## Scoring
 

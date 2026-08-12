@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-st-remediation-000408",
+  "resolved_at": "2021-05-12",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "full_risk_warning_removal_count_24m": 1,
+      "full_risk_warning_removed_by_window_end": 1,
+      "partial_only_removal_count_24m": 0,
+      "calendar_days_to_full_removal_or_zero": 371,
+      "risk_warning_present_at_window_end": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "star-st-notice-audit-disclaimer",
+    "audit-report-occupation-and-risky-equity-setoff",
+    "q1-profitable-operation-but-thin-cash"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_exchange_approved_full_risk_warning_removal",
+      "title": "藏格控股关于撤销对公司股票交易实施退市风险警示的公告",
+      "approved_effective_date": "2021-05-12",
+      "published_at": "2021-05-12",
+      "url": "https://static.cninfo.com.cn/finalpage/2021-05-11/1209950332.PDF",
+      "sha256": "fe96fdb7116f989dd8e2391d9ffbf16fccc078d6229b906c4288ef3e47f160fa",
+      "resulting_symbol": "藏格控股",
+      "exits_risk_warning_board": true,
+      "all_risk_warnings_removed": true
+    },
+    {
+      "type": "rqdata_risk_warning_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2020-05-06/2022-05-06",
+      "full_removal_within_window": true,
+      "partial_only_removal_count_24m": 0
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019q3-public-debt-default-002310",
+  "resolved_at": "2020-02-28",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "scheduled_material_public_debt_payment_count_120d": 2,
+      "scheduled_material_public_debt_payment_amount_rmb": 168580425,
+      "material_public_debt_payment_failure_count_120d": 0,
+      "material_public_debt_payment_failure_amount_rmb": 0,
+      "material_public_debt_payment_completed_count_120d": 2,
+      "material_public_debt_payment_completed_amount_rmb": 168580425
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-distress-and-completed-control-transfer",
+    "bond-put-opportunity-and-prior-technical-delay",
+    "state-credit-support-already-effective"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_payment_notice",
+      "title": "关于19东林01公司债券回售结果的公告",
+      "published_at": "2020-01-13",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-01-13/1207246295.PDF",
+      "sha256": "5a9fb0c6e76e3b330c3b5e8eb70486be897b2825bcfe2a6f9b086a7f9e897641",
+      "instrument": "19东林01",
+      "funds_arrival_at": "2020-01-15",
+      "amount_rmb": 75580025,
+      "result": "公告出具日前回售本金及利息已足额兑付"
+    },
+    {
+      "type": "official_issuer_payment_notice",
+      "title": "关于19东林02公司债券回售结果的公告",
+      "published_at": "2020-01-23",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-01-23/1207284598.PDF",
+      "sha256": "e3ae29dde389e966d26593f17624646eb0466d18b554d84c71ae75f33e8d573a",
+      "instrument": "19东林02",
+      "funds_arrival_at": "2020-02-03",
+      "amount_rmb": 93000400,
+      "result": "公告出具日前回售本金及利息已足额兑付"
+    }
+  ]
+}

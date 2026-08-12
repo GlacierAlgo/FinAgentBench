@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-st-remediation-000408",
+  "suite": "a_share_st_remediation_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "000408.XSHE",
+    "ticker": "000408",
+    "name_as_of": "*ST藏格",
+    "exchange": "SZSE"
+  },
+  "as_of": "2020-05-06",
+  "prediction_window": {
+    "end": "2022-05-06",
+    "description": "自首次实施ST或*ST风险警示交易日起的未来24个自然月（含起止日）"
+  },
+  "target": {
+    "event": "exchange_approved_full_risk_warning_removal_24m",
+    "definition": "自首次实施ST或*ST风险警示的交易日起未来24个自然月内，证券交易所审核同意撤销公司股票交易的全部退市风险警示和全部其他风险警示，且生效后的证券简称不再含ST或*ST、股票退出风险警示板。仅提交或获董事会通过申请、占款或担保已清偿、审计意见改善、撤销一项叠加警示但仍保留任一风险警示、*ST降为ST、暂停上市后恢复或最终退市均不计为事件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "full_risk_warning_removal_count_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内经交易所审核同意并生效的完整撤销全部风险警示至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2020-05-06收盘后的信息环境。*ST藏格因2019年财务报告被出具无法表示意见而触发退市风险警示；审计材料还暴露关联占用、以巨龙铜业股权抵债及该资产自身担保和持续经营不确定性。请使用冻结搜索工具，预测未来24个自然月内是否会发生target定义的完整撤销全部风险警示。请分别判断无法表示意见事项是否可在下一年被充分审计、占款清偿资源的可执行性、抵债资产质量、主业现金流和交易所审核；利润为正不自动消除审计障碍。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2020-05-06",
+    "allowed_domains": [
+      "cninfo.com.cn",
+      "szse.cn"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "is_st",
+      "special_treatment_info"
+    ],
+    "row_policy": "stock_code=000408.XSHE; quarter=2020q1 and 2019q4; info_date=2020-04-30; if_adjusted=0; first risk-warning trading day=2020-05-06",
+    "st_cause_taxonomy": "mixed_delisting_and_governance/audit_disclaimer+related_party_fund_occupation",
+    "matching_group": "first-risk-warning-day-full-removal-24m-v1",
+    "matching_role": "event_audit_disclaimer",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice": "eef850276dc97754959ec1148d1909c36978a194951d2dc4e386371b5c2f3d06",
+      "audit_report": "1048a3e2adbd166c9dd05ea810d5bb0afb3adaaf949d38a454f180856b69ac69"
+    },
+    "status_source_sha256": {
+      "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+      "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+    },
+    "outcome_contract": "Only an exchange-approved removal of every ST/*ST warning that becomes effective inside the 24-calendar-month window counts. An application, remediation, *ST-to-ST downgrade, continued ST status, or delisting does not.",
+    "news_evidence_policy": "Only documents published no later than as_of enter the frozen corpus. Media reporting is an attributed point-in-time clue, never label authority.",
+    "leakage_guard": "All removal approvals, later ST transitions, restructurings, delistings and post_as_of remediation facts remain label-side only."
+  }
+}

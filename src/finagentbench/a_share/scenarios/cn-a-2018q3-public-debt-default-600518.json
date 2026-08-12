@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2018q3-public-debt-default-600518",
+  "suite": "a_share_public_debt_default_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600518.XSHG",
+    "ticker": "600518",
+    "name_as_of": "康美药业",
+    "exchange": "SSE"
+  },
+  "as_of": "2018-10-27",
+  "prediction_window": {
+    "end": "2019-02-24",
+    "description": "2018年三季报披露后的未来120个自然日"
+  },
+  "target": {
+    "event": "material_public_debt_payment_failure_120d",
+    "definition": "发行人在未来120个自然日内，至少一次对计划兑付金额不低于5000万元的公开发行公司债、中期票据、短融或超短融本金、利息或投资者回售款，截至法定兑付日营业终了未按约足额支付，并由发行人或清算机构正式披露。后续补足不撤销已发生事件；银行贷款、供应商欠款、商业承兑汇票及未公开私人展期不计入。本题预测近期公开兑付失败，不等同于预测最终财务造假、ST或长期破产",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "material_public_debt_payment_failure_count_120d",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内满足口径的公开债务兑付失败至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2018-10-27的信息环境。请使用冻结搜索工具，判断康美药业未来120个自然日是否会发生target定义的重大公开债务兑付失败。先确认窗口内真实到期的公开债务及金额，再审视存贷双高、利息收支不对称、经营现金流相对利润和债务的覆盖、库存与应收占用、持续融资需求和可动用流动性。异常财务结构应提高怀疑，但本题只判定近期兑付结果，不能把可能的报表失真、后来监管结论或长期信用风险直接替代标签。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2018-10-27",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=600518.XSHG; quarter=2018q3; info_date=2018-10-27; if_adjusted=0",
+    "matching_group": "reported-cash-public-maturity-120d-v1",
+    "matching_role": "no_event_hard_control",
+    "opportunity_contract": "At least one ex-ante identifiable public-debt payment of CNY50m or more falls inside the 120-day window.",
+    "hard_negative_reason": "The issuer was later found to have materially false cash and profits, yet the predeclared near-term instrument was paid in full; fraud suspicion is therefore not a mechanical default label.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2018_q3_report": "bc31d7e1f8407a7c2d70ba9bc9a9163ef45db005c171c747cd1766b51d1daf6e",
+      "2018_h1_report": "4a6c4f8cb8fbbd3e5c84fc3c3ed18cdbd35705127469edb8fac7d5eb68fd40ba",
+      "2018_scp003_issuance_result": "50a7f1558794603e08172a355d35c7fe3ef1b4f3fbbf20470031b8bc10b63fdb"
+    },
+    "outcome_label_policy": "Only issuer or clearing-house end-of-due-date disclosures count; later cure does not erase an event.",
+    "leakage_guard": "Post-as-of investigations, penalties, restatements, ST status and restructuring information are label-side only."
+  }
+}

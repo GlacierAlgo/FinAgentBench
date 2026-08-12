@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-st-speculative-runup-600078",
+  "resolved_at": "2022-05-06",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 15.9294342,
+      "peak_adjusted_close_365d": 79.9998522,
+      "as_of_510300_close": 5.061,
+      "stock_close_on_max_excess_date": 77.2371828,
+      "etf_close_on_max_excess_date": 4.064,
+      "common_trading_sessions": 243,
+      "risk_warning_removed_by_window_end": 0
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "peak_adjusted_close_365d"],
+        "value": 4.022140221402214
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "stock_close_on_max_excess_date"],
+        "value": 3.8487084870848713
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_510300_close", "etf_close_on_max_excess_date"],
+        "value": -0.19699664098004344
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": ["stock_return_on_max_excess_date", "etf_return_on_max_excess_date"],
+        "value": 4.045705128064915
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "star-st-notice-multiple-triggers",
+    "annual-loss-debt-and-phosphorus-exposure",
+    "contemporaneous-yellow-phosphorus-chain-pricing"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2021-05-06/2022-05-06",
+      "stock_code": "600078.XSHG",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2021-12-16",
+      "max_excess_date": "2022-04-20",
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return"
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "st_start": "2021-05-06",
+      "risk_warning_removed_by_window_end": false,
+      "note": "The star-ST designation was downgraded later, but full risk-warning removal did not occur inside the price window."
+    }
+  ]
+}

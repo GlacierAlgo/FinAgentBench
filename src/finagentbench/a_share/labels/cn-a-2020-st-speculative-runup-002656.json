@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-st-speculative-runup-002656",
+  "resolved_at": "2021-01-12",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 20.7338307,
+      "peak_adjusted_close_365d": 20.7338307,
+      "as_of_510300_close": 4.202,
+      "stock_close_on_max_excess_date": 20.7338307,
+      "etf_close_on_max_excess_date": 4.202,
+      "common_trading_sessions": 243,
+      "risk_warning_removed_by_window_end": 0
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "peak_adjusted_close_365d"],
+        "value": 0.0
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "stock_close_on_max_excess_date"],
+        "value": 0.0
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_510300_close", "etf_close_on_max_excess_date"],
+        "value": 0.0
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": ["stock_return_on_max_excess_date", "etf_return_on_max_excess_date"],
+        "value": 0.0
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "st-notice-illegal-guarantees",
+    "q3-operating-decline-cash-and-goodwill",
+    "management-exits-and-strategy-instability"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2020-01-13/2021-01-12",
+      "stock_code": "002656.XSHE",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2020-01-13",
+      "max_excess_date": "2020-01-13",
+      "window_end_return": -0.6879795396419437,
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return"
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "st_start": "2020-01-13",
+      "risk_warning_removed_by_window_end": false
+    }
+  ]
+}

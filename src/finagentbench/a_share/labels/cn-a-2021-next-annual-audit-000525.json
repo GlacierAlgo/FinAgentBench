@@ -1,0 +1,40 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-next-annual-audit-000525",
+  "resolved_at": "2022-04-30",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "qualifying_nonstandard_first_annual_audit_count_18m": 1,
+      "first_post_snapshot_annual_audit_report_count_18m": 1,
+      "first_annual_audit_nonstandard": 1,
+      "first_annual_audit_standard_unqualified": 0,
+      "calendar_days_to_first_annual_audit": 359,
+      "internal_control_audit_used_for_label": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "st-notice-near-three-billion-occupation",
+    "annual-agrochemical-financial-stress",
+    "sector-boom-with-exposure-attribution-trap"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_first_post_snapshot_annual_financial_statement_audit_report",
+      "title": "红太阳2021年度财务报表审计报告",
+      "fiscal_year": 2021,
+      "published_at": "2022-04-30",
+      "url": "https://static.cninfo.com.cn/finalpage/2022-04-30/1213264695.PDF",
+      "sha256": "ab2da0b8a514787b8647df2994045482e01b0526f3aeeb3a05f279231ffca95c",
+      "audit_opinion": "保留意见",
+      "qualifies_as_nonstandard": true,
+      "qualification_basis": "财务报表审计报告为保留意见",
+      "is_first_annual_financial_statement_audit_after_snapshot": true,
+      "inside_18_calendar_month_window": true,
+      "internal_control_opinion_not_used": true,
+      "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+      "pdf_text_mode": "native PDFium text extraction (--no-ocr)"
+    }
+  ]
+}

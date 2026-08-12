@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-st-remediation-002656",
+  "resolved_at": "2022-01-13",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "full_risk_warning_removal_count_24m": 0,
+      "full_risk_warning_removed_by_window_end": 0,
+      "partial_only_removal_count_24m": 0,
+      "calendar_days_to_full_removal_or_zero": 0,
+      "risk_warning_present_at_window_end": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "st-notice-illegal-guarantees",
+    "q3-operating-decline-cash-and-goodwill",
+    "management-exits-and-strategy-instability"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_risk_warning_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2020-01-13/2022-01-13",
+      "full_removal_within_window": false,
+      "partial_only_removal_count_24m": 0,
+      "later_context_not_counted": "截至2022-01-13窗口末仍为ST摩登，违规担保及资金占用等事项未形成交易所批准的完整摘帽。"
+    }
+  ]
+}

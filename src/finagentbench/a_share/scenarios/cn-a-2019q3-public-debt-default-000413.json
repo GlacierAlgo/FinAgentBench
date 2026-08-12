@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019q3-public-debt-default-000413",
+  "suite": "a_share_public_debt_default_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "000413.XSHE",
+    "ticker": "000413",
+    "name_as_of": "东旭光电",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-10-31",
+  "prediction_window": {
+    "end": "2020-02-28",
+    "description": "2019年三季报披露后的未来120个自然日"
+  },
+  "target": {
+    "event": "material_public_debt_payment_failure_120d",
+    "definition": "发行人在未来120个自然日内，至少一次对计划兑付金额不低于5000万元的公开发行公司债、中期票据、短融或超短融本金、利息或投资者回售款，截至法定兑付日营业终了未按约足额支付，并由发行人或清算机构正式披露。后续补足不撤销已发生事件；银行贷款、供应商欠款、商业承兑汇票及未公开私人展期不计入。本题预测近期公开兑付失败，不等同于预测最终财务造假、ST或长期破产",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "material_public_debt_payment_failure_count_120d",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内满足口径的公开债务兑付失败至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2019-10-31收盘后的信息环境。请使用冻结搜索工具，判断东旭光电未来120个自然日是否会发生target定义的重大公开债务兑付失败。必须先定位中票的回售付息压力，再拆解合并货币资金中受限资金与集团财务公司存款的可用性，比较利润、经营现金流、应收账款、短期借款和利息负担，并审视财务公司风险评估是实质保障还是关联方自我陈述。不要把账面现金、评级、公司声称风险可控或后来违约机械替代推理。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-10-31",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=000413.XSHE; quarter=2019q3; info_date=2019-10-31; if_adjusted=0",
+    "matching_group": "reported-cash-public-maturity-120d-v1",
+    "matching_role": "event",
+    "opportunity_contract": "At least one ex-ante identifiable public-debt payment of CNY50m or more falls inside the 120-day window.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2019_q3_report": "6549fdba3ee07482e6c36fc69fe946e9ca4473fbaf8c4b94d93cfc86f8aa0c9f",
+      "2018_annual_report": "fa24cc35ec2e7a1c38b863e7aa476543336e673b2bb41b2969955e50b0ff07c9",
+      "finance_company_risk_report": "1221ef29da4cfb2c5fc4fcc4ff0cdf149262915549db2fd0281b4859096b70ea"
+    },
+    "outcome_label_policy": "Only issuer or clearing-house end-of-due-date disclosures count; later cure does not erase an event.",
+    "leakage_guard": "Post-as-of default notices, inquiries, restatements, penalties and ST status are label-side only."
+  }
+}

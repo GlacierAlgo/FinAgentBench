@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018-forced-delisting-002680",
+  "resolved_at": "2019-10-09",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "exchange_forced_delisting_decision_count_60m": 1,
+      "major_illegality_route_decision_count_60m": 1,
+      "financial_route_decision_count_60m": 0,
+      "transaction_route_decision_count_60m": 0,
+      "calendar_days_to_exchange_decision_or_zero": 439,
+      "survived_fixed_window_without_forced_delisting": 0,
+      "first_risk_warning_day_verified": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q1-profitable-solvent-financial-snapshot",
+    "regulator-found-fabricated-production-records",
+    "first-st-full-production-shutdown"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_exchange_forced_delisting_decision",
+      "title": "长生生物关于公司股票终止上市的公告",
+      "decision_date": "2019-10-08",
+      "published_at": "2019-10-09",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-10-09/1206967384.PDF",
+      "sha256": "f252c4ebad79e80a2ffeeb27fd2795d1e7812d00021fbb89bb08fb025aa1911a",
+      "delisting_route": "major_illegality",
+      "decision_reason": "公司触及重大违法强制退市情形，交易所在暂停上市后作出终止上市决定。",
+      "is_exchange_final_decision": true,
+      "forced_not_voluntary": true,
+      "inside_60_calendar_month_window": true,
+      "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+      "pdf_text_mode": "native PDFium text extraction (--no-ocr)"
+    },
+    {
+      "type": "rqdata_forced_delisting_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2018-07-26/2023-07-26",
+      "first_risk_warning_trading_day": "2018-07-26",
+      "forced_delisting_decision_within_window": true,
+      "survived_fixed_window": false
+    }
+  ]
+}

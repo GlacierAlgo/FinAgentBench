@@ -1,0 +1,71 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-st-speculative-runup-002656",
+  "suite": "a_share_st_outcomes_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002656.XSHE",
+    "ticker": "002656",
+    "name_as_of": "ST摩登",
+    "exchange": "SZSE"
+  },
+  "as_of": "2020-01-13",
+  "prediction_window": {
+    "end": "2021-01-12",
+    "description": "自首次实施风险警示交易日收盘起的未来365个自然日"
+  },
+  "target": {
+    "event": "large_post_st_speculative_runup",
+    "definition": "市场路径事件而非因果归因：以首次实施风险警示交易日收盘价为基准，未来365个自然日内的最大后复权收盘收益不低于100%，且任一同期交易日相对沪深300ETF（510300.XSHG）的最大累计收益差不低于80个百分点；两项极值可以发生在不同日期，不使用盘中最高价，也不声称戴帽、整改或行业景气导致上涨",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "comparison": ">=",
+        "value": 1.0,
+        "description": "窗口内最大后复权收盘收益不低于100%"
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "comparison": ">=",
+        "value": 0.8,
+        "description": "窗口内相对沪深300ETF的最大同期累计收益差不低于80个百分点"
+      }
+    ]
+  },
+  "prompt": "你处在2020-01-13收盘后的信息环境，今天是摩登大道首次以ST摩登交易的日期。请使用冻结搜索工具，预测未来365个自然日是否会出现target定义的异常大幅收盘上涨。戴帽直接原因是实控人越权形成3.3亿元违规担保，但请继续核对高管集体离职、账户冻结、收入与利润趋势、货币资金下降、海外品牌与渠道、商誉和潜在诉讼损失。非经营性戴帽不代表主营没有恶化，也不自动产生壳价值炒作。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2020-01-13",
+    "allowed_domains": ["dfcfw.com", "sina.com.cn", "ce.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit", "rq_adj_bwd_price_daily", "etf_raw_price_daily", "is_st"],
+    "row_policy": "stock_code=002656.XSHE; if_adjusted=0 for 2019q3 PIT fundamentals; daily prices from 2020-01-13 through 2021-01-12; benchmark=510300.XSHG",
+    "st_cause_taxonomy": "non_operating_governance/illegal_guarantees",
+    "matching_group": "first-st-day-governance-risk-365d-v1",
+    "matching_role": "no_event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice_exchange_mirror": "09d3b381eac2bfecf8ef504fb3203b2f3dadfe0f0b676e072d67bcc9885e66e2",
+      "2019_third_quarter_report_exchange_mirror": "d7f82607f662f6cc1cf66c974f08ad11fd83e5eed98b1fb776697e3707976e96"
+    },
+    "news_evidence_policy": "Contemporaneous reporting may provide management-turnover and strategy context; filings remain authority for the guarantee exposure and PIT financials.",
+    "outcome_label_policy": "Stock backward-adjusted closes and raw 510300 closes are aligned by trade_date; maxima use closing observations only over the predeclared 365-calendar-day window.",
+    "causal_guardrail": "The label measures an ex post market path, not whether ST designation, governance failure, shell value, or fundamentals caused that path."
+  }
+}

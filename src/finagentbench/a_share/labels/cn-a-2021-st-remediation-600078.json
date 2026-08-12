@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-st-remediation-600078",
+  "resolved_at": "2023-05-06",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "full_risk_warning_removal_count_24m": 0,
+      "full_risk_warning_removed_by_window_end": 0,
+      "partial_only_removal_count_24m": 1,
+      "calendar_days_to_full_removal_or_zero": 0,
+      "risk_warning_present_at_window_end": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "star-st-notice-multiple-triggers",
+    "annual-loss-debt-and-phosphorus-exposure",
+    "contemporaneous-yellow-phosphorus-chain-pricing"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_risk_warning_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2021-05-06/2023-05-06",
+      "full_removal_within_window": false,
+      "partial_only_removal_count_24m": 1,
+      "later_context_not_counted": "2022-08-16仅由*ST澄星降为ST澄星，仍留在风险警示板；完整摘帽直到2024-06-24才生效。"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018-dividend-payment-002450",
+  "resolved_at": "2018-10-01",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "announced_cash_dividend_amount_rmb": 247685974.73,
+      "consolidated_cash_as_of_rmb": 16781114176.87,
+      "parent_company_cash_as_of_rmb": 7562878648.19,
+      "announced_cash_dividend_payment_failure_count_10d": 0,
+      "cash_dividend_paid_amount_rmb": 247685974.73
+    },
+    "derivations": [
+      {
+        "metric": "consolidated_cash_to_announced_dividend",
+        "operation": "ratio",
+        "inputs": ["consolidated_cash_as_of_rmb", "announced_cash_dividend_amount_rmb"],
+        "value": 67.75157210723362
+      },
+      {
+        "metric": "parent_cash_to_announced_dividend",
+        "operation": "ratio",
+        "inputs": ["parent_company_cash_as_of_rmb", "announced_cash_dividend_amount_rmb"],
+        "value": 30.534141694677
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "h1-consolidated-and-parent-liquidity",
+    "formal-dividend-implementation-notice"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_completed_dividend",
+      "paths": ["data/db/dividend_info.parquet", "data/db/dividend.parquet"],
+      "stock_code": "002450.XSHE",
+      "quarter": "2017q4",
+      "declaration_announcement_date": "2018-09-21",
+      "book_closure_date": "2018-09-27",
+      "ex_dividend_date": "2018-09-28",
+      "payable_date": "2018-09-28",
+      "cash_per_10_shares_before_tax": 0.6995
+    },
+    {
+      "type": "official_periodic_confirmation",
+      "title": "康得新2018年第三季度报告：权益分派实施",
+      "published_at": "2018-10-23",
+      "url": "https://static.cninfo.com.cn/finalpage/2018-10-23/1205522221.PDF",
+      "sha256": "b3d7c478a1f19f71f45c811c011407e7cb738779695f94b8adbc2fde6e1385a8",
+      "outcome": "重大事项章节列示2017年度权益分派实施及2018年9月28日除权除息日"
+    }
+  ]
+}

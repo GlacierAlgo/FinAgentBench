@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019q3-public-debt-default-000413",
+  "resolved_at": "2019-11-18",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "scheduled_material_public_debt_payment_count_120d": 2,
+      "scheduled_material_public_debt_payment_amount_rmb": 3554000000,
+      "material_public_debt_payment_failure_count_120d": 2,
+      "material_public_debt_payment_failure_amount_rmb": 3554000000,
+      "material_public_debt_payment_completed_count_120d": 0,
+      "material_public_debt_payment_completed_amount_rmb": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-cash-profit-and-working-capital-pressure",
+    "mtn-structure-and-prior-payment-record",
+    "finance-company-concentration-and-self-assessed-safety"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_default_notice",
+      "title": "关于2016年度第一期中期票据回售付息未能如期兑付的提示性公告",
+      "published_at": "2019-11-19",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-11-19/1207099931.PDF",
+      "sha256": "eab3cfd0392deb28ad9df6b7381453d93212b717edf5f5e2028386773aaea9db",
+      "instruments": [
+        {"instrument": "16东旭光电MTN001A", "due_at": "2019-11-18", "amount_rmb": 1969000000, "eligible": true},
+        {"instrument": "16东旭光电MTN001B", "due_at": "2019-11-18", "amount_rmb": 41000000, "eligible": false, "exclusion": "单笔计划支付金额低于5000万元"}
+      ],
+      "result": "两品种应付利息及相关回售款均未如期兑付"
+    },
+    {
+      "type": "official_issuer_default_notice",
+      "title": "关于2016年度第二期中期票据回售付息未能如期兑付的提示性公告",
+      "published_at": "2019-12-03",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-12-03/1207130738.PDF",
+      "sha256": "89f709572e40247f50aaaf06bd150af8039de084684b2a9ddbe15de20f715159",
+      "instrument": "16东旭光电MTN002",
+      "due_at": "2019-12-02",
+      "amount_rmb": 1585000000,
+      "result": "应付利息及相关回售款未如期兑付"
+    }
+  ]
+}

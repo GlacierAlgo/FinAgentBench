@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019-enforcement-002310",
+  "suite": "a_share_enforcement_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002310.XSHE",
+    "ticker": "002310",
+    "name_as_of": "东方园林",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-10-31",
+  "prediction_window": {
+    "end": "2022-04-30",
+    "description": "自2019年三季报披露日起的未来30个自然月（含起止日）"
+  },
+  "target": {
+    "event": "regulator_confirmed_material_financial_misstatement_30m",
+    "definition": "未来30个自然月内，中国证监会或其派出机构出具日期落在窗口内的最终《行政处罚决定书》，正式认定公司在as_of之前已经公开的定期报告、发行文件或重组文件中，单项或同一事项累计存在不低于1亿元的虚增或虚减营业收入、利润、货币资金或其他资产，或未披露不低于1亿元的控股股东及关联方非经营性资金占用、违规担保。立案调查、交易所问询、监管措施、行政处罚事先告知、媒体质疑和公司自查均不计；处罚决定晚于窗口也不计。本题预测固定期限内的重大违法最终认定，不等同于判断公司最终是否造假、是否ST或是否违约",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "qualifying_final_enforcement_decision_count_30m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内满足监管主体、最终决定、点时文件和1亿元重大性门槛的处罚决定至少一份"
+      }
+    ]
+  },
+  "prompt": "你处在2019-10-31的信息环境。请使用冻结搜索工具，判断东方园林未来30个自然月内是否会发生target定义的重大财务错报最终监管认定。公司已经亏损、经营现金流大幅为负、货币资金大多受限且债务沉重，但北京朝阳国资已完成控制权交割并对部分存续债提供具体担保。请区分真实经营和流动性困境、报表错报风险、国资救助与达到1亿元门槛的最终处罚概率；不得使用窗口后的处罚、ST或重整信息。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-10-31",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002310.XSHE; quarter=2019q3; info_date=2019-10-31; if_adjusted=0",
+    "matching_group": "severe-financial-governance-signal-30m-v1",
+    "matching_role": "no_event_threshold_and_temporal_control",
+    "hard_negative_reason": "Severe disclosed operating distress is not equivalent to material fraud enforcement. A later 2024 accounting-error decision was both post-window and below the CNY100m threshold.",
+    "outcome_contract": "Only a dated final CSRC or regional-bureau administrative penalty decision inside the 30-month window can create an event; investigation signals, subthreshold matters and post-window decisions cannot.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2019_q3_report": "5c00d92e78bd3620e736cc881a6cc2a7083028c5665bb982b94f4c6aabd08d91",
+      "2019_half_year_report": "f93530bde18603f6de3f90793f5aea2046881c6dba1dd32d268a76b925bb4d7e",
+      "state_guarantee_notice": "ca8916533da142c308c4f6aa1a47ac3c7f692197f1bf435984fd5e5940f3592a"
+    },
+    "leakage_guard": "All later enforcement, ST, restructuring and bankruptcy information remains label-side only."
+  }
+}

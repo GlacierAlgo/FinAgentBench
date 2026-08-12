@@ -59,7 +59,7 @@
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", "三个模型在商誉减值、财务陷阱和商业兑现任务上的平均 Brier loss；越低越好。 ");
+    svg.setAttribute("aria-label", "三个模型在纳入雷达的实验套件上的平均 Brier loss；越低越好。");
 
     for (let index = 0; index <= 5; index += 1) {
       const value = axisMax * index / 5;

@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-enforcement-002437",
+  "resolved_at": "2021-10-24",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "qualifying_final_enforcement_decision_count_30m": 0,
+      "largest_confirmed_material_amount_rmb": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "annual-goodwill-impairment-and-clean-audit",
+    "q1-controller-freeze-but-positive-cash-flow",
+    "contemporaneous-repeated-inquiries-and-pledge-distress"
+  ],
+  "outcome_sources": [
+    {
+      "type": "csrc_final_enforcement_registry_search",
+      "title": "中国证监会及派出机构行政处罚决定检索：哈尔滨誉衡药业股份有限公司",
+      "queried_at": "2026-08-12",
+      "url": "https://neris.csrc.gov.cn/falvfagui/rdqsHeader/mainbody?navbarId=3",
+      "query": "哈尔滨誉衡药业股份有限公司",
+      "window_end": "2021-10-24",
+      "qualifying_decisions_through_window_end": 0,
+      "result": "截至预设窗口终点，没有针对公司as_of前财务报告且满足1亿元重大性口径的最终行政处罚决定；自然人内幕交易等不同违法类型不计。"
+    },
+    {
+      "type": "official_periodic_report_context",
+      "title": "誉衡药业2020年年度报告",
+      "published_at": "2021-04-24",
+      "url": "https://static.cninfo.com.cn/finalpage/2021-04-24/1209788130.PDF",
+      "not_counted_as_enforcement": true,
+      "finding": "窗口内后续法定报告用于核对公司持续披露轨迹；定期报告或审计意见本身不是行政处罚决定，也不能单独证明永久不存在错报。"
+    }
+  ]
+}

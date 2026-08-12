@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-st-speculative-runup-002650",
+  "suite": "a_share_st_outcomes_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002650.XSHE",
+    "ticker": "002650",
+    "name_as_of": "ST加加",
+    "exchange": "SZSE"
+  },
+  "as_of": "2020-06-15",
+  "prediction_window": {
+    "end": "2021-06-15",
+    "description": "自当前风险警示事件首次生效交易日收盘起的未来365个自然日"
+  },
+  "target": {
+    "event": "large_post_st_speculative_runup",
+    "definition": "市场路径事件而非因果归因：以当前风险警示事件首次生效交易日收盘价为基准，未来365个自然日内的最大后复权收盘收益不低于100%，且任一同期交易日相对沪深300ETF（510300.XSHG）的最大累计收益差不低于80个百分点；两项极值可以发生在不同日期，不使用盘中最高价，也不声称戴帽、整改、重整、资产题材或行业景气导致上涨",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内最大后复权收盘收益不低于100%"
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "comparison": ">=",
+        "value": 0.8,
+        "description": "窗口内相对沪深300ETF的最大同期累计收益差不低于80个百分点"
+      }
+    ]
+  },
+  "prompt": "你处在2020-06-15收盘后的信息环境，今天是加加食品本轮风险警示事件首次以ST加加交易的日期。请使用冻结搜索工具预测未来365个自然日是否出现target定义的异常大幅收盘上涨。风险警示源于控股股东资金占用和违规担保，主营调味品仍有经营基础，但控制人偿债承诺、司法处置和内控整改存在执行风险。必须同时判断股票自身翻倍与相对510300超额80个百分点两个门槛；接近任何单一门槛都不能算事件。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2020-06-15",
+    "allowed_domains": [
+      "cninfo.com.cn",
+      "cs.com.cn"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "rq_adj_bwd_price_daily",
+      "etf_raw_price_daily",
+      "is_st"
+    ],
+    "row_policy": "stock_code=002650.XSHE; 2019q4 and 2020q1 PIT fundamentals available by 2020-04-30; current warning episode starts 2020-06-15; daily prices 2020-06-15 through 2021-06-15; benchmark=510300.XSHG",
+    "st_cause_taxonomy": "non_operating_governance/related_party_fund_occupation+illegal_guarantees",
+    "matching_group": "current-risk-warning-episode-market-path-365d-v1",
+    "matching_role": "no_event_threshold_boundary_stock_double_but_excess_79pp",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice": "fdb701da870263744592c52572bd2585a6e1ece51448874a9fd19f80e44b1ef6",
+      "audit_report": "9a77ffee4a8b33b5bc8c4a6b87f48c19b85f4335b66a8239c045d22dafc15883"
+    },
+    "news_evidence_policy": "Only documents published no later than as_of enter the frozen corpus. Filings and point-in-time data remain authoritative; narratives are hypotheses, never outcome labels.",
+    "outcome_label_policy": "Stock backward-adjusted closes and raw 510300 closes are aligned by trade_date; maxima use available closing observations only over the predeclared 365-calendar-day window. Suspension or delisting may shorten the observed trading path and is not imputed.",
+    "causal_guardrail": "The label measures an ex post market path, not whether ST designation, remediation, restructuring, scandal severity, shell value, commodity exposure, or fundamentals caused that path."
+  }
+}

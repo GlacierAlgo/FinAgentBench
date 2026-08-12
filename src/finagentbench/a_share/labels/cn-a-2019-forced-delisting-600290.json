@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-forced-delisting-600290",
+  "resolved_at": "2024-01-10",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "exchange_forced_delisting_decision_count_60m": 1,
+      "major_illegality_route_decision_count_60m": 0,
+      "financial_route_decision_count_60m": 0,
+      "transaction_route_decision_count_60m": 1,
+      "calendar_days_to_exchange_decision_or_zero": 1475,
+      "survived_fixed_window_without_forced_delisting": 0,
+      "first_risk_warning_day_verified": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "st-notice-occupation-and-guarantees",
+    "q3-cash-receivables-and-weak-operations",
+    "wind-installation-boom-and-leader-concentration"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_exchange_forced_delisting_decision",
+      "title": "华仪电气关于收到股票终止上市决定的公告",
+      "decision_date": "2024-01-09",
+      "published_at": "2024-01-10",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-01-10/1218837789.PDF",
+      "sha256": "c16cb81c100f578d8ca129fe790bd933943784c1dadedaa765176e90b3c46d0d",
+      "delisting_route": "transaction",
+      "decision_reason": "公司连续20个交易日每日收盘价低于1元，上交所作出交易类终止上市决定。",
+      "is_exchange_final_decision": true,
+      "forced_not_voluntary": true,
+      "inside_60_calendar_month_window": true,
+      "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+      "pdf_text_mode": "native PDFium text extraction (--no-ocr)"
+    },
+    {
+      "type": "rqdata_forced_delisting_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2019-12-26/2024-12-26",
+      "first_risk_warning_trading_day": "2019-12-26",
+      "forced_delisting_decision_within_window": true,
+      "survived_fixed_window": false
+    }
+  ]
+}

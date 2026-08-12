@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018q3-public-debt-default-600518",
+  "resolved_at": "2019-02-24",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "scheduled_material_public_debt_payment_count_120d": 4,
+      "scheduled_material_public_debt_payment_amount_rmb": 5335820000,
+      "material_public_debt_payment_failure_count_120d": 0,
+      "material_public_debt_payment_failure_amount_rmb": 0,
+      "material_public_debt_payment_completed_count_120d": 4,
+      "material_public_debt_payment_completed_amount_rmb": 5335820000
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-larger-cash-and-more-extreme-carry-cost",
+    "scp003-maturity-inside-window",
+    "h1-complete-public-debt-calendar"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_payment_notice",
+      "title": "2018年度第一期超短期融资券到期兑付的公告",
+      "published_at": "2018-12-04",
+      "url": "https://static.cninfo.com.cn/finalpage/2018-12-04/1205646056.PDF",
+      "sha256": "335fc69ba9fe3650812897d95a38454753955bccbeb7697aa62fad89d28cae3d",
+      "instrument": "18康美SCP001",
+      "due_at": "2018-12-03",
+      "amount_rmb": 1559695890.41,
+      "result": "本息足额兑付"
+    },
+    {
+      "type": "official_issuer_payment_notice",
+      "title": "2018年度第二期超短期融资券到期兑付的公告",
+      "published_at": "2018-12-12",
+      "url": "https://static.cninfo.com.cn/finalpage/2018-12-12/1205663175.PDF",
+      "sha256": "c81e529deeea6a781934987da8f1f044c987385fb4bd4c7687db2aa68c7e97eb",
+      "instrument": "18康美SCP002",
+      "due_at": "2018-12-11",
+      "amount_rmb": 1560916438.36,
+      "result": "本息足额兑付"
+    },
+    {
+      "type": "official_interest_notice_and_later_periodic_confirmation",
+      "title": "2015年公司债券2019年付息公告及2019年半年度报告履约确认",
+      "published_at": "2019-08-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-08-29/1206660760.PDF",
+      "sha256": "54aa043f4d980b6eab1def8f7fde5d805d100794c696d90c0be4fe63790a9cac",
+      "notice_url": "https://static.cninfo.com.cn/finalpage/2019-01-15/1205769214.PDF",
+      "notice_sha256": "6ab1f37874266814f40076b2432b0eef702f44fc61789758480813c9026f4b29",
+      "instrument": "15康美债",
+      "due_at": "2019-01-28",
+      "amount_rmb": 127920000,
+      "result": "半年报确认已支付本计息年度利息"
+    },
+    {
+      "type": "official_issuer_payment_notice",
+      "title": "2018年度第三期超短期融资券到期兑付的公告",
+      "published_at": "2019-02-13",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-02-13/1205827203.PDF",
+      "sha256": "d2220988d1ce16b8927b3df9b91df3f18d0cf419416ed204b3c0fcfc63b2078c",
+      "instrument": "18康美SCP003",
+      "due_at": "2019-02-12",
+      "amount_rmb": 2087287671.23,
+      "result": "本息足额兑付"
+    }
+  ]
+}

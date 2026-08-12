@@ -1,0 +1,40 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-forced-delisting-600702",
+  "resolved_at": "2025-09-22",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "exchange_forced_delisting_decision_count_60m": 0,
+      "major_illegality_route_decision_count_60m": 0,
+      "financial_route_decision_count_60m": 0,
+      "transaction_route_decision_count_60m": 0,
+      "calendar_days_to_exchange_decision_or_zero": 0,
+      "survived_fixed_window_without_forced_delisting": 1,
+      "first_risk_warning_day_verified": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "st-notice-cause-and-unresolved-occupation",
+    "h1-financials-and-liquor-operations",
+    "contemporaneous-liquor-recovery-and-differentiation"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_forced_delisting_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2020-09-22/2025-09-22",
+      "first_risk_warning_trading_day": "2020-09-22",
+      "forced_delisting_decision_within_window": false,
+      "survived_fixed_window": true
+    }
+  ]
+}

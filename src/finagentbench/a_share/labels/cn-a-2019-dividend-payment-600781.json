@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-dividend-payment-600781",
+  "resolved_at": "2019-07-20",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "announced_cash_dividend_amount_rmb": 62715751.20,
+      "consolidated_cash_as_of_rmb": 1815767804.26,
+      "parent_company_cash_as_of_rmb": 112160.04,
+      "announced_cash_dividend_payment_failure_count_10d": 1,
+      "cash_dividend_paid_amount_rmb": 0
+    },
+    "derivations": [
+      {
+        "metric": "consolidated_cash_to_announced_dividend",
+        "operation": "ratio",
+        "inputs": ["consolidated_cash_as_of_rmb", "announced_cash_dividend_amount_rmb"],
+        "value": 28.952340831723945
+      },
+      {
+        "metric": "parent_cash_to_announced_dividend",
+        "operation": "ratio",
+        "inputs": ["parent_company_cash_as_of_rmb", "announced_cash_dividend_amount_rmb"],
+        "value": 0.001788387093416494
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "q1-consolidated-parent-cash-chasm",
+    "unapproved-related-guarantee-control-failure",
+    "controller-holding-fully-frozen",
+    "formal-dividend-implementation-notice"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_cancellation_notice",
+      "title": "关于调整2018年年度权益分派有关事项暨继续停牌的公告",
+      "published_at": "2019-07-20",
+      "url": "https://static.sse.com.cn/disclosure/listedinfo/announcement/c/2019-07-20/600781_20190720_1.pdf",
+      "sha256": "530c9be370f5511ec9dd048e3ee82e5801cfe0a4ecf3151ed4d931a8438e6af1",
+      "scheduled_payable_at": "2019-07-22",
+      "outcome": "因资金安排原因未完成分红款划转，原登记日、除息日和现金红利发放日全部取消"
+    },
+    {
+      "type": "rqdata_dividend_outcome",
+      "paths": ["data/db/dividend_info.parquet", "data/db/dividend.parquet"],
+      "stock_code": "600781.XSHG",
+      "effective_date": "2018-12-31",
+      "result": "dividend_info保留每10股1元现金方案但ex_dividend_date为空；completed dividend表不存在2018q4记录"
+    }
+  ]
+}

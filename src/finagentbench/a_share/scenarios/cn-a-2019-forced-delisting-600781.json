@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019-forced-delisting-600781",
+  "suite": "a_share_forced_delisting_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600781.XSHG",
+    "ticker": "600781",
+    "name_as_of": "ST辅仁",
+    "exchange": "SSE"
+  },
+  "as_of": "2019-09-03",
+  "prediction_window": {
+    "end": "2024-09-03",
+    "description": "自首次实施ST或*ST风险警示交易日起的未来60个自然月（含起止日）"
+  },
+  "target": {
+    "event": "exchange_decided_forced_delisting_60m",
+    "definition": "自首次实施ST或*ST风险警示的交易日起未来60个自然月内，证券交易所作出强制终止公司股票上市的最终决定。财务类、交易类、重大违法类以及规范类强制退市均计入；仅风险提示、继续ST或*ST、停牌或暂停上市、公司申请或自愿退市、重整或重组、进入退市整理期但缺少交易所终止上市决定、以及窗口结束后才作出的决定均不计入",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "exchange_forced_delisting_decision_count_60m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内交易所作出强制终止上市最终决定至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2019-09-03收盘后的信息环境。ST辅仁因16.35625亿元控股股东占用和违规担保戴帽，此前公司在合并报表显示大量现金和利润时却无法支付约6,274万元分红，半年报现金又骤降91.88%。请使用冻结搜索工具，预测未来60个自然月内是否会发生target定义的交易所强制终止上市决定。必须区分合并利润、母公司可支配现金、关联应收回收、控制人股权冻结、债务逾期、调查与下一年审计风险。 给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-09-03",
+    "allowed_domains": [
+      "cninfo.com.cn",
+      "cs.com.cn"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "is_st",
+      "special_treatment_info"
+    ],
+    "row_policy": "stock_code=600781.XSHG; quarter=2019q2; info_date=2019-08-31; if_adjusted=0; first risk-warning trading day=2019-09-03",
+    "st_cause_taxonomy": "non_operating_governance/related_party_fund_occupation+illegal_guarantees+liquidity_crisis",
+    "matching_group": "first-risk-warning-day-forced-delisting-60m-v1",
+    "matching_role": "event",
+    "first_warning_start_contract": "The snapshot is the first trading day on which ST or *ST is active, not merely the prior announcement date.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice": "ec3e34a584c40558e80f65e6023dd85ad238a1b1cf6163a9dd09dc3e2130fc51",
+      "h1_report": "cc631eb09efd9844a615fbc7b2daae85ad238a1b1cf6163a9dd09dc3e2130fc51"
+    },
+    "news_evidence_policy": "Only contemporaneous public information no later than as_of may enter the corpus; official filings and read-only RQData remain point-in-time and label authority.",
+    "outcome_contract": "Only a final securities-exchange decision to forcibly terminate the listing inside the fixed 60-calendar-month window counts. Risk warnings, suspension, an issuer application, voluntary delisting, restructuring, a delisting-risk notice, entry into a delisting period without the decision, or a decision after the window do not count.",
+    "status_source_sha256": {
+      "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+      "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+    },
+    "leakage_guard": "All exchange decisions, later delisting routes, later warning transitions, restructurings, penalties and post-as_of financial results remain label-side only."
+  }
+}

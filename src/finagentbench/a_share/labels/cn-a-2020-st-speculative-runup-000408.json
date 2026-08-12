@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-st-speculative-runup-000408",
+  "resolved_at": "2021-05-06",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 23.3676924,
+      "peak_adjusted_close_365d": 72.7120914,
+      "as_of_510300_close": 3.918,
+      "stock_close_on_max_excess_date": 72.7120914,
+      "etf_close_on_max_excess_date": 5.061,
+      "common_trading_sessions": 244,
+      "risk_warning_removed_by_window_end": 0
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_adjusted_close",
+          "peak_adjusted_close_365d"
+        ],
+        "value": 2.1116504854368934
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_adjusted_close",
+          "stock_close_on_max_excess_date"
+        ],
+        "value": 2.1116504854368934
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_510300_close",
+          "etf_close_on_max_excess_date"
+        ],
+        "value": 0.291730474732006
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": [
+          "stock_return_on_max_excess_date",
+          "etf_return_on_max_excess_date"
+        ],
+        "value": 1.8199200107048874
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "star-st-notice-audit-disclaimer",
+    "audit-report-occupation-and-risky-equity-setoff",
+    "q1-profitable-operation-but-thin-cash"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2020-05-06/2021-05-06",
+      "stock_code": "000408.XSHE",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2021-05-06",
+      "max_excess_date": "2021-05-06",
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return",
+      "observation_policy": "Use aligned closing observations that exist inside the fixed calendar window; do not impute prices across suspension or after delisting."
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "current_warning_episode_start": "2020-05-06",
+      "risk_warning_removed_by_window_end": false
+    }
+  ]
+}

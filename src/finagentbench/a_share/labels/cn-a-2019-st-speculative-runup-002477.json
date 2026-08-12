@@ -1,0 +1,82 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-st-speculative-runup-002477",
+  "resolved_at": "2020-04-25",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 55.897023,
+      "peak_adjusted_close_365d": 55.897023,
+      "as_of_510300_close": 3.879,
+      "stock_close_on_max_excess_date": 55.897023,
+      "etf_close_on_max_excess_date": 3.879,
+      "common_trading_sessions": 113,
+      "risk_warning_removed_by_window_end": 0
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_adjusted_close",
+          "peak_adjusted_close_365d"
+        ],
+        "value": 0
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_adjusted_close",
+          "stock_close_on_max_excess_date"
+        ],
+        "value": 0
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_510300_close",
+          "etf_close_on_max_excess_date"
+        ],
+        "value": 0
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": [
+          "stock_return_on_max_excess_date",
+          "etf_return_on_max_excess_date"
+        ],
+        "value": 0
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "q1-negative-equity-and-cash-conversion-gap",
+    "overdue-debt-litigation-and-frozen-assets",
+    "first-delisting-risk-warning-audit-disclaimer"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2019-04-26/2020-04-25",
+      "stock_code": "002477.XSHE",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2019-04-26",
+      "max_excess_date": "2019-04-26",
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return",
+      "observation_policy": "Use aligned closing observations that exist inside the fixed calendar window; do not impute prices across suspension or after delisting."
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "current_warning_episode_start": "2019-04-26",
+      "risk_warning_removed_by_window_end": false
+    }
+  ]
+}

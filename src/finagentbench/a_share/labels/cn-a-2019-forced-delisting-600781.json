@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-forced-delisting-600781",
+  "resolved_at": "2023-05-23",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "exchange_forced_delisting_decision_count_60m": 1,
+      "major_illegality_route_decision_count_60m": 0,
+      "financial_route_decision_count_60m": 1,
+      "transaction_route_decision_count_60m": 0,
+      "calendar_days_to_exchange_decision_or_zero": 1357,
+      "survived_fixed_window_without_forced_delisting": 0,
+      "first_risk_warning_day_verified": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "st-notice-occupation-guarantee-and-freeze",
+    "h1-cash-collapse-and-related-receivables",
+    "pre-st-dividend-failure-investigation"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_exchange_forced_delisting_decision",
+      "title": "辅仁药业关于收到股票终止上市决定的公告",
+      "decision_date": "2023-05-22",
+      "published_at": "2023-05-23",
+      "url": "https://static.cninfo.com.cn/finalpage/2023-05-23/1216874065.PDF",
+      "sha256": "c73497c931485263b0a3153c81981cdffb0eb2bd9fc6fde40ff1bd3d7049cf8f",
+      "delisting_route": "financial",
+      "decision_reason": "退市风险警示后年报继续显示期末净资产为负且审计无法表示意见，触及财务类终止上市。",
+      "is_exchange_final_decision": true,
+      "forced_not_voluntary": true,
+      "inside_60_calendar_month_window": true,
+      "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+      "pdf_text_mode": "native PDFium text extraction (--no-ocr)"
+    },
+    {
+      "type": "rqdata_forced_delisting_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2019-09-03/2024-09-03",
+      "first_risk_warning_trading_day": "2019-09-03",
+      "forced_delisting_decision_within_window": true,
+      "survived_fixed_window": false
+    }
+  ]
+}

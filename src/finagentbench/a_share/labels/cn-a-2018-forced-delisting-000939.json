@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018-forced-delisting-000939",
+  "resolved_at": "2020-10-29",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "exchange_forced_delisting_decision_count_60m": 1,
+      "major_illegality_route_decision_count_60m": 0,
+      "financial_route_decision_count_60m": 1,
+      "transaction_route_decision_count_60m": 0,
+      "calendar_days_to_exchange_decision_or_zero": 849,
+      "survived_fixed_window_without_forced_delisting": 0,
+      "first_risk_warning_day_verified": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "annual-disclaimer-debt-and-cash-burn",
+    "bank-accounts-frozen-after-default",
+    "first-delisting-risk-warning-audit-disclaimer"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_exchange_forced_delisting_decision",
+      "title": "凯迪生态关于公司股票终止上市的公告",
+      "decision_date": "2020-10-28",
+      "published_at": "2020-10-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-10-29/1208638221.PDF",
+      "sha256": "83b124bef2cd3062c50a6bc07a93ffea5ce15dc50af32cfb9d095c1b978ce79c",
+      "delisting_route": "financial",
+      "decision_reason": "暂停上市后首个年报继续显示净利润和净资产为负，财务报告再次无法表示意见，触及财务类终止上市。",
+      "is_exchange_final_decision": true,
+      "forced_not_voluntary": true,
+      "inside_60_calendar_month_window": true,
+      "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+      "pdf_text_mode": "native PDFium text extraction (--no-ocr)"
+    },
+    {
+      "type": "rqdata_forced_delisting_status_crosscheck",
+      "paths": [
+        "data/db/special_treatment_info.parquet",
+        "data/db/is_st.parquet"
+      ],
+      "source_sha256": {
+        "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+        "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+      },
+      "window": "2018-07-02/2023-07-02",
+      "first_risk_warning_trading_day": "2018-07-02",
+      "forced_delisting_decision_within_window": true,
+      "survived_fixed_window": false
+    }
+  ]
+}

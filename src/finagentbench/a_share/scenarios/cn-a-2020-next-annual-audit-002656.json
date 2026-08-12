@@ -1,0 +1,99 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-next-annual-audit-002656",
+  "suite": "a_share_next_annual_audit_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002656.XSHE",
+    "ticker": "002656",
+    "name_as_of": "ST摩登",
+    "exchange": "SZSE"
+  },
+  "as_of": "2020-01-13",
+  "prediction_window": {
+    "end": "2021-07-13",
+    "description": "从快照日收盘后起至未来18个自然月（快照日不计、窗口结束日计）"
+  },
+  "target": {
+    "event": "first_post_snapshot_annual_financial_statement_nonstandard_audit_18m",
+    "definition": "在快照日之后严格首次公开披露、且不晚于未来18个自然月窗口结束日的年度财务报表审计报告，是否为非标准审计报告。保留意见、否定意见、无法表示意见，以及带强调事项段、持续经营重大不确定性段或其他信息未更正重大错报说明的无保留意见均计为事件；标准无保留意见不计。只认年度财务报表审计报告，不认内部控制审计报告、监管问询、业绩预告、整改声明或更晚年度报告",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "qualifying_nonstandard_first_annual_audit_count_18m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内首份快照后年度财务报表审计报告符合非标准定义"
+      }
+    ]
+  },
+  "prompt": "你处在2020-01-13收盘后的信息环境，ST摩登已经进入风险警示状态。请仅使用冻结搜索工具，预测快照后严格首份年度财务报表审计报告是否会在未来18个自然月内构成target定义的非标准审计报告。把资金占用或违规担保规模、清偿与可审计性、报表层重大错报、审计范围受限、持续经营和现金质量分别判断；不要把ST/*ST标签、整改承诺、后来摘帽或退市、股价表现、以及内部控制审计意见直接当成财务报表审计结论。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2020-01-13",
+    "allowed_domains": [
+      "dfcfw.com",
+      "sina.com.cn",
+      "ce.cn"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "is_st",
+      "special_treatment_info"
+    ],
+    "row_policy": "stock_code=002656.XSHE; only point-in-time financial rows and public evidence available no later than 2020-01-13; the first annual financial-statement audit report strictly after the snapshot is resolved inside a fixed 18-calendar-month window",
+    "st_cause_taxonomy": "non_operating_governance/illegal_guarantees",
+    "matching_group": "first-post-snapshot-annual-financial-audit-18m-v1",
+    "matching_role": "no_event_standard_audit_hard_control",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice_exchange_mirror": "09d3b381eac2bfecf8ef504fb3203b2f3dadfe0f0b676e072d67bcc9885e66e2",
+      "2019_third_quarter_report_exchange_mirror": "d7f82607f662f6cc1cf66c974f08ad11fd83e5eed98b1fb776697e3707976e96"
+    },
+    "news_evidence_policy": "Contemporaneous reporting may provide management-turnover and strategy context; filings remain authority for the guarantee exposure and PIT financials.",
+    "outcome_contract": "Use only the first annual financial-statement audit report publicly disclosed strictly after as_of and no later than window_end. Qualified, adverse, disclaimer, or unqualified with an emphasis, going-concern material-uncertainty, or uncorrected-other-information paragraph counts as nonstandard. Internal-control audit opinions never determine this label.",
+    "label_authority": "The exact future annual financial-statement audit report is label-side only; annual-report summaries may corroborate but cannot replace the signed audit report.",
+    "leakage_guard": "All future audit reports, audit-opinion wording, later remediation, warning-removal, delisting and price outcomes remain label-side only."
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2021-st-speculative-runup-600078",
+  "suite": "a_share_st_outcomes_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600078.XSHG",
+    "ticker": "600078",
+    "name_as_of": "*ST澄星",
+    "exchange": "SSE"
+  },
+  "as_of": "2021-05-06",
+  "prediction_window": {
+    "end": "2022-05-06",
+    "description": "自首次实施风险警示交易日收盘起的未来365个自然日"
+  },
+  "target": {
+    "event": "large_post_st_speculative_runup",
+    "definition": "市场路径事件而非因果归因：以首次实施风险警示交易日收盘价为基准，未来365个自然日内的最大后复权收盘收益不低于100%，且任一同期交易日相对沪深300ETF（510300.XSHG）的最大累计收益差不低于80个百分点；两项极值可以发生在不同日期，不使用盘中最高价，也不声称戴帽、整改或行业景气导致上涨",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "comparison": ">=",
+        "value": 1.0,
+        "description": "窗口内最大后复权收盘收益不低于100%"
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "comparison": ">=",
+        "value": 0.8,
+        "description": "窗口内相对沪深300ETF的最大同期累计收益差不低于80个百分点"
+      }
+    ]
+  },
+  "prompt": "你处在2021-05-06收盘后的信息环境，今天是澄星股份首次以*ST澄星交易的日期。请使用冻结搜索工具，预测未来365个自然日是否会出现target定义的异常大幅收盘上涨。请拆分负净资产、无法表示意见、控股股东资金占用、债务压力和黄磷产业链景气，不要把原料涨价机械等同于公司利润改善；同时评估存量产能、产品结构、经营现金流、重整或控制权选项与退市尾部风险。不要把摘帽、重整或后来股价上涨作因果捷径。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2021-05-06",
+    "allowed_domains": ["sse.com.cn", "dfcfw.com"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit", "rq_adj_bwd_price_daily", "etf_raw_price_daily", "is_st"],
+    "row_policy": "stock_code=600078.XSHG; if_adjusted=0 for 2020q4 PIT fundamentals; daily prices from 2021-05-06 through 2022-05-06; benchmark=510300.XSHG",
+    "st_cause_taxonomy": "mixed_delisting_and_governance/negative_equity+audit_disclaimer+related_party_fund_occupation",
+    "matching_group": "first-st-day-governance-risk-365d-v1",
+    "matching_role": "event_hard_mixed_cause",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice": "0a159af4d13992484fc30f9331f9fb523cc32ac9918ba8fee814fb75ee17efad",
+      "2020_annual_report": "525a725eb1ff14d84fb882213090432709f489a5963c963887771970e8644379",
+      "contemporaneous_industry_report": "50a099ec575f6587928aaa270ce3896509d227a7d46e6067260369cfae54a6f9"
+    },
+    "news_evidence_policy": "The contemporaneous chemical-industry report supplies only point-in-time price-chain context; company filings remain the authority on direct exposure and balance-sheet risk.",
+    "outcome_label_policy": "Stock backward-adjusted closes and raw 510300 closes are aligned by trade_date; maxima use closing observations only over the predeclared 365-calendar-day window.",
+    "causal_guardrail": "The label measures an ex post market path, not whether commodity prices, ST designation, remediation, restructuring, or fundamentals caused that path."
+  }
+}

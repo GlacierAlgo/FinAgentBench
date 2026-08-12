@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2021-st-remediation-600078",
+  "suite": "a_share_st_remediation_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600078.XSHG",
+    "ticker": "600078",
+    "name_as_of": "*ST澄星",
+    "exchange": "SSE"
+  },
+  "as_of": "2021-05-06",
+  "prediction_window": {
+    "end": "2023-05-06",
+    "description": "自首次实施ST或*ST风险警示交易日起的未来24个自然月（含起止日）"
+  },
+  "target": {
+    "event": "exchange_approved_full_risk_warning_removal_24m",
+    "definition": "自首次实施ST或*ST风险警示的交易日起未来24个自然月内，证券交易所审核同意撤销公司股票交易的全部退市风险警示和全部其他风险警示，且生效后的证券简称不再含ST或*ST、股票退出风险警示板。仅提交或获董事会通过申请、占款或担保已清偿、审计意见改善、撤销一项叠加警示但仍保留任一风险警示、*ST降为ST、暂停上市后恢复或最终退市均不计为事件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "full_risk_warning_removal_count_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内经交易所审核同意并生效的完整撤销全部风险警示至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2021-05-06收盘后的信息环境。*ST澄星同时存在负净资产、无法表示意见、内控否定和21.78亿元关联占用。请使用冻结搜索工具，预测未来24个自然月内是否会发生target定义的完整撤销全部风险警示。分别分析财务类退市风险、其他风险警示、占款清偿、审计意见和交易所审核；即使未来从*ST降为ST，只要仍留在风险警示板就不算事件。黄磷价格上涨也不能替代资产负债表修复。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2021-05-06",
+    "allowed_domains": [
+      "sse.com.cn",
+      "dfcfw.com"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "is_st",
+      "special_treatment_info"
+    ],
+    "row_policy": "stock_code=600078.XSHG; if_adjusted=0 for 2020q4 PIT fundamentals; risk-warning events/status checked through the fixed 24-month window",
+    "st_cause_taxonomy": "mixed_delisting_and_governance/negative_equity+audit_disclaimer+related_party_fund_occupation",
+    "matching_group": "first-risk-warning-day-full-removal-24m-v1",
+    "matching_role": "no_event_hard_control",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice": "0a159af4d13992484fc30f9331f9fb523cc32ac9918ba8fee814fb75ee17efad",
+      "2020_annual_report": "525a725eb1ff14d84fb882213090432709f489a5963c963887771970e8644379",
+      "contemporaneous_industry_report": "50a099ec575f6587928aaa270ce3896509d227a7d46e6067260369cfae54a6f9"
+    },
+    "news_evidence_policy": "The contemporaneous chemical-industry report supplies only point-in-time price-chain context; company filings remain the authority on direct exposure and balance-sheet risk.",
+    "outcome_contract": "Only an exchange-approved removal of every ST/*ST warning that becomes effective inside the 24-calendar-month window counts. An application, remediation, *ST-to-ST downgrade, continued ST status, or delisting does not.",
+    "status_source_sha256": {
+      "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+      "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+    },
+    "leakage_guard": "All removal approvals, later ST transitions, restructurings, delistings and post-as_of remediation facts remain label-side only."
+  }
+}

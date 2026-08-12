@@ -1,0 +1,104 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019-st-speculative-runup-002477",
+  "suite": "a_share_st_outcomes_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002477.XSHE",
+    "ticker": "002477",
+    "name_as_of": "*ST雏鹰",
+    "exchange": "SZSE"
+  },
+  "as_of": "2019-04-26",
+  "prediction_window": {
+    "end": "2020-04-25",
+    "description": "自当前风险警示事件首次生效交易日收盘起的未来365个自然日"
+  },
+  "target": {
+    "event": "large_post_st_speculative_runup",
+    "definition": "市场路径事件而非因果归因：以当前风险警示事件首次生效交易日收盘价为基准，未来365个自然日内的最大后复权收盘收益不低于100%，且任一同期交易日相对沪深300ETF（510300.XSHG）的最大累计收益差不低于80个百分点；两项极值可以发生在不同日期，不使用盘中最高价，也不声称戴帽、整改、重整、资产题材或行业景气导致上涨",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内最大后复权收盘收益不低于100%"
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "comparison": ">=",
+        "value": 0.8,
+        "description": "窗口内相对沪深300ETF的最大同期累计收益差不低于80个百分点"
+      }
+    ]
+  },
+  "prompt": "你处在2019-04-26收盘后的信息环境，今天是雏鹰农牧本轮风险警示事件首次以*ST雏鹰交易的日期。请使用冻结搜索工具预测未来365个自然日内、在仍有可交易收盘观测的日期中是否出现target定义的异常大幅上涨。公司债务违约、持续亏损、流动性枯竭和生猪资产处置困难同时存在；低价股可能吸引投机，但停牌或面值退市会截断可实现路径。请显式考虑不完整交易观察期，不把盘中波动或退市整理期之外的价格想象成收盘收益。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-04-26",
+    "allowed_domains": [
+      "cninfo.com.cn"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "rq_adj_bwd_price_daily",
+      "etf_raw_price_daily",
+      "is_st"
+    ],
+    "row_policy": "stock_code=002477.XSHE; PIT fundamentals and official warning documents available by 2019-04-26; current warning episode starts 2019-04-26; aligned closing prices through 2020-04-25 when observations exist; benchmark=510300.XSHG",
+    "st_cause_taxonomy": "operating_financial/debt_crisis+transaction_delisting_risk",
+    "matching_group": "current-risk-warning-episode-market-path-365d-v1",
+    "matching_role": "no_event_suspension_and_transaction_delisting",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "q1_report": "4a723a4face2b392c512a6fb2638c2e0535ed10298e8a1cc42cd1f06fb19a229",
+      "overdue_notice": "ae5d31291bbee2f7cb9af106724aa906ff82b9ad6dc0196c39d2aa69a4edc0c0",
+      "st_notice": "74a1049ef6c1d893342c39df87b998dc60b0fe1c7bce109ea584bec9d268a6a3"
+    },
+    "news_evidence_policy": "Only documents published no later than as_of enter the frozen corpus. Filings and point-in-time data remain authoritative; narratives are hypotheses, never outcome labels.",
+    "outcome_label_policy": "Stock backward-adjusted closes and raw 510300 closes are aligned by trade_date; maxima use available closing observations only over the predeclared 365-calendar-day window. Suspension or delisting may shorten the observed trading path and is not imputed.",
+    "causal_guardrail": "The label measures an ex post market path, not whether ST designation, remediation, restructuring, scandal severity, shell value, commodity exposure, or fundamentals caused that path."
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-st-speculative-runup-000525",
+  "resolved_at": "2022-05-06",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 34.63593,
+      "peak_adjusted_close_365d": 84.632142,
+      "as_of_510300_close": 5.061,
+      "stock_close_on_max_excess_date": 84.632142,
+      "etf_close_on_max_excess_date": 3.903,
+      "common_trading_sessions": 243,
+      "risk_warning_removed_by_window_end": 0
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "peak_adjusted_close_365d"],
+        "value": 1.4434782608695653
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_adjusted_close", "stock_close_on_max_excess_date"],
+        "value": 1.4434782608695653
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": ["as_of_510300_close", "etf_close_on_max_excess_date"],
+        "value": -0.22880853586247774
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": ["stock_return_on_max_excess_date", "etf_return_on_max_excess_date"],
+        "value": 1.6722867967320432
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "st-notice-near-three-billion-occupation",
+    "annual-agrochemical-financial-stress",
+    "sector-boom-with-exposure-attribution-trap"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2021-05-06/2022-05-06",
+      "stock_code": "000525.XSHE",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2022-05-06",
+      "max_excess_date": "2022-05-06",
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return"
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "st_start": "2021-05-06",
+      "risk_warning_removed_by_window_end": false
+    }
+  ]
+}

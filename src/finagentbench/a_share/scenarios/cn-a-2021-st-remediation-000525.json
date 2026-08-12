@@ -1,0 +1,101 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2021-st-remediation-000525",
+  "suite": "a_share_st_remediation_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "000525.XSHE",
+    "ticker": "000525",
+    "name_as_of": "ST红太阳",
+    "exchange": "SZSE"
+  },
+  "as_of": "2021-05-06",
+  "prediction_window": {
+    "end": "2023-05-06",
+    "description": "自首次实施ST或*ST风险警示交易日起的未来24个自然月（含起止日）"
+  },
+  "target": {
+    "event": "exchange_approved_full_risk_warning_removal_24m",
+    "definition": "自首次实施ST或*ST风险警示的交易日起未来24个自然月内，证券交易所审核同意撤销公司股票交易的全部退市风险警示和全部其他风险警示，且生效后的证券简称不再含ST或*ST、股票退出风险警示板。仅提交或获董事会通过申请、占款或担保已清偿、审计意见改善、撤销一项叠加警示但仍保留任一风险警示、*ST降为ST、暂停上市后恢复或最终退市均不计为事件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "full_risk_warning_removal_count_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内经交易所审核同意并生效的完整撤销全部风险警示至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2021-05-06收盘后的信息环境。ST红太阳因近29.64亿元非经营性占用与内部控制否定意见而戴帽，且此前部分所谓归还资金又被质押划转。请使用冻结搜索工具，预测未来24个自然月内是否会发生target定义的完整撤销全部风险警示。必须把农化行业景气与公司清偿能力分开，检验占款真实性、控制人融资链、审计验证和交易所审核；重整预期、行业涨价或撤销一项叠加警示均不算完整摘帽。给出概率、二元判断、证据ID与简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2021-05-06",
+    "allowed_domains": [
+      "cninfo.com.cn",
+      "dfcfw.com"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_balance_sheet_pit",
+      "rq_cash_flow_pit",
+      "is_st",
+      "special_treatment_info"
+    ],
+    "row_policy": "stock_code=000525.XSHE; if_adjusted=0 for 2020q4 PIT fundamentals; risk-warning events/status checked through the fixed 24-month window",
+    "st_cause_taxonomy": "non_operating_governance/related_party_fund_occupation+adverse_internal_control",
+    "matching_group": "first-risk-warning-day-full-removal-24m-v1",
+    "matching_role": "no_event_hard_control",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "st_notice_exchange_mirror": "a09e14a6a5860d11fcfb194c5449bcf87e94edd3ca4951aa85dca44bde64ddf6",
+      "2020_annual_report": "92441de1093f0fbf952e60343afe48da4852733508b35c83b487700dbc51fa0c"
+    },
+    "news_evidence_policy": "A contemporaneous sector report is deliberately included as a possible exposure-misattribution trap; the company filing must support any claimed product linkage.",
+    "outcome_contract": "Only an exchange-approved removal of every ST/*ST warning that becomes effective inside the 24-calendar-month window counts. An application, remediation, *ST-to-ST downgrade, continued ST status, or delisting does not.",
+    "status_source_sha256": {
+      "special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f",
+      "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"
+    },
+    "leakage_guard": "All removal approvals, later ST transitions, restructurings, delistings and post-as_of remediation facts remain label-side only."
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2021-st-speculative-runup-300325",
+  "resolved_at": "2022-02-02",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "as_of_adjusted_close": 15.1848,
+      "peak_adjusted_close_365d": 33.4476,
+      "as_of_510300_close": 5.491,
+      "stock_close_on_max_excess_date": 33.4476,
+      "etf_close_on_max_excess_date": 5.209,
+      "common_trading_sessions": 241,
+      "risk_warning_removed_by_window_end": 0
+    },
+    "derivations": [
+      {
+        "metric": "max_adjusted_close_return_365d",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_adjusted_close",
+          "peak_adjusted_close_365d"
+        ],
+        "value": 1.202702702702703
+      },
+      {
+        "metric": "stock_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_adjusted_close",
+          "stock_close_on_max_excess_date"
+        ],
+        "value": 1.202702702702703
+      },
+      {
+        "metric": "etf_return_on_max_excess_date",
+        "operation": "pct_change",
+        "inputs": [
+          "as_of_510300_close",
+          "etf_close_on_max_excess_date"
+        ],
+        "value": -0.051356765616463296
+      },
+      {
+        "metric": "max_excess_return_vs_510300_365d",
+        "operation": "difference",
+        "inputs": [
+          "stock_return_on_max_excess_date",
+          "etf_return_on_max_excess_date"
+        ],
+        "value": 1.2540594683191664
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "q3-denial-loss-and-debt-pressure",
+    "st-notice-later-disclosed-illegal-guarantees"
+  ],
+  "outcome_sources": [
+    {
+      "type": "rqdata_daily_price",
+      "paths": [
+        "data/db/rq_adj_bwd_price_daily/trade_date=YYYY-MM-DD/data.parquet",
+        "data/db/etf_raw_price_daily/trade_date=YYYY-MM-DD/data.parquet"
+      ],
+      "window": "2021-02-02/2022-02-02",
+      "stock_code": "300325.XSHE",
+      "benchmark": "510300.XSHG",
+      "total_return_peak_date": "2021-07-22",
+      "max_excess_date": "2021-07-22",
+      "formula": "stock_return=close_t/close_as_of-1; etf_return=etf_close_t/etf_close_as_of-1; excess=stock_return-etf_return",
+      "observation_policy": "Use aligned closing observations that exist inside the fixed calendar window; do not impute prices across suspension or after delisting."
+    },
+    {
+      "type": "rqdata_st_status",
+      "path": "data/db/is_st.parquet",
+      "current_warning_episode_start": "2021-02-02",
+      "risk_warning_removed_by_window_end": false
+    }
+  ]
+}
