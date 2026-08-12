@@ -1,0 +1,34 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-major-illegal-delisting-600518",
+  "resolved_at": "2024-07-14",
+  "observed_at": "2024-07-15",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "exchange_major_illegality_forced_delisting_final_decision_count_50m": 0,
+      "csrc_final_administrative_penalty_count": 1,
+      "continued_listing_at_window_cutoff": 1,
+      "other_risk_warning_removed_before_cutoff": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["sse-2018-major-illegal-regime", "csrc-2020-kangmei-final-findings"],
+  "outcome_sources": [
+    {
+      "type": "official_other_risk_warning_removal_notice",
+      "title": "康美药业关于撤销其他风险警示暨停牌的公告",
+      "published_at": "2024-07-03",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-07-03/1220520500.PDF",
+      "effective_at": "2024-07-04",
+      "fields": ["撤销其他风险警示", "证券简称变更为康美药业", "继续上市交易"]
+    },
+    {
+      "type": "official_issuer_filing_at_cutoff",
+      "title": "康美药业2024年半年度业绩预盈公告",
+      "published_at": "2024-07-13",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-07-13/1220626359.PDF",
+      "fields": ["证券代码600518", "证券简称康美药业", "持续披露上市公司业绩"]
+    }
+  ]
+}

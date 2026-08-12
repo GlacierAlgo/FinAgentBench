@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2014-public-bond-default-6m-002306",
+  "suite": "a_share_public_debt_default_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002306.XSHE",
+    "ticker": "002306",
+    "name_as_of": "中科云网",
+    "exchange": "SZSE"
+  },
+  "as_of": "2014-10-31",
+  "prediction_window": {
+    "end": "2015-04-30",
+    "description": "2014年三季报披露后的未来6个自然月"
+  },
+  "target": {
+    "event": "material_public_debt_payment_failure_6m",
+    "definition": "发行人在未来6个自然月内，至少一次对计划兑付金额不低于5000万元的公开发行公司债本金、利息或投资者回售款，截至约定兑付日营业终了未按约足额支付，并由发行人、交易所或清算机构正式披露。后续筹资补足或最终兑付不撤销已经发生的事件；股票ST、债项评级下调、银行贷款、供应商欠款和未公开私人展期不计入",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "material_public_debt_payment_failure_count_6m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内满足金额和官方披露口径的公开债务兑付失败至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2014-10-31收盘后的信息环境。中科云网的12湘鄂债已被下调至BBB并实施债券风险警示，投资者回售兑付日在预测窗口内。请使用冻结材料，预测公司未来6个自然月内是否会发生target定义的重大公开债务兑付失败。把确切到期义务与账面现金、经营现金流、扣非亏损、资产处置依赖、融资可得性和增信安排逐项对齐；BBB或ST债本身不是违约标签，账面现金也必须与回售规模和使用约束比较。不要使用2014-10-31之后的筹资、年报、股票*ST或实际兑付结果。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2014-10-31",
+    "allowed_domains": ["cninfo.com.cn", "stcn.com"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002306.XSHE; quarter=2014q3; info_date<=2014-10-31; if_adjusted=0; public-bond maturity and payment result adjudicated from issuer filings",
+    "matching_group": "identified-public-debt-maturity-6m-v1",
+    "matching_role": "event",
+    "opportunity_contract": "A publicly disclosed bond interest/put payment of at least CNY50m is scheduled inside the six-month window.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2014_bond_rating_notice": "44cdea6f0bc9872d763d4140a815e27333b5028011cf42e897202758237edb89",
+      "2015_default_risk_notice": "b64dc1bb17c67dd59ad5058ea17f920b1ce882005d7bc152e961673d3cb65ef9"
+    },
+    "outcome_contract": "Issuer-, exchange- or clearing-house-confirmed failure to pay by the due-date close counts; a later cure does not erase the event.",
+    "leakage_guard": "The April 2015 funding shortfall, payment failure, annual report, stock *ST status and later bond cure remain label-side only."
+  }
+}

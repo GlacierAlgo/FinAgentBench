@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2016-st-recurrence-24m-002306",
+  "resolved_at": "2017-04-27",
+  "observed_at": "2017-04-26",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "risk_warning_recurrence_count_after_full_removal_24m": 1,
+      "calendar_days_from_full_removal_to_recurrence": 346,
+      "full_removal_effective_before_window": 1,
+      "same_controller_at_recurrence": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "annual-2014-loss-audit-and-negative-equity",
+    "restructuring-2015-retains-group-meals",
+    "full-removal-2016-thin-equity-cushion"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_risk_warning_notice",
+      "title": "关于公司股票交易被实行退市风险警示暨停牌的公告",
+      "published_at": "2017-04-26",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-26/1203386418.PDF",
+      "effective_at": "2017-04-27",
+      "result": "公告明确股票自2017-04-27起被实行退市风险警示，简称变更为*ST云网"
+    },
+    {
+      "type": "official_annual_report",
+      "title": "中科云网科技集团股份有限公司2016年年度报告",
+      "published_at": "2017-04-26",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-26/1203386420.PDF",
+      "fields": {"revenue_rmb": 100286000, "net_profit_parent_rmb": -54078000, "equity_parent_rmb": -32094700},
+      "result": "2016年经审计归母净资产为负，触发再次实施退市风险警示"
+    },
+    {
+      "type": "rqdata_point_in_time_status",
+      "paths": ["data/db/symbol_change.parquet", "data/db/is_st.parquet"],
+      "source": "aliyun:/dev/data1/download_rqdata",
+      "access": "read_only",
+      "effective_at": "2017-04-27",
+      "symbol": "*ST云网",
+      "is_st": true
+    }
+  ]
+}

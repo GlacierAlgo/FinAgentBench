@@ -1,0 +1,24 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-governance-fund-recovery-600290",
+  "resolved_at": "2021-01-26",
+  "observed_at": "2021-02-23",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "full_scoped_fund_occupation_cash_recovery_count_13m": 0,
+      "fund_occupation_balance_yuan_at_observation": 1141025100,
+      "cash_repayment_received_flag_at_observation": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["snapshot-st-fund-occupation"],
+  "outcome_sources": [{
+    "type": "official_issuer_monthly_fund_occupation_progress",
+    "title": "华仪电气关于控股股东资金占用及违规担保事项的进展公告",
+    "published_at": "2021-02-23",
+    "url": "https://static.cninfo.com.cn/finalpage/2021-02-23/1209289889.PDF",
+    "result": "窗口结束后的第一份月度进展公告仍披露关联方资金占用余额1,141,025,100元，并明确公司截至公告日尚未收到任何归还款项，因此不可能在2021-01-26前完成快照范围全额现金清偿。",
+    "extraction": {"tool": "run-llama/liteparse", "version": "2.11.1", "git_commit": "5109b46e7f960a52ea9833704c9484c835c6ef4f", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "4764adb8ce7b89ce640c62e517be4c4fa9b95572a9123fab04bba2a6ff2106ed"}
+  }]
+}

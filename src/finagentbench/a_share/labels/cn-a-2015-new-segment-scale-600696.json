@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2015-new-segment-scale-600696",
+  "resolved_at": "2017-12-31",
+  "observed_at": "2018-01-31",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "outcome_source_sha256": {"1204376270.PDF": "ca1d60abd1c5fc66fbc0f43fd27cfe6aec83c7c27d173a7abf07ba97a6a626f6"}},
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "total_revenue_outcome": 175089263.70,
+      "new_segment_revenue_outcome": 21085853.04,
+      "new_segment_cost_outcome": 6513972.38
+    },
+    "derivations": [
+      {
+        "metric": "new_segment_revenue_share_outcome",
+        "operation": "ratio",
+        "inputs": ["new_segment_revenue_outcome", "total_revenue_outcome"],
+        "value": 0.12042916050026202
+      },
+      {
+        "metric": "new_segment_gross_profit_outcome",
+        "operation": "difference",
+        "inputs": ["new_segment_revenue_outcome", "new_segment_cost_outcome"],
+        "value": 14571880.66
+      }
+    ]
+  },
+  "expected_evidence_ids": ["rename-and-finance-plan", "sse-rename-risk-review"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "上海岩石企业发展股份有限公司2017年年度报告",
+      "published_at": "2018-01-31",
+      "url": "https://static.cninfo.com.cn/finalpage/2018-01-31/1204376270.PDF",
+      "fields": ["营业收入", "融资租赁营业收入与营业成本", "商业保理营业收入与营业成本"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_income_statement_pit/quarter=2017q4/data.parquet"],
+      "fields": ["revenue", "gross_profit"],
+      "row_policy": "stock_code=600696.XSHG; quarter=2017q4; if_adjusted=0; selected earliest info_date=2018-01-31"
+    }
+  ]
+}

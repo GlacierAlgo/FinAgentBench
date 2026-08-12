@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2021-repeat-st-000408",
+  "documents": [
+    {"id": "prior-st-2020-accounting-warning", "title": "藏格控股关于公司股票交易被实施退市风险警示的公告", "published_at": "2020-04-30", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2020-04-30/1207687963.PDF", "content": "公司2019年度财务报告被审计机构出具无法表示意见的审计报告，因而触发退市风险警示。无法表示意见反映当时财务报告可验证性存在重大障碍，但历史触发原因本身不能代替对整改后是否复发的判断。"},
+    {"id": "full-removal-2021-approved", "title": "藏格控股关于撤销退市风险警示暨停复牌的公告", "published_at": "2021-05-11", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-05-11/1209950332.PDF", "content": "深交所批准撤销全部退市风险警示，2021年5月12日复牌并恢复简称藏格控股。正式完整摘帽开启48个月预测时钟；历史问题严重度不能替代对整改后持续状态的判断。"}
+  ]
+}

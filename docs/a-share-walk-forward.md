@@ -63,6 +63,16 @@ domains, label dates outside the prediction window, mismatched scenario IDs,
 and outcome ratios that do not recompute from the stored numerator and
 denominator.
 
+New longitudinal labels preserve two different dates. `resolved_at` is the
+effective event date or fixed outcome cutoff inside the prediction window.
+`observed_at` is the earliest post-snapshot date on which public outcome
+evidence was sufficient to adjudicate that result. Neither date universally
+precedes the other: an exchange can announce a future-effective ST decision,
+while a 30 June operating status may only be confirmed in an August interim
+report. Dated outcome sources may not be later than `observed_at`. Historical
+labels written before this bitemporal field was introduced remain loadable; all
+newly authored lifecycle cases must provide it.
+
 ## Version 2 generic outcome target
 
 Business decisions rarely resolve to one accounting line. Schema version 2
@@ -230,17 +240,63 @@ These numbers are public one-repeat diagnostics. They validate task difficulty
 and expose failure modes; they do not qualify as a sealed leaderboard or model
 stability claim.
 
+## Version 6 company-lifecycle cohorts
+
+Version 0.13 adds 52 cases, bringing the public development set to 142 cases
+(72 event / 70 no-event). The unit of authoring is now a stable issuer identity
+with independently dated identity, governance, financing, allocation,
+operations, reporting, listing, and market events. The scored unit remains a
+fixed-window scenario with an outcome-free corpus and a recomputable label.
+
+| Cohort | Cases | Balance | Primary anti-shortcut design |
+| --- | ---: | ---: | --- |
+| Independent ST recurrence | 12 | 6 / 6 | three issuers have opposite-label time slices; two controls recur only two days after the 48-month boundary |
+| Name and business transitions | 10 | 5 / 5 | rename counts never enter the target; successful and failed operating outcomes share the same numeric gates |
+| Operating-chain contrasts | 6 | 3 / 3 | cash conversion, short-debt coverage, equity retention, audit quality, margin, and growth must clear jointly |
+| Governance obligations | 8 | 4 / 4 | an announcement or promise is insufficient; cash receipt, guarantee release, recovery, or registered cancellation must complete |
+| Rule and board regimes | 8 | 4 / 4 | the historical rule version, listing board, warning category, and effective date control the label |
+| Project operation and segment exit | 4 | 2 / 2 | equipment purchase is not formal operation; ownership sale requires consolidation exit |
+| 中科云网 fixed-window outcomes | 4 | 3 / 1 | shutdown, public-debt default, ST recurrence, and complete warning removal use separate literal targets |
+
+The operating-chain cases are structural contrasts, not strict causal matched
+controls: some mechanisms and registered horizons differ even though the
+numeric outcome hurdles match. The benchmark therefore does not claim that a
+particular acquisition, technology, or project caused the later company-level
+outcome.
+
+The bitemporal dossier contract and the 002306 issuer example are documented in
+[`issuer-dossiers.md`](issuer-dossiers.md). `info_date` governs what the agent
+could know; `effective_date` governs state projection. `observed_at` on new
+labels records the earliest date on which public information was sufficient to
+adjudicate the outcome, rather than the later date on which an author happened
+to verify the database.
+
+The lifecycle replay contains 156 attempted sessions and 155 valid structured
+submissions. Sol/Terra/Luna Brier loss on completed attempts is
+0.1396/0.1416/0.1652. Governance-obligation completion is the hardest new
+family by both calibration and threshold accuracy; repeat-ST cases also expose
+large uncertainty around exact episode boundaries. Luna produced one invalid
+threshold contract (`P(event)=0.99` with `no_event`), which remains a public
+model+harness failure rather than being replaced by a diagnostic retry.
+
+These numbers are public one-repeat diagnostics. They validate task difficulty
+and expose failure modes; they do not qualify as a sealed leaderboard or model
+stability claim.
+
 ## PDF-to-text authoring
 
-PDF extraction is standardized on the latest tested Rust-based
+PDF extraction for each authoring wave is pinned to the Rust-based
 [`run-llama/liteparse`](https://github.com/run-llama/liteparse) revision:
-version 2.11.1 at
-`53e4fc813d35f76d0169923d2c451b3c8700edb0`. Text-layer filings use LiteParse's
-PDFium path. Scanned audit and performance-commitment reports use its Tesseract
-OCR path with `chi_sim` and `eng` data. Every new scenario records the exact
-version, revision, and extraction mode in `authoring_provenance` so later
-authors can reproduce the evidence preparation. Parser output never overrides
-the signed filing or the numeric label derivation.
+the author resolves upstream `main`, verifies the crate version, and records
+both values. For the lifecycle wave started on 2026-08-13, this is version
+2.11.1 at `5109b46e7f960a52ea9833704c9484c835c6ef4f`. Text-layer filings use
+LiteParse's PDFium path. Scanned reports use its Tesseract OCR path with the
+required language data. Every new scenario records the exact version, revision,
+and extraction mode in `authoring_provenance` so later authors can reproduce
+the evidence preparation. Existing cases retain the commit actually used when
+they were authored; their provenance is never rewritten without re-parsing.
+Parser output never overrides the signed filing or the numeric label
+derivation.
 
 All version 0.12 ST/scandal source PDFs selected for the checked-in corpora had
 a usable text layer and were extracted with LiteParse `--no-ocr`. Source

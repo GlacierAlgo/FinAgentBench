@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2017-backdoor-sustained-600760",
+  "resolved_at": "2019-12-31",
+  "observed_at": "2020-04-25",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "outcome_source_sha256": {"1207610489.PDF": "9c342e2a92eb9b1ecc1ed35519ea194d3e5a1fc26cdd6bcc038f71bb517f7d74"}},
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "total_revenue_outcome": 23760860873.20,
+      "new_principal_business_revenue_outcome": 23354768571.02,
+      "issuer_adjusted_profit_outcome": 843803894.11
+    },
+    "derivations": [
+      {
+        "metric": "new_principal_business_revenue_share_outcome",
+        "operation": "ratio",
+        "inputs": ["new_principal_business_revenue_outcome", "total_revenue_outcome"],
+        "value": 0.9829091923753472
+      }
+    ]
+  },
+  "expected_evidence_ids": ["shenyang-aircraft-backdoor-implemented"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "中航沈飞股份有限公司2019年年度报告",
+      "published_at": "2020-04-25",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-25/1207610489.PDF",
+      "fields": ["营业收入", "航空制造业营业收入", "扣除非经常性损益后的归属于上市公司股东的净利润"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_income_statement_pit/quarter=2019q4/data.parquet"],
+      "fields": ["revenue", "net_profit_deduct_non_recurring_pnl"],
+      "row_policy": "stock_code=600760.XSHG; quarter=2019q4; if_adjusted=0; selected earliest info_date=2020-04-25"
+    }
+  ]
+}

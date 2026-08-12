@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2025-financial-star-st-regime-688004",
+  "suite": "a_share_rule_regime_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "688004.XSHG",
+    "ticker": "688004",
+    "name_as_of": "博汇科技",
+    "exchange": "SSE STAR"
+  },
+  "as_of": "2025-04-18",
+  "prediction_window": {
+    "end": "2025-08-22",
+    "description": "自2025-04-19起至2025-08-22止，观察是否因截至as-of已披露的2024年年度报告财务类组合指标首次实施*ST"
+  },
+  "target": {
+    "event": "new_star_st_from_latest_annual_financial_trigger",
+    "definition": "公司在as-of时尚未被实施退市风险警示，并因截至as-of已披露的最近一个年度报告触及当时适用的财务类退市风险警示指标，于预测窗口内首次被交易所实施退市风险警示（证券简称冠以“*ST”）。其他风险警示“ST”、窗口前已存在的*ST及其他原因导致的证券简称变化均不计入",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "new_annual_financial_star_st_effective_count",
+        "comparison": ">=",
+        "value": 1,
+        "description": "预测窗口内因最近年度报告财务类指标首次生效的*ST退市风险警示次数至少为1"
+      }
+    ]
+  },
+  "prompt": "你处在2025-04-18收盘后的信息环境。博汇科技已披露2024年年度报告，as-of时证券简称尚未冠以*ST。请只使用冻结搜索工具，识别2024年年报首年适用的科创板财务类退市风险警示规则，正确使用利润三项孰低与扣除后营业收入，并预测公司是否会在2025-08-22前因该年度报告的财务类指标首次被实施*ST。不要把亏损、ST与*ST混同，也不要套用主板或其他年份的阈值。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2025-04-18",
+    "allowed_domains": ["sse.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "official_exchange_and_issuer_filings",
+    "access": "read_only",
+    "matching_group": "annual-financial-star-st-board-regime-v1",
+    "matching_role": "no_event",
+    "matching_axes": ["same_fiscal_year", "same_profit_sign", "post_deduction_revenue_between_100m_and_300m", "different_board_rule"],
+    "rule_snapshot_id": "sse-star-2024-04-30-12.4.2",
+    "exact_contract": "new_star_st_from_latest_annual_financial_trigger-v1",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "688004_20250418_2ACO.pdf": "58c9fa87ec549227d8106f24c50747073d6af4380f3885a0b18a512499377dc1",
+      "sse_star_2024_rule.docx": "f02e8423e467102e30b419f4e01a42600fa315557eca0ac059740114fe849f15"
+    },
+    "leakage_guard": "Corpus contains only the applicable rule and annual-report facts published by as_of; the later unchanged security status remains label-side only."
+  }
+}

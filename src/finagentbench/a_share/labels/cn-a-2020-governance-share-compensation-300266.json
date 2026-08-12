@@ -1,0 +1,25 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-governance-share-compensation-300266",
+  "resolved_at": "2021-06-24",
+  "observed_at": "2021-06-26",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "full_scoped_share_compensation_repurchase_cancellation_count_24m": 1,
+      "snapshot_scoped_compensation_shares": 10623743,
+      "repurchased_and_cancelled_shares": 10623743,
+      "final_batch_cancelled_shares": 4861425
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["snapshot-share-compensation-regulatory-letter"],
+  "outcome_sources": [{
+    "type": "official_issuer_csdc_cancellation_completion",
+    "title": "兴源环境关于业绩承诺补偿股份剩余部分回购注销完成的公告",
+    "published_at": "2021-06-26",
+    "url": "https://static.cninfo.com.cn/finalpage/2021-06-26/1210341092.PDF",
+    "result": "公告列明应补偿股份总数10,623,743股、首批五名义务人的股份已完成注销，并确认剩余七名义务人合计4,861,425股于2021-06-24在中国结算深圳分公司完成回购注销，故快照范围全部股份已注销。公告仅称现金分红返还已达成一致，并未证明收到；现金分红因此明确不属于本题label。",
+    "extraction": {"tool": "run-llama/liteparse", "version": "2.11.1", "git_commit": "5109b46e7f960a52ea9833704c9484c835c6ef4f", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "ae03019acad15a618eb304ccd769401a3f4d32c64a41f9eb5f09150f33b5e76d"}
+  }]
+}

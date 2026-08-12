@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2022-battery-operation-24m-002634",
+  "resolved_at": "2023-12-31",
+  "observed_at": "2024-04-26",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "own_battery_cell_line_formal_operation_count_24m": 1,
+      "own_line_formal_operation_confirmed": 1,
+      "self_manufactured_battery_cell_output_mw": 426.45,
+      "battery_cell_sales_mw": 382.24,
+      "photovoltaic_product_revenue_rmb": 229492535.70
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "q3-2022-pit-capital-base",
+    "yangzhou-10gw-project-structure",
+    "project-execution-risk-chain"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_project_operation_notice",
+      "title": "关于扬州年产10GW高效光伏电池项目进展的公告",
+      "published_at": "2023-09-26",
+      "url": "https://static.cninfo.com.cn/finalpage/2023-09-26/1217945755.PDF",
+      "result": "公司披露扬州项目已实现首片下线并逐步投产，同时提示仍需经历产能爬坡",
+      "extraction": {
+        "tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f",
+        "mode": "native PDFium text extraction (--no-ocr)",
+        "sha256": "226726f5f67635d8c38f2f851ef3cac0143c2132f118c739f84b4acffd320483"
+      }
+    },
+    {
+      "type": "official_annual_report",
+      "title": "浙江棒杰控股集团股份有限公司2023年年度报告",
+      "published_at": "2024-04-26",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-04-26/1219824132.PDF",
+      "period_end": "2023-12-31",
+      "result": "年报确认扬州10GW TOPCon生产基地于2023年第三季度末投产，第四季度形成光伏收入，并披露电池片生产426.45MW、销售382.24MW",
+      "fields": ["扬州10GW TOPCon电池生产基地投产", "光伏产品营业收入", "光伏电池片生产量", "光伏电池片销售量"],
+      "extraction": {
+        "tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f",
+        "mode": "native PDFium text extraction (--no-ocr)",
+        "sha256": "3aa6663ec0b009a401a5d816e71f1864bb32fa2162421c39f714266917e0c4d8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2022-governance-cash-compensation-300709",
+  "resolved_at": "2023-05-06",
+  "observed_at": "2023-05-30",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "full_scoped_cash_performance_compensation_completion_count_12m": 0,
+      "snapshot_scoped_2021_compensation_yuan": 204344405.48,
+      "contract_authorized_offset_yuan": 90000000,
+      "cash_compensation_received_yuan": 7100000,
+      "minimum_uncompleted_snapshot_scope_yuan": 107244405.48
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["snapshot-2021-cash-compensation-progress"],
+  "outcome_sources": [{
+    "type": "official_issuer_compensation_progress_after_window",
+    "title": "精研科技关于深圳市安特信技术有限公司2022年度业绩承诺实现情况及业绩补偿的进展公告",
+    "published_at": "2023-05-30",
+    "url": "https://static.cninfo.com.cn/finalpage/2023-05-30/1216931959.PDF",
+    "result": "窗口结束后的首份专项进展只确认合同授权抵扣9,000万元和累计现金支付710万元，合计9,710万元，低于快照所列2021年度补偿204,344,405.48元；公告仍称原股东未达成最终方案。因此至少107,244,405.48元快照范围义务未完成。",
+    "extraction": {"tool": "run-llama/liteparse", "version": "2.11.1", "git_commit": "5109b46e7f960a52ea9833704c9484c835c6ef4f", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "5c17121049b4a81e2b328256733a97c2a97ff6305b454a3f9f5b9a48fd5f2947"}
+  }]
+}

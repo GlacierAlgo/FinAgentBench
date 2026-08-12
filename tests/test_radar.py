@@ -10,14 +10,14 @@ def test_radar_builds_balanced_distinct_a_share_development_set() -> None:
 
     assert payload["tier"] == "development_diagnostics"
     assert payload["coverage"] == {
-        "case_count": 90,
-        "event_count": 45,
-        "no_event_count": 45,
+        "case_count": 142,
+        "event_count": 72,
+        "no_event_count": 70,
         "model_count": 3,
-        "attempt_count": 270,
+        "attempt_count": 426,
         "sealed_eligible_suite_count": 0,
     }
-    assert len({case["id"] for case in payload["cases"]}) == 90
+    assert len({case["id"] for case in payload["cases"]}) == 142
     assert {len(case["runs"]) for case in payload["cases"]} == {3}
     assert all(
         run["search_calls"] >= 1
@@ -43,6 +43,12 @@ def test_radar_builds_balanced_distinct_a_share_development_set() -> None:
         "st-remediation",
         "forced-delisting",
         "st-market-path",
+        "repeat-st",
+        "name-business-transition",
+        "operating-chain",
+        "governance-obligation",
+        "rule-regime",
+        "project-segment-execution",
     }
 
 
@@ -52,7 +58,8 @@ def test_radar_never_promotes_public_replays_to_sealed_leaderboard() -> None:
     assert payload["leaderboard"]["status"] == "not_yet_eligible"
     assert payload["leaderboard"]["eligible_suite_count"] == 0
     assert all(item["repeats"] == 1 for item in payload["experiment_suites"])
-    assert all(item["harness"]["outcome_visible_to_agent"] is False for item in payload["experiment_suites"])
-    assert render_radar_data_js(payload).startswith(
-        "window.FINAGENTBENCH_RADAR_DATA="
+    assert all(
+        item["harness"]["outcome_visible_to_agent"] is False
+        for item in payload["experiment_suites"]
     )
+    assert render_radar_data_js(payload).startswith("window.FINAGENTBENCH_RADAR_DATA=")

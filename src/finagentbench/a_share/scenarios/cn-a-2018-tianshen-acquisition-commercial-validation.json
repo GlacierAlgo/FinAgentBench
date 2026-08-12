@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2018-tianshen-acquisition-commercial-validation",
+  "suite": "a_share_operating_chain_v1",
+  "mode": "historical_frozen_web",
+  "security": {"order_book_id": "002354.XSHE", "ticker": "002354", "name_as_of": "天神娱乐", "exchange": "SZSE"},
+  "as_of": "2018-04-10",
+  "prediction_window": {"end": "2019-04-30", "description": "以2018财年末为固定结果截点，并等待2018年年度报告首次公开，最晚不超过2019-04-30"},
+  "target": {
+    "event": "acquisition_portfolio_commercial_validation",
+    "definition": "并购组合的公司层面商业兑现事件而非并购因果证明：2018财年同时满足收入增长、毛利、盈利、经营现金、短债覆盖、权益保全和审计质量七项条件。收入增长按2017至2018的一期CAGR计算；毛利率=(收入-营业成本)/收入；短债覆盖=期末货币资金/(短期借款+一年内到期非流动负债)；权益保全=2018归母权益/2017归母权益；标准无保留审计记1，其余记0。",
+    "criteria_mode": "all",
+    "criteria": [
+      {"metric": "revenue_cagr_baseline_to_outcome", "comparison": ">=", "value": 0.15, "description": "2017年至2018年营业收入增长率不低于15%"},
+      {"metric": "gross_margin_outcome", "comparison": ">=", "value": 0.2, "description": "2018年综合毛利率不低于20%"},
+      {"metric": "net_profit_outcome", "comparison": ">", "value": 0, "description": "2018年归母净利润为正"},
+      {"metric": "operating_cash_flow_outcome", "comparison": ">", "value": 0, "description": "2018年经营活动产生的现金流量净额为正"},
+      {"metric": "cash_to_short_term_interest_bearing_debt_outcome", "comparison": ">=", "value": 0.5, "description": "2018年末货币资金覆盖至少50%的短期借款和一年内到期非流动负债"},
+      {"metric": "equity_retention_baseline_to_outcome", "comparison": ">=", "value": 0.8, "description": "2018年末归母权益至少保留2017年末的80%"},
+      {"metric": "standard_unqualified_audit_flag_outcome", "comparison": ">=", "value": 1, "description": "2018年财务报表审计意见为标准无保留意见"}
+    ]
+  },
+  "prompt": "你处在2018-04-10收盘后的信息环境。天神娱乐通过连续收购和并购基金形成游戏、广告、应用分发及影视组合，2017年收入利润高速增长，但商誉、应收和业务跨度也显著上升。请使用冻结搜索工具，沿并购对价与商誉、整合协同、产品运营、收入与毛利、应收、现金回收、短债、权益和审计质量链条，预测并购组合能否在2018财年达到target定义的商业兑现事件。该标签不证明并购是结果的唯一原因，也不评价股价。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {"mode": "frozen_corpus_only", "latest_published_at": "2018-04-10", "allowed_domains": ["cninfo.com.cn"]},
+  "response_contract": {"type": "object", "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"], "properties": {"event_probability": {"type": "number", "minimum": 0, "maximum": 1}, "prediction": {"type": "string", "enum": ["event", "no_event"]}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "analysis_summary": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata", "access": "read_only", "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002354.XSHE; if_adjusted=0; earliest info_date per selected annual report; baseline quarter=2017q4 info_date=2018-04-10; outcome quarter=2018q4 info_date=2019-04-30",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {"2017_annual_report": "25ab243c04ed08e16a6947994070b21757011f01fc11eda4484c847f27e1bd87", "2017_annual_summary": "5a79664b0a256c395b3de82d3e81c35205d0b92b1db786092c7da0307349e0b4"},
+    "causal_guardrail": "The label measures later company-level acquisition-portfolio validation under a fixed hurdle, not causal attribution to acquisitions."
+  }
+}

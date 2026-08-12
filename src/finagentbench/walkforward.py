@@ -373,9 +373,7 @@ class FrozenCorpus:
             documents.append(
                 FrozenDocument(
                     id=_string(document["id"], field="id", source=item_source),
-                    title=_string(
-                        document["title"], field="title", source=item_source
-                    ),
+                    title=_string(document["title"], field="title", source=item_source),
                     published_at=published_at,
                     source=_string(
                         document["source"], field="source", source=item_source
@@ -427,6 +425,7 @@ class WalkForwardLabel:
     schema_version: int
     scenario_id: str
     resolved_at: date
+    observed_at: date | None
     event_occurred: bool
     realized: dict[str, Any]
     realized_metrics: dict[str, float]
@@ -477,12 +476,20 @@ class WalkForwardLabel:
         )
         if scenario_id != scenario.id or scenario_id != corpus.scenario_id:
             raise CaseValidationError(f"{source}: label scenario_id mismatch")
-        resolved_at = _date(
-            payload["resolved_at"], field="resolved_at", source=source
-        )
+        resolved_at = _date(payload["resolved_at"], field="resolved_at", source=source)
         if not scenario.as_of < resolved_at <= scenario.window_end:
             raise CaseValidationError(
                 f"{source}: resolved_at must be inside the prediction window"
+            )
+        observed_at_raw = payload.get("observed_at")
+        observed_at = (
+            _date(observed_at_raw, field="observed_at", source=source)
+            if observed_at_raw is not None
+            else None
+        )
+        if observed_at is not None and observed_at <= scenario.as_of:
+            raise CaseValidationError(
+                f"{source}: observed_at must be after scenario as_of"
             )
         event_occurred = payload["event_occurred"]
         if not isinstance(event_occurred, bool):
@@ -513,10 +520,26 @@ class WalkForwardLabel:
             raise CaseValidationError(
                 f"{source}: outcome_sources items must be non-empty objects"
             )
+        if observed_at is not None:
+            for index, item in enumerate(sources):
+                published_raw = item.get("published_at")
+                if published_raw is None:
+                    continue
+                published_at = _date(
+                    published_raw,
+                    field="published_at",
+                    source=f"{source}: outcome_sources[{index}]",
+                )
+                if published_at > observed_at:
+                    raise CaseValidationError(
+                        f"{source}: outcome_sources[{index}] is published after "
+                        "observed_at"
+                    )
         return cls(
             schema_version=schema_version,
             scenario_id=scenario_id,
             resolved_at=resolved_at,
+            observed_at=observed_at,
             event_occurred=event_occurred,
             realized=realized,
             realized_metrics=realized_metrics,
@@ -574,9 +597,7 @@ def score_walkforward_submission(
     evidence_ids = _string_list(
         submission["evidence_ids"], field="evidence_ids", source="submission"
     )
-    unknown = sorted(
-        set(evidence_ids) - {item.id for item in case.corpus.documents}
-    )
+    unknown = sorted(set(evidence_ids) - {item.id for item in case.corpus.documents})
     if unknown:
         raise CaseValidationError(
             f"submission: unknown evidence IDs: {', '.join(unknown)}"
@@ -590,9 +611,7 @@ def score_walkforward_submission(
     brier_loss = (probability - observed) ** 2
     brier_score = 100 * (1 - brier_loss)
     clipped = min(max(probability, 1e-15), 1 - 1e-15)
-    log_loss = -(
-        observed * math.log(clipped) + (1 - observed) * math.log(1 - clipped)
-    )
+    log_loss = -(observed * math.log(clipped) + (1 - observed) * math.log(1 - clipped))
     evidence_f1 = _f1(set(evidence_ids), set(case.label.expected_evidence_ids))
     total = 0.85 * brier_score + 15 * evidence_f1
     expected_prediction = "event" if case.label.event_occurred else "no_event"
@@ -694,9 +713,7 @@ def _target_criteria(value: Any, *, source: str) -> tuple[TargetCriterion, ...]:
             {"metric", "comparison", "value", "description"},
             item_source,
         )
-        comparison = _string(
-            item["comparison"], field="comparison", source=item_source
-        )
+        comparison = _string(item["comparison"], field="comparison", source=item_source)
         if comparison not in {">", ">=", "<", "<=", "=="}:
             raise CaseValidationError(
                 f"{item_source}: unsupported comparison {comparison!r}"
@@ -711,9 +728,7 @@ def _target_criteria(value: Any, *, source: str) -> tuple[TargetCriterion, ...]:
                 ),
             )
         )
-    signatures = (
-        (item.metric, item.comparison, item.value) for item in criteria
-    )
+    signatures = ((item.metric, item.comparison, item.value) for item in criteria)
     _unique(signatures, "criteria", source)
     return tuple(criteria)
 
@@ -782,17 +797,13 @@ def _generic_realized_metrics(
         metric = _metric_name(item["metric"], source=item_source)
         if metric in metrics:
             raise CaseValidationError(f"{item_source}: duplicate metric {metric!r}")
-        inputs = _string_list(
-            item["inputs"], field="inputs", source=item_source
-        )
+        inputs = _string_list(item["inputs"], field="inputs", source=item_source)
         unknown = sorted(set(inputs) - metrics.keys())
         if unknown:
             raise CaseValidationError(
                 f"{item_source}: unknown input metrics: {', '.join(unknown)}"
             )
-        operation = _string(
-            item["operation"], field="operation", source=item_source
-        )
+        operation = _string(item["operation"], field="operation", source=item_source)
         calculated = _calculate_derivation(
             operation,
             [metrics[name] for name in inputs],
@@ -881,9 +892,7 @@ def _criterion_matches(
 def _metric_name(value: Any, *, source: str) -> str:
     metric = _string(value, field="metric", source=source)
     if not re.fullmatch(r"[a-z][a-z0-9_]*", metric):
-        raise CaseValidationError(
-            f"{source}: metric must use lowercase snake_case"
-        )
+        raise CaseValidationError(f"{source}: metric must use lowercase snake_case")
     return metric
 
 
@@ -916,9 +925,7 @@ def _f1(predicted: set[str], expected: set[str]) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
-def _require_fields(
-    payload: dict[str, Any], required: set[str], source: str
-) -> None:
+def _require_fields(payload: dict[str, Any], required: set[str], source: str) -> None:
     missing = sorted(required - payload.keys())
     if missing:
         raise CaseValidationError(f"{source}: missing fields: {', '.join(missing)}")
@@ -939,9 +946,7 @@ def _string(value: Any, *, field: str, source: str) -> str:
 def _string_list(value: Any, *, field: str, source: str) -> tuple[str, ...]:
     if not isinstance(value, list) or not value:
         raise CaseValidationError(f"{source}: {field} must be a non-empty list")
-    items = tuple(
-        _string(item, field=f"{field} item", source=source) for item in value
-    )
+    items = tuple(_string(item, field=f"{field} item", source=source) for item in value)
     _unique(items, field, source)
     return items
 

@@ -1,0 +1,40 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2016-cross-industry-scale-002260",
+  "resolved_at": "2016-12-31",
+  "observed_at": "2017-04-28",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "outcome_source_sha256": {"1203415376.PDF": "f94f61c7f79a583f595123298e0b647400496e83635cd402c0f6750fe98bba58"}},
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "total_revenue_outcome": 717211958.23,
+      "new_principal_business_revenue_outcome": 32135645.58,
+      "issuer_adjusted_profit_outcome": -10034810.94
+    },
+    "derivations": [
+      {
+        "metric": "new_principal_business_revenue_share_outcome",
+        "operation": "ratio",
+        "inputs": ["new_principal_business_revenue_outcome", "total_revenue_outcome"],
+        "value": 0.044806343802893674
+      }
+    ]
+  },
+  "expected_evidence_ids": ["fy2015-general-aviation-transition"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "德奥通用航空股份有限公司2016年年度报告",
+      "published_at": "2017-04-28",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-28/1203415376.PDF",
+      "fields": ["2016年度营业收入", "2016年度通用航空业务营业收入", "扣除非经常性损益后的净利润"],
+      "extraction": {"tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "f94f61c7f79a583f595123298e0b647400496e83635cd402c0f6750fe98bba58"}
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_income_statement_pit/quarter=2016q4/data.parquet"],
+      "fields": ["revenue", "net_profit_deduct_non_recurring_pnl"],
+      "row_policy": "stock_code=002260.XSHE; quarter=2016q4; if_adjusted=0; selected earliest info_date=2017-04-28"
+    }
+  ]
+}

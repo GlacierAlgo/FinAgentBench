@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2017-weiming-waste-project-commercial-validation",
+  "resolved_at": "2019-12-31",
+  "observed_at": "2020-04-25",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "revenue_baseline": 693169189.43, "revenue_outcome": 2038106159.94, "operating_cost_outcome": 774740431.83,
+      "net_profit_outcome": 974452074.12, "operating_cash_flow_outcome": 867871626.27,
+      "cash_outcome": 802031605.29, "short_term_interest_bearing_debt_outcome": 52567272.59,
+      "equity_baseline": 1917956277.62, "equity_outcome": 4210362109.41,
+      "standard_unqualified_audit_flag_outcome": 1
+    },
+    "derivations": [
+      {"metric": "revenue_cagr_baseline_to_outcome", "operation": "cagr", "inputs": ["revenue_baseline", "revenue_outcome"], "periods": 3, "value": 0.4326139760851686},
+      {"metric": "gross_margin_outcome", "operation": "margin", "inputs": ["revenue_outcome", "operating_cost_outcome"], "value": 0.6198723859149675},
+      {"metric": "cash_to_short_term_interest_bearing_debt_outcome", "operation": "ratio", "inputs": ["cash_outcome", "short_term_interest_bearing_debt_outcome"], "value": 15.257242116125544},
+      {"metric": "equity_retention_baseline_to_outcome", "operation": "ratio", "inputs": ["equity_outcome", "equity_baseline"], "value": 2.1952336236958727}
+    ]
+  },
+  "expected_evidence_ids": ["annual-operating-project-base", "annual-pit-cash-and-capex-chain", "social-responsibility-operations"],
+  "outcome_sources": [
+    {
+      "type": "official_filing", "title": "浙江伟明环保股份有限公司2019年年度报告", "published_at": "2020-04-25",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-25/1207611297.PDF",
+      "fields": ["营业收入", "营业成本", "归属于上市公司股东的净利润", "经营活动产生的现金流量净额", "货币资金", "短期借款", "一年内到期的非流动负债", "归属于母公司股东权益", "审计意见类型"],
+      "extraction": {"tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "c9419f85f43dab5d92d6af7ffe982c9d99cac950d5411df843d7701c01de9b62"}
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_income_statement_pit/quarter=2016q4/data.parquet", "data/db/rq_income_statement_pit/quarter=2019q4/data.parquet", "data/db/rq_balance_sheet_pit/quarter=2016q4/data.parquet", "data/db/rq_balance_sheet_pit/quarter=2019q4/data.parquet", "data/db/rq_cash_flow_pit/quarter=2019q4/data.parquet"],
+      "fields": ["revenue", "cost_of_goods_sold", "net_profit_parent_company", "cash_flow_from_operating_activities", "cash_equivalent", "short_term_loans", "non_current_liability_due_one_year", "equity_parent_company"],
+      "row_policy": "stock_code=603568.XSHG; if_adjusted=0; baseline 2016q4 earliest info_date=2017-04-15; outcome 2019q4 earliest info_date=2020-04-25; null short_term_loans treated as zero only in the declared sum"
+    }
+  ]
+}

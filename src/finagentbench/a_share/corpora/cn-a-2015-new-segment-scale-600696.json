@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2015-new-segment-scale-600696",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"rename-and-finance-plan": "db2dfc673ec85e3b0b6468a4439cbd4d7dd912b5e335c4776ed75b153787df6f", "sse-rename-risk-review": "9622f7c342c6f3b88ceb3d0ed68665d8e48aa1e6cf1a5f7fdda188d5dae043a5"}},
+  "documents": [
+    {
+      "id": "rename-and-finance-plan",
+      "title": "多伦股份2014年度股东大会资料：金融信息子公司、公司名称及经营范围变更",
+      "published_at": "2015-05-15",
+      "source": "多伦股份法定公告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2015-05-15/1201016724.PDF",
+      "content": "股东大会资料提出设立金融信息服务子公司，经营范围包括金融软件、经济与企业管理咨询、金融外包和网上贸易代理，并称公司将逐步向金融信息服务行业转向。资料同时提出把公司名称由上海多伦实业股份有限公司变更为匹凸匹金融信息服务（上海）股份有限公司、相应变更经营范围；2014年度利润拟不分配，用于房地产及互联网金融项目。材料还披露，此前拟设基金管理公司因交易所对业务合法性的质疑而拟转让给实际控制人，说明新业务面临监管核准与执行不确定性。"
+    },
+    {
+      "id": "sse-rename-risk-review",
+      "title": "上海证券交易所第五期新闻发布会：多伦股份更名事项的监管说明",
+      "published_at": "2015-05-15",
+      "source": "上海证券交易所",
+      "url": "https://www.sse.com.cn/aboutus/mediacenter/conference/c/c_20150912_3987022.shtml",
+      "content": "上交所说明，公司名称具有行业标示性、会影响投资者价值判断，因此已要求公司解释更名对经营业务的影响并提示风险。交易所指出更名公告后股价连续涨停、交易带有热点炒作特征，并要求公司进一步说明现有经营状况与更名的实质影响。该监管材料不预判新业务失败，但要求把名称、股价反应与可验证经营兑现分开。"
+    }
+  ]
+}

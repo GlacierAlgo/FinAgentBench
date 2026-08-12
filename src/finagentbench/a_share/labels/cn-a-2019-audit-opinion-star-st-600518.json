@@ -1,0 +1,34 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2019-audit-opinion-star-st-600518",
+  "resolved_at": "2019-05-31",
+  "observed_at": "2019-05-31",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "new_financial_audit_opinion_star_st_effective_count": 0,
+      "financial_statement_disclaimer_opinion_count": 0,
+      "financial_statement_qualified_opinion_count": 1,
+      "other_risk_warning_st_effective_count": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["sse-2018-audit-opinion-rule", "600518-fy2018-audit-report"],
+  "outcome_sources": [
+    {
+      "type": "official_other_risk_warning_notice",
+      "title": "康美药业关于公司股票交易实施其他风险警示暨停牌的提示性公告",
+      "published_at": "2019-05-18",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-05-18/1206283586.PDF",
+      "effective_at": "2019-05-21",
+      "fields": ["ST康美", "其他风险警示", "关联方资金往来"]
+    },
+    {
+      "type": "official_exchange_security_name_snapshot",
+      "title": "上交所2019年5月31日指数样本调整公告仍列示ST康美",
+      "published_at": "2019-05-31",
+      "url": "https://www.sse.com.cn/market/sseindex/diclosure/c/c_20190531_4830732.shtml",
+      "fields": ["600518", "ST康美"]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2017-full-risk-warning-removal-24m-002306",
+  "resolved_at": "2019-04-27",
+  "observed_at": "2019-04-29",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "full_risk_warning_removal_count_24m": 0,
+      "full_risk_warning_removed_by_window_end": 0,
+      "risk_warning_present_at_window_end": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["annual-2016-negative-equity-and-contracted-business"],
+  "outcome_sources": [
+    {
+      "type": "rqdata_risk_warning_status_crosscheck",
+      "paths": ["data/db/symbol_change.parquet", "data/db/is_st.parquet"],
+      "source": "aliyun:/dev/data1/download_rqdata",
+      "access": "read_only",
+      "window": "2017-04-27/2019-04-27",
+      "earliest_sufficient_observation_date": "2019-04-29",
+      "full_removal_within_window": false
+    }
+  ]
+}

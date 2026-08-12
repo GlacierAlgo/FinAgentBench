@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-audit-opinion-star-st-000408",
+  "resolved_at": "2020-05-06",
+  "observed_at": "2020-05-06",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "new_financial_audit_opinion_star_st_effective_count": 1,
+      "financial_statement_disclaimer_opinion_count": 1,
+      "financial_statement_qualified_opinion_count": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["szse-2018-audit-opinion-rule", "000408-fy2019-audit-report"],
+  "outcome_sources": [
+    {
+      "type": "official_risk_warning_notice",
+      "title": "藏格控股关于公司股票交易被实行退市风险警示暨停牌的公告",
+      "published_at": "2020-04-30",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-04-30/1207687963.PDF",
+      "effective_at": "2020-05-06",
+      "fields": ["2019年度财务会计报告无法表示意见", "*ST藏格", "退市风险警示起始日"]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2017-backdoor-sustained-600760",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"shenyang-aircraft-backdoor-implemented": "8d320092cb64edda88334d20ad49f1af073805480004bf09be4ff36a812811e3"}},
+  "documents": [
+    {
+      "id": "shenyang-aircraft-backdoor-implemented",
+      "title": "中航黑豹重大资产出售及发行股份购买资产并募集配套资金暨关联交易实施情况报告书",
+      "published_at": "2017-12-23",
+      "source": "中航黑豹法定公告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-12-23/1204251588.PDF",
+      "content": "实施报告确认沈飞集团100%股权于2017年11月20日过户，原有业务资产已实质交割，新股登记和配套融资完成。募集资金拟投入新机研制生产能力建设等项目。报告同时披露置入资产历史财务、关联交易、客户与军品业务特点及实施风险；交易完成不等于以后年度收入规模和扣非盈利自动达标。"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2020-acquisition-commitment-validation-000004",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"zhiyou-acquisition-draft": "c20d2b5adbcb01dc4d551de08e3d41cb349c8abfd6b602f7b526fdd759c6a13e", "zhiyou-acquisition-implemented": "327eddb2673d0f7d48da4d06c7e80d3be5d5e9b8fcddb17c916cc1fc9e74ff6f"}},
+  "documents": [
+    {
+      "id": "zhiyou-acquisition-draft",
+      "title": "国农科技发行股份购买智游网安100%股权暨关联交易报告书（草案）",
+      "published_at": "2019-07-09",
+      "source": "国农科技法定公告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-07-09/1206432898.PDF",
+      "content": "草案披露发行股份购买智游网安100%股权的交易结构、移动应用安全业务、历史财务和客户情况，并约定2019、2020、2021年度扣非后归属于母公司所有者的净利润分别不低于9,000万元、11,700万元、15,210万元。材料同时列示收益法估值、应收账款考核、股份补偿和减值测试安排，为判断承诺增速与实现质量提供基线。"
+    },
+    {
+      "id": "zhiyou-acquisition-implemented",
+      "title": "国农科技发行股份购买资产实施情况暨新增股份上市公告书",
+      "published_at": "2020-01-18",
+      "source": "国农科技法定公告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2020-01-18/1207262468.PDF",
+      "content": "公告书确认智游网安100%股权已过户，新增股份登记完成并于2020年1月20日上市。以2018年末为评估基准日，智游网安收益法评估值128,196.01万元，较账面净资产增值849.94%，交易作价128,100万元；文件重申2019至2021年承诺期及9,000万元、11,700万元、15,210万元的逐年扣非归母净利润指标。高估值和递增承诺既可能反映成长性，也提高末年兑现压力。"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2016-cross-industry-scale-002260",
+  "suite": "a_share_name_business_transition_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002260.XSHE",
+    "ticker": "002260",
+    "name_as_of": "德奥通航",
+    "exchange": "SZSE"
+  },
+  "as_of": "2016-03-05",
+  "prediction_window": {
+    "end": "2018-09-05",
+    "description": "固定30个月窗口；预先登记结果年度为2016年度"
+  },
+  "target": {
+    "event": "cross_industry_new_principal_business_scaled_at_registered_outcome_within_30_month_window",
+    "definition": "在预先登记的结果年度，跨行业布局所指向的新主业收入占公司营业收入至少50%，且上市公司扣非归母净利润为正；更名、股价和公告措辞不作为判定条件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "new_principal_business_revenue_share_outcome",
+        "comparison": ">=",
+        "value": 0.5,
+        "description": "结果年度跨行业新主业收入除以公司营业收入不低于50%"
+      },
+      {
+        "metric": "issuer_adjusted_profit_outcome",
+        "comparison": ">",
+        "value": 0,
+        "description": "结果年度上市公司扣非归母净利润为正"
+      }
+    ]
+  },
+  "prompt": "你处在2016-03-05收盘后的信息环境。德奥通航从传统厨房小家电向通用航空跨行业布局，年报将两者称为双主业，但通航业务仍处孵化期，2015年收入仅约占公司营业收入2.61%。请使用冻结搜索工具，预测通用航空新主业能否在2016年度达到target定义的商业规模。请综合海外技术和资产收购、适航认证、研发与资本投入、订单和产能、现金流与融资能力，以及原有小家电业务的韧性；不得把改名、双主业表述或股价直接当作规模兑现。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2016-03-05",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit"],
+    "row_policy": "stock_code=002260.XSHE; quarter=2016q4; if_adjusted=0; selected earliest info_date=2017-04-28; official issuer filing defines general-aviation revenue",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "news_evidence_policy": "Frozen evidence is limited to contemporaneous issuer filings.",
+    "causal_guardrail": "The benchmark tests audited cross-industry scale and adjusted earnings, not the issuer's name or management narrative."
+  }
+}

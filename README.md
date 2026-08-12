@@ -11,7 +11,7 @@ appropriately calibrated prediction.
 
 **[Open the public A-share reasoning radar →](https://glacieralgo.github.io/FinAgentBench/)**
 
-The radar currently presents 90 real A-share historical replays and 270 model
+The radar currently presents 142 real A-share historical replays and 426 model
 attempts as development diagnostics. It explicitly keeps the formal sealed
 leaderboard empty until a pre-registered future cohort has matured.
 
@@ -120,6 +120,15 @@ later regulatory confirmation of large misstatements, the next annual audit
 opinion, complete removal of every ST warning, forced-delisting decisions, and
 post-ST speculative market paths. ST cause, remediation, restructuring and
 commodity narratives are explicit evidence dimensions, never causal labels.
+
+Version 0.13 expands the development set from 90 to 142 cases and introduces a
+bitemporal issuer-dossier contract. The new company-lifecycle cases cover
+repeated ST episodes after full removal, renamed-company business transitions,
+operating-chain validation and failure, governance obligations, rule-regime
+differences, formal project operation, segment exits, and a longitudinal
+中科云网/湘鄂情 dossier. Mutable names and management continuity are matching
+features rather than labels; every event separately records when information
+became public and when the underlying state became effective.
 
 ```bash
 opencode providers login
@@ -240,10 +249,12 @@ as-of date. The future annual report and the RQData-derived realized outcome
 live in a separate label file and never enter the agent payload or search
 corpus. News provides context but never defines the label.
 
-All PDF-to-text authoring for the new slice uses the Rust CLI from
-[`run-llama/liteparse`](https://github.com/run-llama/liteparse), pinned in case
-provenance to version 2.11.1 and git revision
-`53e4fc813d35f76d0169923d2c451b3c8700edb0`. Native PDFium extraction is used
+PDF-to-text authoring uses the Rust CLI from
+[`run-llama/liteparse`](https://github.com/run-llama/liteparse). Each authoring
+wave resolves and freezes the upstream revision it actually used: version 0.12
+records 2.11.1 at `53e4fc813d35f76d0169923d2c451b3c8700edb0`, while
+the version 0.13 lifecycle wave records 2.11.1 at
+`5109b46e7f960a52ea9833704c9484c835c6ef4f`. Native PDFium extraction is used
 when a text layer exists. Every version 0.12 source selected for the checked-in
 corpora had a usable text layer and was parsed with `--no-ocr`; anti-bot HTML and
 a cross-company filing discovered during source validation were rejected before
@@ -259,21 +270,35 @@ analysis remains available for semantic review. See
 contract, leakage boundary, and path from public historical development cases
 to sealed live-shadow evaluation.
 
-### Full 90-case replay (version 0.12)
+### Full 142-case replay (version 0.13)
 
-The current public radar is generated from one complete, comparable matrix:
-90 cases × 3 models × 1 independent low-effort Codex CLI session. All 270 runs
-completed, every run used frozen search, and no outcome was visible to the
-agent. Full answers, probabilities, usage and tool counts are in
-[`results/2026-08-13-a-share-all-frozen-web-low.json`](results/2026-08-13-a-share-all-frozen-web-low.json),
-with a compact report in
-[`results/2026-08-13-a-share-all-frozen-web-low.md`](results/2026-08-13-a-share-all-frozen-web-low.md).
+The current public radar combines two non-overlapping comparable matrices:
+the version 0.12 90-case matrix and a version 0.13 52-case company-lifecycle
+matrix. Each case has one independent low-effort Codex CLI session for each of
+three models, for 426 attempts in total. Every completed run uses frozen search
+and no outcome is visible to the agent. The original matrix remains in
+[`results/2026-08-13-a-share-all-frozen-web-low.json`](results/2026-08-13-a-share-all-frozen-web-low.json);
+the lifecycle matrix and compact report are in
+[`results/2026-08-13-a-share-lifecycle-frozen-web-low.json`](results/2026-08-13-a-share-lifecycle-frozen-web-low.json)
+and
+[`results/2026-08-13-a-share-lifecycle-frozen-web-low.md`](results/2026-08-13-a-share-lifecycle-frozen-web-low.md).
 
-| Model | Composite | Brier loss | Log loss | Accuracy |
-| --- | ---: | ---: | ---: | ---: |
-| GPT-5.6 Sol | 87.92 | 0.1405 | 0.4430 | 83.3% |
-| GPT-5.6 Terra | 86.93 | 0.1529 | 0.4703 | 80.0% |
-| GPT-5.6 Luna | 85.20 | 0.1729 | 0.5150 | 75.6% |
+| Model | Composite | Brier loss | Log loss | Accuracy | Completed |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| GPT-5.6 Sol | 88.00 | 0.1402 | 0.4350 | 82.4% | 142 / 142 |
+| GPT-5.6 Terra | 87.31 | 0.1488 | 0.4531 | 78.9% | 142 / 142 |
+| GPT-5.6 Luna | 85.47 | 0.1701 | 0.5029 | 74.5% | 141 / 142 |
+
+On the 52-case lifecycle slice alone, Sol/Terra/Luna Brier loss was
+0.1396/0.1416/0.1652. The hardest new family was governance-obligation
+completion: all three models reached only 50% threshold accuracy. Repeated-ST
+recurrence was also difficult at 61.5%–76.9%, while historical rule-regime
+questions were nearly saturated. Luna's one failed attempt returned
+`P(event)=0.99` together with `prediction=no_event`; the verifier correctly
+rejected that threshold contradiction. An explicitly unscored same-configuration
+diagnostic retry is retained in
+[`results/2026-08-13-a-share-lifecycle-luna-retry-600702.json`](results/2026-08-13-a-share-lifecycle-luna-retry-600702.json)
+rather than replacing the predeclared first attempt.
 
 The 18-case post-ST market-path family was substantially harder than the full
 set. Models were good at rejecting terminal paths such as *ST凯迪、ST长生 and
@@ -468,8 +493,8 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- 90 real A-share walk-forward scenarios with frozen point-in-time corpora,
-  balanced at 45 event / 45 no-event across 17 logic families;
+- 142 real A-share walk-forward scenarios with frozen point-in-time corpora,
+  split 72 event / 70 no-event across 23 logic families;
 - ST/scandal cohorts spanning cash-payment reality, public debt default,
   regulator-confirmed misstatement, next-year audit outcomes, full warning
   removal, forced delisting, and strict post-ST market paths;

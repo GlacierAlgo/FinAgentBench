@@ -1,0 +1,57 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-acquisition-commitment-validation-000004",
+  "suite": "a_share_name_business_transition_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "000004.XSHE",
+    "ticker": "000004",
+    "name_as_of": "国农科技",
+    "exchange": "SZSE"
+  },
+  "as_of": "2020-01-18",
+  "prediction_window": {
+    "end": "2023-01-18",
+    "description": "固定36个月窗口；预先登记结果年度为业绩承诺末年2021年度"
+  },
+  "target": {
+    "event": "acquisition_terminal_commitment_validated_at_registered_outcome_within_36_month_window",
+    "definition": "以重组文件约定的承诺口径，在预先登记的业绩承诺末年，标的资产实际扣非归母净利润不低于当年承诺值；更名、股价和事后补偿是否完成不作为判定条件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "terminal_commitment_completion_ratio",
+        "comparison": ">=",
+        "value": 1.0,
+        "description": "承诺末年标的资产实际扣非归母净利润除以当年承诺净利润不低于1"
+      }
+    ]
+  },
+  "prompt": "你处在2020-01-18收盘后的信息环境。国农科技以发行股份方式收购智游网安100%股权，过户和新增股份登记已经完成，业绩承诺期为2019至2021年。请使用冻结搜索工具，预测智游网安2021年度能否达到target定义的末年承诺验证。请综合交易估值与增值率、历史财务质量、客户和应收账款、移动应用安全行业竞争、承诺增速、整合与会计确认风险；不得把完成收购或后续更名本身当作业绩兑现。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2020-01-18",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit"],
+    "row_policy": "stock_code=000004.XSHE; if_adjusted=0; earliest info_date used only for issuer-level cross-check; official commitment audit is label authority",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "news_evidence_policy": "Frozen evidence is limited to contemporaneous issuer filings.",
+    "causal_guardrail": "The label evaluates the terminal annual commitment at the acquired target, not the wisdom of the acquisition under a counterfactual."
+  }
+}

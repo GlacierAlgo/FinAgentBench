@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2023-battery-operation-24m-002306",
+  "suite": "a_share_project_operation_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002306.XSHE",
+    "ticker": "002306",
+    "name_as_of": "中科云网",
+    "exchange": "SZSE"
+  },
+  "as_of": "2023-06-30",
+  "prediction_window": {
+    "end": "2025-06-30",
+    "description": "设备采购合同披露后的未来24个自然月；结果可由随后首份覆盖窗口截止日的法定报告确认"
+  },
+  "target": {
+    "event": "own_battery_cell_line_formal_operation_24m",
+    "definition": "经营事实截止日固定为项目投资或关键设备采购公告后24个自然月；截至该日，公司控制的自有N型TOPCon电池片生产线已经正式投产，且法定报告确认该自有产线产生实际电池片产量或销售收入。设备采购、到货、安装、调试、试生产或产能规划本身不计；通过外部委托加工、租赁产线、贸易、组件或边框业务完成交付也不计为自有电池片产线正式运营",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "own_battery_cell_line_formal_operation_count_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内至少一条受控自有电池片生产线同时满足正式投产与实际自产产销披露"
+      }
+    ]
+  },
+  "prompt": "你处在2023-06-30收盘后的信息环境。中科云网已宣布跨界建设5GW N型TOPCon电池项目并签署逾亿元设备采购合同。请使用冻结材料，预测未来24个月内其受控自有电池片产线能否达到target定义的正式运营。重点检验公司现金与项目资本开支的量级差、项目公司资本金、设备合同只是采购里程碑、厂房和配套建设、团队与技术、爬坡良率、订单兑现方式。不要把光伏行业收入、组件/边框销售、贸易收入、委外加工或租线出货误当作自有电池片产线投产。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2023-06-30",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_balance_sheet_pit", "rq_income_statement_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002306.XSHE; if_adjusted=0; financial rows limited to info_date<=2023-06-30; project milestones adjudicated from issuer filings",
+    "matching_group": "cross-industry-owned-production-line-formal-operation-24m-v1",
+    "matching_role": "no_event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2022_pv_inquiry_response": "7b36a68de76b60ce361de49742d6f4ee4c3febcc246e4a70efbe322fd96d1ff8",
+      "2023_project_company_capital_notice": "ad2098e932d93a9840f473eb1e49f398111a5f7634312c8075e0bdc9965bcbc6",
+      "2023_equipment_contract_notice": "9030d56fe6b9e551b27bb4630b702eccfc7c6fb99deebe809c1aa4bbc520196b",
+      "2025_half_year_report": "3e76399fccc40a947c0a1343d16a88572437df78563bb28a3717ac17d7b220d7"
+    },
+    "outcome_contract": "Formal operation must exist by the fixed 2025-06-30 operating cutoff and requires the first statutory report covering that cutoff to confirm an owned-line production milestone plus actual self-manufactured battery-cell output or revenue; outsourced, rented-line and trading deliveries are excluded.",
+    "leakage_guard": "Construction progress, later installation/commissioning, outsourcing disclosures, 2024 losses and 2025 risk-warning status remain label-side only."
+  }
+}

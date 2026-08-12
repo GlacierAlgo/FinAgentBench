@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2016-repeat-st-002306",
+  "suite": "a_share_repeat_st_governance_v1",
+  "mode": "historical_frozen_web",
+  "security": {"order_book_id": "002306.XSHE", "ticker": "002306", "name_as_of": "*ST云网", "exchange": "SZSE"},
+  "as_of": "2016-05-13",
+  "prediction_window": {"end": "2020-05-16", "description": "以完整摘除全部风险警示的官方生效日2016-05-16为预测起点，至2020-05-16止的48个自然月，含起止日"},
+  "target": {
+    "event": "new_independent_st_episode_within_48m_after_full_removal",
+    "definition": "公司股票完整撤销全部ST或*ST风险警示正式生效后48个自然月内，是否至少开始一次新的、独立的ST或*ST风险警示episode。只有此前已完整退出风险警示状态后再次正式进入才计数；同一episode内ST与*ST互转、叠加警示或部分撤销不另计。",
+    "criteria_mode": "all",
+    "criteria": [{"metric": "new_independent_st_episode_count_48m", "comparison": ">=", "value": 1, "description": "完整摘除全部风险警示生效后48个自然月内，至少开始一次新的独立ST或*ST episode"}]
+  },
+  "prompt": "你处在2016-05-13收盘后的信息环境。交易所已批准*ST云网撤销全部退市风险警示和其他风险警示，2016-05-16生效。请基于冻结证据预测：自该生效日起至2020-05-16（含）是否会开始新的独立ST或*ST episode。请区分历史戴帽原因是否真正消除、经营可持续性与控制治理变化；不要把同一episode内*ST降为ST或叠加警示误算为复发。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {"mode": "frozen_corpus_only", "latest_published_at": "2016-05-13", "allowed_domains": ["cninfo.com.cn"]},
+  "response_contract": {"type": "object", "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"], "properties": {"event_probability": {"type": "number", "minimum": 0, "maximum": 1}, "prediction": {"type": "string", "enum": ["event", "no_event"]}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "analysis_summary": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata", "access": "read_only", "tables": ["is_st", "special_treatment_info", "symbol_change"],
+    "row_policy": "stock_code=002306.XSHE; as_of=full-removal announcement info_date 2016-05-13; prediction starts at official full-removal change_date 2016-05-16; window_end=same month/day plus 4 calendar years, inclusive",
+    "episode_rule": "Sort daily is_st by stock/date. A new episode starts only on False-to-True after a prior False interval; ST-to-*ST, *ST-to-ST, additive warnings and partial removal inside an uninterrupted True interval are one episode. Official announcement change_date is label authority.",
+    "governance_matching_axis": "control/management continuity or change is a matched analysis feature, never a good-management/bad-management label",
+    "matching_group": "full-removal-repeat-st-48m-v1", "matching_role": "event/control_change_later",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {"prior_st_notice": "4c2af70783b48764023bd235a7523d1486d99dcba15caa3fffe2649c4d679921", "full_removal_notice": "7fe8062688237f8c96b61d9257330762b3012d72e50e128792fc4c169fa1543a"},
+    "status_source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"},
+    "outcome_contract": "Official full-removal change_date starts the inclusive 48-calendar-month clock; only an official later change_date starting a new independent ST/*ST episode on or before window_end counts.",
+    "date_discrepancy_policy": "An is_st flip on a suspension day before the official effective/resumption date is retained only as a dataset discrepancy; official change_date controls.",
+    "leakage_guard": "Only documents published no later than as_of enter the corpus; later re-warning notices and status rows remain label-side only."
+  }
+}

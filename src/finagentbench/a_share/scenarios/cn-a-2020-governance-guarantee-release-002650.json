@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-governance-guarantee-release-002650",
+  "suite": "a_share_governance_obligation_v1",
+  "mode": "historical_frozen_web",
+  "security": {"order_book_id": "002650.XSHE", "ticker": "002650", "name_as_of": "ST加加", "exchange": "SZSE"},
+  "as_of": "2020-06-15",
+  "prediction_window": {"end": "2021-07-15", "description": "首次因违规关联担保被实施其他风险警示之日起13个自然月（含起止日）"},
+  "target": {
+    "event": "full_scoped_illegal_related_guarantee_release_13m",
+    "definition": "快照日公告量化且未解除的全部违规关联担保，在13个自然月内均取得使上市公司残余法律担保暴露归零的有效判决、债权人书面解除或其他官方生效文件。清偿或和解计划、融资额度、反担保或质押、提起诉讼、部分付款或部分解除均不计；窗口后解除不计。",
+    "criteria_mode": "all",
+    "criteria": [{"metric": "full_scoped_illegal_guarantee_release_count_13m", "comparison": ">=", "value": 1, "description": "窗口内所有快照范围违规关联担保的上市公司残余法律暴露归零，完整解除事件至少一次"}]
+  },
+  "prompt": "你处在2020-06-15收盘后的信息环境。ST加加公告仍有4.6605亿元违规担保；控股股东声称取得2.8亿元专项资金额度，并已与两个主要债权人签署清偿或和解协议，但条件尚未实际成就。请使用冻结搜索材料，预测未来13个自然月内是否达到target定义的全部担保解除。重点判断资金安排、协议条件、债权人确认和法律暴露，而不是把签约或反担保当成解除；控制人连续性仅作分析特征。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {"mode": "frozen_corpus_only", "latest_published_at": "2020-06-15", "allowed_domains": ["cninfo.com.cn"]},
+  "response_contract": {"type": "object", "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"], "properties": {"event_probability": {"type": "number", "minimum": 0, "maximum": 1}, "prediction": {"type": "string", "enum": ["event", "no_event"]}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "analysis_summary": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_basic_info.parquet", "symbol_change.parquet", "special_treatment_info.parquet"],
+    "row_policy": "002650.XSHE identity and the 2020-06-15 first ST effective date were checked point-in-time; official creditor and issuer documents remain label authority",
+    "matching_group": "governance-illegal-guarantee-full-release-13m-v1",
+    "matching_role": "event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {"snapshot_st_notice": "fdb701da870263744592c52572bd2585a6e1ece51448874a9fd19f80e44b1ef6"},
+    "outcome_contract": "Every quantified unresolved illegal related-party guarantee in the snapshot must have zero residual listed-company legal exposure by 2021-07-15.",
+    "leakage_guard": "Subsequent creditor confirmations, settlement performance and risk-warning changes remain label-side only. Controller or management continuity is an analysis feature, never a criterion."
+  }
+}

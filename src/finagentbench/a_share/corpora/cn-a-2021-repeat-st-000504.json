@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2021-repeat-st-000504",
+  "documents": [
+    {"id": "prior-st-2019-new-episode", "title": "南华生物关于公司股票交易实行退市风险警示的公告", "published_at": "2019-04-30", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2019-04-30/1206163375.PDF", "content": "公司在2017年完整摘帽后又于2019年形成一段新的风险警示episode，历史上存在复发。该事实是先验信号，但不能替代对2021年后固定窗口的经营和治理判断。"},
+    {"id": "partial-removal-2020-st-remained", "title": "南华生物撤销退市风险警示并继续实行其他风险警示公告", "published_at": "2020-06-11", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2020-06-11/1207916428.PDF", "content": "公司仅撤销退市风险警示而继续实行其他风险警示，简称改为ST生物。is_st连续为真，这次部分撤销既不是完整摘帽，也不是新的独立episode。"},
+    {"id": "full-removal-2021-approved", "title": "南华生物关于撤销其他风险警示暨停复牌的公告", "published_at": "2021-04-27", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-04-27/1209813030.PDF", "content": "深交所批准撤销全部其他风险警示，2021年4月28日复牌并恢复简称南华生物。这是连续episode的正式终点，新的48个月时钟自该官方生效日开始。"}
+  ]
+}

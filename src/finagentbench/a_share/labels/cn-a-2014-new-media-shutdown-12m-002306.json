@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2014-new-media-shutdown-12m-002306",
+  "resolved_at": "2015-04-16",
+  "observed_at": "2015-04-18",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "principal_new_media_operating_entities_shutdown_count_12m": 3,
+      "principal_new_media_entity_count": 3,
+      "new_media_income_contribution_confirmed": 0,
+      "business_development_capability_retained": 0
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "data-cloud-project-15bn-plan",
+    "rename-to-zhongke-cloud-2014"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_risk_notice",
+      "title": "中科云网科技集团股份有限公司第二十次风险提示公告",
+      "published_at": "2015-04-18",
+      "url": "https://static.cninfo.com.cn/finalpage/2015-04-18/1200864366.PDF",
+      "sha256": "7ec10612c538bd87fae680fe4f5655574c7fe4754867d10d451ce0d99d535130",
+      "effective_dates": {"深圳中科云智": "2015-04-08", "北京爱猫": "2015-04-10", "上海爱猫": "2015-04-16"},
+      "result": "三地新媒体实体员工劳动关系先后解除，公司确认已不再具备业务发展能力且未形成收入贡献"
+    }
+  ]
+}

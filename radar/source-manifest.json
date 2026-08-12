@@ -7,6 +7,11 @@
       "id": "a-share-full-v012",
       "title": "A股点时推理全套",
       "result_path": "results/2026-08-13-a-share-all-frozen-web-low.json"
+    },
+    {
+      "id": "a-share-lifecycle-v013",
+      "title": "A股公司全生命周期",
+      "result_path": "results/2026-08-13-a-share-lifecycle-frozen-web-low.json"
     }
   ],
   "family_labels": {
@@ -62,7 +67,10 @@
     },
     "public-debt-default": {
       "label": "公开债务违约",
-      "events": ["material_public_debt_payment_failure_120d"]
+      "events": [
+        "material_public_debt_payment_failure_120d",
+        "material_public_debt_payment_failure_6m"
+      ]
     },
     "enforcement": {
       "label": "监管确认重大错报",
@@ -85,6 +93,57 @@
     "st-market-path": {
       "label": "戴帽后异常行情",
       "events": ["large_post_st_speculative_runup"]
+    },
+    "repeat-st": {
+      "label": "摘帽后的独立复发",
+      "events": [
+        "new_independent_st_episode_within_48m_after_full_removal",
+        "risk_warning_recurrence_after_full_removal_24m"
+      ]
+    },
+    "name-business-transition": {
+      "label": "改名与业务转型兑现",
+      "events": [
+        "acquisition_terminal_commitment_validated_at_registered_outcome_within_36_month_window",
+        "announced_new_segment_scaled_at_registered_outcome_within_36_month_window",
+        "backdoor_new_principal_business_sustained_at_registered_outcome_within_30_month_window",
+        "cross_industry_new_principal_business_scaled_at_registered_outcome_within_30_month_window",
+        "new_industry_scaled_at_registered_outcome_within_36_month_window"
+      ]
+    },
+    "operating-chain": {
+      "label": "经营链条商业兑现",
+      "events": [
+        "acquisition_portfolio_commercial_validation",
+        "technology_business_commercial_validation",
+        "waste_project_portfolio_commercial_validation"
+      ]
+    },
+    "governance-obligation": {
+      "label": "治理义务实质履行",
+      "events": [
+        "full_scoped_cash_performance_compensation_completion_12m",
+        "full_scoped_illegal_related_guarantee_release_13m",
+        "full_scoped_non_operating_fund_occupation_cash_recovery_13m",
+        "full_scoped_share_performance_compensation_repurchase_cancellation_24m"
+      ]
+    },
+    "rule-regime": {
+      "label": "规则版本与板块差异",
+      "events": [
+        "major_illegality_forced_delisting_final_decision_50m",
+        "new_star_st_from_latest_annual_financial_audit_opinion",
+        "new_star_st_from_latest_annual_financial_trigger",
+        "new_star_st_from_nonoperating_fund_occupation_70d"
+      ]
+    },
+    "project-segment-execution": {
+      "label": "项目投产与板块退出",
+      "events": [
+        "material_game_segment_divestiture_24m",
+        "own_battery_cell_line_formal_operation_24m",
+        "principal_new_media_operating_entities_shutdown_12m"
+      ]
     }
   },
   "methodology": [

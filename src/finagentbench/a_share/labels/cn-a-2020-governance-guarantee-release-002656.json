@@ -1,0 +1,24 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-governance-guarantee-release-002656",
+  "resolved_at": "2021-02-13",
+  "observed_at": "2021-04-16",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "full_scoped_illegal_guarantee_release_count_13m": 0,
+      "residual_illegal_guarantee_balance_yuan_at_observation": 322852860.97,
+      "residual_listed_company_legal_guarantee_exposure_flag": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["snapshot-st-illegal-guarantees"],
+  "outcome_sources": [{
+    "type": "official_issuer_2020_annual_report",
+    "title": "摩登大道时尚集团股份有限公司2020年年度报告全文",
+    "published_at": "2021-04-16",
+    "url": "https://static.cninfo.com.cn/finalpage/2021-04-16/1209704481.PDF",
+    "result": "年报在窗口结束后披露截至报告披露日违规担保余额仍为322,852,860.97元，四项关联担保在期末关联担保表中均列为未履行完毕，故快照范围不可能已在2021-02-13前全部解除。",
+    "extraction": {"tool": "run-llama/liteparse", "version": "2.11.1", "git_commit": "5109b46e7f960a52ea9833704c9484c835c6ef4f", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "2ca0547e1797694d6c7fe551d80883ba389559d26e842188c5808f1616f50386"}
+  }]
+}

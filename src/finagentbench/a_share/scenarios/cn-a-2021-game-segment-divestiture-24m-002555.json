@@ -1,0 +1,70 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2021-game-segment-divestiture-24m-002555",
+  "suite": "a_share_segment_exit_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002555.XSHE",
+    "ticker": "002555",
+    "name_as_of": "三七互娱",
+    "exchange": "SZSE"
+  },
+  "as_of": "2021-08-31",
+  "prediction_window": {
+    "end": "2023-08-31",
+    "description": "2021年半年度报告披露后的未来24个自然月"
+  },
+  "target": {
+    "event": "material_game_segment_divestiture_24m",
+    "definition": "未来24个月内，公司将截至快照日贡献至少50%合并收入的核心游戏运营子公司全部股权转让给非合并范围主体并完成控制权交割，使该子公司退出合并报表范围。只披露转让意向、董事会预案、少数股权出售、业务自然萎缩或仍受公司控制的内部重组不计",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "material_game_segment_divestiture_count_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内至少一次完成100%游戏子公司控制权转让并退出合并范围"
+      }
+    ]
+  },
+  "prompt": "你处在2021-08-31收盘后的信息环境。三七互娱营业收入全部来自网络游戏，移动游戏占比逾九成；广州三七网络是公司全资控制、承载移动游戏发行和运营的核心子公司。请使用冻结材料，预测未来24个月内是否会发生target定义的重大游戏板块剥离。评估板块与公司战略及收入的绑定程度、子公司盈利与业绩承诺、现金和融资能力、监管与产品周期风险、对渠道和爆款的依赖，以及出售核心资产的机会成本。不得因为游戏行业监管收紧或一般子公司增减就直接给出标签，也不得把少数股权交易、内部重组或非核心子公司处置误判为广州三七网络100%出售。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2021-08-31",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002555.XSHE; if_adjusted=0; quarter=2021q2; select the latest row with info_date<=2021-08-31, which is info_date=2021-08-31; subsidiary ownership and deconsolidation adjudicated from issuer filings",
+    "matching_group": "material-controlled-segment-divestiture-24m-v1",
+    "matching_role": "no_event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2021_half_year_report": "c92fb1bb5166433f9dddcfa79134692fbdc9b7a5396ec2eac126f281da4e4dac",
+      "2021_annual_report": "1b60d1ee03d4b1dd569164610f2316b25b46ef20181382ffba4df09b141cc290",
+      "2022_annual_report": "fadd80f3fd0f9ac2cf5ac28197c2ef17a799c9a66ba62a461a68d31d82082cf5",
+      "2023_annual_report": "ae82a8d90504da6a7f5649a907b8e3c01ad6fde4fc9437c9cb3d7d70088ef495"
+    },
+    "rqdata_file_sha256": {
+      "rq_balance_sheet_pit_2021q2": "60221ddab91503f1fe04832c56c216c69a9299d517f9289a66986987355d0974",
+      "rq_income_statement_pit_2021q2": "0def586a9467e16ff878cd2e3fa3ade4afca6b9bd74d77d7883898dcb126cb84",
+      "rq_cash_flow_pit_2021q2": "d83b8d5fd4bdbaf18c891d897612a95131786fafa98d04e2b3b5168c323220f3"
+    },
+    "outcome_contract": "A divestiture counts only if 100% of the named controlled game subsidiary transfers outside the group and the issuer confirms that it leaves consolidation within 24 calendar months.",
+    "leakage_guard": "The 2021, 2022 and 2023 annual-report continuity checks and later group-scope evidence remain label-side only."
+  }
+}

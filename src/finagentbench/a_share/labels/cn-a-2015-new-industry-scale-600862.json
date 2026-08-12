@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2015-new-industry-scale-600862",
+  "resolved_at": "2017-12-31",
+  "observed_at": "2018-03-17",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "outcome_source_sha256": {"1204484742.PDF": "436fe8bb60b94d40814ea087c7f0e30ddd4d7b3d8825d6202d466d7510c40e4a"}},
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "total_revenue_outcome": 3044152398.07,
+      "target_industry_revenue_outcome": 1397975771.79,
+      "target_industry_cost_outcome": 1005122343.93
+    },
+    "derivations": [
+      {
+        "metric": "target_industry_revenue_share_outcome",
+        "operation": "ratio",
+        "inputs": ["target_industry_revenue_outcome", "total_revenue_outcome"],
+        "value": 0.45923317527608665
+      },
+      {
+        "metric": "target_industry_gross_profit_outcome",
+        "operation": "difference",
+        "inputs": ["target_industry_revenue_outcome", "target_industry_cost_outcome"],
+        "value": 392853427.86
+      }
+    ]
+  },
+  "expected_evidence_ids": ["avic-material-assets-restructure", "avic-material-assets-implemented"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "中航航空高科技股份有限公司2017年年度报告",
+      "published_at": "2018-03-17",
+      "url": "https://static.cninfo.com.cn/finalpage/2018-03-17/1204484742.PDF",
+      "fields": ["营业收入", "新材料行业营业收入", "新材料行业营业成本"]
+    },
+    {
+      "type": "rqdata_pit",
+      "paths": ["data/db/rq_income_statement_pit/quarter=2017q4/data.parquet"],
+      "fields": ["revenue", "gross_profit"],
+      "row_policy": "stock_code=600862.XSHG; quarter=2017q4; if_adjusted=0; selected earliest info_date=2018-03-17"
+    }
+  ]
+}

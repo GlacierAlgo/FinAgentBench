@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T18:37:09.559712+00:00",
+  "completed_at": "2026-08-12T18:37:32.277033+00:00",
+  "duration_seconds": 22.717,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen point-in-time evidence corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 1,
+    "repeats": 1,
+    "case_suite_sha256": "98f5b0c4650421d81fc7ea459fdcc76e40fb04e04b4ae4c199048d7016c1ce4e"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2020-occupation-star-st-regime-600702",
+      "case_sha256": "86c9bc39f5b685e94e840aadebf1d5bb40f8d977521443ce5f7115b0cebf09f4",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 22.633,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.01,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "600702-2020-occupation-risk-notice",
+          "sse-2018-occupation-other-risk-rule"
+        ],
+        "analysis_summary": "截至2020-09-21的公告明确：非经营性资金占用依据当时《股票上市规则》第13.4.1条第（五）项自9月22日起实施的是其他风险警示，简称变更为“ST舍得”。2018年有效规则将该类严重占用对应ST而非退市风险警示*ST；因此在固定70日窗口内不满足因该占用首次实施规范类*ST的条件。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 99.9915,
+        "brier_score": 99.99,
+        "brier_loss": 0.0001,
+        "log_loss": 0.01005034,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 44686,
+        "cached_input_tokens": 28160,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 456,
+        "reasoning_output_tokens": 73
+      },
+      "event_count": 8
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 1,
+      "failed": 0,
+      "mean_score": 99.9915,
+      "mean_brier_loss": 0.0001,
+      "mean_log_loss": 0.01005,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 22.633,
+      "input_tokens": 44686,
+      "cached_input_tokens": 28160,
+      "output_tokens": 456
+    }
+  ]
+}

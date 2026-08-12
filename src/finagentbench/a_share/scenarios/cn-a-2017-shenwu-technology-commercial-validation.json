@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2017-shenwu-technology-commercial-validation",
+  "suite": "a_share_operating_chain_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "300156.XSHE",
+    "ticker": "300156",
+    "name_as_of": "神雾环保",
+    "exchange": "SZSE"
+  },
+  "as_of": "2017-03-27",
+  "prediction_window": {
+    "end": "2019-05-31",
+    "description": "以2018财年末为固定结果截点，并等待更新后2018年年度报告首次公开，最晚不超过2019-05-31"
+  },
+  "target": {
+    "event": "technology_business_commercial_validation",
+    "definition": "公司层面的技术商业兑现事件而非技术投入的因果证明：2018财年同时满足预先声明的收入增长、毛利、盈利、经营现金、短债覆盖、权益保全和审计质量七项条件。收入CAGR=(2018收入/2016收入)^(1/2)-1；毛利率=(收入-营业成本)/收入；短债覆盖=期末货币资金/(短期借款+一年内到期非流动负债)；权益保全=2018归母权益/2016归母权益；标准无保留审计记1，其余记0。",
+    "criteria_mode": "all",
+    "criteria": [
+      {"metric": "revenue_cagr_baseline_to_outcome", "comparison": ">=", "value": 0.2, "description": "2016年至2018年营业收入复合年增长率不低于20%"},
+      {"metric": "gross_margin_outcome", "comparison": ">=", "value": 0.25, "description": "2018年综合毛利率不低于25%"},
+      {"metric": "net_profit_outcome", "comparison": ">", "value": 0, "description": "2018年归母净利润为正"},
+      {"metric": "operating_cash_flow_outcome", "comparison": ">", "value": 0, "description": "2018年经营活动产生的现金流量净额为正"},
+      {"metric": "cash_to_short_term_interest_bearing_debt_outcome", "comparison": ">=", "value": 0.5, "description": "2018年末货币资金覆盖至少50%的短期借款和一年内到期非流动负债"},
+      {"metric": "equity_retention_baseline_to_outcome", "comparison": ">=", "value": 0.8, "description": "2018年末归母权益至少保留2016年末的80%"},
+      {"metric": "standard_unqualified_audit_flag_outcome", "comparison": ">=", "value": 1, "description": "2018年财务报表审计意见为标准无保留意见"}
+    ]
+  },
+  "prompt": "你处在2017-03-27收盘后的信息环境。神雾环保披露蓄热式电石生产、乙炔化工新工艺等技术及多个EPC/示范项目，也披露了大额工程订单对流动资金、项目进度和应收回收的要求。请使用冻结搜索工具，从技术验证、客户与关联网络、订单执行、收入与毛利、应收与存货、现金回收、短债和审计可验证性等环节，预测公司能否在2018财年达到target定义的技术业务商业兑现事件。该标签只判断公司层面的可审计结果，不证明技术是结果的唯一原因，也不评价股价。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2017-03-27",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=300156.XSHE; if_adjusted=0; baseline quarter=2016q4 and earliest info_date=2017-03-25 no later than as_of; outcome quarter=2018q4 and earliest info_date=2019-04-30; updated official annual reports control filing text and audit opinion",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "updated_2016_annual_report": "02c8bc274ce1b02552306850b17c1d94b878858b462a7ba02ae067713e9274fd",
+      "2016_annual_report_correction": "bff137021f65a6e28920c5ca002d7f10eaa99a67329bce5c9d1bc58f23f3cd23"
+    },
+    "causal_guardrail": "The label measures later company-level commercial validation under a fixed hurdle, not causal attribution to the disclosed technology."
+  }
+}

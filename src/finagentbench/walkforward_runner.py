@@ -265,9 +265,7 @@ def render_walkforward_report(run: dict[str, Any]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def _run_case(
-    spec: WalkForwardRunSpec, *, timeout_seconds: int
-) -> dict[str, Any]:
+def _run_case(spec: WalkForwardRunSpec, *, timeout_seconds: int) -> dict[str, Any]:
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix="finagentbench-a-share-") as raw_dir:
         directory = Path(raw_dir)
@@ -277,7 +275,9 @@ def _run_case(
         schema_path = directory / "response-schema.json"
         output_path = directory / "response.json"
         scenario_path.write_text(
-            json.dumps(spec.case.scenario.agent_payload(), ensure_ascii=False, indent=2),
+            json.dumps(
+                spec.case.scenario.agent_payload(), ensure_ascii=False, indent=2
+            ),
             encoding="utf-8",
         )
         corpus_path.write_text(
@@ -576,6 +576,11 @@ def _case_digest(case: WalkForwardCase) -> str:
         "label": {
             **asdict(case.label),
             "resolved_at": case.label.resolved_at.isoformat(),
+            "observed_at": (
+                case.label.observed_at.isoformat()
+                if case.label.observed_at is not None
+                else None
+            ),
         },
     }
     encoded = json.dumps(
@@ -592,7 +597,7 @@ def _suite_digest(cases: tuple[WalkForwardCase, ...]) -> str:
     return hashlib.sha256(manifest.encode("utf-8")).hexdigest()
 
 
-_SEARCH_TOOL = r'''#!/usr/bin/env python3
+_SEARCH_TOOL = r"""#!/usr/bin/env python3
 import json
 import re
 import sys
@@ -623,4 +628,4 @@ for document in payload["documents"]:
     })
 matches.sort(key=lambda item: (-item["score"], item["id"]))
 print(json.dumps(matches[:5], ensure_ascii=False, indent=2))
-'''
+"""

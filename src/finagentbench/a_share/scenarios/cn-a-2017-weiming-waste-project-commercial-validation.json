@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2017-weiming-waste-project-commercial-validation",
+  "suite": "a_share_operating_chain_v1",
+  "mode": "historical_frozen_web",
+  "security": {"order_book_id": "603568.XSHG", "ticker": "603568", "name_as_of": "伟明环保", "exchange": "SSE"},
+  "as_of": "2017-04-15",
+  "prediction_window": {"end": "2020-04-30", "description": "以2019财年末为固定结果截点，并等待2019年年度报告首次公开，最晚不超过2020-04-30"},
+  "target": {
+    "event": "waste_project_portfolio_commercial_validation",
+    "definition": "垃圾焚烧项目组合的公司层面商业兑现事件而非单个项目因果证明：2019财年同时满足收入增长、毛利、盈利、经营现金、短债覆盖、权益保全和审计质量七项条件。收入CAGR=(2019收入/2016收入)^(1/3)-1；毛利率=(收入-营业成本)/收入；短债覆盖=期末货币资金/(短期借款+一年内到期非流动负债)；权益保全=2019归母权益/2016归母权益；标准无保留审计记1，其余记0。",
+    "criteria_mode": "all",
+    "criteria": [
+      {"metric": "revenue_cagr_baseline_to_outcome", "comparison": ">=", "value": 0.15, "description": "2016年至2019年营业收入复合年增长率不低于15%"},
+      {"metric": "gross_margin_outcome", "comparison": ">=", "value": 0.2, "description": "2019年综合毛利率不低于20%"},
+      {"metric": "net_profit_outcome", "comparison": ">", "value": 0, "description": "2019年归母净利润为正"},
+      {"metric": "operating_cash_flow_outcome", "comparison": ">", "value": 0, "description": "2019年经营活动产生的现金流量净额为正"},
+      {"metric": "cash_to_short_term_interest_bearing_debt_outcome", "comparison": ">=", "value": 0.5, "description": "2019年末货币资金覆盖至少50%的短期借款和一年内到期非流动负债"},
+      {"metric": "equity_retention_baseline_to_outcome", "comparison": ">=", "value": 0.8, "description": "2019年末归母权益至少保留2016年末的80%"},
+      {"metric": "standard_unqualified_audit_flag_outcome", "comparison": ">=", "value": 1, "description": "2019年财务报表审计意见为标准无保留意见"}
+    ]
+  },
+  "prompt": "你处在2017-04-15收盘后的信息环境。伟明环保披露覆盖研发、设备制造、投资建设和运营的一体化链条，已有13个运营项目和持续扩建/新建项目，同时投入会占用现金。请使用冻结搜索工具，沿项目获取、建设、投产、垃圾处理量与上网电量、收入与毛利、现金回收、资本开支、短债、权益和审计链条，预测项目组合能否在2019财年达到target定义的商业兑现事件。该标签不证明任何单个项目导致公司结果，也不评价股价。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {"mode": "frozen_corpus_only", "latest_published_at": "2017-04-15", "allowed_domains": ["cninfo.com.cn"]},
+  "response_contract": {"type": "object", "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"], "properties": {"event_probability": {"type": "number", "minimum": 0, "maximum": 1}, "prediction": {"type": "string", "enum": ["event", "no_event"]}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "analysis_summary": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata", "access": "read_only", "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=603568.XSHG; if_adjusted=0; earliest info_date per selected annual report; baseline quarter=2016q4 info_date=2017-04-15; outcome quarter=2019q4 info_date=2020-04-25",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {"2016_annual_report": "7103a4fafd55ddb3bcdecf409c393df8564b9f1fdfb9e4c1f570033080addcf2", "2016_social_responsibility_report": "d955af752261ef35f553ab9f1f1721e43c6b2a2e68c0440c1389fc5ce7d55490"},
+    "causal_guardrail": "The label measures company-level portfolio validation under a fixed hurdle, not causal attribution to any project."
+  }
+}

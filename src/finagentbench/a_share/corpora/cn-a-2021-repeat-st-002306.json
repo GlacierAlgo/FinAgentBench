@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2021-repeat-st-002306",
+  "documents": [
+    {"id": "prior-st-2017-new-episode", "title": "中科云网关于公司股票交易被实施退市风险警示的公告", "published_at": "2017-04-26", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2017-04-26/1203386418.PDF", "content": "公司在2016年完整摘帽后，因2016年度经审计期末净资产为负值，自2017年4月27日起被实施退市风险警示，形成新的独立*ST episode。2017年6月因银行账户被冻结而叠加的其他风险警示发生在同一episode内，并非此次episode的起因或又一次复发。该历史事实是先验信号，但不能替代对2021年后固定四年窗口的判断。"},
+    {"id": "partial-removal-2019-st-remained", "title": "中科云网撤销退市风险警示并继续实行其他风险警示公告", "published_at": "2019-07-31", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2019-07-31/1206484669.PDF", "content": "公司撤销退市风险警示，但继续被实施其他风险警示，证券简称由*ST云网变为ST云网。因此2019年不是一个episode结束或新episode开始，不能重置复发时钟。"},
+    {"id": "full-removal-2021-approved", "title": "中科云网关于撤销其他风险警示暨停复牌的公告", "published_at": "2021-04-13", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-04-13/1209675625.PDF", "content": "深交所批准撤销最后一项其他风险警示，2021年4月14日复牌并恢复简称中科云网。只有这次完整退出才结束2017年以来的连续episode并开启新的48个月预测时钟。"}
+  ]
+}

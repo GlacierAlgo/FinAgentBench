@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2021-repeat-st-002650",
+  "documents": [
+    {"id": "prior-st-2020-governance-warning", "title": "加加食品关于公司股票交易实行其他风险警示的公告", "published_at": "2020-06-12", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2020-06-12/1207919359.PDF", "content": "公告披露公司尚未解决的违规对外担保本金余额为4.6605亿元，占最近一期经审计净资产的19.94%，因而被实施其他风险警示。触发原因不是主营收入门槛；预测复发时应考察担保解除与制度整改，而不能把一次形式整改当作永久改善。"},
+    {"id": "full-removal-2021-approved", "title": "加加食品关于撤销其他风险警示暨停复牌的公告", "published_at": "2021-07-27", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-07-27/1210573032.PDF", "content": "深交所审核同意撤销公司股票全部其他风险警示；股票停牌后于2021年7月28日复牌，简称恢复为加加食品并退出风险警示板。本次审批证明当期撤销条件成立，但不等于同一控制人家族下的内控复发概率为零。"}
+  ]
+}

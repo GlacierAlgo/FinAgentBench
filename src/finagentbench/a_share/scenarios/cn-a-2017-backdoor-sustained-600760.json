@@ -1,0 +1,63 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2017-backdoor-sustained-600760",
+  "suite": "a_share_name_business_transition_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600760.XSHG",
+    "ticker": "600760",
+    "name_as_of": "中航黑豹",
+    "exchange": "SSE"
+  },
+  "as_of": "2017-12-23",
+  "prediction_window": {
+    "end": "2020-06-23",
+    "description": "固定30个月窗口；预先登记结果年度为2019年度"
+  },
+  "target": {
+    "event": "backdoor_new_principal_business_sustained_at_registered_outcome_within_30_month_window",
+    "definition": "在预先登记的结果年度，借壳置入的新主业收入占公司营业收入至少80%，且上市公司扣非归母净利润为正；更名、股价及非经常损益不作为判定条件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "new_principal_business_revenue_share_outcome",
+        "comparison": ">=",
+        "value": 0.8,
+        "description": "结果年度借壳置入的新主业收入除以公司营业收入不低于80%"
+      },
+      {
+        "metric": "issuer_adjusted_profit_outcome",
+        "comparison": ">",
+        "value": 0,
+        "description": "结果年度上市公司扣非归母净利润为正"
+      }
+    ]
+  },
+  "prompt": "你处在2017-12-23收盘后的信息环境。中航黑豹已出售原有汽车等业务资产，并以发行股份方式注入沈飞集团100%股权；标的过户、股份登记与配套融资均已完成。请使用冻结搜索工具，预测借壳置入的航空制造新主业能否在2019年度达到target定义的持续经营结果。请综合沈飞集团历史收入与盈利、客户和产品集中度、军品定价与回款、资本开支、配套融资项目、关联交易及整合风险；不得把资产过户、控制权变化、公司名称或股价直接当作商业兑现。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2017-12-23",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit"],
+    "row_policy": "stock_code=600760.XSHG; quarter=2019q4; if_adjusted=0; selected earliest info_date=2020-04-25; official annual-report principal-business disclosure defines aviation-manufacturing revenue",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "news_evidence_policy": "Frozen evidence is limited to contemporaneous issuer filings.",
+    "causal_guardrail": "The benchmark tests audited post-backdoor business scale and earnings, not the issuer's name or transaction completion alone."
+  }
+}

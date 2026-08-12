@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2017-weiming-waste-project-commercial-validation",
+  "documents": [
+    {
+      "id": "annual-operating-project-base",
+      "title": "伟明环保2016年年报：已运营项目、处理量与复制能力",
+      "published_at": "2017-04-15",
+      "source": "伟明环保法定年度报告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-15/1203301568.PDF",
+      "content": "截至2016年末，公司有13个生活垃圾焚烧处理运营项目，其中12个BOT项目；全年垃圾入库量336.98万吨、同比增长9.11%，上网电量9.22亿度、同比增长11.68%。永强二期已并网试运行并于2017年初正式运营，武义、温州餐厨、苍南等项目进入建设，界首PPP项目完成环评和核准。公司称业务覆盖核心技术研发、设备研制、投资建设和运营，全链条有助于控制成本、建设进度和维护，但扩建和新建仍需持续资本投入。"
+    },
+    {
+      "id": "annual-pit-cash-and-capex-chain",
+      "title": "伟明环保2016年PIT财务链：高毛利运营、经营现金和建设投入",
+      "published_at": "2017-04-15",
+      "source": "伟明环保法定年度报告及只读RQData点时记录",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-15/1203301568.PDF",
+      "content": "2016年营业收入693,169,189.43元、营业成本262,972,035.54元、归母净利润328,557,875.28元、经营活动现金流净额427,969,901.70元；项目运营主营收入668,721,609.35元、毛利率62.45%。年末货币资金341,314,463.68元，应收账款净额216,383,474.15元，在建工程285,124,052.15元；无短期借款，一年内到期非流动负债60,520,000.00元，长期借款286,659,998.00元，归母权益1,917,956,277.62元。购建固定资产等支付现金246,728,230.45元。点时口径为603568.XSHG、2016q4、if_adjusted=0、最早info_date=2017-04-15。"
+    },
+    {
+      "id": "social-responsibility-operations",
+      "title": "伟明环保2016年社会责任报告：运营标准、排放与社区约束",
+      "published_at": "2017-04-15",
+      "source": "伟明环保法定社会责任报告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-15/1203301574.PDF",
+      "content": "社会责任报告从垃圾接收、焚烧发电、烟气和渗滤液处理等环节描述项目运营，并披露公司持续推进项目建设、环保设施运行和公众沟通。垃圾焚烧项目的商业稳定性不仅取决于签约与建设，还取决于长期达标运营、垃圾量、电力销售、处置费回收和社区接受度；这些约束需要与年报的处理量、现金流和资本开支共同判断。"
+    }
+  ],
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"1203301568.PDF": "7103a4fafd55ddb3bcdecf409c393df8564b9f1fdfb9e4c1f570033080addcf2", "1203301574.PDF": "d955af752261ef35f553ab9f1f1721e43c6b2a2e68c0440c1389fc5ce7d55490"}}
+}

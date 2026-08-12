@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2020-governance-share-compensation-300266",
+  "suite": "a_share_governance_obligation_v1",
+  "mode": "historical_frozen_web",
+  "security": {"order_book_id": "300266.XSHE", "ticker": "300266", "name_as_of": "兴源环境", "exchange": "SZSE"},
+  "as_of": "2020-08-31",
+  "prediction_window": {"end": "2022-08-31", "description": "监管关注函披露日起24个自然月（含起止日）"},
+  "target": {
+    "event": "full_scoped_share_performance_compensation_repurchase_cancellation_24m",
+    "definition": "快照日公告量化的全部业绩补偿股份，在24个自然月内均完成回购并在中国结算或其他官方登记中注销。达成一致、董事会或股东大会批准、监管催告、诉讼、判决、司法拍卖、重整方案、锁定期延长或仅部分回购注销均不计；窗口后完成不计。",
+    "criteria_mode": "all",
+    "criteria": [{"metric": "full_scoped_share_compensation_repurchase_cancellation_count_24m", "comparison": ">=", "value": 1, "description": "窗口内快照范围全部业绩补偿股份完成回购并在官方登记中注销，完整履约事件至少一次"}]
+  },
+  "prompt": "你处在2020-08-31收盘后的信息环境。兴源环境收购浙江源态形成的12名补偿义务人应补偿10,623,743股，股东大会通过方案后两个月期限已经届满但无人履行，浙江证监局已发监管关注函。请使用冻结搜索材料，预测未来24个自然月内是否达到target定义的全部补偿股份回购注销。分析股份锁定与可得性、义务人数量、监管和法律执行路径；不能把达成一致、批准方案或部分注销当成全量完成。现金分红返还不属于本题target，义务人或管理层连续性只作分析。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {"mode": "frozen_corpus_only", "latest_published_at": "2020-08-31", "allowed_domains": ["cninfo.com.cn"]},
+  "response_contract": {"type": "object", "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"], "properties": {"event_probability": {"type": "number", "minimum": 0, "maximum": 1}, "prediction": {"type": "string", "enum": ["event", "no_event"]}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "analysis_summary": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_basic_info.parquet"],
+    "row_policy": "300266.XSHE point-in-time security identity was cross-checked; official issuer and CSDC-linked filings remain label authority",
+    "matching_group": "governance-share-performance-compensation-cancellation-24m-v1",
+    "matching_role": "event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {"snapshot_regulatory_attention": "c52583e2c64bbaeca97d579f38f6d4813d755ae4f9074e29c52543171e0f70a8"},
+    "outcome_contract": "Every one of the 10,623,743 snapshot-scoped compensation shares must be repurchased and cancelled in official registration by 2022-08-31; cash-dividend return is deliberately outside this target.",
+    "leakage_guard": "Subsequent agreements, partial and final CSDC cancellations and any dividend-return information remain label-side only. Controller, management or obligor continuity is an analysis feature, never a criterion."
+  }
+}

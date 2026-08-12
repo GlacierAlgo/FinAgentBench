@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2017-full-risk-warning-removal-24m-002306",
+  "documents": [
+    {
+      "id": "annual-2016-negative-equity-and-contracted-business",
+      "title": "中科云网2016年年报：归母净资产再度为负，收入收缩至约1亿元",
+      "published_at": "2017-04-26",
+      "source": "巨潮资讯法定年度报告",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-04-26/1203386420.PDF",
+      "content": "2016年公司营业收入约100,286,000元、归母净利润约-54,078,000元，年末归母净资产约-32,094,700元、货币资金20,389,992.58元。上一年通过资产出售等措施实现摘帽后，仅保留的团膳业务规模明显收缩，亏损迅速侵蚀本来很薄的净资产。负净资产直接触发再次实施退市风险警示，也意味着未来完整摘帽不仅要跨回财务门槛，还需消除可能继续存在的其他风险警示依据。"
+    }
+  ]
+}

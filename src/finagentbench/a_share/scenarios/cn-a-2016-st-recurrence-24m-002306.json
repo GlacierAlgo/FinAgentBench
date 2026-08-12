@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2016-st-recurrence-24m-002306",
+  "suite": "a_share_st_recurrence_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002306.XSHE",
+    "ticker": "002306",
+    "name_as_of": "中科云网",
+    "exchange": "SZSE"
+  },
+  "as_of": "2016-05-16",
+  "prediction_window": {
+    "end": "2018-05-16",
+    "description": "自完整撤销风险警示生效日起未来24个自然月（含起止日）"
+  },
+  "target": {
+    "event": "risk_warning_recurrence_after_full_removal_24m",
+    "definition": "公司股票在2016-05-16完整撤销全部风险警示后24个自然月内，再次被交易所实施任一种ST或*ST风险警示并实际生效。董事会提示风险、年报触及财务指标但尚未生效、债券被标ST、仅停牌或监管问询均不计入；同一实控人延续只是可用的预测证据，不是标签条件",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "risk_warning_recurrence_count_after_full_removal_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "完整摘帽生效后的24个月内，股票再次实际进入ST或*ST状态至少一次"
+      }
+    ]
+  },
+  "prompt": "你处在2016-05-16收盘后的信息环境。中科云网刚刚完整撤销退市风险警示。请使用冻结材料，预测未来24个自然月内股票是否会再次被实施ST或*ST。区分2015年利润与净资产转正是持续经营修复，还是资产处置、债务处置与业务收缩形成的一次性跨线；同时评估仅保留团膳后的收入规模、现金创造、审计质量和历史治理压力。不要把公司改名次数或管理层好坏直接当作标签，也不要使用2016-05-16之后的年报或风险警示结果。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2016-05-16",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["symbol_change", "is_st", "rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002306.XSHE; if_adjusted=0; 2014q4 and 2015q4 earliest point-in-time rows available by as_of; risk-warning transitions checked on effective dates",
+    "matching_group": "full-removal-risk-warning-recurrence-24m-v1",
+    "matching_role": "event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2014_annual_report": "d322ee06d9ebe8967129b0a29192a659af11f4786c400d1ea99c6581f04e125e",
+      "2015_restructuring_inquiry_response": "caf67e2a89bf2d5ccd910c3552a5fe2c1d3fb24cfa7cb8dd94e3b419e03d2c1a",
+      "2016_full_removal_notice": "7fe8062688237f8c96b61d9257330762b3012d72e50e128792fc4c169fa1543a",
+      "2017_recurrence_notice": "65cb95ae32d75815de75352a3313131dc051d3feeb74f01d1e8cb76bda9fcd47"
+    },
+    "outcome_contract": "Only a stock-level ST/*ST status that becomes effective after full removal and no later than 24 calendar months counts.",
+    "leakage_guard": "The 2016 annual loss, 2017 renewed *ST status, later controller change and subsequent warning removals remain label-side only."
+  }
+}

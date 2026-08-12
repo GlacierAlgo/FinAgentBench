@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2022-game-segment-divestiture-24m-002306",
+  "suite": "a_share_segment_exit_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "002306.XSHE",
+    "ticker": "002306",
+    "name_as_of": "中科云网",
+    "exchange": "SZSE"
+  },
+  "as_of": "2022-03-18",
+  "prediction_window": {
+    "end": "2024-03-18",
+    "description": "2021年年度报告披露后的未来24个自然月"
+  },
+  "target": {
+    "event": "material_game_segment_divestiture_24m",
+    "definition": "未来24个月内，公司将截至快照日贡献至少50%合并收入的核心游戏运营子公司全部股权转让给非合并范围主体并完成控制权交割，使该子公司退出合并报表范围。只披露转让意向、董事会预案、少数股权出售、业务自然萎缩或仍受公司控制的内部重组不计",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "material_game_segment_divestiture_count_24m",
+        "comparison": ">=",
+        "value": 1,
+        "description": "窗口内至少一次完成100%游戏子公司控制权转让并退出合并范围"
+      }
+    ]
+  },
+  "prompt": "你处在2022-03-18收盘后的信息环境。中科云网的互联网游戏推广及运营收入主要来自2020年收购的重庆微音，已成为公司重要业务组成。请使用冻结材料，预测未来24个月内是否会发生target定义的重大游戏板块剥离。评估该业务的收入贡献、盈利与现金质量、收购后的整合稳定性、对单一子公司的依赖、公司既往频繁调整业务边界以及潜在的新业务资本需求；不得因为公司历史改名或管理层评价直接给出标签，也不要使用未来光伏转型或股权出售结果。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2022-03-18",
+    "allowed_domains": ["cninfo.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002306.XSHE; if_adjusted=0; financial facts limited to info_date<=2022-03-18; subsidiary scope and deconsolidation adjudicated from issuer filings",
+    "matching_group": "material-controlled-segment-divestiture-24m-v1",
+    "matching_role": "event",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "2020_annual_inquiry_response": "53cc1772976f2cd1dd82c55985cd3cb692b1b2590b0f5fa486e1d3b2410cb879",
+      "2021_half_year_report": "1769fe51ce58f0d6ec059d9beb2fb90eae27610c5d9dc5fc4bfe5829d69d9b95",
+      "2021_annual_report_summary": "11be8fa4a215ec9abd6c9f4f7a64fa3817948e06b728341cfb2a39468234de40",
+      "2023_game_sale_notice": "46fbd462e8880f110f482c93a08bf79f104e6882172e7cbc4f1f78884aab6f49",
+      "2023_annual_report": "8654d50e1eed933e20421258d2fb216227a1cd41e1160099fccda3e2347560dd"
+    },
+    "outcome_contract": "A sale counts only after the wholly owned game subsidiary transfers outside the group and is confirmed to leave consolidation within 24 calendar months.",
+    "leakage_guard": "The later photovoltaic pivot, proposed sale, shareholder approval, closing and 2023 annual-report confirmation remain label-side only."
+  }
+}

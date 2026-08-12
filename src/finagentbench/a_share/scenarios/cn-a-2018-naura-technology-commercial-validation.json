@@ -1,0 +1,34 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2018-naura-technology-commercial-validation",
+  "suite": "a_share_operating_chain_v1",
+  "mode": "historical_frozen_web",
+  "security": {"order_book_id": "002371.XSHE", "ticker": "002371", "name_as_of": "北方华创", "exchange": "SZSE"},
+  "as_of": "2018-04-12",
+  "prediction_window": {"end": "2021-04-30", "description": "以2020财年末为固定结果截点，并等待2020年年度报告首次公开，最晚不超过2021-04-30"},
+  "target": {
+    "event": "technology_business_commercial_validation",
+    "definition": "公司层面的技术商业兑现事件而非研发投入的因果证明：2020财年同时满足预先声明的收入增长、毛利、盈利、经营现金、短债覆盖、权益保全和审计质量七项条件。收入CAGR=(2020收入/2017收入)^(1/3)-1；毛利率=(收入-营业成本)/收入；短债覆盖=期末货币资金/(短期借款+一年内到期非流动负债)；权益保全=2020归母权益/2017归母权益；标准无保留审计记1，其余记0。",
+    "criteria_mode": "all",
+    "criteria": [
+      {"metric": "revenue_cagr_baseline_to_outcome", "comparison": ">=", "value": 0.2, "description": "2017年至2020年营业收入复合年增长率不低于20%"},
+      {"metric": "gross_margin_outcome", "comparison": ">=", "value": 0.25, "description": "2020年综合毛利率不低于25%"},
+      {"metric": "net_profit_outcome", "comparison": ">", "value": 0, "description": "2020年归母净利润为正"},
+      {"metric": "operating_cash_flow_outcome", "comparison": ">", "value": 0, "description": "2020年经营活动产生的现金流量净额为正"},
+      {"metric": "cash_to_short_term_interest_bearing_debt_outcome", "comparison": ">=", "value": 0.5, "description": "2020年末货币资金覆盖至少50%的短期借款和一年内到期非流动负债"},
+      {"metric": "equity_retention_baseline_to_outcome", "comparison": ">=", "value": 0.8, "description": "2020年末归母权益至少保留2017年末的80%"},
+      {"metric": "standard_unqualified_audit_flag_outcome", "comparison": ">=", "value": 1, "description": "2020年财务报表审计意见为标准无保留意见"}
+    ]
+  },
+  "prompt": "你处在2018-04-12收盘后的信息环境。北方华创披露半导体关键工艺设备的客户端验证与产业化、订单带来的备货和扩产，同时面临国际竞争、人才、知识产权及研发资本化风险。请使用冻结搜索工具，从技术与客户验证、订单执行、扩产、收入与毛利、存货和应收、经营现金、短债与审计质量等环节，预测公司能否在2020财年达到target定义的技术业务商业兑现事件。该标签不证明研发是结果的唯一原因，也不评价股票收益。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {"mode": "frozen_corpus_only", "latest_published_at": "2018-04-12", "allowed_domains": ["cninfo.com.cn"]},
+  "response_contract": {"type": "object", "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"], "properties": {"event_probability": {"type": "number", "minimum": 0, "maximum": 1}, "prediction": {"type": "string", "enum": ["event", "no_event"]}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "analysis_summary": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata", "access": "read_only",
+    "tables": ["rq_income_statement_pit", "rq_balance_sheet_pit", "rq_cash_flow_pit"],
+    "row_policy": "stock_code=002371.XSHE; if_adjusted=0; earliest info_date per selected annual report; baseline quarter=2017q4 info_date=2018-04-12; outcome quarter=2020q4 info_date=2021-04-29",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {"2017_annual_report": "49f45b7a7cf55b3b3978f88a80253f1520aa26482ce2f3cbdc1f82850a19fa2f", "2017_annual_summary": "67b2834a4fba09afa3398c797c2e9b5561b7163b87626638645ff13d6c4ef77c"},
+    "causal_guardrail": "The label measures later company-level commercial validation under a fixed hurdle, not causal attribution to R&D spending."
+  }
+}

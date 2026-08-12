@@ -1,0 +1,49 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2022-game-segment-divestiture-24m-002306",
+  "resolved_at": "2023-09-01",
+  "observed_at": "2024-04-30",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "material_game_segment_divestiture_count_24m": 1,
+      "ownership_interest_sold": 1,
+      "subsidiary_exited_consolidation": 1,
+      "game_revenue_share_at_as_of": 0.6324,
+      "calendar_days_from_as_of_to_deconsolidation": 532
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": [
+    "game-acquisition-and-2020-revenue-concentration",
+    "h1-2021-game-operation-update",
+    "annual-2021-game-revenue-materiality"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_transaction_notice",
+      "title": "关于出售全资子公司100%股权的公告",
+      "published_at": "2023-08-16",
+      "url": "https://static.cninfo.com.cn/finalpage/2023-08-16/1217545408.PDF",
+      "subsidiary": "重庆微音",
+      "ownership_sold": 1,
+      "result": "董事会于2023-08-15审议通过出售100%股权，尚待股东大会批准"
+    },
+    {
+      "type": "official_shareholder_resolution",
+      "title": "中科云网科技集团股份有限公司2023年第五次临时股东大会决议公告",
+      "published_at": "2023-09-01",
+      "meeting_at": "2023-08-31",
+      "url": "https://static.cninfo.com.cn/finalpage/2023-09-01/1217735550.PDF",
+      "result": "股东大会审议通过出售重庆微音100%股权"
+    },
+    {
+      "type": "official_annual_report",
+      "title": "中科云网科技集团股份有限公司2023年年度报告",
+      "published_at": "2024-04-30",
+      "url": "https://static.cninfo.com.cn/finalpage/2024-04-30/1219923026.PDF",
+      "effective_at": "2023-09-01",
+      "result": "年报确认重庆微音自2023年9月起不再纳入合并报表范围"
+    }
+  ]
+}

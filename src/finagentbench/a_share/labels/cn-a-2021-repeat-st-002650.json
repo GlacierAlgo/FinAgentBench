@@ -1,0 +1,9 @@
+{
+  "schema_version": 2, "scenario_id": "cn-a-2021-repeat-st-002650", "observed_at": "2024-04-29", "resolved_at": "2024-04-30", "event_occurred": true,
+  "realized": {"observations": {"new_independent_st_episode_count_48m": 1, "full_removal_effective_before_new_episode": 1}, "derivations": []},
+  "expected_evidence_ids": ["prior-st-2020-governance-warning", "full-removal-2021-approved"],
+  "outcome_sources": [
+    {"type": "official_new_independent_st_episode", "title": "加加食品关于公司股票交易被实施其他风险警示暨停牌的公告", "published_at": "2024-04-29", "effective_change_date": "2024-04-30", "url": "https://static.cninfo.com.cn/finalpage/2024-04-29/1219872724.PDF", "sha256": "0ac4f30dbc3df426497cbeee7fa99fe8fc754964235e837ae624bd47067b9f1e", "prior_full_removal_effective_date": "2021-07-28", "new_independent_episode": true},
+    {"type": "rqdata_status_transition_crosscheck", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2021-07-28/2025-07-28", "official_new_episode_change_dates": ["2024-04-30"], "episode_count": 1}
+  ]
+}

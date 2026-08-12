@@ -1,0 +1,32 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2020-acquisition-commitment-validation-000004",
+  "resolved_at": "2021-12-31",
+  "observed_at": "2022-04-30",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "outcome_source_sha256": {"1213274239.PDF": "087ad9f5f084197bbe58c369dddb3064e549663ce2669193e62325c7674014f1"}},
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "terminal_actual_adjusted_profit": 49542242.07,
+      "terminal_committed_adjusted_profit": 152100000.00
+    },
+    "derivations": [
+      {
+        "metric": "terminal_commitment_completion_ratio",
+        "operation": "ratio",
+        "inputs": ["terminal_actual_adjusted_profit", "terminal_committed_adjusted_profit"],
+        "value": 0.32572151262327415
+      }
+    ]
+  },
+  "expected_evidence_ids": ["zhiyou-acquisition-draft", "zhiyou-acquisition-implemented"],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "国华网安关于收购智游网安业绩承诺实现情况及业绩补偿方案的公告",
+      "published_at": "2022-04-30",
+      "url": "https://static.cninfo.com.cn/finalpage/2022-04-30/1213274239.PDF",
+      "fields": ["2021年度承诺净利润", "2021年度实现扣非归母净利润", "业绩完成情况"]
+    }
+  ]
+}

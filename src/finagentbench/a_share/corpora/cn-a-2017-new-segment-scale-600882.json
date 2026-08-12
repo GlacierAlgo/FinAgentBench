@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2017-new-segment-scale-600882",
+  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"fy2016-cheese-base": "52edfe9c4f1ef1f16c21e7191bffbed95e2bb7fcb82e3f16652103901e438f9f", "cheese-capacity-prospectus": "a7148c9ef549b85cb02bc8e1ea559df37f02bb4308c895faea190e4a4d93dca2"}},
+  "documents": [
+    {
+      "id": "fy2016-cheese-base",
+      "title": "广泽股份2016年年度报告：乳制品转型的经营基线",
+      "published_at": "2017-03-17",
+      "source": "广泽股份法定年度报告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-03-17/1203168896.PDF",
+      "content": "年度报告披露公司完成乳制品相关资产整合，形成液态奶、奶酪和乳制品贸易业务。报告提供奶酪收入、销量、产能与毛利等经营基线，也提示原料价格、食品安全、市场竞争、渠道建设和新品推广风险。判断后续规模化应依赖可复核的收入结构与盈利，而非资产名称或产业标签。"
+    },
+    {
+      "id": "cheese-capacity-prospectus",
+      "title": "广泽股份非公开发行A股股票预案：奶酪加工建设项目",
+      "published_at": "2017-08-04",
+      "source": "广泽股份法定公告（巨潮资讯）",
+      "url": "https://static.cninfo.com.cn/finalpage/2017-08-04/1203759111.PDF",
+      "content": "预案称妙可蓝多2014至2016年奶酪销量由980吨增至4,190.68吨，现有产能难以满足扩张需要；募投项目拟丰富原制、再制和休闲奶酪产品并拓展全国渠道。材料列示项目投产后的预计收入和回收期，同时说明行业尚处早期、技术和渠道执行、产能消化及预测假设均需后续验证。"
+    }
+  ]
+}

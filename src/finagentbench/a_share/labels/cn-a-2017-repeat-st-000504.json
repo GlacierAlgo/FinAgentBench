@@ -1,0 +1,9 @@
+{
+  "schema_version": 2, "scenario_id": "cn-a-2017-repeat-st-000504", "observed_at": "2019-04-30", "resolved_at": "2019-05-06", "event_occurred": true,
+  "realized": {"observations": {"new_independent_st_episode_count_48m": 1, "full_removal_effective_before_new_episode": 1}, "derivations": []},
+  "expected_evidence_ids": ["prior-st-2016-loss-warning", "full-removal-2017-approved"],
+  "outcome_sources": [
+    {"type": "official_new_independent_st_episode", "title": "南华生物关于公司股票交易实行退市风险警示的公告", "published_at": "2019-04-30", "effective_change_date": "2019-05-06", "url": "https://static.cninfo.com.cn/finalpage/2019-04-30/1206163375.PDF", "sha256": "2cba2ed7abc8ad9d07fe8031b6276b4f6af934e476de89f8bd9e9f9397859490", "prior_full_removal_effective_date": "2017-05-12", "new_independent_episode": true},
+    {"type": "rqdata_status_transition_crosscheck", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2017-05-12/2021-05-12", "official_new_episode_change_dates": ["2019-05-06"], "episode_count": 1}
+  ]
+}

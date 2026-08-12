@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "scenario_id": "cn-a-2016-repeat-st-002306",
+  "documents": [
+    {"id": "prior-st-2015-operating-loss", "title": "中科云网关于股票交易实行退市风险警示的公告", "published_at": "2015-04-29", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2015-04-29/1200935442.PDF", "content": "公司连续两个会计年度经审计净利润为负，股票自2015年4月30日起被实施退市风险警示。该触发源于持续经营亏损而非单一行政手续，提示完整摘帽后仍需判断盈利基础能否延续。"},
+    {"id": "full-removal-2016-approved", "title": "中科云网撤销退市风险警示及其他风险警示公告", "published_at": "2016-05-13", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2016-05-13/1202319588.PDF", "content": "深交所同意公司撤销全部退市风险警示和其他风险警示；2016年5月16日继续停牌、不复牌，但撤销风险警示及证券简称恢复为中科云网自该日生效。这是完整退出风险警示状态，故48个月预测时钟从2016年5月16日起算。"}
+  ]
+}

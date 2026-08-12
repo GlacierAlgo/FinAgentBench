@@ -1,0 +1,62 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2019-audit-opinion-star-st-600518",
+  "suite": "a_share_rule_regime_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "600518.XSHG",
+    "ticker": "600518",
+    "name_as_of": "康美药业",
+    "exchange": "SSE"
+  },
+  "as_of": "2019-04-30",
+  "prediction_window": {
+    "end": "2019-05-31",
+    "description": "自2019-05-01起至2019-05-31止，观察最近年度财务报表审计意见是否导致首次实施*ST"
+  },
+  "target": {
+    "event": "new_star_st_from_latest_annual_financial_audit_opinion",
+    "definition": "公司在as-of时尚未被实施退市风险警示，并因截至as-of已披露的最近年度财务会计报告所载审计意见触及当时适用的财务类退市风险警示条款，于预测窗口内首次被实施退市风险警示（证券简称冠以“*ST”）。保留意见、仅实施其他风险警示“ST”及非财务报表审计意见均不计入",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "new_financial_audit_opinion_star_st_effective_count",
+        "comparison": ">=",
+        "value": 1,
+        "description": "预测窗口内因最近年度财务报表审计意见首次生效的*ST次数至少为1"
+      }
+    ]
+  },
+  "prompt": "你处在2019-04-30收盘后的信息环境。康美药业已经披露2018年度财务报表及审计报告，as-of时证券简称尚未冠以*ST。请只使用冻结搜索工具，依据当时有效的上交所规则，判断该财务报表审计意见是否会在2019-05-31前导致首次实施退市风险警示*ST。必须区分无法表示意见、否定意见、保留意见，也必须区分财务报表审计意见、内部控制意见、ST和*ST；公司风险严重不等于目标事件自动成立。给出概率、二元判断、证据ID和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2019-04-30",
+    "allowed_domains": ["cninfo.com.cn", "sse.com.cn"]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_ids", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_ids": {"type": "array", "items": {"type": "string"}},
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "official_exchange_and_issuer_filings",
+    "access": "read_only",
+    "matching_group": "annual-audit-opinion-star-st-regime-v1",
+    "matching_role": "no_event",
+    "matching_axes": ["annual_report_disclosed", "nonstandard_financial_statement_opinion", "pre_event_not_star_st", "opinion_type_contrast"],
+    "rule_snapshot_id": "sse-main-2018-11-13.2.1-4",
+    "exact_contract": "new_star_st_from_latest_annual_financial_audit_opinion-v1",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 5109b46e7f960a52ea9833704c9484c835c6ef4f; Rust CLI; --no-ocr",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "1206168292.PDF": "9f47aa0dc0a8838ffd21e600d7eca194052d91cf867d8e22a4ba56dee2b9f60a"
+    },
+    "leakage_guard": "Corpus contains the as-of annual report and contemporaneous rule only; later other-risk-warning ST status remains label-side only."
+  }
+}

@@ -33,9 +33,7 @@ def _cases():
 def test_builtin_goodwill_slice_is_balanced_and_all_cases_are_point_in_time() -> None:
     cases = _cases()
     goodwill_cases = tuple(
-        case
-        for case in cases
-        if case.scenario.suite == "a_share_walk_forward_v1"
+        case for case in cases if case.scenario.suite == "a_share_walk_forward_v1"
     )
 
     assert len(cases) >= 24
@@ -66,9 +64,7 @@ def test_a_share_trap_families_have_matched_positive_and_negative_cases() -> Non
             case for case in trap_cases if "audit-opinion" in case.scenario.id
         ),
         "performance_commitment": tuple(
-            case
-            for case in trap_cases
-            if "performance-commitment" in case.scenario.id
+            case for case in trap_cases if "performance-commitment" in case.scenario.id
         ),
         "pledge_control": tuple(
             case for case in trap_cases if "pledge-control" in case.scenario.id
@@ -149,7 +145,9 @@ def test_business_decisions_have_matched_rnd_and_factory_controls() -> None:
         if case.scenario.suite == "a_share_business_decision_v1"
     )
     rnd_cases = tuple(
-        case for case in business_cases if "-rd-commercial-validation" in case.scenario.id
+        case
+        for case in business_cases
+        if "-rd-commercial-validation" in case.scenario.id
     )
     factory_cases = tuple(
         case
@@ -195,33 +193,252 @@ def test_business_decisions_have_matched_rnd_and_factory_controls() -> None:
     dynanonic = next(
         case for case in factory_cases if case.scenario.security.ticker == "300769"
     )
-    assert catl.label.realized_metrics[
-        "announced_factory_schedule_validation"
-    ] == 1
-    assert dynanonic.label.realized_metrics[
-        "announced_factory_schedule_validation"
-    ] == 0
+    assert catl.label.realized_metrics["announced_factory_schedule_validation"] == 1
+    assert (
+        dynanonic.label.realized_metrics["announced_factory_schedule_validation"] == 0
+    )
     assert dynanonic.label.realized_metrics["gross_margin_outcome"] < 0
 
 
-def test_st_speculative_runup_family_is_balanced_and_rejects_remediation_shortcuts() -> None:
+def test_operating_chain_contrasts_are_balanced_and_share_numeric_hurdles() -> None:
+    cases = tuple(
+        case for case in _cases() if case.scenario.suite == "a_share_operating_chain_v1"
+    )
+
+    assert len(cases) == 6
+    assert sum(case.label.event_occurred for case in cases) == 3
+    families: dict[str, list] = {}
+    for case in cases:
+        families.setdefault(case.scenario.target_event, []).append(case)
+        assert case.label.observed_at is not None
+        assert all(
+            document.published_at <= case.scenario.as_of
+            for document in case.corpus.documents
+        )
+    assert len(families) == 3
+    for family in families.values():
+        assert len(family) == 2
+        assert {case.label.event_occurred for case in family} == {False, True}
+        # These are structural contrasts, not strict causal matched controls:
+        # the operating mechanism and registered outcome horizon may differ.
+        assert (
+            len(
+                {
+                    tuple(
+                        (criterion.metric, criterion.comparison, criterion.value)
+                        for criterion in case.scenario.criteria
+                    )
+                    for case in family
+                }
+            )
+            == 1
+        )
+
+
+def test_repeat_st_family_uses_exact_windows_and_same_company_hard_controls() -> None:
     cases = tuple(
         case
         for case in _cases()
-        if case.scenario.suite == "a_share_st_outcomes_v1"
+        if case.scenario.suite == "a_share_repeat_st_governance_v1"
+    )
+
+    assert len(cases) == 12
+    assert sum(case.label.event_occurred for case in cases) == 6
+    assert {case.scenario.target_event for case in cases} == {
+        "new_independent_st_episode_within_48m_after_full_removal"
+    }
+    assert {
+        tuple(
+            (criterion.metric, criterion.comparison, criterion.value)
+            for criterion in case.scenario.criteria
+        )
+        for case in cases
+    } == {(("new_independent_st_episode_count_48m", ">=", 1.0),)}
+    by_ticker: dict[str, list] = {}
+    for case in cases:
+        by_ticker.setdefault(case.scenario.security.ticker, []).append(case)
+        assert case.label.observed_at is not None
+    for ticker in ("002306", "000504", "600381"):
+        assert {case.label.event_occurred for case in by_ticker[ticker]} == {
+            False,
+            True,
+        }
+    negative_observation_dates = {
+        case.scenario.id: case.label.observed_at.isoformat()
+        for case in cases
+        if not case.label.event_occurred
+    }
+    assert negative_observation_dates == {
+        "cn-a-2016-repeat-st-600381": "2020-11-23",
+        "cn-a-2021-repeat-st-000408": "2025-05-12",
+        "cn-a-2021-repeat-st-000504": "2025-04-29",
+        "cn-a-2021-repeat-st-002306": "2025-04-15",
+        "cn-a-2021-repeat-st-600080": "2025-05-12",
+        "cn-a-2021-repeat-st-600860": "2025-04-02",
+    }
+    assert (
+        next(
+            case
+            for case in by_ticker["002306"]
+            if case.scenario.as_of.isoformat() == "2021-04-13"
+        ).scenario.window_end.isoformat()
+        == "2025-04-14"
+    )
+
+
+def test_name_transition_cases_match_on_outcomes_not_rename_counts() -> None:
+    cases = tuple(
+        case
+        for case in _cases()
+        if case.scenario.suite == "a_share_name_business_transition_v1"
+    )
+
+    assert len(cases) >= 6
+    families: dict[tuple, list] = {}
+    for case in cases:
+        signature = (
+            case.scenario.target_event,
+            tuple(
+                (criterion.metric, criterion.comparison, criterion.value)
+                for criterion in case.scenario.criteria
+            ),
+        )
+        families.setdefault(signature, []).append(case)
+        assert all(
+            "rename" not in criterion.metric for criterion in case.scenario.criteria
+        )
+        assert case.label.observed_at is not None
+    assert all(len(family) == 2 for family in families.values())
+    assert all(
+        {case.label.event_occurred for case in family} == {False, True}
+        for family in families.values()
+    )
+
+
+def test_rule_regime_pairs_require_historical_rule_and_board_context() -> None:
+    cases = tuple(
+        case for case in _cases() if case.scenario.suite == "a_share_rule_regime_v1"
+    )
+
+    assert len(cases) == 8
+    assert sum(case.label.event_occurred for case in cases) == 4
+    families: dict[tuple, list] = {}
+    for case in cases:
+        signature = (
+            case.scenario.target_event,
+            case.scenario.target_definition,
+            tuple(
+                (criterion.metric, criterion.comparison, criterion.value)
+                for criterion in case.scenario.criteria
+            ),
+        )
+        families.setdefault(signature, []).append(case)
+        assert case.label.observed_at is not None
+        assert all(
+            document.published_at <= case.scenario.as_of
+            for document in case.corpus.documents
+        )
+    assert len(families) == 4
+    assert all(len(family) == 2 for family in families.values())
+    assert all(
+        {case.label.event_occurred for case in family} == {False, True}
+        for family in families.values()
+    )
+
+    board_pair = next(
+        family
+        for family in families.values()
+        if {case.scenario.security.ticker for case in family} == {"603580", "688004"}
+    )
+    assert {case.scenario.security.exchange for case in board_pair} == {
+        "SSE",
+        "SSE STAR",
+    }
+
+
+def test_governance_obligation_pairs_require_actual_completion() -> None:
+    cases = tuple(
+        case
+        for case in _cases()
+        if case.scenario.suite == "a_share_governance_obligation_v1"
+    )
+
+    assert len(cases) == 8
+    assert sum(case.label.event_occurred for case in cases) == 4
+    families: dict[tuple, list] = {}
+    for case in cases:
+        signature = (
+            case.scenario.target_event,
+            case.scenario.target_definition,
+            tuple(
+                (criterion.metric, criterion.comparison, criterion.value)
+                for criterion in case.scenario.criteria
+            ),
+        )
+        families.setdefault(signature, []).append(case)
+        assert case.label.observed_at is not None
+    assert len(families) == 4
+    assert all(len(family) == 2 for family in families.values())
+    assert all(
+        {case.label.event_occurred for case in family} == {False, True}
+        for family in families.values()
+    )
+    share_pair = next(
+        family
+        for family in families.values()
+        if {case.scenario.security.ticker for case in family} == {"300266", "600666"}
+    )
+    assert all(
+        "dividend" not in criterion.metric
+        for case in share_pair
+        for criterion in case.scenario.criteria
+    )
+
+
+def test_project_and_segment_exit_singletons_now_have_matched_controls() -> None:
+    cases = _cases()
+    for suite, event in (
+        ("a_share_project_operation_v1", "own_battery_cell_line_formal_operation_24m"),
+        ("a_share_segment_exit_v1", "material_game_segment_divestiture_24m"),
+    ):
+        family = tuple(
+            case
+            for case in cases
+            if case.scenario.suite == suite and case.scenario.target_event == event
+        )
+        assert len(family) == 2
+        assert {case.label.event_occurred for case in family} == {False, True}
+        assert (
+            len(
+                {
+                    (
+                        case.scenario.target_definition,
+                        tuple(
+                            (criterion.metric, criterion.comparison, criterion.value)
+                            for criterion in case.scenario.criteria
+                        ),
+                    )
+                    for case in family
+                }
+            )
+            == 1
+        )
+
+
+def test_st_speculative_runup_family_is_balanced_and_rejects_remediation_shortcuts() -> (
+    None
+):
+    cases = tuple(
+        case for case in _cases() if case.scenario.suite == "a_share_st_outcomes_v1"
     )
 
     assert len(cases) == 18
     assert sum(case.label.event_occurred for case in cases) == 9
     positives = {
-        case.scenario.security.ticker
-        for case in cases
-        if case.label.event_occurred
+        case.scenario.security.ticker for case in cases if case.label.event_occurred
     }
     negatives = {
-        case.scenario.security.ticker
-        for case in cases
-        if not case.label.event_occurred
+        case.scenario.security.ticker for case in cases if not case.label.event_occurred
     }
     assert positives == {
         "000408",
@@ -257,12 +474,15 @@ def test_st_speculative_runup_family_is_balanced_and_rejects_remediation_shortcu
             ("max_excess_return_vs_510300_365d", ">=", 0.8),
         )
     }
-    assert sum(
-        case.scenario.authoring_provenance["st_cause_taxonomy"].startswith(
-            "non_operating_governance/"
+    assert (
+        sum(
+            case.scenario.authoring_provenance["st_cause_taxonomy"].startswith(
+                "non_operating_governance/"
+            )
+            for case in cases
         )
-        for case in cases
-    ) == 10
+        == 10
+    )
     assert {
         case.label.event_occurred
         for case in cases
@@ -280,44 +500,40 @@ def test_st_speculative_runup_family_is_balanced_and_rejects_remediation_shortcu
     by_ticker = {case.scenario.security.ticker: case for case in cases}
     threshold_boundary = by_ticker["002650"]
     assert not threshold_boundary.label.event_occurred
-    assert threshold_boundary.label.realized_metrics[
-        "max_adjusted_close_return_365d"
-    ] >= 1.0
+    assert (
+        threshold_boundary.label.realized_metrics["max_adjusted_close_return_365d"]
+        >= 1.0
+    )
     assert threshold_boundary.label.realized_metrics[
         "max_excess_return_vs_510300_365d"
     ] == pytest.approx(0.7907361841205645)
-    assert threshold_boundary.label.realized_metrics[
-        "max_excess_return_vs_510300_365d"
-    ] < 0.8
+    assert (
+        threshold_boundary.label.realized_metrics["max_excess_return_vs_510300_365d"]
+        < 0.8
+    )
 
     truncated_path = by_ticker["002477"]
     assert truncated_path.label.realized_metrics["common_trading_sessions"] == 113
     assert not truncated_path.label.event_occurred
-    assert "do not impute" in truncated_path.label.outcome_sources[0][
-        "observation_policy"
-    ]
+    assert (
+        "do not impute" in truncated_path.label.outcome_sources[0]["observation_policy"]
+    )
 
     all_cases = {case.scenario.id: case for case in _cases()}
     reused_corpora = {
-        "cn-a-2020-st-speculative-runup-000408":
-            "cn-a-2020-st-remediation-000408",
-        "cn-a-2020-st-speculative-runup-002650":
-            "cn-a-2020-st-remediation-002650",
-        "cn-a-2019-st-speculative-runup-600518":
-            "cn-a-2019-st-remediation-600518",
-        "cn-a-2019-st-speculative-runup-600781":
-            "cn-a-2019-st-remediation-600781",
-        "cn-a-2019-st-speculative-runup-002477":
-            "cn-a-2019-forced-delisting-002477",
-        "cn-a-2018-st-speculative-runup-002680":
-            "cn-a-2018-forced-delisting-002680",
-        "cn-a-2018-st-speculative-runup-000939":
-            "cn-a-2018-forced-delisting-000939",
+        "cn-a-2020-st-speculative-runup-000408": "cn-a-2020-st-remediation-000408",
+        "cn-a-2020-st-speculative-runup-002650": "cn-a-2020-st-remediation-002650",
+        "cn-a-2019-st-speculative-runup-600518": "cn-a-2019-st-remediation-600518",
+        "cn-a-2019-st-speculative-runup-600781": "cn-a-2019-st-remediation-600781",
+        "cn-a-2019-st-speculative-runup-002477": "cn-a-2019-forced-delisting-002477",
+        "cn-a-2018-st-speculative-runup-002680": "cn-a-2018-forced-delisting-002680",
+        "cn-a-2018-st-speculative-runup-000939": "cn-a-2018-forced-delisting-000939",
     }
     for runup_id, source_id in reused_corpora.items():
-        assert all_cases[runup_id].corpus.documents == all_cases[
-            source_id
-        ].corpus.documents
+        assert (
+            all_cases[runup_id].corpus.documents
+            == all_cases[source_id].corpus.documents
+        )
 
     assert all(
         document.published_at <= case.scenario.as_of
@@ -326,9 +542,8 @@ def test_st_speculative_runup_family_is_balanced_and_rejects_remediation_shortcu
     )
     assert all(
         "not whether" in case.scenario.authoring_provenance["causal_guardrail"]
-        or "deliberately not treated" in case.scenario.authoring_provenance[
-            "causal_guardrail"
-        ]
+        or "deliberately not treated"
+        in case.scenario.authoring_provenance["causal_guardrail"]
         for case in cases
     )
 
@@ -338,6 +553,8 @@ def test_st_remediation_family_requires_full_exchange_approved_removal() -> None
         case
         for case in _cases()
         if case.scenario.suite == "a_share_st_remediation_v1"
+        and case.scenario.authoring_provenance["matching_group"]
+        == "first-risk-warning-day-full-removal-24m-v1"
     )
 
     assert len(cases) == 12
@@ -351,17 +568,13 @@ def test_st_remediation_family_requires_full_exchange_approved_removal() -> None
             for criterion in case.scenario.criteria
         )
         for case in cases
-    } == {(('full_risk_warning_removal_count_24m', '>=', 1),)}
+    } == {(("full_risk_warning_removal_count_24m", ">=", 1),)}
 
     positives = {
-        case.scenario.security.ticker
-        for case in cases
-        if case.label.event_occurred
+        case.scenario.security.ticker for case in cases if case.label.event_occurred
     }
     negatives = {
-        case.scenario.security.ticker
-        for case in cases
-        if not case.label.event_occurred
+        case.scenario.security.ticker for case in cases if not case.label.event_occurred
     }
     assert positives == {
         "000408",
@@ -395,9 +608,10 @@ def test_st_remediation_family_requires_full_exchange_approved_removal() -> None
             document.published_at <= case.scenario.as_of
             for document in case.corpus.documents
         )
-        assert "*ST-to-ST downgrade" in case.scenario.authoring_provenance[
-            "outcome_contract"
-        ]
+        assert (
+            "*ST-to-ST downgrade"
+            in case.scenario.authoring_provenance["outcome_contract"]
+        )
 
         payload = json.dumps(case.scenario.agent_payload(), ensure_ascii=False)
         assert "later_context_not_counted" not in payload
@@ -466,14 +680,10 @@ def test_next_annual_audit_family_uses_the_first_financial_statement_opinion() -
     }
 
     positives = {
-        case.scenario.security.ticker
-        for case in cases
-        if case.label.event_occurred
+        case.scenario.security.ticker for case in cases if case.label.event_occurred
     }
     negatives = {
-        case.scenario.security.ticker
-        for case in cases
-        if not case.label.event_occurred
+        case.scenario.security.ticker for case in cases if not case.label.event_occurred
     }
     assert positives == {
         "000525",
@@ -496,9 +706,7 @@ def test_next_annual_audit_family_uses_the_first_financial_statement_opinion() -
     for case in cases:
         ticker = case.scenario.security.ticker
         remediation = remediation_by_ticker[ticker]
-        outcome_pairs.add(
-            (remediation.label.event_occurred, case.label.event_occurred)
-        )
+        outcome_pairs.add((remediation.label.event_occurred, case.label.event_occurred))
         assert case.scenario.as_of == remediation.scenario.as_of
         assert case.corpus.documents == remediation.corpus.documents
         assert all(
@@ -531,12 +739,9 @@ def test_next_annual_audit_family_uses_the_first_financial_statement_opinion() -
         assert source["internal_control_opinion_not_used"]
         assert source["qualifies_as_nonstandard"] is case.label.event_occurred
         assert source["pdf_text_tool"] == (
-            "run-llama/liteparse 2.11.1 git "
-            "53e4fc813d35f76d0169923d2c451b3c8700edb0"
+            "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0"
         )
-        assert source["pdf_text_mode"] == (
-            "native PDFium text extraction (--no-ocr)"
-        )
+        assert source["pdf_text_mode"] == ("native PDFium text extraction (--no-ocr)")
 
         payload = json.dumps(case.scenario.agent_payload(), ensure_ascii=False)
         assert "audit_opinion" not in payload
@@ -583,19 +788,13 @@ def test_forced_delisting_family_uses_fixed_first_warning_window() -> None:
             for criterion in case.scenario.criteria
         )
         for case in cases
-    } == {
-        (("exchange_forced_delisting_decision_count_60m", ">=", 1),)
-    }
+    } == {(("exchange_forced_delisting_decision_count_60m", ">=", 1),)}
 
     positives = {
-        case.scenario.security.ticker
-        for case in cases
-        if case.label.event_occurred
+        case.scenario.security.ticker for case in cases if case.label.event_occurred
     }
     negatives = {
-        case.scenario.security.ticker
-        for case in cases
-        if not case.label.event_occurred
+        case.scenario.security.ticker for case in cases if not case.label.event_occurred
     }
     assert positives == {
         "000939",
@@ -613,9 +812,10 @@ def test_forced_delisting_family_uses_fixed_first_warning_window() -> None:
         "600518",
         "600702",
     }
-    assert {
-        case.scenario.authoring_provenance["matching_role"] for case in cases
-    } == {"event", "no_event_hard_control"}
+    assert {case.scenario.authoring_provenance["matching_role"] for case in cases} == {
+        "event",
+        "no_event_hard_control",
+    }
 
     routes = set()
     for case in cases:
@@ -628,12 +828,14 @@ def test_forced_delisting_family_uses_fixed_first_warning_window() -> None:
             document.published_at <= case.scenario.as_of
             for document in case.corpus.documents
         )
-        assert "60-calendar-month" in case.scenario.authoring_provenance[
-            "outcome_contract"
-        ]
-        assert "first trading day" in case.scenario.authoring_provenance[
-            "first_warning_start_contract"
-        ]
+        assert (
+            "60-calendar-month"
+            in case.scenario.authoring_provenance["outcome_contract"]
+        )
+        assert (
+            "first trading day"
+            in case.scenario.authoring_provenance["first_warning_start_contract"]
+        )
 
         metrics = case.label.realized_metrics
         assert metrics["first_risk_warning_day_verified"] == 1
@@ -659,8 +861,7 @@ def test_forced_delisting_family_uses_fixed_first_warning_window() -> None:
             if source["type"] == "rqdata_forced_delisting_status_crosscheck"
         )
         assert status["window"] == (
-            f"{case.scenario.as_of.isoformat()}/"
-            f"{case.scenario.window_end.isoformat()}"
+            f"{case.scenario.as_of.isoformat()}/{case.scenario.window_end.isoformat()}"
         )
         assert status["first_risk_warning_trading_day"] == (
             case.scenario.as_of.isoformat()
@@ -682,9 +883,7 @@ def test_forced_delisting_family_uses_fixed_first_warning_window() -> None:
                 if source["type"] == "official_exchange_forced_delisting_decision"
             )
             routes.add(decision["delisting_route"])
-            assert decision["decision_date"] <= (
-                case.scenario.window_end.isoformat()
-            )
+            assert decision["decision_date"] <= (case.scenario.window_end.isoformat())
             assert decision["published_at"] <= case.label.resolved_at.isoformat()
             assert decision["is_exchange_final_decision"]
             assert decision["forced_not_voluntary"]
@@ -715,11 +914,11 @@ def test_forced_delisting_family_uses_fixed_first_warning_window() -> None:
     for case in cases:
         ticker = case.scenario.security.ticker
         if ticker in reused_tickers:
-            assert case.corpus.documents == remediation_by_ticker[ticker].corpus.documents
+            assert (
+                case.corpus.documents == remediation_by_ticker[ticker].corpus.documents
+            )
 
-    modeng = next(
-        case for case in cases if case.scenario.security.ticker == "002656"
-    )
+    modeng = next(case for case in cases if case.scenario.security.ticker == "002656")
     assert not modeng.label.event_occurred
     assert modeng.scenario.window_end.isoformat() == "2025-01-13"
     modeng_status = modeng.label.outcome_sources[0]
@@ -731,6 +930,7 @@ def test_public_debt_default_family_matches_real_payment_opportunities() -> None
         case
         for case in _cases()
         if case.scenario.suite == "a_share_public_debt_default_v1"
+        and case.scenario.target_event == "material_public_debt_payment_failure_120d"
     )
 
     assert len(cases) == 4
@@ -742,46 +942,55 @@ def test_public_debt_default_family_matches_real_payment_opportunities() -> None
         )
         for case in cases
     } == {(("material_public_debt_payment_failure_count_120d", ">=", 1),)}
-    assert {
-        case.scenario.authoring_provenance["matching_role"] for case in cases
-    } == {"event", "no_event_hard_control"}
+    assert {case.scenario.authoring_provenance["matching_role"] for case in cases} == {
+        "event",
+        "no_event_hard_control",
+    }
 
     for case in cases:
         metrics = case.label.realized_metrics
         assert metrics["scheduled_material_public_debt_payment_count_120d"] >= 1
-        assert metrics["scheduled_material_public_debt_payment_amount_rmb"] >= 50_000_000
+        assert (
+            metrics["scheduled_material_public_debt_payment_amount_rmb"] >= 50_000_000
+        )
         assert (
             metrics["material_public_debt_payment_failure_count_120d"]
             + metrics["material_public_debt_payment_completed_count_120d"]
             == metrics["scheduled_material_public_debt_payment_count_120d"]
         )
-        assert (
-            metrics["material_public_debt_payment_failure_amount_rmb"]
-            + metrics["material_public_debt_payment_completed_amount_rmb"]
-            == pytest.approx(
-                metrics["scheduled_material_public_debt_payment_amount_rmb"]
-            )
-        )
+        assert metrics["material_public_debt_payment_failure_amount_rmb"] + metrics[
+            "material_public_debt_payment_completed_amount_rmb"
+        ] == pytest.approx(metrics["scheduled_material_public_debt_payment_amount_rmb"])
         assert (
             metrics["material_public_debt_payment_failure_count_120d"] >= 1
         ) is case.label.event_occurred
-        assert "CNY50m" in case.scenario.authoring_provenance[
-            "opportunity_contract"
-        ]
+        assert "CNY50m" in case.scenario.authoring_provenance["opportunity_contract"]
 
     by_ticker = {case.scenario.security.ticker: case for case in cases}
-    assert by_ticker["002450"].label.realized_metrics[
-        "scheduled_material_public_debt_payment_count_120d"
-    ] == 3
-    assert by_ticker["600518"].label.realized_metrics[
-        "scheduled_material_public_debt_payment_count_120d"
-    ] == 4
-    assert by_ticker["000413"].label.realized_metrics[
-        "scheduled_material_public_debt_payment_count_120d"
-    ] == 2
-    assert by_ticker["002310"].label.realized_metrics[
-        "scheduled_material_public_debt_payment_count_120d"
-    ] == 2
+    assert (
+        by_ticker["002450"].label.realized_metrics[
+            "scheduled_material_public_debt_payment_count_120d"
+        ]
+        == 3
+    )
+    assert (
+        by_ticker["600518"].label.realized_metrics[
+            "scheduled_material_public_debt_payment_count_120d"
+        ]
+        == 4
+    )
+    assert (
+        by_ticker["000413"].label.realized_metrics[
+            "scheduled_material_public_debt_payment_count_120d"
+        ]
+        == 2
+    )
+    assert (
+        by_ticker["002310"].label.realized_metrics[
+            "scheduled_material_public_debt_payment_count_120d"
+        ]
+        == 2
+    )
 
     kangmei_payload = json.dumps(
         by_ticker["600518"].scenario.agent_payload(), ensure_ascii=False
@@ -793,9 +1002,7 @@ def test_public_debt_default_family_matches_real_payment_opportunities() -> None
 
 def test_cash_reality_pair_requires_parent_level_payment_capacity() -> None:
     cases = tuple(
-        case
-        for case in _cases()
-        if case.scenario.suite == "a_share_cash_reality_v1"
+        case for case in _cases() if case.scenario.suite == "a_share_cash_reality_v1"
     )
 
     assert len(cases) == 2
@@ -803,17 +1010,16 @@ def test_cash_reality_pair_requires_parent_level_payment_capacity() -> None:
     assert {case.scenario.target_event for case in cases} == {
         "announced_cash_dividend_payment_failure_10d"
     }
-    assert {
-        case.scenario.authoring_provenance["matching_role"] for case in cases
-    } == {"event", "no_event_hard_control"}
+    assert {case.scenario.authoring_provenance["matching_role"] for case in cases} == {
+        "event",
+        "no_event_hard_control",
+    }
     assert all(
-        case.label.realized_metrics["announced_cash_dividend_amount_rmb"]
-        >= 50_000_000
+        case.label.realized_metrics["announced_cash_dividend_amount_rmb"] >= 50_000_000
         for case in cases
     )
     assert all(
-        case.label.realized_metrics["consolidated_cash_to_announced_dividend"]
-        > 20
+        case.label.realized_metrics["consolidated_cash_to_announced_dividend"] > 20
         for case in cases
     )
 
@@ -822,12 +1028,8 @@ def test_cash_reality_pair_requires_parent_level_payment_capacity() -> None:
     kangde = by_ticker["002450"]
     assert furen.label.event_occurred
     assert not kangde.label.event_occurred
-    assert furen.label.realized_metrics[
-        "parent_cash_to_announced_dividend"
-    ] < 0.01
-    assert kangde.label.realized_metrics[
-        "parent_cash_to_announced_dividend"
-    ] > 30
+    assert furen.label.realized_metrics["parent_cash_to_announced_dividend"] < 0.01
+    assert kangde.label.realized_metrics["parent_cash_to_announced_dividend"] > 30
     assert furen.label.realized_metrics["cash_dividend_paid_amount_rmb"] == 0
     assert kangde.label.realized_metrics[
         "cash_dividend_paid_amount_rmb"
@@ -843,9 +1045,7 @@ def test_cash_reality_pair_requires_parent_level_payment_capacity() -> None:
 
 def test_enforcement_family_uses_fixed_window_and_temporal_hard_controls() -> None:
     cases = tuple(
-        case
-        for case in _cases()
-        if case.scenario.suite == "a_share_enforcement_v1"
+        case for case in _cases() if case.scenario.suite == "a_share_enforcement_v1"
     )
 
     assert len(cases) == 6
@@ -859,9 +1059,7 @@ def test_enforcement_family_uses_fixed_window_and_temporal_hard_controls() -> No
             for criterion in case.scenario.criteria
         )
         for case in cases
-    } == {
-        (("qualifying_final_enforcement_decision_count_30m", ">=", 1),)
-    }
+    } == {(("qualifying_final_enforcement_decision_count_30m", ">=", 1),)}
 
     for case in cases:
         metrics = case.label.realized_metrics
@@ -873,8 +1071,7 @@ def test_enforcement_family_uses_fixed_window_and_temporal_hard_controls() -> No
             decision = next(
                 source
                 for source in case.label.outcome_sources
-                if source["type"]
-                == "official_final_administrative_penalty_decision"
+                if source["type"] == "official_final_administrative_penalty_decision"
             )
             assert decision["decision_date"] <= case.scenario.window_end.isoformat()
         else:
@@ -904,8 +1101,7 @@ def test_enforcement_family_uses_fixed_window_and_temporal_hard_controls() -> No
     later_oriental = next(
         source
         for source in oriental.label.outcome_sources
-        if source["type"]
-        == "official_post_window_subthreshold_decision_context"
+        if source["type"] == "official_post_window_subthreshold_decision_context"
     )
     assert later_oriental["decision_date"] > oriental.scenario.window_end.isoformat()
     assert later_oriental["confirmed_amount_rmb"] < 100_000_000
@@ -918,14 +1114,10 @@ def test_enforcement_family_uses_fixed_window_and_temporal_hard_controls() -> No
 
 
 def test_pledge_freeze_pair_is_same_company_balanced_and_non_mechanical() -> None:
-    cases = tuple(
-        case for case in _cases() if "pledge-freeze" in case.scenario.id
-    )
+    cases = tuple(case for case in _cases() if "pledge-freeze" in case.scenario.id)
 
     assert len(cases) == 2
-    assert {case.scenario.security.order_book_id for case in cases} == {
-        "603766.XSHG"
-    }
+    assert {case.scenario.security.order_book_id for case in cases} == {"603766.XSHG"}
     assert {case.scenario.target_event for case in cases} == {
         "material_controller_share_judicial_freeze"
     }
@@ -933,9 +1125,10 @@ def test_pledge_freeze_pair_is_same_company_balanced_and_non_mechanical() -> Non
 
     negative = next(case for case in cases if not case.label.event_occurred)
     positive = next(case for case in cases if case.label.event_occurred)
-    assert negative.label.realized_metrics[
-        "controller_judicial_freeze_to_as_of_holding"
-    ] == 0
+    assert (
+        negative.label.realized_metrics["controller_judicial_freeze_to_as_of_holding"]
+        == 0
+    )
     assert positive.label.realized_metrics[
         "controller_judicial_freeze_to_as_of_holding"
     ] == pytest.approx(0.36624958940468266)
@@ -965,6 +1158,48 @@ def test_generic_label_rejects_a_tampered_derived_metric() -> None:
             payload,
             scenario=case.scenario,
             corpus=case.corpus,
+            source="tampered-label",
+        )
+
+
+def test_label_separates_outcome_effective_and_public_observation_dates() -> None:
+    battery = next(
+        item
+        for item in _cases()
+        if item.scenario.id == "cn-a-2023-battery-operation-24m-002306"
+    )
+    repeat_st = next(
+        item for item in _cases() if item.scenario.id == "cn-a-2016-repeat-st-002306"
+    )
+
+    assert battery.label.resolved_at.isoformat() == "2025-06-30"
+    assert battery.label.observed_at.isoformat() == "2025-08-27"
+    assert repeat_st.label.observed_at < repeat_st.label.resolved_at
+
+    payload = {
+        "schema_version": battery.label.schema_version,
+        "scenario_id": battery.label.scenario_id,
+        "resolved_at": battery.label.resolved_at.isoformat(),
+        "observed_at": battery.scenario.as_of.isoformat(),
+        "event_occurred": battery.label.event_occurred,
+        "realized": deepcopy(battery.label.realized),
+        "expected_evidence_ids": list(battery.label.expected_evidence_ids),
+        "outcome_sources": list(battery.label.outcome_sources),
+    }
+    with pytest.raises(CaseValidationError, match="observed_at must be after"):
+        WalkForwardLabel.from_dict(
+            payload,
+            scenario=battery.scenario,
+            corpus=battery.corpus,
+            source="tampered-label",
+        )
+
+    payload["observed_at"] = "2025-08-26"
+    with pytest.raises(CaseValidationError, match="published after observed_at"):
+        WalkForwardLabel.from_dict(
+            payload,
+            scenario=battery.scenario,
+            corpus=battery.corpus,
             source="tampered-label",
         )
 
@@ -1011,12 +1246,8 @@ def test_probability_scoring_rewards_calibrated_confidence() -> None:
         "analysis_summary": "The frozen filings support a material impairment risk.",
     }
 
-    high = score_walkforward_submission(
-        case, {**common, "event_probability": 0.9}
-    )
-    low = score_walkforward_submission(
-        case, {**common, "event_probability": 0.6}
-    )
+    high = score_walkforward_submission(case, {**common, "event_probability": 0.9})
+    low = score_walkforward_submission(case, {**common, "event_probability": 0.6})
 
     assert high.total > low.total
     assert high.brier_loss < low.brier_loss
