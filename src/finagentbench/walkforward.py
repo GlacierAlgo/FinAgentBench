@@ -222,10 +222,13 @@ class WalkForwardScenario:
             payload["response_contract"], "response_contract", source
         )
         properties = response_contract.get("properties", {})
+        evidence_field = (
+            "evidence_ids" if mode == "historical_frozen_web" else "evidence_urls"
+        )
         required_response_fields = {
             "event_probability",
             "prediction",
-            "evidence_ids",
+            evidence_field,
             "analysis_summary",
         }
         if not required_response_fields <= set(properties):
@@ -278,6 +281,11 @@ class WalkForwardScenario:
                 "criteria_mode": self.criteria_mode,
                 "criteria": [criterion.to_dict() for criterion in self.criteria],
             }
+        search_name = (
+            "frozen_search"
+            if self.search_policy.mode == "frozen_corpus_only"
+            else "live_web_search"
+        )
         return {
             "scenario_id": self.id,
             "suite": self.suite,
@@ -288,7 +296,7 @@ class WalkForwardScenario:
             "target": target,
             "prompt": self.prompt,
             "search_tool": {
-                "name": "frozen_search",
+                "name": search_name,
                 "policy": self.search_policy.mode,
                 "latest_published_at": (
                     self.search_policy.latest_published_at.isoformat()
@@ -480,23 +488,12 @@ class WalkForwardLabel:
         if not isinstance(event_occurred, bool):
             raise CaseValidationError(f"{source}: event_occurred must be boolean")
         realized = _object(payload["realized"], "realized", source)
-        if schema_version == 1:
-            realized_metrics = _legacy_realized_metrics(realized, source=source)
-        else:
-            realized_metrics = _generic_realized_metrics(realized, source=source)
-        criterion_results = [
-            _criterion_matches(criterion, realized_metrics, source=source)
-            for criterion in scenario.criteria
-        ]
-        calculated_event = (
-            all(criterion_results)
-            if scenario.criteria_mode == "all"
-            else any(criterion_results)
+        realized_metrics = validate_realized_outcome(
+            scenario,
+            realized,
+            event_occurred=event_occurred,
+            source=source,
         )
-        if event_occurred != calculated_event:
-            raise CaseValidationError(
-                f"{source}: event label disagrees with target criteria"
-            )
         expected = _string_list(
             payload["expected_evidence_ids"],
             field="expected_evidence_ids",
@@ -653,6 +650,36 @@ def _read_object(path: Path) -> dict[str, Any]:
     if not isinstance(payload, dict):
         raise CaseValidationError(f"{path}: top-level value must be an object")
     return payload
+
+
+def validate_realized_outcome(
+    scenario: WalkForwardScenario,
+    realized: dict[str, Any],
+    *,
+    event_occurred: bool,
+    source: str = "<memory>",
+) -> dict[str, float]:
+    """Recompute realized metrics and require the event to match the scenario."""
+    if not isinstance(event_occurred, bool):
+        raise CaseValidationError(f"{source}: event_occurred must be boolean")
+    if scenario.schema_version == 1:
+        metrics = _legacy_realized_metrics(realized, source=source)
+    else:
+        metrics = _generic_realized_metrics(realized, source=source)
+    criterion_results = [
+        _criterion_matches(criterion, metrics, source=source)
+        for criterion in scenario.criteria
+    ]
+    calculated_event = (
+        all(criterion_results)
+        if scenario.criteria_mode == "all"
+        else any(criterion_results)
+    )
+    if event_occurred != calculated_event:
+        raise CaseValidationError(
+            f"{source}: event label disagrees with target criteria"
+        )
+    return metrics
 
 
 def _target_criteria(value: Any, *, source: str) -> tuple[TargetCriterion, ...]:

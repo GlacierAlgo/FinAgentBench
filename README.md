@@ -60,6 +60,7 @@ uv run finagentbench list
 uv run finagentbench render goodwill-impairment-risk
 uv run finagentbench a-share validate
 uv run finagentbench a-share list
+uv run finagentbench shadow --help
 uv run pytest tests
 ```
 
@@ -199,6 +200,36 @@ that the contract can test a joint operating outcome and that models identify
 cash conversion, customer concentration, and supply-chain constraints instead
 of treating high R&D as sufficient evidence.
 
+## Live-shadow sealing
+
+Version 0.5 makes the future-generalization layer executable. A live-shadow
+scenario may run with native real-Web search only on its declared `as_of` date.
+Every outcome-free scenario byte, model answer, complete tool event trace and
+harness identity is bound into one SHA-256 commitment. The result must then be
+published to an externally timestamped append-only surface before the outcome
+exists. When the horizon matures, a separate official-source label is validated
+and scored against the intact seal; the original prediction artifact is never
+rewritten.
+
+```bash
+uv run finagentbench shadow run \
+  src/finagentbench/live_shadow/scenarios/cn-a-live-20260812-hygon-rd-efficiency.json \
+  --model gpt-5.6-terra --output results/live-shadow/hygon-seal.json
+uv run finagentbench shadow verify results/live-shadow/hygon-seal.json
+uv run finagentbench shadow resolve \
+  results/live-shadow/hygon-seal.json /path/to/matured-label.json \
+  --output results/live-shadow/hygon-resolution.json
+```
+
+The first unresolved seal was created on 2026-08-12 for 海光信息 FY2026 R&D
+commercial efficiency. Terra used eight native Web searches and assigned 0.56
+probability to the joint event: at least 25% revenue growth, at least 55% gross
+margin, and at least 10% operating-cash-flow margin. Its commitment is
+`3fc9b7588ac6879804dc2f901a790164c05fd5c55c70718a04b32d51c1aecbeb`.
+There is deliberately no outcome score yet. See
+[`docs/live-shadow.md`](docs/live-shadow.md) for the sealing and resolution
+contract.
+
 ## First measured baseline
 
 The first controlled run used Codex CLI 0.146.0, low reasoning effort, one
@@ -225,6 +256,8 @@ The repository now includes:
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
 - seven real A-share walk-forward scenarios with frozen official-search corpora,
   including six matched impairment cases and one business-decision case;
+- a real-Web live-shadow runner with full-trace commitments and maturity-gated
+  resolution;
 - case validation, rubric-free prompt rendering, and deterministic scoring;
 - a controlled Codex CLI matrix runner with raw answer and token capture;
 - reproducible case-suite hashes, Markdown reports, focused tests, and CI.

@@ -8,6 +8,15 @@ from pathlib import Path
 import click
 
 from finagentbench.case import BenchmarkCase, CaseValidationError, load_cases
+from finagentbench.live_shadow import (
+    ARTIFACT_TYPE,
+    RESOLUTION_TYPE,
+    load_live_shadow_scenario,
+    resolve_live_shadow_seal,
+    run_live_shadow_codex_matrix,
+    verify_live_shadow_resolution,
+    verify_live_shadow_seal,
+)
 from finagentbench.runner import render_markdown_report, run_codex_matrix
 from finagentbench.scoring import score_submission
 from finagentbench.walkforward import (
@@ -395,11 +404,132 @@ def a_share_benchmark(
         click.echo(f"Wrote {report_output}")
 
 
+@main.group("shadow")
+def shadow_group() -> None:
+    """Run, seal, verify, and later resolve real-Web shadow predictions."""
+
+
+@shadow_group.command("run")
+@click.argument("scenario", type=click.Path(path_type=Path, dir_okay=False))
+@click.option("--model", "models", multiple=True, required=True)
+@click.option(
+    "--reasoning-effort",
+    type=click.Choice(["low", "medium", "high", "xhigh", "max"]),
+    default="low",
+    show_default=True,
+)
+@click.option("--workers", type=click.IntRange(1, 8), default=1, show_default=True)
+@click.option(
+    "--timeout-seconds", type=click.IntRange(10), default=300, show_default=True
+)
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+    help="Outcome-free sealed prediction artifact.",
+)
+def shadow_run(
+    scenario: Path,
+    models: tuple[str, ...],
+    reasoning_effort: str,
+    workers: int,
+    timeout_seconds: int,
+    output: Path,
+) -> None:
+    """Use native live Web on the scenario as-of date and seal every trace."""
+    try:
+        source, parsed = load_live_shadow_scenario(scenario)
+
+        def progress(item: dict) -> None:
+            marker = "ok" if item["status"] == "completed" else "FAILED"
+            click.echo(f"[{marker}] {item['model']} / {parsed.id}", err=True)
+
+        seal = run_live_shadow_codex_matrix(
+            source,
+            parsed,
+            models=models,
+            reasoning_effort=reasoning_effort,
+            workers=workers,
+            timeout_seconds=timeout_seconds,
+            progress=progress,
+        )
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    _write_json(output, seal)
+    click.echo(
+        f"Sealed {len(seal['results'])} prediction(s) to {output} with digest "
+        f"{seal['commitment']['payload_sha256']}"
+    )
+
+
+@shadow_group.command("verify")
+@click.argument("artifact", type=click.Path(path_type=Path, dir_okay=False))
+def shadow_verify(artifact: Path) -> None:
+    """Verify a shadow seal or resolution commitment and all trace hashes."""
+    try:
+        payload = _read_json_object(artifact)
+        artifact_type = payload.get("artifact_type")
+        if artifact_type == ARTIFACT_TYPE:
+            digest = verify_live_shadow_seal(payload)
+        elif artifact_type == RESOLUTION_TYPE:
+            digest = verify_live_shadow_resolution(payload)
+        else:
+            raise CaseValidationError(
+                f"{artifact}: unsupported shadow artifact_type {artifact_type!r}"
+            )
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    click.echo(f"Verified {artifact_type}: {digest}")
+
+
+@shadow_group.command("resolve")
+@click.argument("seal", type=click.Path(path_type=Path, dir_okay=False))
+@click.argument("label", type=click.Path(path_type=Path, dir_okay=False))
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+    help="Resolution artifact bound to the original seal digest.",
+)
+def shadow_resolve(seal: Path, label: Path, output: Path) -> None:
+    """After the horizon matures, validate a label and score the sealed runs."""
+    try:
+        resolution = resolve_live_shadow_seal(
+            _read_json_object(seal),
+            _read_json_object(label),
+        )
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    _write_json(output, resolution)
+    click.echo(
+        f"Resolved {resolution['scenario_id']} to {output}; commitment "
+        f"{resolution['commitment']['payload_sha256']}"
+    )
+
+
 def _load_or_fail(cases_dir: Path) -> tuple[BenchmarkCase, ...]:
     try:
         return load_cases(cases_dir)
     except CaseValidationError as error:
         raise click.ClickException(str(error)) from error
+
+
+def _read_json_object(path: Path) -> dict:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise CaseValidationError(f"{path}: invalid JSON: {error}") from error
+    if not isinstance(payload, dict):
+        raise CaseValidationError(f"{path}: top-level value must be an object")
+    return payload
+
+
+def _write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 def _find_case(case_id: str, cases: tuple[BenchmarkCase, ...]) -> BenchmarkCase:

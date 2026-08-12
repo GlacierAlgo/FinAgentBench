@@ -1,0 +1,513 @@
+{
+  "schema_version": 1,
+  "artifact_type": "finagentbench_live_shadow_seal",
+  "sealed_at": "2026-08-12T06:47:38.876848+00:00",
+  "scenario_source": {
+    "schema_version": 2,
+    "id": "cn-a-live-20260812-hygon-rd-efficiency",
+    "suite": "a_share_live_shadow_v1",
+    "mode": "live_shadow",
+    "security": {
+      "order_book_id": "688041.XSHG",
+      "ticker": "688041",
+      "name_as_of": "海光信息",
+      "exchange": "SSE"
+    },
+    "as_of": "2026-08-12",
+    "prediction_window": {
+      "end": "2027-04-30",
+      "description": "截至2026年年度报告首次披露，最晚不超过2027-04-30"
+    },
+    "target": {
+      "event": "fy2026_rnd_commercial_efficiency_validation",
+      "definition": "持续高研发投入与CPU/DCU产品路线在2026财年同时获得增长、单位经济性和现金转化验证；这是结果规则，不是研发投入的因果识别",
+      "criteria_mode": "all",
+      "criteria": [
+        {
+          "metric": "revenue_growth_2026",
+          "comparison": ">=",
+          "value": 0.25,
+          "description": "2026年营业收入较2025年增长至少25%"
+        },
+        {
+          "metric": "gross_margin_2026",
+          "comparison": ">=",
+          "value": 0.55,
+          "description": "2026年综合毛利率不低于55%"
+        },
+        {
+          "metric": "operating_cash_flow_margin_2026",
+          "comparison": ">=",
+          "value": 0.1,
+          "description": "2026年经营活动现金流量净额除以营业收入不低于10%"
+        }
+      ]
+    },
+    "prompt": "你处在2026-08-12收盘后的实时信息环境。请搜索并综合截至今天可获得的海光信息2025年年报、2026年一季报、2026年半年度业绩预告、产品与生态进展、客户采用、竞争格局、供应链和出口管制、存货与应收变化、关联交易及研发投入信息，预测其2026年年报能否同时达到target的三项商业效率条件。应区分产品竞争力证据、行业景气和国产化需求，不要把后续财务表现完全归因于研发。给出概率、二元判断、直接来源URL和简短可审计推理。",
+    "search_policy": {
+      "mode": "live_web",
+      "latest_published_at": "2026-08-12",
+      "allowed_domains": [
+        "sse.com.cn",
+        "cninfo.com.cn",
+        "csrc.gov.cn",
+        "hygon.cn",
+        "gov.cn",
+        "cs.com.cn",
+        "stcn.com",
+        "cnstock.com",
+        "yicai.com",
+        "21jingji.com",
+        "nbd.com.cn",
+        "reuters.com"
+      ]
+    },
+    "response_contract": {
+      "type": "object",
+      "required": [
+        "event_probability",
+        "prediction",
+        "evidence_urls",
+        "analysis_summary"
+      ],
+      "properties": {
+        "event_probability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "prediction": {
+          "type": "string",
+          "enum": [
+            "event",
+            "no_event"
+          ]
+        },
+        "evidence_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "analysis_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "authoring_provenance": {
+      "status": "unresolved_live_shadow",
+      "created_at": "2026-08-12",
+      "data_boundary": "No future label exists at seal time; FY2026 observations will be attached only after official disclosure.",
+      "future_label_sources": [
+        "official FY2026 annual report",
+        "read-only RQData PIT rows after their first publication"
+      ]
+    }
+  },
+  "scenario_sha256": "6b0239944b94b7e4952c3a0e1e3b7d33281167ff11dc5afb13b2e70950b774d8",
+  "agent_payload": {
+    "scenario_id": "cn-a-live-20260812-hygon-rd-efficiency",
+    "suite": "a_share_live_shadow_v1",
+    "mode": "live_shadow",
+    "security": {
+      "order_book_id": "688041.XSHG",
+      "ticker": "688041",
+      "name_as_of": "海光信息",
+      "exchange": "SSE"
+    },
+    "as_of": "2026-08-12",
+    "prediction_window_end": "2027-04-30",
+    "target": {
+      "event": "fy2026_rnd_commercial_efficiency_validation",
+      "definition": "持续高研发投入与CPU/DCU产品路线在2026财年同时获得增长、单位经济性和现金转化验证；这是结果规则，不是研发投入的因果识别",
+      "criteria_mode": "all",
+      "criteria": [
+        {
+          "metric": "revenue_growth_2026",
+          "comparison": ">=",
+          "value": 0.25,
+          "description": "2026年营业收入较2025年增长至少25%"
+        },
+        {
+          "metric": "gross_margin_2026",
+          "comparison": ">=",
+          "value": 0.55,
+          "description": "2026年综合毛利率不低于55%"
+        },
+        {
+          "metric": "operating_cash_flow_margin_2026",
+          "comparison": ">=",
+          "value": 0.1,
+          "description": "2026年经营活动现金流量净额除以营业收入不低于10%"
+        }
+      ]
+    },
+    "prompt": "你处在2026-08-12收盘后的实时信息环境。请搜索并综合截至今天可获得的海光信息2025年年报、2026年一季报、2026年半年度业绩预告、产品与生态进展、客户采用、竞争格局、供应链和出口管制、存货与应收变化、关联交易及研发投入信息，预测其2026年年报能否同时达到target的三项商业效率条件。应区分产品竞争力证据、行业景气和国产化需求，不要把后续财务表现完全归因于研发。给出概率、二元判断、直接来源URL和简短可审计推理。",
+    "search_tool": {
+      "name": "live_web_search",
+      "policy": "live_web",
+      "latest_published_at": "2026-08-12",
+      "allowed_domains": [
+        "sse.com.cn",
+        "cninfo.com.cn",
+        "csrc.gov.cn",
+        "hygon.cn",
+        "gov.cn",
+        "cs.com.cn",
+        "stcn.com",
+        "cnstock.com",
+        "yicai.com",
+        "21jingji.com",
+        "nbd.com.cn",
+        "reuters.com"
+      ]
+    },
+    "response_contract": {
+      "type": "object",
+      "required": [
+        "event_probability",
+        "prediction",
+        "evidence_urls",
+        "analysis_summary"
+      ],
+      "properties": {
+        "event_probability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "prediction": {
+          "type": "string",
+          "enum": [
+            "event",
+            "no_event"
+          ]
+        },
+        "evidence_urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "analysis_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "agent_payload_sha256": "0f2b28fae3974d2a12c721ebe3975c4a32a4b9dc7129eb6e9e68c50fa1cebc75",
+  "harness": {
+    "name": "codex-cli-native-live-web",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "web_search": "native Responses web_search",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-terra"
+    ],
+    "reasoning_effort": "low",
+    "repeats": 1
+  },
+  "started_at": "2026-08-12T06:46:03.199945+00:00",
+  "completed_at": "2026-08-12T06:47:38.876848+00:00",
+  "duration_seconds": 95.677,
+  "results": [
+    {
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "executed_at": "2026-08-12T06:46:03.287233+00:00",
+      "latency_seconds": 95.583,
+      "web_search_calls": 8,
+      "submission": {
+        "event_probability": 0.56,
+        "prediction": "event",
+        "evidence_urls": [
+          "https://static.cninfo.com.cn/finalpage/2026-04-08/1225083088.PDF",
+          "https://epaper.cs.com.cn/zgzqb/html/2026-07/17/nw.D110000zgzqb_20260717_6-B036.htm",
+          "https://star.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-02-26/688041_20260226_DI11.pdf",
+          "https://www.hygon.cn/product/cpu"
+        ],
+        "analysis_summary": "判断为event但置信度中等。2025年审计年报收入143.77亿元、综合毛利率约57.83%、经营现金流20.97亿元（现金流利润率约14.6%）；2026H1业绩预告收入85–93亿元、同比+55.56%–70.20%，使全年收入达到179.71亿元（+25%）所需的下半年增量很低，增长条件概率高。CPU/DCU迭代、生态及国产算力需求支持产品采用，但这只是与结果相关的需求/竞争力证据，非研发投入的因果识别。主要不确定性集中在另外两项：2025毛利率已较上年下滑约5.9个百分点，年报明确披露材料涨价及封测产能紧张推升单位成本；同时应收账款、预付款和存货均上升，尽管2025现金流改善来自回款和预收，2026H1预告未披露毛利率或经营现金流。因此毛利率55%及经营现金流利润率10%均有缓冲但不能视为已验证；三项同时达标略高于五成。"
+      },
+      "events": [
+        {
+          "type": "thread.started",
+          "thread_id": "019ff4b8-8ddd-7902-884d-ce20a04bfaed"
+        },
+        {
+          "type": "turn.started"
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "item_0",
+            "type": "agent_message",
+            "text": "{\"event_probability\":0,\"prediction\":\"no_event\",\"evidence_urls\":[\"https://example.com\"],\"analysis_summary\":\"正在检索截至 2026-08-12 的法定披露与交易所资料，并以三项门槛分别核验。\"}"
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "item_1",
+            "type": "command_execution",
+            "command": "/bin/zsh -lc 'tel context --stdout'",
+            "aggregated_output": "",
+            "exit_code": null,
+            "status": "in_progress"
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "item_1",
+            "type": "command_execution",
+            "command": "/bin/zsh -lc 'tel context --stdout'",
+            "aggregated_output": "Traceback (most recent call last):\n  File \"/Users/yanghh/.local/bin/tel\", line 10, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/Users/yanghh/Documents/code/quant/task-experience-loop/tel/cli.py\", line 152, in main\n    cli()\n  File \"/Users/yanghh/.local/share/uv/tools/task-experience-loop/lib/python3.12/site-packages/click/core.py\", line 1514, in __call__\n    return self.main(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/yanghh/.local/share/uv/tools/task-experience-loop/lib/python3.12/site-packages/click/core.py\", line 1435, in main\n    rv = self.invoke(ctx)\n         ^^^^^^^^^^^^^^^^\n  File \"/Users/yanghh/.local/share/uv/tools/task-experience-loop/lib/python3.12/site-packages/click/core.py\", line 1899, in invoke\n    super().invoke(ctx)\n  File \"/Users/yanghh/.local/share/uv/tools/task-experience-loop/lib/python3.12/site-packages/click/core.py\", line 1298, in invoke\n    return ctx.invoke(self.callback, **ctx.params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/yanghh/.local/share/uv/tools/task-experience-loop/lib/python3.12/site-packages/click/core.py\", line 853, in invoke\n    return callback(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/yanghh/Documents/code/quant/task-experience-loop/tel/cli.py\", line 12, in cli\n    context.ensure_current()\n  File \"/Users/yanghh/Documents/code/quant/task-experience-loop/tel/context.py\", line 227, in ensure_current\n    regenerate(refresh_summaries=False)\n  File \"/Users/yanghh/Documents/code/quant/task-experience-loop/tel/context.py\", line 208, in regenerate\n    _context_path().write_text(assemble(project_id))\n  File \"/Users/yanghh/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/pathlib.py\", line 1047, in write_text\n    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/yanghh/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 1] Operation not permitted: '/Users/yanghh/.tel/loop-context.md'\n",
+            "exit_code": 1,
+            "status": "failed"
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-20875d53-63b8-4a0b-b420-6ac64a06d2ea",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-20875d53-63b8-4a0b-b420-6ac64a06d2ea",
+            "type": "web_search",
+            "query": "site:sse.com.cn 海光信息 2025 年年度报告 688041 ...",
+            "action": {
+              "type": "search",
+              "queries": [
+                "site:sse.com.cn 海光信息 2025 年年度报告 688041",
+                "site:sse.com.cn 海光信息 2026 年半年度业绩预告 688041",
+                "site:sse.com.cn 海光信息 2026 第一季度报告 688041",
+                "site:hygon.cn 海光信息 2026 产品 生态"
+              ]
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-25c03246-0ba0-4d23-bb8d-e78d4120e157",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-25c03246-0ba0-4d23-bb8d-e78d4120e157",
+            "type": "web_search",
+            "query": "688041 2025年年度报告 海光信息 营业收入 毛利率 经营活动现金流 2026-04-08 ...",
+            "action": {
+              "type": "search",
+              "queries": [
+                "688041 2025年年度报告 海光信息 营业收入 毛利率 经营活动现金流 2026-04-08",
+                "site:cninfo.com.cn 688041 2025 年年度报告 海光信息",
+                "688041 2026年半年度业绩预告 海光信息 2026-07",
+                "site:sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-04 海光信息技术股份有限公司2025年年度报告"
+              ]
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-e217f4a2-84be-4002-a171-45a5694eb67c",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-e217f4a2-84be-4002-a171-45a5694eb67c",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-27874545-c6cf-46da-8b52-0474d716925a",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-27874545-c6cf-46da-8b52-0474d716925a",
+            "type": "web_search",
+            "query": "site:static.cninfo.com.cn/finalpage/2026-04-08 688041 2026年第一季度报告 ...",
+            "action": {
+              "type": "search",
+              "queries": [
+                "site:static.cninfo.com.cn/finalpage/2026-04-08 688041 2026年第一季度报告",
+                "site:sse.com.cn \"海光信息技术股份有限公司2026年第一季度报告\"",
+                "site:static.cninfo.com.cn/finalpage/2026-07-16 688041 2026 年半年度业绩预告"
+              ]
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-8cfa2dc1-f1ef-4353-b461-264f99d69873",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-8cfa2dc1-f1ef-4353-b461-264f99d69873",
+            "type": "web_search",
+            "query": "\"预计2026年半年度实现营业收入850,000.00万元到930,000.00万元\" ...",
+            "action": {
+              "type": "search",
+              "queries": [
+                "\"预计2026年半年度实现营业收入850,000.00万元到930,000.00万元\"",
+                "\"海光信息技术股份有限公司\" \"2026 年半年度业绩预告的自愿性披露公告\"",
+                "\"海光信息\" \"850,000.00\" \"930,000.00\" sse"
+              ]
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-6d92bebf-13ac-487b-9647-9bc425dac55a",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-6d92bebf-13ac-487b-9647-9bc425dac55a",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-9b8177e0-762c-4ec1-8956-6659ef8e11b3",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-9b8177e0-762c-4ec1-8956-6659ef8e11b3",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.started",
+          "item": {
+            "id": "exec-b14cdf8a-9f60-4b9a-9610-0e15e1874661",
+            "type": "web_search",
+            "query": "",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "exec-b14cdf8a-9f60-4b9a-9610-0e15e1874661",
+            "type": "web_search",
+            "query": "'应收账款'",
+            "action": {
+              "type": "other"
+            }
+          }
+        },
+        {
+          "type": "item.completed",
+          "item": {
+            "id": "item_10",
+            "type": "agent_message",
+            "text": "{\"event_probability\":0.56,\"prediction\":\"event\",\"evidence_urls\":[\"https://static.cninfo.com.cn/finalpage/2026-04-08/1225083088.PDF\",\"https://epaper.cs.com.cn/zgzqb/html/2026-07/17/nw.D110000zgzqb_20260717_6-B036.htm\",\"https://star.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-02-26/688041_20260226_DI11.pdf\",\"https://www.hygon.cn/product/cpu\"],\"analysis_summary\":\"判断为event但置信度中等。2025年审计年报收入143.77亿元、综合毛利率约57.83%、经营现金流20.97亿元（现金流利润率约14.6%）；2026H1业绩预告收入85–93亿元、同比+55.56%–70.20%，使全年收入达到179.71亿元（+25%）所需的下半年增量很低，增长条件概率高。CPU/DCU迭代、生态及国产算力需求支持产品采用，但这只是与结果相关的需求/竞争力证据，非研发投入的因果识别。主要不确定性集中在另外两项：2025毛利率已较上年下滑约5.9个百分点，年报明确披露材料涨价及封测产能紧张推升单位成本；同时应收账款、预付款和存货均上升，尽管2025现金流改善来自回款和预收，2026H1预告未披露毛利率或经营现金流。因此毛利率55%及经营现金流利润率10%均有缓冲但不能视为已验证；三项同时达标略高于五成。\"}"
+          }
+        },
+        {
+          "type": "turn.completed",
+          "usage": {
+            "input_tokens": 448253,
+            "cached_input_tokens": 364288,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 2155,
+            "reasoning_output_tokens": 831
+          }
+        }
+      ],
+      "events_sha256": "ef49cb8682c3f67dfc04a9cb21ef4061e0408fbe3b151711f7ad0c2271bc5b78",
+      "usage": {
+        "input_tokens": 448253,
+        "cached_input_tokens": 364288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2155,
+        "reasoning_output_tokens": 831
+      }
+    }
+  ],
+  "timestamp_guardrail": "The SHA-256 commitment binds these bytes but does not independently prove when they existed; publish the artifact or digest to an externally timestamped append-only system before resolution.",
+  "commitment": {
+    "algorithm": "sha256",
+    "canonicalization": "json-sort-keys-utf8-v1",
+    "payload_sha256": "3fc9b7588ac6879804dc2f901a790164c05fd5c55c70718a04b32d51c1aecbeb"
+  }
+}

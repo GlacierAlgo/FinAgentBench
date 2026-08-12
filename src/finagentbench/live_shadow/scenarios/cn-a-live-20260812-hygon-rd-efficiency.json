@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-live-20260812-hygon-rd-efficiency",
+  "suite": "a_share_live_shadow_v1",
+  "mode": "live_shadow",
+  "security": {
+    "order_book_id": "688041.XSHG",
+    "ticker": "688041",
+    "name_as_of": "海光信息",
+    "exchange": "SSE"
+  },
+  "as_of": "2026-08-12",
+  "prediction_window": {
+    "end": "2027-04-30",
+    "description": "截至2026年年度报告首次披露，最晚不超过2027-04-30"
+  },
+  "target": {
+    "event": "fy2026_rnd_commercial_efficiency_validation",
+    "definition": "持续高研发投入与CPU/DCU产品路线在2026财年同时获得增长、单位经济性和现金转化验证；这是结果规则，不是研发投入的因果识别",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "revenue_growth_2026",
+        "comparison": ">=",
+        "value": 0.25,
+        "description": "2026年营业收入较2025年增长至少25%"
+      },
+      {
+        "metric": "gross_margin_2026",
+        "comparison": ">=",
+        "value": 0.55,
+        "description": "2026年综合毛利率不低于55%"
+      },
+      {
+        "metric": "operating_cash_flow_margin_2026",
+        "comparison": ">=",
+        "value": 0.1,
+        "description": "2026年经营活动现金流量净额除以营业收入不低于10%"
+      }
+    ]
+  },
+  "prompt": "你处在2026-08-12收盘后的实时信息环境。请搜索并综合截至今天可获得的海光信息2025年年报、2026年一季报、2026年半年度业绩预告、产品与生态进展、客户采用、竞争格局、供应链和出口管制、存货与应收变化、关联交易及研发投入信息，预测其2026年年报能否同时达到target的三项商业效率条件。应区分产品竞争力证据、行业景气和国产化需求，不要把后续财务表现完全归因于研发。给出概率、二元判断、直接来源URL和简短可审计推理。",
+  "search_policy": {
+    "mode": "live_web",
+    "latest_published_at": "2026-08-12",
+    "allowed_domains": [
+      "sse.com.cn",
+      "cninfo.com.cn",
+      "csrc.gov.cn",
+      "hygon.cn",
+      "gov.cn",
+      "cs.com.cn",
+      "stcn.com",
+      "cnstock.com",
+      "yicai.com",
+      "21jingji.com",
+      "nbd.com.cn",
+      "reuters.com"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": ["event_probability", "prediction", "evidence_urls", "analysis_summary"],
+    "properties": {
+      "event_probability": {"type": "number", "minimum": 0, "maximum": 1},
+      "prediction": {"type": "string", "enum": ["event", "no_event"]},
+      "evidence_urls": {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1
+      },
+      "analysis_summary": {"type": "string", "minLength": 1}
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "status": "unresolved_live_shadow",
+    "created_at": "2026-08-12",
+    "data_boundary": "No future label exists at seal time; FY2026 observations will be attached only after official disclosure.",
+    "future_label_sources": [
+      "official FY2026 annual report",
+      "read-only RQData PIT rows after their first publication"
+    ]
+  }
+}
