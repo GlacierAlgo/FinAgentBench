@@ -24,6 +24,16 @@ from finagentbench.runner import (
     run_codex_matrix,
 )
 from finagentbench.scoring import score_submission
+from finagentbench.sealed_suite import (
+    PLAN_TYPE,
+    PUBLIC_PLAN_TYPE,
+    SUITE_TYPE,
+    finalize_suite,
+    preregister_suite,
+    verify_finalized_suite,
+    verify_public_plan_commitment,
+    verify_suite_plan,
+)
 from finagentbench.walkforward import (
     WalkForwardCase,
     load_walkforward_suite,
@@ -444,6 +454,103 @@ def a_share_benchmark(
         click.echo(f"Wrote {report_output}")
 
 
+@main.group("suite")
+def suite_group() -> None:
+    """Pre-register and finalize contamination-resistant shadow cohorts."""
+
+
+@suite_group.command("preregister")
+@click.argument("source", type=click.Path(path_type=Path, dir_okay=False))
+@click.option(
+    "--plan-output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+    help="Private outcome-free plan; do not publish before all runs are sealed.",
+)
+@click.option(
+    "--commitment-output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+    help="Opaque plan commitment to publish before the first run.",
+)
+def suite_preregister(
+    source: Path,
+    plan_output: Path,
+    commitment_output: Path,
+) -> None:
+    """Commit a hard-suite cohort before its first model run."""
+    try:
+        plan, commitment = preregister_suite(_read_json_object(source))
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    _write_json(plan_output, plan)
+    _write_json(commitment_output, commitment)
+    click.echo(
+        f"Wrote private plan {plan_output} and public commitment "
+        f"{commitment_output}: {commitment['commitment']['payload_sha256']}"
+    )
+
+
+@suite_group.command("finalize")
+@click.argument("plan", type=click.Path(path_type=Path, dir_okay=False))
+@click.argument("public_commitment", type=click.Path(path_type=Path, dir_okay=False))
+@click.option(
+    "--seal",
+    "seals",
+    type=click.Path(path_type=Path, dir_okay=False),
+    multiple=True,
+    required=True,
+    help="One live-shadow seal per pre-registered slot. Repeat this option.",
+)
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+)
+def suite_finalize(
+    plan: Path,
+    public_commitment: Path,
+    seals: tuple[Path, ...],
+    output: Path,
+) -> None:
+    """Bind all planned slots to their intact prediction seals."""
+    try:
+        artifact = finalize_suite(
+            _read_json_object(plan),
+            _read_json_object(public_commitment),
+            [_read_json_object(path) for path in seals],
+        )
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    _write_json(output, artifact)
+    click.echo(
+        f"Finalized {len(artifact['members'])} suite member(s) to {output}: "
+        f"{artifact['commitment']['payload_sha256']}"
+    )
+
+
+@suite_group.command("verify")
+@click.argument("artifact", type=click.Path(path_type=Path, dir_okay=False))
+def suite_verify(artifact: Path) -> None:
+    """Verify a private plan, public commitment, or finalized suite index."""
+    try:
+        payload = _read_json_object(artifact)
+        artifact_type = payload.get("artifact_type")
+        if artifact_type == PLAN_TYPE:
+            digest = verify_suite_plan(payload)
+        elif artifact_type == PUBLIC_PLAN_TYPE:
+            digest = verify_public_plan_commitment(payload)
+        elif artifact_type == SUITE_TYPE:
+            digest = verify_finalized_suite(payload)
+        else:
+            raise CaseValidationError(
+                f"{artifact}: unsupported suite artifact_type {artifact_type!r}"
+            )
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    click.echo(f"Verified {artifact_type}: {digest}")
+
+
 @main.group("shadow")
 def shadow_group() -> None:
     """Run, seal, verify, and later resolve real-Web shadow predictions."""
@@ -459,6 +566,7 @@ def shadow_group() -> None:
     show_default=True,
 )
 @click.option("--workers", type=click.IntRange(1, 8), default=1, show_default=True)
+@click.option("--repeats", type=click.IntRange(1, 10), default=1, show_default=True)
 @click.option(
     "--timeout-seconds", type=click.IntRange(10), default=300, show_default=True
 )
@@ -473,6 +581,7 @@ def shadow_run(
     models: tuple[str, ...],
     reasoning_effort: str,
     workers: int,
+    repeats: int,
     timeout_seconds: int,
     output: Path,
 ) -> None:
@@ -491,6 +600,7 @@ def shadow_run(
             reasoning_effort=reasoning_effort,
             workers=workers,
             timeout_seconds=timeout_seconds,
+            repeats=repeats,
             progress=progress,
         )
     except CaseValidationError as error:

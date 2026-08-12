@@ -326,6 +326,15 @@ There is deliberately no outcome score yet. See
 [`docs/live-shadow.md`](docs/live-shadow.md) for the sealing and resolution
 contract.
 
+Version 0.9 adds pre-registered sealed hard-case cohorts. Before the first model
+run, an author commits to at least six future cases across at least three
+families, two models, and three repeats. The publishable plan commitment hides
+the scenarios; later finalization requires one matching live-shadow seal per
+slot and preserves failed attempts. This blocks post-answer case selection,
+model-matrix changes, and best-repeat cherry-picking. The existing one-run 海光
+seal remains a development example and is not retroactively leaderboard
+eligible. See [`docs/sealed-suite.md`](docs/sealed-suite.md).
+
 ## First measured baseline
 
 The first controlled run used Codex CLI 0.146.0, low reasoning effort, one
@@ -355,6 +364,8 @@ The repository now includes:
   and two matched business-decision families for R&D and factory allocation;
 - a real-Web live-shadow runner with full-trace commitments and maturity-gated
   resolution;
+- pre-registered hard-suite commitments that bind case families, model matrices,
+  repetitions, and every resulting live-shadow seal;
 - case validation, rubric-free prompt rendering, and deterministic scoring;
 - controlled Codex CLI runners plus a provider-neutral stdio adapter contract
   and restricted OpenCode reference adapter;

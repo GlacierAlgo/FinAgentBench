@@ -51,12 +51,15 @@ def run_live_shadow_codex_matrix(
     reasoning_effort: str,
     workers: int,
     timeout_seconds: int,
+    repeats: int = 1,
     progress: Callable[[dict[str, Any]], None] | None = None,
     now: datetime | None = None,
 ) -> dict[str, Any]:
     """Run isolated Codex sessions with native real-Web search, then seal them."""
     if not models:
         raise CaseValidationError("live-shadow run requires at least one model")
+    if not isinstance(repeats, int) or isinstance(repeats, bool) or repeats < 1:
+        raise CaseValidationError("live-shadow repeats must be a positive integer")
     current = now or datetime.now(UTC)
     market_today = current.astimezone(_scenario_timezone(scenario)).date()
     if scenario.as_of != market_today:
@@ -67,6 +70,11 @@ def run_live_shadow_codex_matrix(
     started_at = datetime.now(UTC)
     codex_version = _command_output(["codex", "--version"])
     results = []
+    specs = [
+        (model, repeat_index)
+        for model in models
+        for repeat_index in range(1, repeats + 1)
+    ]
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {
             executor.submit(
@@ -75,15 +83,16 @@ def run_live_shadow_codex_matrix(
                 model=model,
                 reasoning_effort=reasoning_effort,
                 timeout_seconds=timeout_seconds,
-            ): model
-            for model in models
+            ): (model, repeat_index)
+            for model, repeat_index in specs
         }
         for future in as_completed(futures):
             result = future.result()
+            result["repeat_index"] = futures[future][1]
             results.append(result)
             if progress is not None:
                 progress(result)
-    results.sort(key=lambda item: item["model"])
+    results.sort(key=lambda item: (item["model"], item["repeat_index"]))
     completed_at = datetime.now(UTC)
     agent_payload = scenario.agent_payload()
     record = {
@@ -105,7 +114,7 @@ def run_live_shadow_codex_matrix(
         "matrix": {
             "models": list(models),
             "reasoning_effort": reasoning_effort,
-            "repeats": 1,
+            "repeats": repeats,
         },
         "started_at": started_at.isoformat(),
         "completed_at": completed_at.isoformat(),
@@ -166,6 +175,7 @@ def resolve_live_shadow_seal(
         item = {
             "model": run["model"],
             "reasoning_effort": run["reasoning_effort"],
+            "repeat_index": run.get("repeat_index", 1),
             "status": run["status"],
         }
         if run["status"] == "completed":

@@ -67,4 +67,6 @@ The public repository demonstrates deterministic binding, leak-resistant
 ordering and maturity gates. A production leaderboard still needs a
 server-owned append-only registry or trusted timestamp service so benchmark
 authors cannot rewrite history by replacing Git refs. Outcome labels and formal
-ranking remain verifier-owned.
+ranking remain verifier-owned. Multi-case leaderboard cohorts additionally use
+the pre-registration and anti-cherry-picking contract in
+[`sealed-suite.md`](sealed-suite.md).
