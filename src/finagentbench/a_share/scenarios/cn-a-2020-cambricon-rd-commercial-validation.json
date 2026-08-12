@@ -43,7 +43,7 @@
   "search_policy": {
     "mode": "frozen_corpus_only",
     "latest_published_at": "2020-06-22",
-    "allowed_domains": ["sse.com.cn"]
+    "allowed_domains": ["sse.com.cn", "cs.com.cn"]
   },
   "response_contract": {
     "type": "object",
@@ -63,6 +63,7 @@
     "row_policy": "stock_code=688256.XSHG; if_adjusted=0; earliest info_date per annual report; 2019 agent baseline; 2022 outcome",
     "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
     "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "news_evidence_policy": "Contemporaneous news may supply market framing and externally selected risk signals; official filings and RQData remain label authority.",
     "causal_guardrail": "The label measures later commercial validation under a predeclared rule, not causal attribution to R&D spending."
   }
 }

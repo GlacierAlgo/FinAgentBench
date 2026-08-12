@@ -71,7 +71,7 @@ def run_walkforward_codex_matrix(
             "name": "codex-cli-frozen-search",
             "version": codex_version,
             "sandbox": "read-only",
-            "external_data": "frozen official-disclosure corpus",
+            "external_data": "frozen point-in-time evidence corpus",
             "session_persistence": False,
             "outcome_visible_to_agent": False,
         },
@@ -116,7 +116,7 @@ def run_walkforward_adapter_matrix(
     ]
     started_at = datetime.now(UTC)
     harness = adapter.harness_metadata(
-        external_data="frozen official-disclosure corpus"
+        external_data="frozen point-in-time evidence corpus"
     )
     results = []
     with ThreadPoolExecutor(max_workers=workers) as executor:
@@ -239,7 +239,7 @@ def render_walkforward_report(run: dict[str, Any]) -> str:
             "## Interpretation guardrails",
             "",
             "- This is a public historical development set, not a sealed leaderboard.",
-            "- Search was restricted to official documents published by each as-of date.",
+            "- Search was restricted to frozen documents/news published by each as-of date.",
             "- The outcome label was loaded only after the model returned its prediction.",
             "- Brier and log loss assess probability quality; this run is too small for calibration claims.",
             "",

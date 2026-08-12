@@ -30,7 +30,8 @@
   },
   "expected_evidence_ids": [
     "huxi-expansion-announcement",
-    "fy2018-market-and-capacity-base"
+    "fy2018-market-and-capacity-base",
+    "industry-news-demand-and-competition"
   ],
   "outcome_sources": [
     {

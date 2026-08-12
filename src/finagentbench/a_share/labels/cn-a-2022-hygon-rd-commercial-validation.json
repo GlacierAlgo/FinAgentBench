@@ -29,7 +29,8 @@
   "expected_evidence_ids": [
     "registration-feedback-product-roadmap",
     "ipo-inquiry-commercialization",
-    "listing-announcement-risk-financials"
+    "listing-announcement-risk-financials",
+    "contemporaneous-news-growth-expectation"
   ],
   "outcome_sources": [
     {

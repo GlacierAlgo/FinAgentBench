@@ -10,14 +10,14 @@ def test_radar_builds_balanced_distinct_a_share_development_set() -> None:
 
     assert payload["tier"] == "development_diagnostics"
     assert payload["coverage"] == {
-        "case_count": 22,
-        "event_count": 11,
-        "no_event_count": 11,
+        "case_count": 24,
+        "event_count": 12,
+        "no_event_count": 12,
         "model_count": 3,
-        "attempt_count": 66,
+        "attempt_count": 72,
         "sealed_eligible_suite_count": 0,
     }
-    assert len({case["id"] for case in payload["cases"]}) == 22
+    assert len({case["id"] for case in payload["cases"]}) == 24
     assert {len(case["runs"]) for case in payload["cases"]} == {3}
     assert all(
         run["search_calls"] >= 1
@@ -28,6 +28,7 @@ def test_radar_builds_balanced_distinct_a_share_development_set() -> None:
     assert {item["family"] for item in payload["family_summaries"]} == {
         "goodwill",
         "pledge-control",
+        "pledge-freeze",
         "inventory",
         "performance-commitment",
         "receivables",

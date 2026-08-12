@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "title": "FinAgentBench A-share Reasoning Radar",
-  "subtitle": "Point-in-time financial prediction with frozen official disclosures",
+  "subtitle": "Point-in-time financial prediction with frozen disclosures and contemporaneous news",
   "suites": [
     {
       "id": "goodwill",
@@ -12,6 +12,11 @@
       "id": "financial-traps",
       "title": "财务陷阱",
       "result_path": "results/2026-08-12-a-share-traps-frozen-web-low.json"
+    },
+    {
+      "id": "pledge-freeze",
+      "title": "质押与司法冻结",
+      "result_path": "results/2026-08-12-pledge-freeze-frozen-web-low.json"
     },
     {
       "id": "business-decisions",
@@ -27,6 +32,10 @@
     "pledge-control": {
       "label": "质押与控制权",
       "events": ["control_transfer_after_high_pledge_risk"]
+    },
+    "pledge-freeze": {
+      "label": "质押与司法冻结",
+      "events": ["material_controller_share_judicial_freeze"]
     },
     "inventory": {
       "label": "存货跌价",
@@ -64,7 +73,7 @@
     }
   },
   "methodology": [
-    "Historical replay only: each search corpus stops at the scenario as-of date.",
+    "Historical replay only: each disclosure/news corpus stops at the scenario as-of date.",
     "Primary probability diagnostic is mean Brier loss; lower is better.",
     "Public replay results are development diagnostics, not a formal leaderboard.",
     "Formal ranking requires a matured pre-registered sealed hard-case suite."

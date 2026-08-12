@@ -1,0 +1,89 @@
+{
+  "schema_version": 2,
+  "id": "cn-a-2018q3-pledge-freeze-603766",
+  "suite": "a_share_traps_v1",
+  "mode": "historical_frozen_web",
+  "security": {
+    "order_book_id": "603766.XSHG",
+    "ticker": "603766",
+    "name_as_of": "隆鑫通用",
+    "exchange": "SSE"
+  },
+  "as_of": "2018-10-31",
+  "prediction_window": {
+    "end": "2019-10-31",
+    "description": "as-of后12个月内，观察原控股股东所持上市公司股份是否发生重大司法冻结"
+  },
+  "target": {
+    "event": "material_controller_share_judicial_freeze",
+    "definition": "as-of后12个月内，原控股股东所持上市公司股份被新增司法冻结，且冻结股份数占其as-of持股数不低于10%；普通质押状态不等于司法冻结，本规则不声称接近满仓质押必然导致冻结",
+    "criteria_mode": "all",
+    "criteria": [
+      {
+        "metric": "controller_judicial_freeze_to_as_of_holding",
+        "comparison": ">=",
+        "value": 0.1,
+        "description": "预测窗口内新增司法冻结股份数除以原控股股东as-of持股数不低于10%"
+      }
+    ]
+  },
+  "prompt": "你处在2018-10-31收盘后的信息环境。请使用冻结搜索工具，预测隆鑫通用原控股股东隆鑫控股未来12个月内所持上市公司股份是否会发生target定义的重大司法冻结。请核对季度股东表与10月补充质押公告的不同统计时点，综合接近满仓且反复补充质押的轨迹、质押用途、上市公司经营现金流与债务缓冲，并严格区分上市公司财务和控股股东偿债能力。不要把高质押机械等同于冻结，也不要把公司关于风险可控或不影响控制权的陈述当作外部验证。给出概率、二元判断、关键证据引用和简短可审计推理。",
+  "search_policy": {
+    "mode": "frozen_corpus_only",
+    "latest_published_at": "2018-10-31",
+    "allowed_domains": [
+      "cninfo.com.cn",
+      "sina.com.cn"
+    ]
+  },
+  "response_contract": {
+    "type": "object",
+    "required": [
+      "event_probability",
+      "prediction",
+      "evidence_ids",
+      "analysis_summary"
+    ],
+    "properties": {
+      "event_probability": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "prediction": {
+        "type": "string",
+        "enum": [
+          "event",
+          "no_event"
+        ]
+      },
+      "evidence_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "analysis_summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "additionalProperties": false
+  },
+  "authoring_provenance": {
+    "dataset": "aliyun:/dev/data1/download_rqdata",
+    "access": "read_only",
+    "tables": [
+      "rq_income_statement_pit",
+      "rq_cash_flow_pit",
+      "rq_balance_sheet_pit"
+    ],
+    "row_policy": "stock_code=603766.XSHG; if_adjusted=0; 2018q3 first visible row; official notices are authority for pledge/freeze state",
+    "data_lake_gap": "The local RQData snapshot has no populated share_pledge/share_freeze values for this period; official notices and reports are authority.",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0; Rust CLI; PDFium native text; --no-ocr",
+    "source_sha256": {
+      "2018_q3_report": "ca8d85ac4a46904a0b2e7ac54f0dc9846cd6f48357f6bd99e39d190c077f6890",
+      "2019_q3_outcome": "ae1ddf9c97d7b5c8ff77213c3daba1101b6bcdfd9e21fdba61b2a3c21dfde8f3"
+    }
+  }
+}

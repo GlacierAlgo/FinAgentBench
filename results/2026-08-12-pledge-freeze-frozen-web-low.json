@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-12T13:52:37.229274+00:00",
+  "completed_at": "2026-08-12T13:53:47.414759+00:00",
+  "duration_seconds": 70.185,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen point-in-time evidence corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 2,
+    "repeats": 1,
+    "case_suite_sha256": "ac2d1fdf1345b1d43baec20d7caaa33ce35b79a52cd299fb17e5fce851992063"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2017q3-pledge-freeze-603766",
+      "case_sha256": "8191341e1dd19050f6dce00bcf20f1ad5ecac439e9463cd6ec301796eef638c2",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.193,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.32,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2017-same-day-pledge-liquidity",
+          "2017-q3-listed-company-buffer"
+        ],
+        "analysis_summary": "截至2017-10-26，隆鑫控股持股1,034,440,128股，累计质押1,010,097,083股、占97.65%，且当日新增质押用于补充流动资金，显著提高控制人层面的流动性压力；但质押本身不等于司法冻结，现有证据没有外部验证的控制人违约或偿债恶化信息。三季报显示上市公司经营现金流4.81亿元、货币资金14.21亿元、短期借款0.41亿元，提供一定反向背景，但不能外推控制人偿债能力。因此未来12个月发生占其as-of持股至少10%的新增司法冻结风险偏高于普通水平，但不足以判定为更可能发生。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 91.296,
+        "brier_score": 89.76,
+        "brier_loss": 0.1024,
+        "log_loss": 0.38566248,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 45735,
+        "cached_input_tokens": 28160,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 634,
+        "reasoning_output_tokens": 130
+      },
+      "event_count": 8
+    },
+    {
+      "scenario_id": "cn-a-2018q3-pledge-freeze-603766",
+      "case_sha256": "0e380e3802a8cda0d2e691684674dfc9efef78f748836df6cfebbf0781a52644",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 26.84,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2018-repeated-supplemental-pledge",
+          "2018-q3-listed-company-buffer"
+        ],
+        "analysis_summary": "截至2018-10-31，隆鑫控股持股1,045,591,564股；三季报时点质押约97.90%，10月补充质押公告更新为98.42%，且2018年6月、10月连续补充质押，显示股东层面的平仓压力。公告称本次不涉及新增融资并旨在降低预警线和平仓线，但该陈述不是外部偿债能力验证。上市公司前三季度经营现金流5.77亿元、货币资金18.19亿元且盈利，提供一定缓冲；不过这不能代表隆鑫控股自身的偿债能力。高质押和反复补充质押提高司法冻结风险，但现有冻结时点证据不足以支持未来12个月新增冻结达到其持股10%的确定判断，因此判为no_event。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 71.406,
+        "brier_score": 66.36,
+        "brier_loss": 0.3364,
+        "log_loss": 0.86750057,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 45841,
+        "cached_input_tokens": 28160,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 685,
+        "reasoning_output_tokens": 152
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2017q3-pledge-freeze-603766",
+      "case_sha256": "8191341e1dd19050f6dce00bcf20f1ad5ecac439e9463cd6ec301796eef638c2",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.92,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.38,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2017-same-day-pledge-liquidity",
+          "2017-q3-listed-company-buffer"
+        ],
+        "analysis_summary": "截至as-of，隆鑫控股持有1,034,440,128股；同日公告更新后的累计质押为1,010,097,083股、占97.65%，明显高于9月30日股东表中的916,330,000股。新增质押用于补充流动资金，且一年期集中质押使控股股东融资与处置空间偏紧，显著抬升未来司法风险；但质押不等于司法冻结，公司关于风险可控的陈述也缺乏外部偿债证据。上市公司前三季度经营现金流4.81亿元、货币资金14.21亿元且短期借款较低，构成一定反向证据，但不能替代隆鑫控股自身偿债能力。现有时点证据不足以支持未来新增司法冻结达到as-of持股10%（约1.034亿股）为更可能情形，因此判断no_event，但保留较高尾部风险。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50425,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 682,
+        "reasoning_output_tokens": 55
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2018q3-pledge-freeze-603766",
+      "case_sha256": "0e380e3802a8cda0d2e691684674dfc9efef78f748836df6cfebbf0781a52644",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.076,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.61,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-repeated-supplemental-pledge",
+          "2018-q3-listed-company-buffer"
+        ],
+        "analysis_summary": "隆鑫控股截至2018年10月18日持有1,045,591,564股，累计质押1,029,024,083股，占98.42%；该口径晚于三季报股东表的2018年9月30日快照（质押比例约97.90%）。同一笔质押在6月和10月连续补充质押，且最新补充质押用于降低预警线和平仓线而非新增融资，表明缓冲空间很窄，未来债务纠纷升级为大额司法冻结的风险偏高。不过，接近满仓质押不等于必然冻结；上市公司前三季度盈利、经营现金流为正且货币资金较充足，构成反向证据，但这些数据不能验证控股股东自身偿债能力。综合判断，窗口内新增冻结达到其as-of持股10%（约1.046亿股）的概率略高于二元阈值。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.0715,
+        "brier_score": 84.79,
+        "brier_loss": 0.1521,
+        "log_loss": 0.49429632,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 66435,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 699,
+        "reasoning_output_tokens": 51
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2017q3-pledge-freeze-603766",
+      "case_sha256": "8191341e1dd19050f6dce00bcf20f1ad5ecac439e9463cd6ec301796eef638c2",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.638,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.34,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "2017-same-day-pledge-liquidity",
+          "2017-q3-listed-company-buffer"
+        ],
+        "analysis_summary": "截至as-of，10月25日新增质押后控股股东累计质押比例达97.65%，且用途为补充流动资金，反映其融资依赖度很高；但质押并非司法冻结，也没有截至该日的外部违约或诉讼冻结证据。三季报的9月30日质押快照较早，as-of应采用同日公告的更新口径。上市公司经营现金流、货币资金和低短借提供一定经营缓冲，但不能据此证明控股股东偿债能力。综合高质押带来的风险与缺少冻结触发证据，预测未来12个月达到原持股10%的新增司法冻结概率低于五成。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 90.174,
+        "brier_score": 88.44,
+        "brier_loss": 0.1156,
+        "log_loss": 0.41551544,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 50432,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 724,
+        "reasoning_output_tokens": 116
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2018q3-pledge-freeze-603766",
+      "case_sha256": "0e380e3802a8cda0d2e691684674dfc9efef78f748836df6cfebbf0781a52644",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 36.674,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.62,
+        "prediction": "event",
+        "evidence_ids": [
+          "2018-repeated-supplemental-pledge",
+          "2018-q3-listed-company-buffer"
+        ],
+        "analysis_summary": "截至10月18日，隆鑫控股持股10.46亿股中98.42%已质押，且同一笔2017年质押在6月和10月连续补充质押以降低预警/平仓线，显示其融资缓冲很薄；这提高未来因控股股东层面债务纠纷而出现大额司法冻结的风险。9月30日季报的97.90%质押率是较早快照，不能替代10月更新口径。上市公司前三季度盈利、经营现金流为正且有货币资金，构成一定反向信息，但不能证明隆鑫控股自身偿债能力；普通质押及公司风险陈述也均不等同于司法冻结。综合后判断事件概率略高于五成。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 70689,
+        "cached_input_tokens": 31232,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 923,
+        "reasoning_output_tokens": 123
+      },
+      "event_count": 11
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 2,
+      "failed": 0,
+      "mean_score": 81.351,
+      "mean_brier_loss": 0.2194,
+      "mean_log_loss": 0.626582,
+      "classification_accuracy": 0.5,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 28.0165,
+      "input_tokens": 91576,
+      "cached_input_tokens": 56320,
+      "output_tokens": 1319
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 2,
+      "failed": 0,
+      "mean_score": 87.39875,
+      "mean_brier_loss": 0.14825,
+      "mean_log_loss": 0.486166,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 33.498,
+      "input_tokens": 116860,
+      "cached_input_tokens": 78592,
+      "output_tokens": 1381
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 2,
+      "failed": 0,
+      "mean_score": 88.95,
+      "mean_brier_loss": 0.13,
+      "mean_log_loss": 0.446776,
+      "classification_accuracy": 1.0,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 35.156,
+      "input_tokens": 121121,
+      "cached_input_tokens": 62464,
+      "output_tokens": 1647
+    }
+  ]
+}

@@ -11,7 +11,7 @@ appropriately calibrated prediction.
 
 **[Open the public A-share reasoning radar →](https://glacieralgo.github.io/FinAgentBench/)**
 
-The radar currently presents 22 real A-share historical replays and 66 model
+The radar currently presents 24 real A-share historical replays and 72 model
 attempts as development diagnostics. It explicitly keeps the formal sealed
 leaderboard empty until a pre-registered future cohort has matured.
 
@@ -101,6 +101,11 @@ artifacts. It compares Brier loss across models, task suites and nine financial
 logic families; exposes per-case event probabilities; and keeps experiment
 identity and coverage visible beside the plots. Open `radar/index.html` directly
 or rebuild `radar/data.js` with `finagentbench radar build`.
+
+Version 0.11 adds a tenth logic family: a same-company, approximately
+98%-pledged positive/control pair for later material judicial freeze. It also
+adds contemporaneous news or industry evidence to every R&D/factory decision
+case, while keeping official filings and read-only RQData as label authority.
 An external adapter receives only the outcome-free prompt and schema, then
 returns a structured submission, usage, tool counts, and compact event metadata.
 Its manifest hash, runtime version, sandbox, external-data policy, session
@@ -189,6 +194,14 @@ capacity utilization. These are later commercial-validation tests, not claims
 that one project caused the company-wide result or proofs of counterfactual
 optimality.
 
+Version 0.11 adds 隆鑫通用 2017/2018 same-company time slices for a literal
+judicial-freeze target. Both slices were already close to fully pledged at the
+latest as-of update, so the benchmark cannot be solved by the shortcut “high
+pledge means freeze.” It must reconcile quarterly and announcement timestamps,
+repeated supplemental pledges, and the boundary between listed-company cash and
+controller liabilities. The four business-decision corpora now also combine
+issuer disclosures with contemporaneous news/industry context.
+
 ```bash
 uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
 uv run finagentbench a-share search \
@@ -202,9 +215,11 @@ uv run finagentbench a-share benchmark \
 ```
 
 Historical replay never uses today's unrestricted web. It searches a frozen
-corpus of official disclosures published no later than the scenario's as-of
-date. The future annual report and the RQData-derived realized outcome live in
-a separate label file and never enter the agent payload or search corpus.
+corpus of official disclosures and, for business-decision cases,
+contemporaneous news/industry evidence published no later than the scenario's
+as-of date. The future annual report and the RQData-derived realized outcome
+live in a separate label file and never enter the agent payload or search
+corpus. News provides context but never defines the label.
 
 All PDF-to-text authoring for the new slice uses the Rust CLI from
 [`run-llama/liteparse`](https://github.com/run-llama/liteparse), pinned in case
@@ -268,6 +283,26 @@ Full answers, searches, per-case probabilities, and scores are in
 with a compact report in
 [`results/2026-08-12-a-share-traps-frozen-web-low.md`](results/2026-08-12-a-share-traps-frozen-web-low.md).
 
+### Judicial-freeze replay
+
+Version 0.11 ran the two 隆鑫通用 time slices through the same three-model
+matrix. All six sessions completed, used frozen search, and cited both expected
+documents. The event probability moved in the right direction for every model,
+even though the two as-of pledge ratios were both approximately 98%:
+
+| Model | Control → event probability | Brier loss | Accuracy |
+| --- | ---: | ---: | ---: |
+| GPT-5.6 Terra | 0.34 → 0.62 | 0.1300 | 100.0% |
+| GPT-5.6 Sol | 0.38 → 0.61 | 0.1483 | 100.0% |
+| GPT-5.6 Luna | 0.32 → 0.42 | 0.2194 | 50.0% |
+
+Luna recognized the higher risk but did not cross the binary threshold on the
+event case. That failure is useful: the pair tests nuanced escalation rather
+than a generic high-pledge warning. Full traces and scores are in
+[`results/2026-08-12-pledge-freeze-frozen-web-low.json`](results/2026-08-12-pledge-freeze-frozen-web-low.json),
+with the compact report in
+[`results/2026-08-12-pledge-freeze-frozen-web-low.md`](results/2026-08-12-pledge-freeze-frozen-web-low.md).
+
 ### First business-decision replay
 
 The first 海光信息 replay used the same controlled frozen-search harness. All
@@ -290,19 +325,20 @@ of treating high R&D as sufficient evidence.
 
 ### Matched business-decision replay
 
-Version 0.7 reran the complete four-case decision suite as twelve independent
-sessions. Every session used frozen search and completed. All three models
+Version 0.11 reran the complete four-case decision suite after adding one
+contemporaneous news/industry source per case. All twelve independent sessions
+used frozen search, cited the new evidence, and completed. All three models
 correctly placed 海光信息 above 寒武纪 and 宁德时代 above 德方纳米, and all twelve
 thresholded predictions matched the labels.
 
 | Model | Brier loss | Log loss | Accuracy | Mean searches |
 | --- | ---: | ---: | ---: | ---: |
-| GPT-5.6 Luna | 0.0792 | 0.3293 | 100.0% | 3.50 |
-| GPT-5.6 Sol | 0.1187 | 0.4065 | 100.0% | 5.25 |
-| GPT-5.6 Terra | 0.1308 | 0.4459 | 100.0% | 1.75 |
+| GPT-5.6 Luna | 0.0894 | 0.3477 | 100.0% | 2.75 |
+| GPT-5.6 Terra | 0.0977 | 0.3665 | 100.0% | 2.00 |
+| GPT-5.6 Sol | 0.1143 | 0.4023 | 100.0% | 5.25 |
 
-The paired probability gaps were positive for every model: 0.31-0.44 for the
-R&D pair and 0.26-0.44 for the factory pair. This is still only four public
+The paired probability gaps were positive for every model: 0.42-0.54 for the
+R&D pair and 0.22-0.37 for the factory pair. This is still only four public
 cases with one repeat, so the ordering is a harness diagnostic rather than a
 model ranking. Full answers and tool counts are in
 [`results/2026-08-12-business-decisions-frozen-web-low.json`](results/2026-08-12-business-decisions-frozen-web-low.json),
@@ -323,10 +359,13 @@ rewritten.
 ```bash
 uv run finagentbench shadow run \
   src/finagentbench/live_shadow/scenarios/cn-a-live-20260812-hygon-rd-efficiency.json \
-  --model gpt-5.6-terra --output results/live-shadow/hygon-seal.json
-uv run finagentbench shadow verify results/live-shadow/hygon-seal.json
+  --model gpt-5.6-terra \
+  --output results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json
+uv run finagentbench shadow verify \
+  results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json
 uv run finagentbench shadow resolve \
-  results/live-shadow/hygon-seal.json /path/to/matured-label.json \
+  results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json \
+  /path/to/matured-label.json \
   --output results/live-shadow/hygon-resolution.json
 ```
 
@@ -372,9 +411,9 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- 22 real A-share walk-forward scenarios with frozen official-search corpora:
-  six matched goodwill/impairment cases, six additional matched trap families,
-  and two matched business-decision families for R&D and factory allocation;
+- 24 real A-share walk-forward scenarios with frozen point-in-time corpora:
+  six goodwill/impairment cases, seven matched trap families, and two matched
+  business-decision families for R&D and factory allocation;
 - a real-Web live-shadow runner with full-trace commitments and maturity-gated
   resolution;
 - pre-registered hard-suite commitments that bind case families, model matrices,

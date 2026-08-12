@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2018q3-pledge-freeze-603766",
+  "resolved_at": "2019-10-21",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "newly_judicially_frozen_shares": 382947481,
+      "as_of_controller_holding": 1045591564
+    },
+    "derivations": [
+      {
+        "metric": "controller_judicial_freeze_to_as_of_holding",
+        "operation": "ratio",
+        "inputs": [
+          "newly_judicially_frozen_shares",
+          "as_of_controller_holding"
+        ],
+        "value": 0.36624958940468266
+      }
+    ]
+  },
+  "expected_evidence_ids": [
+    "2018-repeated-supplemental-pledge",
+    "2018-q3-listed-company-buffer"
+  ],
+  "outcome_sources": [
+    {
+      "type": "official_filing",
+      "title": "隆鑫通用2019年第三季度报告",
+      "published_at": "2019-10-29",
+      "url": "https://static.cninfo.com.cn/finalpage/2019-10-29/1207030036.PDF",
+      "outcome": "公司披露隆鑫控股因股票质押违约被司法冻结382,947,481股，冻结期三年；占其持股36.62%、占公司总股本18.65%",
+      "fields": [
+        "司法冻结股份数",
+        "冻结原因",
+        "控股股东持股数"
+      ]
+    }
+  ]
+}

@@ -43,7 +43,7 @@
   "search_policy": {
     "mode": "frozen_corpus_only",
     "latest_published_at": "2022-08-11",
-    "allowed_domains": ["sse.com.cn", "cninfo.com.cn"]
+    "allowed_domains": ["sse.com.cn", "cninfo.com.cn", "stcn.com"]
   },
   "response_contract": {
     "type": "object",
@@ -61,6 +61,14 @@
     "access": "read_only",
     "tables": ["rq_income_statement_pit", "rq_cash_flow_pit"],
     "row_policy": "stock_code=688041.XSHG; if_adjusted=0; earliest info_date per annual report; 2021 agent baseline; 2024 outcome",
+    "pdf_text_tool": "run-llama/liteparse 2.11.1 git 53e4fc813d35f76d0169923d2c451b3c8700edb0",
+    "pdf_text_mode": "native PDFium text extraction (--no-ocr)",
+    "source_sha256": {
+      "registration_feedback": "40c903773bc342731c426b8ac9a2bbc267317443847e4b2f25cd5a00a3ba65f9",
+      "ipo_inquiry": "7c839c74cfb2b476758d74a01b4480bbc2215a5b62dc8570dade823f291c542e",
+      "listing_announcement": "737a8bc42f7a02fdbeb23991309c9c7824e4db32d27066261f46ddef7947e6fd"
+    },
+    "news_evidence_policy": "Contemporaneous news may supply market framing and externally selected risk signals; official filings and RQData remain label authority.",
     "causal_guardrail": "The label measures later commercial validation under a predeclared rule, not causal attribution to R&D spending."
   }
 }

@@ -81,11 +81,12 @@ by FY2024. The event requires all of:
 - positive FY2024 operating cash flow.
 
 The frozen evidence includes the official IPO inquiry replies and listing
-announcement available by the as-of date. It exposes competing evidence:
-product generations, customer certification and orders on one side; market
-share, R&D capitalization, customer/related-party concentration, export-control
-and supply-chain risks on the other. The later annual report and RQData PIT rows
-remain label-only.
+announcement plus contemporaneous news available by the as-of date. It exposes
+competing evidence: product generations, customer certification and orders on
+one side; market share, R&D capitalization, customer/related-party
+concentration, export-control and supply-chain risks on the other. News supplies
+an independently selected market framing, but the later annual report and
+RQData PIT rows remain the label authority and label-only.
 
 This rule is intentionally called **commercial validation**, not R&D causal
 impact. Observational financial outcomes cannot establish that R&D was the sole
@@ -95,7 +96,7 @@ ecosystem investment—not factory construction.
 
 ## Version 3 matched A-share trap families
 
-The next slice adds six event families with one realized event and one
+The next slice adds seven event families with one realized event and one
 non-event control each. A benchmark that contains only later blow-ups rewards a
 trivial always-distressed policy; matched controls force the agent to use the
 strength, timing, and counterevidence in the frozen filings.
@@ -108,13 +109,20 @@ strength, timing, and counterevidence in the frozen filings.
 | Audit opinion | 000506 中润资源, 2023Q3 | the same issuer, 2022Q3 | qualified, adverse, or disclaimer opinion on the annual financial statements |
 | Performance commitment | 300467 迅游科技, 2019Q3 | 300276 三丰智能, 2019Q3 | audited acquisition-target profit shortfall greater than 20% |
 | Pledge / control | 002310 东方园林, 2018Q3 | the same issuer, 2017Q3 | controller change within about 12 months |
+| Pledge / judicial freeze | 603766 隆鑫通用, 2018Q3 | the same issuer, 2017Q3 | newly frozen controller shares greater than 10% of its as-of holding within 12 months |
 
 The receivables target is deliberately an **incremental** annual-minus-Q3
 credit-impairment amount, preventing a model from being rewarded for predicting
 an expense that was already public. The audit target excludes an unmodified
 opinion merely because it contains an emphasis or material-uncertainty
 paragraph. The pledge/control target records the later governance outcome and
-does not encode a claim that pledge risk was its sole cause.
+does not encode a claim that pledge risk was its sole cause. The judicial-freeze
+pair is an especially strict anti-shortcut control: both same-company slices
+had roughly 98% of the controller's holding pledged at the latest as-of update,
+but only the later slice crossed the predeclared freeze threshold. The agent
+must reconcile report and announcement dates, repeated supplemental pledges,
+entity boundaries, and counterevidence instead of treating a high ratio as a
+deterministic rule.
 
 Official signed reports are the outcome authority when the local read-only
 RQData snapshot does not contain a populated family-specific announcement
@@ -126,6 +134,8 @@ the checked-in label preserves raw observations and recomputable derivations.
 Business-decision cases now contain an event and a non-event example for each
 decision family. This prevents a policy such as “high R&D is always good” or
 “announced capacity in a growing industry is always validated” from succeeding.
+Every decision corpus contains both issuer disclosures and contemporaneous
+news/industry evidence. News is point-in-time context, never the outcome label.
 
 | Decision family | Event case | Control case | Predeclared joint outcome |
 | --- | --- | --- | --- |

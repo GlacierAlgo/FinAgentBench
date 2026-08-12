@@ -38,7 +38,7 @@ def test_builtin_goodwill_slice_is_balanced_and_all_cases_are_point_in_time() ->
         if case.scenario.suite == "a_share_walk_forward_v1"
     )
 
-    assert len(cases) >= 22
+    assert len(cases) >= 24
     assert len(goodwill_cases) == 6
     assert sum(case.label.event_occurred for case in goodwill_cases) == 3
     for case in cases:
@@ -73,9 +73,12 @@ def test_a_share_trap_families_have_matched_positive_and_negative_cases() -> Non
         "pledge_control": tuple(
             case for case in trap_cases if "pledge-control" in case.scenario.id
         ),
+        "pledge_freeze": tuple(
+            case for case in trap_cases if "pledge-freeze" in case.scenario.id
+        ),
     }
 
-    assert len(trap_cases) >= 12
+    assert len(trap_cases) >= 14
     for cases in families.values():
         assert len(cases) == 2
         assert {case.label.event_occurred for case in cases} == {False, True}
@@ -172,7 +175,18 @@ def test_business_decisions_have_matched_rnd_and_factory_controls() -> None:
         "run-llama/liteparse 2.11.1 git 53e4fc8"
         in case.scenario.authoring_provenance["pdf_text_tool"]
         for case in business_cases
-        if case.scenario.id != "cn-a-2022-hygon-rd-commercial-validation"
+    )
+    assert all(
+        any(
+            domain in document.url
+            for domain in ("cs.com.cn", "stcn.com")
+            for document in case.corpus.documents
+        )
+        for case in business_cases
+    )
+    assert all(
+        "news_evidence_policy" in case.scenario.authoring_provenance
+        for case in business_cases
     )
 
     catl = next(
@@ -188,6 +202,32 @@ def test_business_decisions_have_matched_rnd_and_factory_controls() -> None:
         "announced_factory_schedule_validation"
     ] == 0
     assert dynanonic.label.realized_metrics["gross_margin_outcome"] < 0
+
+
+def test_pledge_freeze_pair_is_same_company_balanced_and_non_mechanical() -> None:
+    cases = tuple(
+        case for case in _cases() if "pledge-freeze" in case.scenario.id
+    )
+
+    assert len(cases) == 2
+    assert {case.scenario.security.order_book_id for case in cases} == {
+        "603766.XSHG"
+    }
+    assert {case.scenario.target_event for case in cases} == {
+        "material_controller_share_judicial_freeze"
+    }
+    assert {case.label.event_occurred for case in cases} == {False, True}
+
+    negative = next(case for case in cases if not case.label.event_occurred)
+    positive = next(case for case in cases if case.label.event_occurred)
+    assert negative.label.realized_metrics[
+        "controller_judicial_freeze_to_as_of_holding"
+    ] == 0
+    assert positive.label.realized_metrics[
+        "controller_judicial_freeze_to_as_of_holding"
+    ] == pytest.approx(0.36624958940468266)
+    assert "不声称接近满仓质押必然导致冻结" in negative.scenario.target_definition
+    assert "不声称接近满仓质押必然导致冻结" in positive.scenario.target_definition
 
 
 def test_generic_label_rejects_a_tampered_derived_metric() -> None:
