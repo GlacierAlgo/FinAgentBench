@@ -10,14 +10,14 @@ def test_radar_builds_balanced_distinct_a_share_development_set() -> None:
 
     assert payload["tier"] == "development_diagnostics"
     assert payload["coverage"] == {
-        "case_count": 142,
-        "event_count": 72,
-        "no_event_count": 70,
+        "case_count": 150,
+        "event_count": 76,
+        "no_event_count": 74,
         "model_count": 3,
-        "attempt_count": 426,
+        "attempt_count": 450,
         "sealed_eligible_suite_count": 0,
     }
-    assert len({case["id"] for case in payload["cases"]}) == 142
+    assert len({case["id"] for case in payload["cases"]}) == 150
     assert {len(case["runs"]) for case in payload["cases"]} == {3}
     assert all(
         run["search_calls"] >= 1
@@ -49,6 +49,7 @@ def test_radar_builds_balanced_distinct_a_share_development_set() -> None:
         "governance-obligation",
         "rule-regime",
         "project-segment-execution",
+        "auto-payment-cycle",
     }
 
 

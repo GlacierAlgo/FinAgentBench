@@ -1,0 +1,8 @@
+{
+  "schema_version": 1, "scenario_id": "cn-a-2025-auto-payment-cycle-601689",
+  "documents": [
+    {"id": "payment-rule-boundary", "title": "《保障中小企业款项支付条例》：60日规则的主体边界与非现金支付约束", "published_at": "2025-03-24", "source": "工业和信息化部转载国务院令第802号", "url": "https://wap.miit.gov.cn/xwfb/gxdt/sjdt/art/2025/art_2610a93b60554b9c81d6e37c2bc8232f.html", "content": "修订条例自2025年6月1日起施行，法定60日及非现金支付约束针对大型企业采购中小企业。大型上市零部件企业是否适用必须按合同订立时规模判断，不能把政策当作普遍到账保证。"},
+    {"id": "fy2024-working-capital-baseline", "title": "拓普集团2024年报与PIT营运资金基线", "published_at": "2025-04-24", "source": "拓普集团2024年年度报告及只读RQData PIT", "url": "https://static.cninfo.com.cn/finalpage/2025-04-24/1223245414.PDF", "content": "未调整合并口径：2023年末票据及应收账款5,560,745,769.55元，2024年末6,450,255,881.75元；2024年营业收入26,600,328,450.94元，据固定公式计算周转天数82.405天。销售商品、提供劳务收到现金21,796,575,291.59元，经营活动现金流净额3,236,068,686.84元。前五大客户销售占67.09%。"},
+    {"id": "operating-chain-exposure", "title": "拓普全球产能与客户集中：墨西哥、波兰和泰国", "published_at": "2025-04-24", "source": "拓普集团2024年年度报告", "url": "https://static.cninfo.com.cn/finalpage/2025-04-24/1223245414.PDF", "content": "墨西哥一期已投产、二期开始筹划，波兰二期和泰国基地也在推进；境外资产约30.68亿元、占总资产8.17%。国际化可承接欧洲及出海车企订单，但高客户集中与跨地区产能扩张会使收入增长、验收、库存和应收同步变化。"}
+  ], "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"1223245414.PDF": "de88f49bb7392050d426f16f636843dbd2e6847ef0945850d96c4098d9705901", "payment-regulation.html": "3ee6f8b12670faadfa0b26614079752dcda0c1d77af1caccfaf18c922699af72"}}
+}

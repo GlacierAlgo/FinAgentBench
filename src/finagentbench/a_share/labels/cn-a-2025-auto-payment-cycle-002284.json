@@ -1,0 +1,13 @@
+{
+  "schema_version": 2, "scenario_id": "cn-a-2025-auto-payment-cycle-002284", "resolved_at": "2025-12-31", "observed_at": "2026-03-31", "event_occurred": true,
+  "realized": {"observations": {"trade_receivables_fy2023_end": 815957619.38, "trade_receivables_fy2024_end": 958214259.91, "trade_receivables_fy2025_end": 1112319959.04, "revenue_fy2024": 4260388741.13, "revenue_fy2025": 5607128129.86, "cash_received_from_sales_fy2025": 5325511985.89, "operating_cash_flow_fy2025": 1348698620.98, "trade_receivable_days_fy2024": 75.99925444468849, "trade_receivable_days_fy2025": 67.39144999131842}, "derivations": [
+    {"metric": "trade_receivable_days_change_vs_fy2024", "operation": "difference", "inputs": ["trade_receivable_days_fy2025", "trade_receivable_days_fy2024"], "value": -8.607804453370065},
+    {"metric": "cash_received_from_sales_to_revenue_fy2025", "operation": "ratio", "inputs": ["cash_received_from_sales_fy2025", "revenue_fy2025"], "value": 0.9497753328534994},
+    {"metric": "operating_cash_flow_to_revenue_fy2025", "operation": "ratio", "inputs": ["operating_cash_flow_fy2025", "revenue_fy2025"], "value": 0.24053286990138295}
+  ]},
+  "expected_evidence_ids": ["payment-rule-boundary", "fy2024-working-capital-baseline", "operating-chain-exposure"],
+  "outcome_sources": [
+    {"type": "official_annual_report", "title": "浙江亚太机电股份有限公司2024年年度报告", "published_at": "2025-03-29", "url": "https://static.cninfo.com.cn/finalpage/2025-03-29/1222940048.PDF", "period_end": "2024-12-31", "result": "提供2023年末、2024年末票据及应收账款与2024年度基线", "extraction": {"tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "2b394162bb2338cd20bc43c65044d4add1c17e3c4cb265556bd5dc8e6a26ef75"}},
+    {"type": "official_annual_report", "title": "浙江亚太机电股份有限公司2025年年度报告", "published_at": "2026-03-31", "url": "https://disc.static.szse.cn/download/disc/disk03/finalpage/2026-03-31/df1d44ba-ceac-4794-a1bc-1375aaa2d144.PDF", "period_end": "2025-12-31", "result": "2025年三项固定门槛全部满足", "extraction": {"tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "42cbc9c80def39c15128f35bdc3bae9f802a37dc3e9c147d8d4c0756600fe841"}}
+  ]
+}

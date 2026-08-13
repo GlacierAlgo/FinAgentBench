@@ -1,0 +1,8 @@
+{
+  "schema_version": 1, "scenario_id": "cn-a-2025-auto-payment-cycle-002284",
+  "documents": [
+    {"id": "payment-rule-boundary", "title": "《保障中小企业款项支付条例》：60日规则的主体边界与非现金支付约束", "published_at": "2025-03-24", "source": "工业和信息化部转载国务院令第802号", "url": "https://wap.miit.gov.cn/xwfb/gxdt/sjdt/art/2025/art_2610a93b60554b9c81d6e37c2bc8232f.html", "content": "修订条例自2025年6月1日起施行，适用于大型企业向中小企业采购后的付款，原则60日并约束强制商业汇票等变相延长账期的做法。上市供应商并不自动满足中小企业身份，政策是分析变量而不是结果。"},
+    {"id": "fy2024-working-capital-baseline", "title": "亚太股份2024年报与PIT营运资金基线", "published_at": "2025-03-29", "source": "亚太股份2024年年度报告及只读RQData PIT", "url": "https://static.cninfo.com.cn/finalpage/2025-03-29/1222940048.PDF", "content": "未调整合并口径：2023年末票据及应收账款815,957,619.38元，2024年末958,214,259.91元；2024年营业收入4,260,388,741.13元，据固定公式计算周转天数75.999天。销售商品、提供劳务收到现金4,966,230,246.57元，经营活动现金流净额787,961,631.08元。"},
+    {"id": "operating-chain-exposure", "title": "亚太股份OEM交付链：外库、安全库存与整车厂订单", "published_at": "2025-03-29", "source": "亚太股份2024年年度报告", "url": "https://static.cninfo.com.cn/finalpage/2025-03-29/1222940048.PDF", "content": "公司是制动系统一级供应商，进入大众、通用、本田、日产、Stellantis等采购平台；国内配套市场收入占比长期超过90%，海外销量较小。为满足整车厂零库存管理，公司在整车厂附近设置仓储点并存放安全库存，按实际需求配送。订单、验收、外库存货与结算共同决定现金转换。"}
+  ], "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"1222940048.PDF": "2b394162bb2338cd20bc43c65044d4add1c17e3c4cb265556bd5dc8e6a26ef75", "payment-regulation.html": "3ee6f8b12670faadfa0b26614079752dcda0c1d77af1caccfaf18c922699af72"}}
+}

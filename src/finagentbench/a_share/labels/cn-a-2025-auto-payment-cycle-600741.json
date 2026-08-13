@@ -1,0 +1,13 @@
+{
+  "schema_version": 2, "scenario_id": "cn-a-2025-auto-payment-cycle-600741", "resolved_at": "2025-12-31", "observed_at": "2026-03-31", "event_occurred": false,
+  "realized": {"observations": {"trade_receivables_fy2023_end": 40011036602.9, "trade_receivables_fy2024_end": 46550434734.75, "trade_receivables_fy2025_end": 52495031137.88, "revenue_fy2024": 168852183839.32, "revenue_fy2025": 183998900513.66, "cash_received_from_sales_fy2025": 142711338667.94, "operating_cash_flow_fy2025": 9523102797.47, "trade_receivable_days_fy2024": 93.55797573902875, "trade_receivable_days_fy2025": 98.23861703137209}, "derivations": [
+    {"metric": "trade_receivable_days_change_vs_fy2024", "operation": "difference", "inputs": ["trade_receivable_days_fy2025", "trade_receivable_days_fy2024"], "value": 4.6806412923433385},
+    {"metric": "cash_received_from_sales_to_revenue_fy2025", "operation": "ratio", "inputs": ["cash_received_from_sales_fy2025", "revenue_fy2025"], "value": 0.7756097360883152},
+    {"metric": "operating_cash_flow_to_revenue_fy2025", "operation": "ratio", "inputs": ["operating_cash_flow_fy2025", "revenue_fy2025"], "value": 0.051756302732705775}
+  ]},
+  "expected_evidence_ids": ["payment-rule-boundary", "saic-60-day-commitment", "fy2024-working-capital-baseline", "operating-chain-exposure"],
+  "outcome_sources": [
+    {"type": "official_annual_report", "title": "华域汽车系统股份有限公司2024年年度报告", "published_at": "2025-04-29", "url": "https://static.cninfo.com.cn/finalpage/2025-04-29/1223375149.PDF", "period_end": "2024-12-31", "result": "提供2023年末、2024年末票据及应收账款与2024年度基线", "extraction": {"tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "0e6c40acb8919acef249e2ce3520ff7c7bba00f524e8ccff34d1d58f88f996c8"}},
+    {"type": "official_annual_report", "title": "华域汽车系统股份有限公司2025年年度报告", "published_at": "2026-03-31", "url": "https://static.cninfo.com.cn/finalpage/2026-03-31/1225052214.PDF", "period_end": "2025-12-31", "result": "应收天数上升4.681天，现金收款率77.56%、经营现金流率5.18%，三项均未过线", "extraction": {"tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "19d879f380cc042f4f5d91cb952c939f95b4e953366e8045da1e3a58760065f4"}}
+  ]
+}

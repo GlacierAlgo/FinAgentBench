@@ -1,0 +1,8 @@
+{
+  "schema_version": 1, "scenario_id": "cn-a-2025-auto-payment-cycle-600933",
+  "documents": [
+    {"id": "payment-rule-boundary", "title": "《保障中小企业款项支付条例》：60日规则的主体边界与非现金支付约束", "published_at": "2025-03-24", "source": "工业和信息化部转载国务院令第802号", "url": "https://wap.miit.gov.cn/xwfb/gxdt/sjdt/art/2025/art_2610a93b60554b9c81d6e37c2bc8232f.html", "content": "修订条例自2025年6月1日起施行，法定60日及非现金支付约束针对大型企业采购中小企业。上市零部件集团并不自动是条例所称中小企业，不能将政策方向直接当作回款结果。"},
+    {"id": "fy2024-working-capital-baseline", "title": "爱柯迪2024年报与PIT营运资金基线", "published_at": "2025-03-31", "source": "爱柯迪2024年年度报告及只读RQData PIT", "url": "https://static.cninfo.com.cn/finalpage/2025-03-31/1222962093.PDF", "content": "未调整合并口径：2023年末票据及应收账款1,861,034,872.43元，2024年末2,098,530,606.04元；2024年营业收入6,746,046,655.82元，据固定公式计算周转天数107.118天。销售商品、提供劳务收到现金7,030,968,127.36元，经营活动现金流净额1,708,759,381.59元。前五大客户销售占38.60%。"},
+    {"id": "operating-chain-exposure", "title": "爱柯迪全球化产能：墨西哥二期与马来西亚工厂", "published_at": "2025-03-31", "source": "爱柯迪2024年年度报告", "url": "https://static.cninfo.com.cn/finalpage/2025-03-31/1222962093.PDF", "content": "公司客户覆盖全球大型零部件商及主机厂，墨西哥一期已全面量产、二期计划2025年投产，马来西亚厂已开始原材料和锌合金产品生产；境外资产约11.50亿元、占总资产8.06%。全球客户分散和本地化可能提升条款与订单，也会带来新基地爬坡、备货和验收占款。"}
+  ], "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"1222962093.PDF": "70d6b2b600c38f1effdea8fa05498c0d15a76104d9a92c6fee12785470c2e249", "payment-regulation.html": "3ee6f8b12670faadfa0b26614079752dcda0c1d77af1caccfaf18c922699af72"}}
+}

@@ -1317,3 +1317,102 @@ def test_search_calls_count_only_completed_commands() -> None:
     ]
 
     assert _search_call_count(events) == 1
+
+
+def test_auto_payment_cycle_family_is_balanced_and_recomputable() -> None:
+    cases = tuple(
+        case
+        for case in _cases()
+        if case.scenario.suite == "a_share_auto_payment_cycle_v1"
+    )
+
+    assert len(cases) == 8
+    assert sum(case.label.event_occurred for case in cases) == 4
+    assert {case.scenario.as_of.isoformat() for case in cases} == {"2025-06-11"}
+    assert {case.scenario.target_event for case in cases} == {
+        "fy2025_trade_receivable_relief_and_cash_conversion"
+    }
+    assert len({case.scenario.target_definition for case in cases}) == 1
+    assert {
+        tuple(
+            (criterion.metric, criterion.comparison, criterion.value)
+            for criterion in case.scenario.criteria
+        )
+        for case in cases
+    } == {
+        (
+            ("trade_receivable_days_change_vs_fy2024", "<=", -5.0),
+            ("cash_received_from_sales_to_revenue_fy2025", ">=", 0.9),
+            ("operating_cash_flow_to_revenue_fy2025", ">=", 0.1),
+        )
+    }
+
+    for case in cases:
+        observations = case.label.realized["observations"]
+        expected_2024_days = (
+            365
+            * (
+                observations["trade_receivables_fy2023_end"]
+                + observations["trade_receivables_fy2024_end"]
+            )
+            / 2
+            / observations["revenue_fy2024"]
+        )
+        expected_2025_days = (
+            365
+            * (
+                observations["trade_receivables_fy2024_end"]
+                + observations["trade_receivables_fy2025_end"]
+            )
+            / 2
+            / observations["revenue_fy2025"]
+        )
+        assert observations["trade_receivable_days_fy2024"] == pytest.approx(
+            expected_2024_days
+        )
+        assert observations["trade_receivable_days_fy2025"] == pytest.approx(
+            expected_2025_days
+        )
+        assert all(
+            document.published_at <= case.scenario.as_of
+            for document in case.corpus.documents
+        )
+        assert (
+            "a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9"
+            in case.scenario.authoring_provenance["pdf_text_tool"]
+        )
+
+    huayu = next(
+        case for case in cases if case.scenario.security.order_book_id == "600741.XSHG"
+    )
+    assert not huayu.label.event_occurred
+    assert huayu.label.realized_metrics[
+        "trade_receivable_days_change_vs_fy2024"
+    ] == pytest.approx(4.6806412923433385)
+    assert "saic-60-day-commitment" in {
+        document.id for document in huayu.corpus.documents
+    }
+
+    for ticker in ("601689", "601799", "600933"):
+        hard_negative = next(
+            case for case in cases if case.scenario.security.ticker == ticker
+        )
+        assert not hard_negative.label.event_occurred
+        assert (
+            hard_negative.label.realized_metrics[
+                "cash_received_from_sales_to_revenue_fy2025"
+            ]
+            >= 0.9
+        )
+        assert (
+            hard_negative.label.realized_metrics[
+                "operating_cash_flow_to_revenue_fy2025"
+            ]
+            >= 0.1
+        )
+        assert (
+            hard_negative.label.realized_metrics[
+                "trade_receivable_days_change_vs_fy2024"
+            ]
+            > 0
+        )

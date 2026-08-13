@@ -1,0 +1,13 @@
+{
+  "schema_version": 2, "scenario_id": "cn-a-2025-auto-payment-cycle-601689", "resolved_at": "2025-12-31", "observed_at": "2026-03-24", "event_occurred": false,
+  "realized": {"observations": {"trade_receivables_fy2023_end": 5560745769.55, "trade_receivables_fy2024_end": 6450255881.75, "trade_receivables_fy2025_end": 7341591205.35, "revenue_fy2024": 26600328450.94, "revenue_fy2025": 29581458675.27, "cash_received_from_sales_fy2025": 27511786431.98, "operating_cash_flow_fy2025": 4482090128.26, "trade_receivable_days_fy2024": 82.40529079951224, "trade_receivable_days_fy2025": 85.08749081734646}, "derivations": [
+    {"metric": "trade_receivable_days_change_vs_fy2024", "operation": "difference", "inputs": ["trade_receivable_days_fy2025", "trade_receivable_days_fy2024"], "value": 2.6822000178342194},
+    {"metric": "cash_received_from_sales_to_revenue_fy2025", "operation": "ratio", "inputs": ["cash_received_from_sales_fy2025", "revenue_fy2025"], "value": 0.9300348145096631},
+    {"metric": "operating_cash_flow_to_revenue_fy2025", "operation": "ratio", "inputs": ["operating_cash_flow_fy2025", "revenue_fy2025"], "value": 0.15151687337200218}
+  ]},
+  "expected_evidence_ids": ["payment-rule-boundary", "fy2024-working-capital-baseline", "operating-chain-exposure"],
+  "outcome_sources": [
+    {"type": "official_annual_report", "title": "宁波拓普集团股份有限公司2024年年度报告", "published_at": "2025-04-24", "url": "https://static.cninfo.com.cn/finalpage/2025-04-24/1223245414.PDF", "period_end": "2024-12-31", "result": "提供2023年末、2024年末票据及应收账款与2024年度基线", "extraction": {"tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "de88f49bb7392050d426f16f636843dbd2e6847ef0945850d96c4098d9705901"}},
+    {"type": "official_annual_report", "title": "宁波拓普集团股份有限公司2025年年度报告", "published_at": "2026-03-24", "url": "https://static.cninfo.com.cn/finalpage/2026-03-24/1225026446.PDF", "period_end": "2025-12-31", "result": "现金收款率与经营现金流率过线，但应收天数上升2.682天，故整体未过线", "extraction": {"tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "mode": "native PDFium text extraction (--no-ocr)", "sha256": "6a511a0a1e2e2651a651ad37d57efd1de799192c7242c2bdf12450154e497ba3"}}
+  ]
+}

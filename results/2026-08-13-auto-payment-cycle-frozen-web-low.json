@@ -1,0 +1,933 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-08-13T03:08:13.358266+00:00",
+  "completed_at": "2026-08-13T03:14:30.644562+00:00",
+  "duration_seconds": 377.286,
+  "harness": {
+    "name": "codex-cli-frozen-search",
+    "version": "codex-cli 0.146.0",
+    "sandbox": "read-only",
+    "external_data": "frozen point-in-time evidence corpus",
+    "session_persistence": false,
+    "outcome_visible_to_agent": false
+  },
+  "matrix": {
+    "models": [
+      "gpt-5.6-sol",
+      "gpt-5.6-terra",
+      "gpt-5.6-luna"
+    ],
+    "reasoning_effort": "low",
+    "case_count": 8,
+    "repeats": 1,
+    "case_suite_sha256": "196650bd13d3badb377f85b102fc451d69ed605c98989d6a2a43699f992e03a4"
+  },
+  "scoring_contract": {
+    "version": 1,
+    "brier_score_weight": 0.85,
+    "evidence_f1_weight": 0.15,
+    "diagnostics": [
+      "brier_loss",
+      "log_loss",
+      "classification_accuracy"
+    ]
+  },
+  "results": [
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-000700",
+      "case_sha256": "0ace6a2bfbe7cef65cbae37ac832f52a418e6ee736cf91b00ace7dda020d1081",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.276,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年票据及应收账款周转天数已降至84.998天，销售回款/收入约99.6%、经营现金流/收入约16.9%，基线很强；但前五大客户占销售59.56%，客户议价与集中度使持续压降应收存在不确定性。墨西哥资产约占净资产52.06%，本地备货、在途库存和运营扩张可能占用现金并抬高年末应收。6月1日起的付款条例可能改善部分账期，但上市供应商是否适用需另行判断，不能直接视为经营结果。因此三项同时达标的概率偏低于五成，倾向no_event。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 71.406,
+        "brier_score": 66.36,
+        "brier_loss": 0.3364,
+        "log_loss": 0.86750057,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 47341,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 637,
+        "reasoning_output_tokens": 126
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-002284",
+      "case_sha256": "b38ba755a555c6c17aa03ca194f9e9d74075b86bb6f6396b7c84cbb3b37268b1",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.869,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.32,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线中销售回款/收入约116.6%、经营现金流/收入约18.5%，已高于两项现金门槛；但2024年末票据及应收账款升至9.58亿元，周转天数为76.0天。2025年订单增长若伴随外库和安全库存、整车厂验收结算周期，可能继续占用营运资金；电子产品放量对回款改善的方向不确定。6月生效的60日付款规则存在主体适用边界，且不能直接证明上市供应商回款改善。因此三项同时满足、尤其周转天数再缩短至少5天，概率偏低。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 60.696,
+        "brier_score": 53.76,
+        "brier_loss": 0.4624,
+        "log_loss": 1.13943428,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 46897,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 667,
+        "reasoning_output_tokens": 104
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-300258",
+      "case_sha256": "243c30bdb897074796f9a34813e1a2c24748f679625ddc8369d639d7f03ee0f8",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 32.328,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线已较强：销售现金/收入约97.7%，经营现金流/收入约26.7%，两项门槛具备缓冲；但应收周转天数为97.156天，2025年还需降至约92.156天。泰国工厂处于试产及批量供货爬坡期，备货、验收、汇率和海外客户结算可能使应收占用上升；60日付款规则也需满足主体与合同条件，不能直接推定上市供应商回款改善。因此现金门槛较可能满足，但三项同时满足的概率偏低，判为no_event。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 71.406,
+        "brier_score": 66.36,
+        "brier_loss": 0.3364,
+        "log_loss": 0.86750057,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 63821,
+        "cached_input_tokens": 44288,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 829,
+        "reasoning_output_tokens": 147
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600660",
+      "case_sha256": "fb62248e55713e95591dc6cdc89840f4945311be7f55761e4d5dcb6f1ee3cad3",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.806,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年票据及应收账款周转天数为76.556天，2025年需降至71.556天以内；同时2024年销售现金/收入约96.2%、经营现金流/收入约21.8%，后两项基线较充足。主要风险在于2024年末票据及应收账款同比明显增加，且海外本地化可能带来库存、在途、验收及跨币种资金占用；客户分散有助于降低集中度风险，但不能证明回款改善。6月生效的付款规则适用主体存在边界，不能直接推断福耀2025年经营结果，因此判断三项同时达标概率偏低。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 71.406,
+        "brier_score": 66.36,
+        "brier_loss": 0.3364,
+        "log_loss": 0.86750057,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 46118,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 707,
+        "reasoning_output_tokens": 148
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600741",
+      "case_sha256": "47443b713bc8970887ac699d26134a7feeb4ea1cead54e0318cd8adab001d5dc",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.078,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.25,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "payment-rule-boundary",
+          "saic-60-day-commitment",
+          "operating-chain-exposure"
+        ],
+        "analysis_summary": "华域汽车作为大型上市零部件集团，不能当然视为条例保护的中小企业。2024年票据及应收账款周转天数为93.558天，2025年需降至不高于88.558天；销售现金/收入约83.67%，经营现金流/收入约4.82%，两项均明显低于90%和10%门槛。上汽60天内付款及减少商票的承诺可能改善部分关联交易回款，但不等于华域所有客户、尤其占主营收入62.2%的上汽外客户都同步现金结算，也不能把应收款项融资变化直接视为真实现金回款。因此三项同时达标的概率偏低，判定为no_event。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 94.6875,
+        "brier_score": 93.75,
+        "brier_loss": 0.0625,
+        "log_loss": 0.28768207,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 48183,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 742,
+        "reasoning_output_tokens": 122
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600933",
+      "case_sha256": "7404ca1448cdf8f9e2dc8687081206ead46ee2dc7ced9252f7e83d2ed22fd488",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.915,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.38,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线较强：销售现金/收入约104.2%，经营现金流/收入约25.3%，但票据及应收账款周转天数为107.1天，且年末余额较上年上升。墨西哥二期投产、马来西亚生产及海外本地化可能支持订单和收款，但爬坡、备货、验收可能继续占用营运资金，不能据此确认应收周转天数至少缩短5天。政策的60日规则主要针对大型企业向中小企业采购，爱柯迪不自动属于适用主体，因此不能把政策直接推定为回款改善。三项条件须同时满足，故判定不发生概率略高。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 47099,
+        "cached_input_tokens": 29184,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 724,
+        "reasoning_output_tokens": 132
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-601689",
+      "case_sha256": "868df59fe22f00026448d4c9dbb3b06f8a43d01622344fac20e4829699299420",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 27.481,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.38,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线：应收及票据周转天数82.405天，销售回款/收入约81.9%（未达90%），经营现金流/收入约12.2%（已达10%）。2025年收入扩张叠加前五大客户占比67.09%、墨西哥二期筹划及波兰/泰国建设，可能带来库存、验收和应收同步增长；因此经营现金流率可能过线，但不能据此推断账期缩短至少5天，且回款率仍有较大压力。6月1日起的60日支付规则存在适用主体与合同边界，不能视为普遍到账保证。三项同时满足的概率偏低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 46554,
+        "cached_input_tokens": 28160,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 610,
+        "reasoning_output_tokens": 112
+      },
+      "event_count": 12
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-601799",
+      "case_sha256": "5ec174a2858eca39fc50cc2906dadb4d91aacbdef13b1838a474bf3b425f1c51",
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.082,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.3,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线周转天数为144.688天；要缩短至少5天，2025年末平均票据及应收账款相对收入必须明显改善。收入增长会机械性压低周转天数，但在客户集中度66.70%、车灯认证及PPAP开发周期较长、项目验收可能造成期末应收错位的情况下，不能据此推出账期缩短。2024年销售现金/收入约94.9%，已高于90%，但经营现金流/收入仅约6.9%，低于10%；即使2025年现金流改善，商业票据和回款时点仍使三项同时达标概率偏低。60日支付规则的适用主体边界也不足以证明星宇股份客户账期必然收缩。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 92.35,
+        "brier_score": 91.0,
+        "brier_loss": 0.09,
+        "log_loss": 0.35667494,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 46956,
+        "cached_input_tokens": 40192,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 749,
+        "reasoning_output_tokens": 140
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-000700",
+      "case_sha256": "0ace6a2bfbe7cef65cbae37ac832f52a418e6ee736cf91b00ace7dda020d1081",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 36.146,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.58,
+        "prediction": "event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年周转天数为84.998天，2025年需降至约79.998天；因2025年期初票据及应收账款已降至12.89亿元，即使年末余额有所反弹，平均余额仍可能满足门槛。2024年销售回款/收入约99.6%、经营现金流净额/收入约16.9%，均明显高于目标，为2025年同时达标提供较好起点。但前五大客户收入占59.56%，客户议价与结算节奏集中；墨西哥资产规模较大，本地备货、交付和扩产可能占用现金，因此2024年的应收下降不能简单线性外推。新付款条例方向有利，但公司是否属于适用合同中的中小企业尚不确定，不能直接视为回款改善。综合看三项同时达标略高于五成，主要风险在经营现金流率能否继续保持10%以上。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 85.006,
+        "brier_score": 82.36,
+        "brier_loss": 0.1764,
+        "log_loss": 0.54472718,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 90113,
+        "cached_input_tokens": 50432,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1072,
+        "reasoning_output_tokens": 200
+      },
+      "event_count": 17
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-002284",
+      "case_sha256": "b38ba755a555c6c17aa03ca194f9e9d74075b86bb6f6396b7c84cbb3b37268b1",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 37.938,
+      "search_calls": 7,
+      "submission": {
+        "event_probability": 0.43,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年基线中，销售收现/营收约116.6%、经营现金流净额/营收约18.5%，后两项已有较厚安全垫；但票据及应收账款周转天数约76.0天，2025年须降至不高于71.0天。订单及电子产品放量可扩大收入分母，却也会经过外库安全库存、整车厂实际提货验收、结算并形成票据或应收款，增长未必同步改善现金转换。新规约束部分大型企业付款及强制票据，但亚太股份是否适用中小企业身份、客户落实范围以及仅覆盖部分2025年度均不确定，不能据此认定账期必然缩短。综合判断，现金流两项较可能达标，但应收周转至少改善5天这一项把三项同时达标的概率压到半数以下。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 72.3835,
+        "brier_score": 67.51,
+        "brier_loss": 0.3249,
+        "log_loss": 0.84397007,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 72902,
+        "cached_input_tokens": 49408,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 953,
+        "reasoning_output_tokens": 143
+      },
+      "event_count": 21
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-300258",
+      "case_sha256": "243c30bdb897074796f9a34813e1a2c24748f679625ddc8369d639d7f03ee0f8",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 39.738,
+      "search_calls": 8,
+      "submission": {
+        "event_probability": 0.44,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线中，应收周转天数为97.156天，销售收现/营收约97.7%，经营现金流净额/营收约26.7%，后两项显著高于2025门槛；但事件还要求应收周转天数降至不高于92.156天。出口收入接近30%、泰国工厂拟于2025年中试产并在下半年批量供货，可能带来增量收入和出口替代，但客户验收、爬坡备货、汇率及贸易风险也可能占用营运资金，不能据此认定回款加快。前五大客户占49.54%，回款节奏集中度较高。支付条例虽约束部分大型企业采购中的超长账期及强制票据，但适用取决于供应商身份和合同条件，不能证明公司应收必然下降。综合判断，现金比率门槛较有把握，至少缩短5天的应收门槛是主要瓶颈，三项同时满足的概率略低于一半。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 73.344,
+        "brier_score": 68.64,
+        "brier_loss": 0.3136,
+        "log_loss": 0.82098055,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 73915,
+        "cached_input_tokens": 50432,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1074,
+        "reasoning_output_tokens": 155
+      },
+      "event_count": 23
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600660",
+      "case_sha256": "fb62248e55713e95591dc6cdc89840f4945311be7f55761e4d5dcb6f1ee3cad3",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 48.529,
+      "search_calls": 8,
+      "submission": {
+        "event_probability": 0.32,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线周转天数为76.556天，2025须降至不高于71.556天。2024销售收现/收入约96.2%、经营现金流净额/收入约21.8%，后两项已有较厚安全垫；主要不确定性是首项。2024年末票据及应收账款同比明显增加，且题目口径合并应收账款与应收票据，不能把票据迁移误判为改善；应收款项融资则应与该合计口径区分。前五大客户占比仅17.75%有利于分散单一客户拖欠风险，但约一半收入来自海外，海外生产、物流验收、外币结算及在途占款可能抵消回款改善。60日规则自2025年6月才生效，且福耀是否在具体交易中属于受保护的中小企业并未得到证明，不能据此直接推定全年应收天数下降至少5天。综合判断现金含量与经营现金流两项较可能达标，但应收周转改善门槛偏高，三项同时满足的概率低于一半。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 60.696,
+        "brier_score": 53.76,
+        "brier_loss": 0.4624,
+        "log_loss": 1.13943428,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 92188,
+        "cached_input_tokens": 79616,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1432,
+        "reasoning_output_tokens": 399
+      },
+      "event_count": 21
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600741",
+      "case_sha256": "47443b713bc8970887ac699d26134a7feeb4ea1cead54e0318cd8adab001d5dc",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 42.262,
+      "search_calls": 9,
+      "submission": {
+        "event_probability": 0.27,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "payment-rule-boundary",
+          "saic-60-day-commitment",
+          "operating-chain-exposure"
+        ],
+        "analysis_summary": "华域是大型上市零部件集团，并不当然属于《保障中小企业款项支付条例》所保护的中小企业。2024年基线周转天数为93.558天，而销售回款/收入仅约83.7%、经营现金流净额/收入仅约4.8%，距2025年90%和10%门槛分别差约6.3和5.2个百分点，三项同时达标需要显著的真实回款及营运资金释放。上汽承诺60天内付款并减少商业承兑汇票构成有利信号，但华域62.2%的主营收入来自上汽以外客户，且关联关系和集团承诺不等于全部客户立即改善结算。票据或应收账款转入应收款项融资也可能降低题定周转天数，却不等同于现金到账。收入增长可机械压低周转天数，但不能单独保证两项现金比率，因此判断同时达标概率偏低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 93.8035,
+        "brier_score": 92.71,
+        "brier_loss": 0.0729,
+        "log_loss": 0.31471074,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 78095,
+        "cached_input_tokens": 51456,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1314,
+        "reasoning_output_tokens": 371
+      },
+      "event_count": 25
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600933",
+      "case_sha256": "7404ca1448cdf8f9e2dc8687081206ead46ee2dc7ced9252f7e83d2ed22fd488",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 31.312,
+      "search_calls": 4,
+      "submission": {
+        "event_probability": 0.43,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年销售收现/营收约104.2%、经营现金流净额/营收约25.3%，明显高于2025门槛，且客户集中度不高，因此前两项延续达标的概率较高。但2024年票据及应收账款周转天数为107.118天，2025年必须降至102.118天以下；与此同时墨西哥二期投产及马来西亚工厂爬坡可能增加备货、验收与应收占用，本地化订单优势未必同步转化为年末应收下降。新支付条例也不能直接证明爱柯迪适用或回款改善。三项必须同时满足，最不确定的应收天数条件使联合达标概率低于一半。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 84.2835,
+        "brier_score": 81.51,
+        "brier_loss": 0.1849,
+        "log_loss": 0.56211892,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 68984,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 820,
+        "reasoning_output_tokens": 113
+      },
+      "event_count": 15
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-601689",
+      "case_sha256": "868df59fe22f00026448d4c9dbb3b06f8a43d01622344fac20e4829699299420",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 35.605,
+      "search_calls": 7,
+      "submission": {
+        "event_probability": 0.24,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年基线周转天数82.405天，2025年须降至77.405天以下；同时2024年销售回款/收入仅约81.94%，距90%门槛约8.06个百分点，而经营现金流/收入约12.17%，已高于10%但安全垫有限。收入扩张可通过分母增长帮助缩短周转天数，但期初票据及应收账款已达64.50亿元，前五大客户销售占67.09%，验收与客户结算节奏仍可能推动年末应收同步增长。墨西哥、波兰、泰国产能推进有利于收入增长；资本开支主要进入投资现金流，但投产配套库存及营运资金需求可能压低经营现金流率。支付条例的60日约束存在主体适用边界，不能视作拓普回款改善的确定保证。三项须同时满足，尤其回款率大幅提升与账期至少缩短5天的联合门槛偏难，因此判断no_event；现金流率可能过线不代表账期必然缩短。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 95.104,
+        "brier_score": 94.24,
+        "brier_loss": 0.0576,
+        "log_loss": 0.27443685,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 73283,
+        "cached_input_tokens": 50432,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1027,
+        "reasoning_output_tokens": 240
+      },
+      "event_count": 20
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-601799",
+      "case_sha256": "5ec174a2858eca39fc50cc2906dadb4d91aacbdef13b1838a474bf3b425f1c51",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 45.168,
+      "search_calls": 5,
+      "submission": {
+        "event_probability": 0.31,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基准周转天数为144.688天，2025须降至139.688天以下；收入增长会在平均票据及应收余额增速较低时机械压低该指标，但不能证明实际账期缩短。2024现金收款率约94.87%，已高于90%门槛；经营现金流/收入仅约6.86%，升至10%仍需明显改善。前五大客户占66.70%，长开发、认证及验收链条可能造成收入、商业票据和年末应收错位，海外工厂推进也可能占用现金。支付条例仅提供有限先验，星宇并不自动属于其60日保护对象。三项必须同时满足，尤其经营现金流门槛及应收天数改善存在较大联合失败风险，因此判断no_event。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 91.8315,
+        "brier_score": 90.39,
+        "brier_loss": 0.0961,
+        "log_loss": 0.37106368,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 88984,
+        "cached_input_tokens": 47360,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1010,
+        "reasoning_output_tokens": 143
+      },
+      "event_count": 17
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-000700",
+      "case_sha256": "0ace6a2bfbe7cef65cbae37ac832f52a418e6ee736cf91b00ace7dda020d1081",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.079,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.34,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线的收现/收入约99.6%、经营现金流/收入约16.9%，已超过两项现金门槛；但票据及应收周转天数为85.0天，2025须进一步降至约80天以下。年末票据及应收已由2023年的20.35亿元降至2024年的12.89亿元，后续压降空间相对收窄；前五客户占销售59.56%，且墨西哥资产占净资产52.06%，本地交付、备货和运营现金周期会增加回款与营运资金的不确定性。付款条例的适用对象及公司是否属中小企业均未获确认，不能据此认定回款改善。故三项同时达标的概率低于五成。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 62.974,
+        "brier_score": 56.44,
+        "brier_loss": 0.4356,
+        "log_loss": 1.07880966,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 86946,
+        "cached_input_tokens": 64512,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 954,
+        "reasoning_output_tokens": 194
+      },
+      "event_count": 13
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-002284",
+      "case_sha256": "b38ba755a555c6c17aa03ca194f9e9d74075b86bb6f6396b7c84cbb3b37268b1",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 30.609,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.36,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年现金回款/收入约116.6%、经营现金流/收入约18.5%，两项现金门槛已有缓冲；但应收票据及账款周转天数已为76天，2025年须降至约71天以下。订单增长和电子产品放量虽可推高收入，却经由OEM验收结算；公司外库安全库存、国内OEM高度集中使收入增长不必同步缩短回款周期。60日支付规则亦受中小企业身份边界限制，不能据此认定回款改善。因此三项同时达标的概率低于五成。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 65.184,
+        "brier_score": 59.04,
+        "brier_loss": 0.4096,
+        "log_loss": 1.02165125,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 68765,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 861,
+        "reasoning_output_tokens": 284
+      },
+      "event_count": 10
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-300258",
+      "case_sha256": "243c30bdb897074796f9a34813e1a2c24748f679625ddc8369d639d7f03ee0f8",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 33.777,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.4,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线中，销售回款/营收约97.7%、经营现金流/营收约26.7%，后两项门槛有较大缓冲；但应收周转天数为97.156天，达标须降至约92.156天以下。出口近30%且泰国工厂2025年中试产、下半年批量供货，爬坡、客户验收与备货、贸易和汇率均可能使期末应收及现金转换承压，不能据海外扩张推断回款加快。60日支付规则的适用主体和供应商身份亦未获核实，不能作为应收下降依据。三项需同时成立，故判断未达标概率略高。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 69.4,
+        "brier_score": 64.0,
+        "brier_loss": 0.36,
+        "log_loss": 0.91629073,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 68811,
+        "cached_input_tokens": 48384,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 911,
+        "reasoning_output_tokens": 236
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600660",
+      "case_sha256": "fb62248e55713e95591dc6cdc89840f4945311be7f55761e4d5dcb6f1ee3cad3",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 34.984,
+      "search_calls": 3,
+      "submission": {
+        "event_probability": 0.42,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024基线回款现金含量约96.2%、经营现金流/收入约21.8%，后两项门槛有较大缓冲；但票据及应收账款合计从2023年末74.96亿元升至2024年末89.69亿元，按题设口径周转天数为76.556天。要同时达标，2025年须降至不高于71.556天，且在收入增长下仍需显著控制合计应收余额。前五大客户占比17.75%显示客户较分散，但约半数海外收入及海外前置生产涉及外汇、贸易、物流/验收和资金占用的不确定性；这些因素不证明会恶化，只降低确定性。60日支付规则的适用对象有限，不能推定公司合同或年度结果。因此判断三项同时满足的概率略低于五成。"
+      },
+      "outcome": true,
+      "score": {
+        "total": 71.406,
+        "brier_score": 66.36,
+        "brier_loss": 0.3364,
+        "log_loss": 0.86750057,
+        "evidence_f1": 1.0,
+        "classification_correct": false
+      },
+      "usage": {
+        "input_tokens": 72723,
+        "cached_input_tokens": 61440,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1105,
+        "reasoning_output_tokens": 215
+      },
+      "event_count": 11
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600741",
+      "case_sha256": "47443b713bc8970887ac699d26134a7feeb4ea1cead54e0318cd8adab001d5dc",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "failed",
+      "latency_seconds": 240.009,
+      "error": "timeout after 240s",
+      "usage": {},
+      "events_tail": [
+        {
+          "type": "thread.started",
+          "thread_id": "019ff919-93ba-7721-9dfc-b10b37555b6d"
+        },
+        {
+          "type": "turn.started"
+        }
+      ]
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-600933",
+      "case_sha256": "7404ca1448cdf8f9e2dc8687081206ead46ee2dc7ced9252f7e83d2ed22fd488",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 29.489,
+      "search_calls": 1,
+      "submission": {
+        "event_probability": 0.38,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年现金收款率约104.2%、经营现金流率约25.3%，两项现金门槛的基线充足；但票据及应收账款周转天数已为107.118天。要达标，2025年须降至约102.1天以下；墨西哥二期投产和马来西亚生产虽可能带来本地订单优势，也伴随爬坡、备货、验收及应收占用，不能据此确认周转改善。60日支付规则亦不自动适用于该公司回款，故三项同时达标概率偏低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 87.726,
+        "brier_score": 85.56,
+        "brier_loss": 0.1444,
+        "log_loss": 0.4780358,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 51236,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 651,
+        "reasoning_output_tokens": 134
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-601689",
+      "case_sha256": "868df59fe22f00026448d4c9dbb3b06f8a43d01622344fac20e4829699299420",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 28.007,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.3,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年基线的现金回款/收入约81.9%，低于90%门槛，而经营现金流/收入约12.2%已过10%；因此即使现金流率维持达标，回款率仍需明显改善。2025年收入扩张可在应收增幅低于收入增幅时压低周转天数，但前五大客户占67.09%，且墨西哥二期筹划、波兰二期和泰国基地推进，验收、库存和应收随扩产同步变动的风险较高。60日规则亦非对该公司回款的普遍保证。综合判断三项同时达标的概率偏低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 92.35,
+        "brier_score": 91.0,
+        "brier_loss": 0.09,
+        "log_loss": 0.35667494,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 55065,
+        "cached_input_tokens": 33280,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 808,
+        "reasoning_output_tokens": 183
+      },
+      "event_count": 9
+    },
+    {
+      "scenario_id": "cn-a-2025-auto-payment-cycle-601799",
+      "case_sha256": "5ec174a2858eca39fc50cc2906dadb4d91aacbdef13b1838a474bf3b425f1c51",
+      "model": "gpt-5.6-terra",
+      "reasoning_effort": "low",
+      "status": "completed",
+      "latency_seconds": 34.916,
+      "search_calls": 2,
+      "submission": {
+        "event_probability": 0.31,
+        "prediction": "no_event",
+        "evidence_ids": [
+          "fy2024-working-capital-baseline",
+          "operating-chain-exposure",
+          "payment-rule-boundary"
+        ],
+        "analysis_summary": "2024年现金收款/收入约94.9%已过90%，但经营现金流/收入约6.9%，距10%门槛仍有差距；且2024固定公式周转天数为144.688天。2025收入增长若平均票据及应收增长较慢，会机械性压低该天数，不能等同于账期实质缩短。客户集中、长认证/开发及验收节点、海外工厂爬坡均可能使年末收入、票据和应收错位；支付条例对公司是否适用亦非自动成立。因此三项同时达标的把握偏低。"
+      },
+      "outcome": false,
+      "score": {
+        "total": 91.8315,
+        "brier_score": 90.39,
+        "brier_loss": 0.0961,
+        "log_loss": 0.37106368,
+        "evidence_f1": 1.0,
+        "classification_correct": true
+      },
+      "usage": {
+        "input_tokens": 51254,
+        "cached_input_tokens": 43264,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 773,
+        "reasoning_output_tokens": 149
+      },
+      "event_count": 9
+    }
+  ],
+  "summary": [
+    {
+      "model": "gpt-5.6-luna",
+      "completed": 8,
+      "failed": 0,
+      "mean_score": 79.675438,
+      "mean_brier_loss": 0.239112,
+      "mean_log_loss": 0.667796,
+      "classification_accuracy": 0.5,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 29.729375,
+      "input_tokens": 392969,
+      "cached_input_tokens": 229376,
+      "output_tokens": 5665
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "completed": 8,
+      "failed": 0,
+      "mean_score": 82.0565,
+      "mean_brier_loss": 0.2111,
+      "mean_log_loss": 0.60893,
+      "classification_accuracy": 0.625,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 39.58725,
+      "input_tokens": 638464,
+      "cached_input_tokens": 427520,
+      "output_tokens": 8702
+    },
+    {
+      "model": "gpt-5.6-terra",
+      "completed": 7,
+      "failed": 1,
+      "mean_score": 77.267357,
+      "mean_brier_loss": 0.267443,
+      "mean_log_loss": 0.727147,
+      "classification_accuracy": 0.428571,
+      "mean_evidence_f1": 1.0,
+      "search_usage_rate": 1.0,
+      "mean_latency_seconds": 32.123,
+      "input_tokens": 454800,
+      "cached_input_tokens": 342528,
+      "output_tokens": 6063
+    }
+  ]
+}

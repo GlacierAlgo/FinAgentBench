@@ -11,7 +11,7 @@ appropriately calibrated prediction.
 
 **[Open the public A-share reasoning radar →](https://glacieralgo.github.io/FinAgentBench/)**
 
-The radar currently presents 142 real A-share historical replays and 426 model
+The radar currently presents 150 real A-share historical replays and 450 model
 attempts as development diagnostics. It explicitly keeps the formal sealed
 leaderboard empty until a pre-registered future cohort has matured.
 
@@ -129,6 +129,14 @@ differences, formal project operation, segment exits, and a longitudinal
 中科云网/湘鄂情 dossier. Mutable names and management continuity are matching
 features rather than labels; every event separately records when information
 became public and when the underlying state became effective.
+
+Version 0.14 adds eight automotive-supplier payment-cycle cases, balanced at
+four event / four no-event. They test whether agents can separate the revised
+SME-payment regulation, automaker 60-day commitments, customer affiliation and
+overseas expansion from the realized combination of shorter trade-receivable
+days, cash collection and operating cash conversion. The family includes
+华域汽车 as a policy-and-affiliation hard control and three no-event companies
+whose cash metrics were strong even though receivable days lengthened.
 
 ```bash
 opencode providers login
@@ -254,7 +262,9 @@ PDF-to-text authoring uses the Rust CLI from
 wave resolves and freezes the upstream revision it actually used: version 0.12
 records 2.11.1 at `53e4fc813d35f76d0169923d2c451b3c8700edb0`, while
 the version 0.13 lifecycle wave records 2.11.1 at
-`5109b46e7f960a52ea9833704c9484c835c6ef4f`. Native PDFium extraction is used
+`5109b46e7f960a52ea9833704c9484c835c6ef4f`, and the version 0.14 automotive
+payment-cycle wave records 2.11.1 at
+`a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9`. Native PDFium extraction is used
 when a text layer exists. Every version 0.12 source selected for the checked-in
 corpora had a usable text layer and was parsed with `--no-ocr`; anti-bot HTML and
 a cross-company filing discovered during source validation were rejected before
@@ -270,24 +280,29 @@ analysis remains available for semantic review. See
 contract, leakage boundary, and path from public historical development cases
 to sealed live-shadow evaluation.
 
-### Full 142-case replay (version 0.13)
+### Full 150-case replay (version 0.14)
 
-The current public radar combines two non-overlapping comparable matrices:
-the version 0.12 90-case matrix and a version 0.13 52-case company-lifecycle
-matrix. Each case has one independent low-effort Codex CLI session for each of
-three models, for 426 attempts in total. Every completed run uses frozen search
+The current public radar combines three non-overlapping comparable matrices:
+the version 0.12 90-case matrix, a version 0.13 52-case company-lifecycle
+matrix and a version 0.14 eight-case automotive payment-cycle matrix. Each case
+has one independent low-effort Codex CLI session for each of three models, for
+450 attempts in total. Every completed run uses frozen search
 and no outcome is visible to the agent. The original matrix remains in
 [`results/2026-08-13-a-share-all-frozen-web-low.json`](results/2026-08-13-a-share-all-frozen-web-low.json);
 the lifecycle matrix and compact report are in
 [`results/2026-08-13-a-share-lifecycle-frozen-web-low.json`](results/2026-08-13-a-share-lifecycle-frozen-web-low.json)
 and
 [`results/2026-08-13-a-share-lifecycle-frozen-web-low.md`](results/2026-08-13-a-share-lifecycle-frozen-web-low.md).
+The automotive matrix and report are in
+[`results/2026-08-13-auto-payment-cycle-frozen-web-low.json`](results/2026-08-13-auto-payment-cycle-frozen-web-low.json)
+and
+[`results/2026-08-13-auto-payment-cycle-frozen-web-low.md`](results/2026-08-13-auto-payment-cycle-frozen-web-low.md).
 
 | Model | Composite | Brier loss | Log loss | Accuracy | Completed |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| GPT-5.6 Sol | 88.00 | 0.1402 | 0.4350 | 82.4% | 142 / 142 |
-| GPT-5.6 Terra | 87.31 | 0.1488 | 0.4531 | 78.9% | 142 / 142 |
-| GPT-5.6 Luna | 85.47 | 0.1701 | 0.5029 | 74.5% | 141 / 142 |
+| GPT-5.6 Sol | 87.68 | 0.1439 | 0.4443 | 81.3% | 150 / 150 |
+| GPT-5.6 Terra | 86.84 | 0.1544 | 0.4660 | 77.2% | 149 / 150 |
+| GPT-5.6 Luna | 85.16 | 0.1738 | 0.5118 | 73.2% | 149 / 150 |
 
 On the 52-case lifecycle slice alone, Sol/Terra/Luna Brier loss was
 0.1396/0.1416/0.1652. The hardest new family was governance-obligation
@@ -299,6 +314,14 @@ rejected that threshold contradiction. An explicitly unscored same-configuration
 diagnostic retry is retained in
 [`results/2026-08-13-a-share-lifecycle-luna-retry-600702.json`](results/2026-08-13-a-share-lifecycle-luna-retry-600702.json)
 rather than replacing the predeclared first attempt.
+
+On the eight-case automotive payment-cycle slice, Sol/Terra/Luna completed
+8/7/8 attempts with Brier loss 0.2111/0.2674/0.2391 and threshold accuracy
+62.5%/42.9%/50.0%. All three models were conservative on the four realized
+improvement cases: Luna and Terra classified every completed positive as
+no-event, while Sol identified only 模塑科技. They were better at the hard
+no-event controls. Terra's 华域汽车 attempt timed out at 240 seconds; the failed
+first attempt remains in the matrix and was not replaced.
 
 The 18-case post-ST market-path family was substantially harder than the full
 set. Models were good at rejecting terminal paths such as *ST凯迪、ST长生 and
@@ -493,8 +516,8 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- 142 real A-share walk-forward scenarios with frozen point-in-time corpora,
-  split 72 event / 70 no-event across 23 logic families;
+- 150 real A-share walk-forward scenarios with frozen point-in-time corpora,
+  split 76 event / 74 no-event across 24 logic families;
 - ST/scandal cohorts spanning cash-payment reality, public debt default,
   regulator-confirmed misstatement, next-year audit outcomes, full warning
   removal, forced delisting, and strict post-ST market paths;

@@ -12,6 +12,11 @@
       "id": "a-share-lifecycle-v013",
       "title": "A股公司全生命周期",
       "result_path": "results/2026-08-13-a-share-lifecycle-frozen-web-low.json"
+    },
+    {
+      "id": "a-share-auto-payment-v014",
+      "title": "汽车供应链账期与出海",
+      "result_path": "results/2026-08-13-auto-payment-cycle-frozen-web-low.json"
     }
   ],
   "family_labels": {
@@ -144,6 +149,10 @@
         "own_battery_cell_line_formal_operation_24m",
         "principal_new_media_operating_entities_shutdown_12m"
       ]
+    },
+    "auto-payment-cycle": {
+      "label": "汽车账期与现金转换",
+      "events": ["fy2025_trade_receivable_relief_and_cash_conversion"]
     }
   },
   "methodology": [

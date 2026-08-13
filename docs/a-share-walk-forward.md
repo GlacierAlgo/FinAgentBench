@@ -240,6 +240,30 @@ These numbers are public one-repeat diagnostics. They validate task difficulty
 and expose failure modes; they do not qualify as a sealed leaderboard or model
 stability claim.
 
+## Version 7 automotive payment-cycle cohort
+
+Version 0.14 adds eight FY2025 automotive-supplier cases, bringing the public
+development set to 150 cases (76 event / 74 no-event). All eight share one
+literal three-part target: trade receivable days must fall by at least five
+days, cash received from sales must be at least 90% of revenue, and operating
+cash flow must be at least 10% of revenue. Trade receivables combine bills and
+accounts receivable so a move from book receivables into notes cannot create a
+false improvement.
+
+The frozen as-of date is 2025-06-11. The corpus exposes the revised SME-payment
+regulation, each issuer's FY2024 baseline and operating-chain facts, while
+华域汽车 also receives the contemporaneous SAIC 60-day commitment. The label
+does not claim that policy caused the FY2025 outcome. Legal SME status,
+automaker commitments, group affiliation, customer concentration, overseas
+capacity and financial realization remain separate reasoning layers.
+
+The cohort contains four event and four no-event cases. Three no-event controls
+clear both cash hurdles but fail because receivable days lengthen; 华域汽车
+fails all three despite the policy-and-affiliation narrative. Across 24 frozen
+first attempts, Sol/Terra/Luna accuracy is 62.5%/42.9%/50.0% on completed runs.
+Terra's 华域汽车 session timed out after 240 seconds and remains a failed
+attempt rather than being replaced.
+
 ## Version 6 company-lifecycle cohorts
 
 Version 0.13 adds 52 cases, bringing the public development set to 142 cases
@@ -289,7 +313,9 @@ PDF extraction for each authoring wave is pinned to the Rust-based
 [`run-llama/liteparse`](https://github.com/run-llama/liteparse) revision:
 the author resolves upstream `main`, verifies the crate version, and records
 both values. For the lifecycle wave started on 2026-08-13, this is version
-2.11.1 at `5109b46e7f960a52ea9833704c9484c835c6ef4f`. Text-layer filings use
+2.11.1 at `5109b46e7f960a52ea9833704c9484c835c6ef4f`. The automotive
+payment-cycle wave uses the then-current upstream `main`, version 2.11.1 at
+`a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9`. Text-layer filings use
 LiteParse's PDFium path. Scanned reports use its Tesseract OCR path with the
 required language data. Every new scenario records the exact version, revision,
 and extraction mode in `authoring_provenance` so later authors can reproduce
