@@ -3,7 +3,7 @@ from datetime import UTC, date, datetime
 
 import pytest
 
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
 from pitfall.live_shadow import (
     LABEL_TYPE,
     _digest,

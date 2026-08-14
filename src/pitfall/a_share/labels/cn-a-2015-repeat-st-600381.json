@@ -1,9 +1,0 @@
-{
-  "schema_version": 2, "scenario_id": "cn-a-2015-repeat-st-600381", "observed_at": "2016-06-28", "resolved_at": "2016-06-29", "event_occurred": true,
-  "realized": {"observations": {"new_independent_st_episode_count_48m": 1, "full_removal_effective_before_new_episode": 1}, "derivations": []},
-  "expected_evidence_ids": ["prior-st-2013-operating-warning", "full-removal-2015-approved"],
-  "outcome_sources": [
-    {"type": "official_new_independent_st_episode", "title": "青海春天关于公司股票实施其他风险警示暨股票复牌的公告", "published_at": "2016-06-28", "effective_change_date": "2016-06-29", "url": "https://static.cninfo.com.cn/finalpage/2016-06-28/1202419344.PDF", "sha256": "3e5a1df2c55f00ea3435147ef373be27dee92860305ab8401e94c4365acc25e7", "prior_full_removal_effective_date": "2015-02-10", "new_independent_episode": true},
-    {"type": "rqdata_status_transition_crosscheck", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2015-02-10/2019-02-10", "official_new_episode_change_dates": ["2016-06-29"], "episode_count": 1}
-  ]
-}

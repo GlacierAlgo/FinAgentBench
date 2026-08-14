@@ -1,8 +1,0 @@
-{
-  "schema_version": 2, "scenario_id": "cn-a-2021-repeat-st-000408", "observed_at": "2025-05-12", "resolved_at": "2025-05-12", "event_occurred": false,
-  "realized": {"observations": {"new_independent_st_episode_count_48m": 0, "new_episode_count_after_window_through_2026_08_12": 0}, "derivations": []},
-  "expected_evidence_ids": ["prior-st-2020-accounting-warning", "full-removal-2021-approved"],
-  "outcome_sources": [
-    {"type": "rqdata_negative_absence_crosscheck", "authoring_verified_through": "2026-08-12", "earliest_sufficient_observation_date": "2025-05-12", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2021-05-12/2025-05-12", "official_new_episode_change_dates_inside_window": [], "first_official_change_date_after_window": null, "episode_count": 0}
-  ]
-}

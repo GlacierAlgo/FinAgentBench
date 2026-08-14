@@ -1,8 +1,9 @@
 # Public radar
 
 This directory is a dependency-free, offline-capable static site. Its checked-in
-`data.js` is generated only from committed result artifacts and A-share scenario
-metadata; it does not fetch scores from a client or external API.
+`data.js` is generated only from committed historical result artifacts and
+self-contained A-share Markdown points; it does not fetch scores from a client
+or external API.
 
 ```bash
 uv run pitfall radar build

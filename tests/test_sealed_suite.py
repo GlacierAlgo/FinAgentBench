@@ -3,7 +3,7 @@ from datetime import UTC, datetime
 
 import pytest
 
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
 from pitfall.live_shadow import (
     _digest,
     run_live_shadow_codex_matrix,

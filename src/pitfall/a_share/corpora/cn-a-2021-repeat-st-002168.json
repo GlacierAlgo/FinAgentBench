@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "scenario_id": "cn-a-2021-repeat-st-002168",
-  "documents": [
-    {"id": "prior-st-2021-fund-occupation", "title": "惠程科技关于公司股票交易实行其他风险警示的公告", "published_at": "2021-03-02", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-03-02/1209318659.PDF", "content": "公司因控股股东及关联方非经营性占用资金未按期全部归还而自2021年3月3日起成为ST惠程；公告列示累计归还31,015.42万元、余额6,067.49万元。付款进度是整改信号，但风险源涉及控制人行为及内控约束。"},
-    {"id": "full-removal-2021-approved", "title": "惠程科技关于公司股票撤销其他风险警示暨停牌的公告", "published_at": "2021-04-08", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-04-08/1209648558.PDF", "content": "深交所同意撤销全部其他风险警示；股票于2021年4月9日复牌并恢复简称惠程科技，完整退出风险警示板。占用资金已清偿使本轮警示解除，但预测任务要求进一步判断未来四年是否会因新的独立原因再次被实施ST或*ST。"}
-  ]
-}

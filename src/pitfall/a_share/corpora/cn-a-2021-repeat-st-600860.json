@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "scenario_id": "cn-a-2021-repeat-st-600860",
-  "documents": [
-    {"id": "prior-st-2020-loss-warning", "title": "京城股份关于股票实施退市风险警示的公告", "published_at": "2020-03-28", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2020-03-28/1207417440.PDF", "content": "公司因连续两个会计年度经审计净利润为负而被实施退市风险警示。气体储运装备业务具有周期性，历史亏损是风险先验，但固定窗口结果仍取决于后续盈利质量和财务缓冲。"},
-    {"id": "full-removal-2021-approved", "title": "京城股份关于撤销退市风险警示暨停牌的公告", "published_at": "2021-04-01", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-04-01/1209567630.PDF", "content": "上交所同意撤销全部退市风险警示，2021年4月2日起恢复简称京城股份。规则条件当期已满足，基准要求预测此后整整48个月内是否形成新的独立episode，而不是泛化为公司永不再戴帽。"}
-  ]
-}

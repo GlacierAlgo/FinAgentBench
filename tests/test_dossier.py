@@ -11,7 +11,7 @@ from pitfall.a_share.dossier import (
     load_dossier,
     load_dossiers,
 )
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
 
 
 def _payload() -> dict:

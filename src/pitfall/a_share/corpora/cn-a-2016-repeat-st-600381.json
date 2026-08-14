@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "scenario_id": "cn-a-2016-repeat-st-600381",
-  "documents": [
-    {"id": "prior-st-2016-control-warning", "title": "青海春天关于公司股票实施其他风险警示暨股票复牌的公告", "published_at": "2016-06-28", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2016-06-28/1202419344.PDF", "content": "公司在2016年3月31日收到通知后停止冬虫夏草纯粉片产品试点和生产，生产经营受到严重影响且预计三个月内不能恢复正常，股票自2016年6月29日起被实施其他风险警示。该事件提示应区分新业务承诺与可持续经营事实。"},
-    {"id": "full-removal-2016-approved", "title": "青海春天关于撤销其他风险警示暨停牌的公告", "published_at": "2016-11-18", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2016-11-18/1202834525.PDF", "content": "上交所同意撤销全部其他风险警示；公司披露整体营运正常、核心团队稳定，2016年11月21日起简称恢复为青海春天并退出风险警示板。规则层面的整改完成并不自动指向未来复发或不复发。"}
-  ]
-}

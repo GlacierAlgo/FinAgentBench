@@ -1,9 +1,0 @@
-{
-  "schema_version": 1, "scenario_id": "cn-a-2025-auto-payment-cycle-600660",
-  "documents": [
-    {"id": "payment-rule-boundary", "title": "《保障中小企业款项支付条例》：60日规则的主体边界与非现金支付约束", "published_at": "2025-03-24", "source": "工业和信息化部转载国务院令第802号", "url": "https://wap.miit.gov.cn/xwfb/gxdt/sjdt/art/2025/art_2610a93b60554b9c81d6e37c2bc8232f.html", "content": "修订条例自2025年6月1日起施行，适用于机关、事业单位和大型企业采购中小企业货物、工程、服务的付款。大型企业原则上应自交付之日起60日内向中小企业付款；不得强制接受商业汇票、应收账款电子凭证，亦不得用其变相延长账期。公司是上市汽车零部件企业并不自动证明其在某一合同中属于条例定义的中小企业，模型必须把法律适用、行业承诺与自身财务结果分开。"},
-    {"id": "fy2024-working-capital-baseline", "title": "福耀玻璃2024年报与PIT营运资金基线", "published_at": "2025-03-19", "source": "福耀玻璃2024年年度报告及只读RQData PIT", "url": "https://static.cninfo.com.cn/finalpage/2025-03-19/1222834034.PDF", "content": "未调整合并口径：2023年末票据及应收账款7,496,008,772元，2024年末8,969,464,994元；2024年营业收入39,251,657,267元，据固定公式计算周转天数76.556天。销售商品、提供劳务收到现金37,770,735,435元，经营活动现金流净额8,562,187,329元。年报披露前五大客户销售占17.75%、关联方占0，并称约一半收入来自海外；公司自身还分别披露应收账款与票据周转，但本题统一用票据及应收账款合计以防票据迁移造成假改善。"},
-    {"id": "operating-chain-exposure", "title": "福耀全球化经营：客户分散、海外前置服务与外汇风险", "published_at": "2025-03-19", "source": "福耀玻璃2024年年度报告", "url": "https://static.cninfo.com.cn/finalpage/2025-03-19/1222834034.PDF", "content": "公司认为海外布局将生产运营前移至国际客户，能提升客户服务；同时约一半收入来自海外，外币资产负债、国际贸易、地缘政治和汇率均影响经营。海外本地化可能改善客户黏性，也可能增加库存、在途、验收和跨币种资金占用，不能只凭出海方向判断账期。"}
-  ],
-  "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"1222834034.PDF": "5e184ffd29c5f467bbffea158b3bb7c0be3a4f5959b33d1d633671c204dbbab1", "payment-regulation.html": "3ee6f8b12670faadfa0b26614079752dcda0c1d77af1caccfaf18c922699af72"}}
-}

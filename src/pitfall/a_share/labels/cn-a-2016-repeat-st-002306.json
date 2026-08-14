@@ -1,9 +1,0 @@
-{
-  "schema_version": 2, "scenario_id": "cn-a-2016-repeat-st-002306", "observed_at": "2017-04-26", "resolved_at": "2017-04-27", "event_occurred": true,
-  "realized": {"observations": {"new_independent_st_episode_count_48m": 1, "full_removal_effective_before_new_episode": 1}, "derivations": []},
-  "expected_evidence_ids": ["prior-st-2015-operating-loss", "full-removal-2016-approved"],
-  "outcome_sources": [
-    {"type": "official_new_independent_st_episode", "title": "中科云网关于公司股票交易被实行退市风险警示暨停牌的公告", "published_at": "2017-04-26", "effective_change_date": "2017-04-27", "trigger": "2016年度经审计期末净资产为负值", "url": "https://static.cninfo.com.cn/finalpage/2017-04-26/1203386418.PDF", "sha256": "65cb95ae32d75815de75352a3313131dc051d3feeb74f01d1e8cb76bda9fcd47", "prior_full_removal_effective_date": "2016-05-16", "new_independent_episode": true, "distinction": "2017-06-08银行账户被冻结所触发的其他风险警示属于同一已开始episode的后续叠加，不是本事件"},
-    {"type": "rqdata_status_transition_crosscheck", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2016-05-16/2020-05-16", "official_new_episode_change_dates": ["2017-04-27"], "episode_count": 1}
-  ]
-}

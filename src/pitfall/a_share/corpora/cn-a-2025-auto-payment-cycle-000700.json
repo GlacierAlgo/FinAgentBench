@@ -1,8 +1,0 @@
-{
-  "schema_version": 1, "scenario_id": "cn-a-2025-auto-payment-cycle-000700",
-  "documents": [
-    {"id": "payment-rule-boundary", "title": "《保障中小企业款项支付条例》：60日规则的主体边界与非现金支付约束", "published_at": "2025-03-24", "source": "工业和信息化部转载国务院令第802号", "url": "https://wap.miit.gov.cn/xwfb/gxdt/sjdt/art/2025/art_2610a93b60554b9c81d6e37c2bc8232f.html", "content": "修订条例自2025年6月1日起施行，适用于机关、事业单位和大型企业采购中小企业货物、工程、服务的付款。大型企业原则上应自交付之日起60日内向中小企业付款；不得强制接受商业汇票、应收账款电子凭证，亦不得用其变相延长账期。上市供应商是否属于合同订立时的中小企业须另行判断，政策方向不是结果标签。"},
-    {"id": "fy2024-working-capital-baseline", "title": "模塑科技2024年报与PIT营运资金基线", "published_at": "2025-04-29", "source": "模塑科技2024年年度报告及只读RQData PIT", "url": "https://disc.static.szse.cn/download/disc/disk03/finalpage/2025-04-28/ff677756-c8c1-423f-ab23-8f89d9310cef.PDF", "content": "未调整合并口径：2023年末票据及应收账款2,034,881,978.20元，2024年末1,288,709,886.94元；2024年营业收入7,136,130,278.47元，据固定公式计算周转天数84.998天。销售商品、提供劳务收到现金7,107,275,669.42元，经营活动现金流净额1,206,053,623.53元。前五大客户销售占59.56%，关联方销售占4.80%。"},
-    {"id": "operating-chain-exposure", "title": "模塑科技客户与墨西哥产能：从出口转向产能输出", "published_at": "2025-04-29", "source": "模塑科技2024年年度报告", "url": "https://disc.static.szse.cn/download/disc/disk03/finalpage/2025-04-28/ff677756-c8c1-423f-ab23-8f89d9310cef.PDF", "content": "公司为宝马、北京奔驰、上汽奥迪、上汽通用、上汽大众及多家新能源车企供应外饰件，强调由产品出口转向产能输出。墨西哥名华资产约20.90亿元、占公司净资产52.06%，海外工厂带来本地交付优势，也使产能、备货、文化与运营管理进入现金周期。"}
-  ], "authoring_provenance": {"pdf_text_tool": "run-llama/liteparse 2.11.1 git a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9", "pdf_text_mode": "native PDFium text extraction (--no-ocr)", "source_sha256": {"ff677756-c8c1-423f-ab23-8f89d9310cef.PDF": "16fe34809972098761d32baaed82a6546423f23e23c87fb8b2c19c40e44a673e", "payment-regulation.html": "3ee6f8b12670faadfa0b26614079752dcda0c1d77af1caccfaf18c922699af72"}}
-}

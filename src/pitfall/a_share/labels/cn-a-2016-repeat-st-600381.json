@@ -1,8 +1,0 @@
-{
-  "schema_version": 2, "scenario_id": "cn-a-2016-repeat-st-600381", "observed_at": "2020-11-23", "resolved_at": "2020-11-21", "event_occurred": false,
-  "realized": {"observations": {"new_independent_st_episode_count_48m": 0, "new_episode_count_after_window_through_2026_08_12": 1}, "derivations": []},
-  "expected_evidence_ids": ["prior-st-2016-control-warning", "full-removal-2016-approved"],
-  "outcome_sources": [
-    {"type": "rqdata_negative_absence_crosscheck", "authoring_verified_through": "2026-08-12", "earliest_sufficient_observation_date": "2020-11-23", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2016-11-21/2020-11-21", "official_new_episode_change_dates_inside_window": [], "first_official_change_date_after_window": "2024-05-06", "episode_count": 0}
-  ]
-}

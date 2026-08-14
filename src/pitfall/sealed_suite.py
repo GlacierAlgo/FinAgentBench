@@ -9,7 +9,7 @@ from datetime import UTC, datetime
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
 from pitfall.live_shadow import (
     CANONICALIZATION,
     verify_live_shadow_seal,

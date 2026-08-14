@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "scenario_id": "cn-a-2018-repeat-st-600225",
-  "documents": [
-    {"id": "prior-st-2017-loss-warning", "title": "天津松江关于公司股票实施退市风险警示的公告", "published_at": "2017-03-18", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2017-03-18/1203174629.PDF", "content": "因连续两个会计年度经审计净利润为负，公司股票被实施退市风险警示。连续亏损反映当时经营造血能力不足；后续摘帽是否依赖非经常性收益及资产处置，是判断再次触发的重要问题。"},
-    {"id": "full-removal-2018-approved", "title": "天津松江关于撤销退市风险警示暨停牌的公告", "published_at": "2018-05-04", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2018-05-04/1204906819.PDF", "content": "上交所同意撤销全部退市风险警示，公司于2018年5月7日复牌并恢复简称天津松江。摘帽依据当期财务指标已不再触发规则；冻结证据并未保证房地产等存量业务在未来四年持续盈利。"}
-  ]
-}

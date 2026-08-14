@@ -16,7 +16,7 @@ from typing import Any
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
 from pitfall.walkforward import (
     WalkForwardScenario,
     validate_realized_outcome,

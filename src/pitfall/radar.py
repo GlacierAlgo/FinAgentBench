@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections import defaultdict
 from pathlib import Path
 from statistics import fmean
 from typing import Any
 
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
+from pitfall.point import Point, load_points
 
 
 def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
@@ -25,8 +27,11 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
     if not isinstance(family_labels, dict):
         raise CaseValidationError("radar source manifest requires family_labels")
 
-    scenarios = _load_objects(root / "src/pitfall/a_share/scenarios")
-    labels = _load_objects(root / "src/pitfall/a_share/labels")
+    points = {
+        point.id: _radar_point_metadata(point)
+        for point in load_points(root / "src/pitfall/points")
+        if point.source.parent.name == "a-share"
+    }
     cases: dict[str, dict[str, Any]] = {}
     experiment_suites = []
     model_order: list[str] = []
@@ -72,9 +77,8 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
             if identity in seen_runs:
                 raise CaseValidationError(f"{suite_id}: duplicate run {identity}")
             seen_runs.add(identity)
-            scenario = scenarios.get(scenario_id)
-            label = labels.get(scenario_id)
-            if scenario is None or label is None:
+            metadata = points.get(scenario_id)
+            if metadata is None:
                 raise CaseValidationError(f"{suite_id}: missing case {scenario_id}")
             existing = cases.get(scenario_id)
             if existing is not None and existing["suite_id"] != suite_id:
@@ -82,11 +86,7 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
                     f"radar scenario appears in multiple suites: {scenario_id}"
                 )
             if existing is None:
-                target = _object(scenario.get("target"), field=f"{scenario_id}.target")
-                event = _string(target.get("event"), field=f"{scenario_id}.event")
-                security = _object(
-                    scenario.get("security"), field=f"{scenario_id}.security"
-                )
+                event = metadata["event"]
                 family = _family_for(event, family_labels=family_labels)
                 existing = {
                     "id": scenario_id,
@@ -94,27 +94,13 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
                     "suite_title": suite_title,
                     "family": family[0],
                     "family_label": family[1],
-                    "company": _string(
-                        security.get("name_as_of"), field=f"{scenario_id}.company"
-                    ),
-                    "ticker": _string(
-                        security.get("ticker"), field=f"{scenario_id}.ticker"
-                    ),
-                    "as_of": _string(scenario.get("as_of"), field="as_of"),
-                    "window_end": _string(
-                        _object(
-                            scenario.get("prediction_window"),
-                            field=f"{scenario_id}.prediction_window",
-                        ).get("end"),
-                        field="window_end",
-                    ),
+                    "company": metadata["company"],
+                    "ticker": metadata["ticker"],
+                    "as_of": metadata["as_of"],
+                    "window_end": metadata["window_end"],
                     "event": event,
-                    "target_definition": _string(
-                        target.get("definition"), field=f"{scenario_id}.definition"
-                    ),
-                    "outcome": _boolean(
-                        label.get("event_occurred"), field=f"{scenario_id}.outcome"
-                    ),
+                    "target_definition": metadata["target_definition"],
+                    "outcome": metadata["outcome"],
                     "runs": [],
                 }
                 cases[scenario_id] = existing
@@ -336,17 +322,59 @@ def _family_for(event: str, *, family_labels: dict[str, Any]) -> tuple[str, str]
     raise CaseValidationError(f"radar family missing for event: {event}")
 
 
-def _load_objects(directory: Path) -> dict[str, dict[str, Any]]:
-    objects = {}
-    for path in sorted(directory.glob("*.json")):
-        payload = _read_object(path)
-        object_id = _string(
-            payload.get("id", payload.get("scenario_id")), field=f"{path}.id"
-        )
-        if object_id in objects:
-            raise CaseValidationError(f"duplicate JSON object ID: {object_id}")
-        objects[object_id] = payload
-    return objects
+def _radar_point_metadata(point: Point) -> dict[str, Any]:
+    security = _point_field(
+        point.question,
+        r"^- 标的 / Security: (.+) \(([^,]+), ([^)]+)\)$",
+        point=point,
+        field="security",
+    )
+    outcome_event = "**事件发生 / event**" in point.ground_truth
+    outcome_no_event = "**事件未发生 / no event**" in point.ground_truth
+    if outcome_event == outcome_no_event:
+        raise CaseValidationError(f"{point.source}: missing or ambiguous outcome")
+    return {
+        "company": security.group(1),
+        "ticker": security.group(2),
+        "as_of": _point_field(
+            point.question,
+            r"^- 信息截止 / As of: (.+)$",
+            point=point,
+            field="as_of",
+        ).group(1),
+        "window_end": _point_field(
+            point.question,
+            r"^- 预测窗口结束 / Window end: (.+)$",
+            point=point,
+            field="window_end",
+        ).group(1),
+        "event": _point_field(
+            point.question,
+            r"^- 目标事件 / Target: `([^`]+)`$",
+            point=point,
+            field="event",
+        ).group(1),
+        "target_definition": _point_field(
+            point.question,
+            r"^- 判定定义 / Definition: (.+)$",
+            point=point,
+            field="target_definition",
+        ).group(1),
+        "outcome": outcome_event,
+    }
+
+
+def _point_field(
+    markdown: str,
+    pattern: str,
+    *,
+    point: Point,
+    field: str,
+) -> re.Match[str]:
+    match = re.search(pattern, markdown, flags=re.MULTILINE)
+    if match is None:
+        raise CaseValidationError(f"{point.source}: missing radar field {field}")
+    return match
 
 
 def _read_object(path: Path) -> dict[str, Any]:

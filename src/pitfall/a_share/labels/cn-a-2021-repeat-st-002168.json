@@ -1,9 +1,0 @@
-{
-  "schema_version": 2, "scenario_id": "cn-a-2021-repeat-st-002168", "observed_at": "2024-09-14", "resolved_at": "2024-09-19", "event_occurred": true,
-  "realized": {"observations": {"new_independent_st_episode_count_48m": 1, "full_removal_effective_before_new_episode": 1, "rqdata_is_st_early_flip_discrepancy_days": 1}, "derivations": []},
-  "expected_evidence_ids": ["prior-st-2021-fund-occupation", "full-removal-2021-approved"],
-  "outcome_sources": [
-    {"type": "official_new_independent_st_episode", "title": "惠程科技关于公司股票被实施其他风险警示暨股票停复牌的提示性公告", "published_at": "2024-09-14", "effective_change_date": "2024-09-19", "url": "https://static.cninfo.com.cn/finalpage/2024-09-14/1221223182.PDF", "sha256": "b419f2f1ec09a34e512b82be8286465f6285ca31f68ba8ab08e013ef524f5604", "prior_full_removal_effective_date": "2021-04-09", "new_independent_episode": true},
-    {"type": "rqdata_status_transition_crosscheck_with_suspension_discrepancy", "paths": ["data/db/special_treatment_info.parquet", "data/db/is_st.parquet"], "source_sha256": {"special_treatment_info": "7bb080a0efec221f39ed0d890c289d29cd3a25088cb867903b8f240fad63846f", "is_st": "5719cc47e294e146e64d901338a88f3169e3d3b4df29a52d0b5e37c6fcbf3af8"}, "window": "2021-04-09/2025-04-09", "official_new_episode_change_dates": ["2024-09-19"], "is_st_first_true_date": "2024-09-18", "discrepancy_note": "2024-09-18 was the suspension day; official warning and resumed trading took effect 2024-09-19, which controls the label", "episode_count": 1}
-  ]
-}

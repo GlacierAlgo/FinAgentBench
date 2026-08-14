@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from pitfall.case import CaseValidationError
+from pitfall.errors import CaseValidationError
 
 ISSUER_DOMAINS = frozenset(
     {

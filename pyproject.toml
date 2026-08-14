@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pitfall"
-version = "0.16.0"
-description = "Evidence-grounded financial reasoning benchmarks for agentic LLM harnesses"
+version = "0.17.0"
+description = "Pointwise financial reasoning evaluations for agentic LLM harnesses"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -21,10 +21,8 @@ dev = ["pytest>=8,<9", "ruff>=0.11,<1"]
 
 [tool.setuptools.package-data]
 pitfall = [
-  "cases/*.json",
-  "a_share/scenarios/*.json",
-  "a_share/corpora/*.json",
-  "a_share/labels/*.json",
+  "points/*.md",
+  "points/*/*.md",
   "a_share/dossiers/*.json",
   "live_shadow/scenarios/*.json",
 ]

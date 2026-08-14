@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "scenario_id": "cn-a-2017-repeat-st-000504",
-  "documents": [
-    {"id": "prior-st-2016-loss-warning", "title": "南华生物关于公司股票交易实行退市风险警示的公告", "published_at": "2016-04-25", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2016-04-25/1202229463.PDF", "content": "公司因连续两个会计年度经审计净利润为负，自2016年4月26日起被实施退市风险警示。该原因直接指向主业持续盈利能力，预测复发不能只看下一年度账面扭亏。"},
-    {"id": "full-removal-2017-approved", "title": "南华生物关于撤销退市风险警示暨停牌的公告", "published_at": "2017-05-11", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2017-05-11/1203492613.PDF", "content": "深交所同意撤销全部退市风险警示，公司于2017年5月12日复牌并恢复为南华生物。规则条件当期已满足，但公司体量、扣非盈利和主营稳定性决定完整摘帽后是否仍可能形成新的独立风险警示episode。"}
-  ]
-}

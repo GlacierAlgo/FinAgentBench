@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "scenario_id": "cn-a-2021-repeat-st-600080",
-  "documents": [
-    {"id": "prior-st-2020-fund-occupation", "title": "金花股份关于股票实施其他风险警示的公告", "published_at": "2020-06-01", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2020-06-01/1207878970.PDF", "content": "公司因原控股股东及关联方非经营性资金占用等内部控制事项被实施其他风险警示。该原因可以通过清偿解除当期警示，但未来风险取决于控制权、董事会约束和经营现金流是否形成持续修复。"},
-    {"id": "full-removal-2021-approved", "title": "金花股份关于撤销其他风险警示暨停牌的公告", "published_at": "2021-05-11", "source": "巨潮资讯法定公告", "url": "https://static.cninfo.com.cn/finalpage/2021-05-11/1209948204.PDF", "content": "上交所同意撤销全部其他风险警示，2021年5月12日起恢复简称金花股份。公告证明占款等本轮原因达到撤销条件；预测仍应对未来四年的独立新触发作概率判断。"}
-  ]
-}
