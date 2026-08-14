@@ -95,9 +95,10 @@ agent 完成 Question 的运行环境；评分只比较最终 Answer 与隐藏 G
 轨迹、耗时、token 与成本可以写入 run artifact，用于复现和诊断，但不进入 point
 文件，也不改变六类语义判定。
 
-尚未固定的是 judge 的具体模型、版本和运行策略。这不会阻塞 datapoint authoring：
-judge 无论如何都只能接收 `Question + Answer + Ground Truth`，并返回上面的六类之一。
-正式比较时必须把 judge 配置与重复评测策略写入 run artifact。
+Judge 固定使用 **`gpt-5.6-sol` + `xhigh` reasoning effort**。它只接收
+`Question + Answer + Ground Truth`，并返回上面的六类之一。被测 agent 的模型、
+harness 与工具可以自由变化，但 Judge 配置不能随实验对象变化；run artifact 仍需
+记录实际调用的模型标识、effort 与时间，保证结果可复现。
 
 ## 数据组织 / Data layout
 

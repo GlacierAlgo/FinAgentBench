@@ -7,6 +7,9 @@ from enum import StrEnum
 
 from pitfall.errors import CaseValidationError
 
+JUDGE_MODEL = "gpt-5.6-sol"
+JUDGE_REASONING_EFFORT = "xhigh"
+
 
 class EvaluationClass(StrEnum):
     COMPLETELY_CORRECT = "completely_correct"
