@@ -3,8 +3,8 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "finagentbench"
-version = "0.14.0"
+name = "pitfall"
+version = "0.16.0"
 description = "Evidence-grounded financial reasoning benchmarks for agentic LLM harnesses"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,13 +14,13 @@ authors = [{ name = "GlacierAlgo" }]
 dependencies = ["click>=8.1,<9"]
 
 [project.scripts]
-finagentbench = "finagentbench.cli:main"
+pitfall = "pitfall.cli:main"
 
 [dependency-groups]
 dev = ["pytest>=8,<9", "ruff>=0.11,<1"]
 
 [tool.setuptools.package-data]
-finagentbench = [
+pitfall = [
   "cases/*.json",
   "a_share/scenarios/*.json",
   "a_share/corpora/*.json",

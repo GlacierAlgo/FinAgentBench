@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2024-pig-restructuring-002124",
+  "resolved_at": "2026-04-30",
+  "observed_at": "2026-05-22",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "formal_judicial_restructuring_acceptance_count_24m": 0,
+      "formal_acceptance_not_received_at_first_official_observation_after_window": 1
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["board-proposes-reorganization-and-pre-reorganization", "fy2023-distress-with-uncertain-court-entry"],
+  "outcome_sources": [
+    {
+      "type": "official_investor_relations_negative_crosscheck",
+      "title": "天邦食品股份有限公司投资者关系活动记录表",
+      "published_at": "2026-05-22",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-05-22/1225324701.PDF",
+      "sha256": "d97c54349b9d7a6e981cbafe9165c00e10ea9c3ca9db2241fd42923f05cc988b",
+      "window": "2024-05-01/2026-04-30",
+      "official_acceptance_ruling_dates_inside_window": [],
+      "status_at_first_official_observation_after_window": "pre_reorganization_extended; formal_acceptance_not_received",
+      "result": "公司在窗口结束后的首次充分官方核验中披露预重整期限延长至2026-11-09，并明确尚未收到法院受理公司重整申请的文书"
+    }
+  ]
+}

@@ -3,20 +3,20 @@ from datetime import UTC, datetime
 
 import pytest
 
-from finagentbench.case import CaseValidationError
-from finagentbench.live_shadow import (
+from pitfall.case import CaseValidationError
+from pitfall.live_shadow import (
     _digest,
     run_live_shadow_codex_matrix,
     verify_live_shadow_seal,
 )
-from finagentbench.sealed_suite import (
+from pitfall.sealed_suite import (
     finalize_suite,
     preregister_suite,
     verify_finalized_suite,
     verify_public_plan_commitment,
     verify_suite_plan,
 )
-from finagentbench.walkforward import WalkForwardScenario
+from pitfall.walkforward import WalkForwardScenario
 
 
 def _scenario(index: int) -> dict:
@@ -141,11 +141,11 @@ def _completed_run(model: str, effort: str) -> dict:
 def _seal(scenario_source: dict, monkeypatch, *, models=None) -> dict:
     scenario = WalkForwardScenario.from_dict(scenario_source)
     monkeypatch.setattr(
-        "finagentbench.live_shadow._command_output",
+        "pitfall.live_shadow._command_output",
         lambda command: "codex test",
     )
     monkeypatch.setattr(
-        "finagentbench.live_shadow._run_case",
+        "pitfall.live_shadow._run_case",
         lambda scenario, model, reasoning_effort, timeout_seconds: _completed_run(
             model, reasoning_effort
         ),
@@ -169,9 +169,9 @@ def test_suite_preregistration_hides_scenarios_in_public_commitment() -> None:
     )
 
     assert verify_suite_plan(plan) == plan["commitment"]["payload_sha256"]
-    assert verify_public_plan_commitment(public) == public["commitment"][
-        "payload_sha256"
-    ]
+    assert (
+        verify_public_plan_commitment(public) == public["commitment"]["payload_sha256"]
+    )
     rendered = str(public)
     assert "scenario_source" not in rendered
     assert "cn-a-live-suite-1" not in rendered
@@ -189,9 +189,7 @@ def test_live_shadow_repeats_are_bound_into_the_seal(monkeypatch) -> None:
 
     assert seal["matrix"]["repeats"] == 3
     assert len(seal["results"]) == 6
-    assert [
-        (item["model"], item["repeat_index"]) for item in seal["results"]
-    ] == [
+    assert [(item["model"], item["repeat_index"]) for item in seal["results"]] == [
         ("model-a", 1),
         ("model-a", 2),
         ("model-a", 3),
@@ -223,7 +221,9 @@ def test_finalize_suite_rejects_cherry_picking_and_wrong_matrix(monkeypatch) -> 
 
     wrong_effort = deepcopy(seals[0])
     wrong_effort["results"][0]["reasoning_effort"] = "high"
-    unsigned = {key: value for key, value in wrong_effort.items() if key != "commitment"}
+    unsigned = {
+        key: value for key, value in wrong_effort.items() if key != "commitment"
+    }
     wrong_effort["commitment"]["payload_sha256"] = _digest(unsigned)
     with pytest.raises(CaseValidationError, match="attempt reasoning effort"):
         finalize_suite(plan, public, [wrong_effort, *seals[1:]])

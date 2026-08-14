@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from finagentbench.case import CaseValidationError
+from pitfall.case import CaseValidationError
 
 ISSUER_DOMAINS = frozenset(
     {
@@ -213,7 +213,7 @@ class DossierSlice:
     def to_dict(self) -> dict[str, Any]:
         return {
             "schema_version": self.schema_version,
-            "artifact_type": "finagentbench.issuer_dossier_slice.v1",
+            "artifact_type": "pitfall.issuer_dossier_slice.v1",
             "dossier_id": self.dossier_id,
             "issuer": self.issuer.to_dict(),
             "as_of": self.as_of.isoformat(),

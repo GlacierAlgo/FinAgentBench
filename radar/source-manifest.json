@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "title": "FinAgentBench A-share Reasoning Radar",
+  "title": "PITFALL A-share Reasoning Radar",
   "subtitle": "Point-in-time financial prediction with frozen disclosures and contemporaneous news",
   "suites": [
     {

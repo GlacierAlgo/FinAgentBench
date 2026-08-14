@@ -1,4 +1,4 @@
-"""Controlled local runners for FinAgentBench model comparisons."""
+"""Controlled local runners for PITFALL model comparisons."""
 
 from __future__ import annotations
 
@@ -14,13 +14,13 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from finagentbench.adapter import (
+from pitfall.adapter import (
     AdapterError,
     StdioAdapter,
     build_adapter_request,
 )
-from finagentbench.case import BenchmarkCase
-from finagentbench.scoring import score_submission
+from pitfall.case import BenchmarkCase
+from pitfall.scoring import score_submission
 
 
 @dataclass(frozen=True)
@@ -192,7 +192,7 @@ def summarize_results(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def render_markdown_report(run: dict[str, Any]) -> str:
     harness_label = _harness_label(run["harness"])
     lines = [
-        "# FinAgentBench public synthetic smoke baseline",
+        "# PITFALL public synthetic smoke baseline",
         "",
         (
             f"Harness: `{harness_label}` · effort: "
@@ -269,7 +269,7 @@ def render_markdown_report(run: dict[str, Any]) -> str:
 
 def _run_codex_case(spec: RunSpec, *, timeout_seconds: int) -> dict[str, Any]:
     started = time.monotonic()
-    with tempfile.TemporaryDirectory(prefix="finagentbench-") as raw_temp_dir:
+    with tempfile.TemporaryDirectory(prefix="pitfall-") as raw_temp_dir:
         temp_dir = Path(raw_temp_dir)
         schema_path = temp_dir / "response-schema.json"
         output_path = temp_dir / "response.json"
@@ -384,7 +384,7 @@ def _run_adapter_case(
         prompt=prompt,
         response_contract=spec.case.response_contract,
     )
-    with tempfile.TemporaryDirectory(prefix="finagentbench-adapter-") as raw_dir:
+    with tempfile.TemporaryDirectory(prefix="pitfall-adapter-") as raw_dir:
         try:
             output = adapter.run(
                 request,

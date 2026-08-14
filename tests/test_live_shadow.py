@@ -3,8 +3,8 @@ from datetime import UTC, date, datetime
 
 import pytest
 
-from finagentbench.case import CaseValidationError
-from finagentbench.live_shadow import (
+from pitfall.case import CaseValidationError
+from pitfall.live_shadow import (
     LABEL_TYPE,
     _digest,
     resolve_live_shadow_seal,
@@ -12,7 +12,7 @@ from finagentbench.live_shadow import (
     verify_live_shadow_resolution,
     verify_live_shadow_seal,
 )
-from finagentbench.walkforward import WalkForwardScenario
+from pitfall.walkforward import WalkForwardScenario
 
 
 def _scenario_payload() -> dict:
@@ -111,10 +111,10 @@ def test_live_shadow_seal_binds_scenario_submission_and_trace(monkeypatch) -> No
     source = _scenario_payload()
     scenario = WalkForwardScenario.from_dict(source)
     monkeypatch.setattr(
-        "finagentbench.live_shadow._command_output", lambda command: "codex test"
+        "pitfall.live_shadow._command_output", lambda command: "codex test"
     )
     monkeypatch.setattr(
-        "finagentbench.live_shadow._run_case",
+        "pitfall.live_shadow._run_case",
         lambda scenario, model, reasoning_effort, timeout_seconds: _completed_run(
             model, reasoning_effort
         ),
@@ -144,10 +144,10 @@ def test_live_shadow_resolution_scores_only_after_maturity(monkeypatch) -> None:
     source = _scenario_payload()
     scenario = WalkForwardScenario.from_dict(source)
     monkeypatch.setattr(
-        "finagentbench.live_shadow._command_output", lambda command: "codex test"
+        "pitfall.live_shadow._command_output", lambda command: "codex test"
     )
     monkeypatch.setattr(
-        "finagentbench.live_shadow._run_case",
+        "pitfall.live_shadow._run_case",
         lambda scenario, model, reasoning_effort, timeout_seconds: _completed_run(
             model, reasoning_effort
         ),
@@ -190,15 +190,14 @@ def test_live_shadow_resolution_scores_only_after_maturity(monkeypatch) -> None:
     with pytest.raises(CaseValidationError, match="cannot resolve in the future"):
         resolve_live_shadow_seal(seal, label, today=date(2027, 2, 28))
 
-    resolution = resolve_live_shadow_seal(
-        seal, label, today=date(2027, 3, 1)
-    )
+    resolution = resolve_live_shadow_seal(seal, label, today=date(2027, 3, 1))
 
     assert resolution["results"][0]["score"]["brier_loss"] == 0.09
     assert resolution["results"][0]["score"]["classification_correct"]
-    assert verify_live_shadow_resolution(resolution) == resolution["commitment"][
-        "payload_sha256"
-    ]
+    assert (
+        verify_live_shadow_resolution(resolution)
+        == resolution["commitment"]["payload_sha256"]
+    )
 
 
 def test_live_web_run_rejects_backdated_scenario() -> None:

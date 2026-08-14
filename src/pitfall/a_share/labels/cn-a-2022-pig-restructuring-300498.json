@@ -1,0 +1,35 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2022-pig-restructuring-300498",
+  "resolved_at": "2024-04-16",
+  "observed_at": "2025-04-24",
+  "event_occurred": false,
+  "realized": {
+    "observations": {
+      "formal_judicial_restructuring_acceptance_count_24m": 0,
+      "annual_periods_reporting_no_bankruptcy_reorganization_matter": 3
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["fy2021-large-loss-with-liquidity-buffer"],
+  "outcome_sources": [
+    {
+      "type": "official_annual_report_negative_crosscheck_sequence",
+      "title": "温氏食品集团股份有限公司2022、2023及2024年年度报告",
+      "published_at": "2025-04-24",
+      "urls": [
+        "https://static.cninfo.com.cn/finalpage/2023-04-26/1216584900.PDF",
+        "https://static.cninfo.com.cn/finalpage/2024-04-29/1219866693.PDF",
+        "https://static.cninfo.com.cn/finalpage/2025-04-24/1223241291.PDF"
+      ],
+      "source_sha256": {
+        "fy2022_annual_report": "2ba213734ddec2b9af7f8dabd9b77c834b84aa8a14251faa76311e5c5461d8ad",
+        "fy2023_annual_report": "42a9257bb61916b76ec70b1ab3c21c9db3c635a1aaae12a9bc886e23b71df6b5",
+        "fy2024_annual_report": "db6e09f22c59612f37fd731a63ff5435670ffa696f88af01badc5b90eb6825a3"
+      },
+      "window": "2022-04-17/2024-04-16",
+      "official_acceptance_ruling_dates_inside_window": [],
+      "result": "覆盖窗口的连续三份年报均在破产重整相关事项栏勾选不适用并披露报告期未发生破产重整相关事项；窗口内不存在上市公司正式受理公告"
+    }
+  ]
+}

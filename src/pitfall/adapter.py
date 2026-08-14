@@ -39,7 +39,9 @@ class StdioAdapter:
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as error:
-            raise AdapterError(f"cannot load adapter manifest {path}: {error}") from error
+            raise AdapterError(
+                f"cannot load adapter manifest {path}: {error}"
+            ) from error
         if not isinstance(payload, dict):
             raise AdapterError("adapter manifest must be a JSON object")
         required = {
@@ -51,9 +53,7 @@ class StdioAdapter:
         }
         missing = sorted(required - payload.keys())
         if missing:
-            raise AdapterError(
-                f"adapter manifest missing fields: {', '.join(missing)}"
-            )
+            raise AdapterError(f"adapter manifest missing fields: {', '.join(missing)}")
         if payload["schema_version"] != 1:
             raise AdapterError("adapter manifest schema_version must be 1")
         name = _nonempty_string(payload["name"], field="name")
@@ -112,7 +112,9 @@ class StdioAdapter:
                     timeout=10,
                 )
             except (OSError, subprocess.TimeoutExpired) as error:
-                raise AdapterError(f"adapter version command failed: {error}") from error
+                raise AdapterError(
+                    f"adapter version command failed: {error}"
+                ) from error
             if completed.returncode != 0:
                 raise AdapterError(
                     "adapter version command exited "
@@ -124,16 +126,14 @@ class StdioAdapter:
         return {
             "name": self.name,
             "version": version,
-            "protocol": "finagentbench-stdio-v1",
+            "protocol": "pitfall-stdio-v1",
             "manifest_sha256": self.manifest_sha256,
             "sandbox": self.execution["sandbox"],
             "external_data": external_data,
             "external_data_access": self.execution["external_data_access"],
             "session_persistence": self.execution["session_persistence"],
             "outcome_visible_to_agent": self.execution["outcome_visible_to_agent"],
-            "reasoning_effort_contract": self.execution[
-                "reasoning_effort_contract"
-            ],
+            "reasoning_effort_contract": self.execution["reasoning_effort_contract"],
         }
 
     def run(
@@ -237,9 +237,7 @@ def _capabilities(value: Any) -> dict[str, bool]:
     required = {"structured_output", "frozen_search"}
     missing = sorted(required - value.keys())
     if missing:
-        raise AdapterError(
-            f"adapter capabilities missing fields: {', '.join(missing)}"
-        )
+        raise AdapterError(f"adapter capabilities missing fields: {', '.join(missing)}")
     result = {}
     for key, item in value.items():
         if not isinstance(key, str) or not isinstance(item, bool):

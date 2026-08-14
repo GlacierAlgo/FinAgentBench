@@ -24,6 +24,9 @@ the target outcome exists and keeps the future label outside the run artifact.
    labels, calculates Brier/log loss and emits a new committed resolution
    artifact without modifying the seal.
 
+Artifacts use the `pitfall_*` namespace. This is a breaking contract: the
+current verifier does not accept earlier project namespaces.
+
 ```mermaid
 flowchart TD
     S["Outcome-free live scenario"]
@@ -60,6 +63,8 @@ Web searches. The sealed development artifact is
 [`results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json`](../results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json),
 committed as
 `3fc9b7588ac6879804dc2f901a790164c05fd5c55c70718a04b32d51c1aecbeb`.
+It is immutable pre-PITFALL history and is not accepted by the current breaking
+artifact contract.
 
 ## Trust boundary
 

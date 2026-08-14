@@ -9,16 +9,16 @@ from datetime import UTC, datetime
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from finagentbench.case import CaseValidationError
-from finagentbench.live_shadow import (
+from pitfall.case import CaseValidationError
+from pitfall.live_shadow import (
     CANONICALIZATION,
     verify_live_shadow_seal,
 )
-from finagentbench.walkforward import WalkForwardScenario
+from pitfall.walkforward import WalkForwardScenario
 
-PLAN_TYPE = "finagentbench_sealed_suite_plan"
-PUBLIC_PLAN_TYPE = "finagentbench_sealed_suite_plan_commitment"
-SUITE_TYPE = "finagentbench_sealed_suite"
+PLAN_TYPE = "pitfall_sealed_suite_plan"
+PUBLIC_PLAN_TYPE = "pitfall_sealed_suite_plan_commitment"
+SUITE_TYPE = "pitfall_sealed_suite"
 
 
 def preregister_suite(
@@ -48,8 +48,7 @@ def preregister_suite(
     plan = _with_commitment(plan_record)
     family_counts = Counter(item["family"] for item in cases)
     scenarios = [
-        WalkForwardScenario.from_dict(item["scenario_source"])
-        for item in cases
+        WalkForwardScenario.from_dict(item["scenario_source"]) for item in cases
     ]
     public_record = {
         "schema_version": 1,
@@ -172,9 +171,7 @@ def finalize_suite(
         raise CaseValidationError("public commitment policy digest mismatch")
     if public_commitment["suite_id"] != plan["suite_id"]:
         raise CaseValidationError("public commitment suite_id mismatch")
-    planned_by_sha = {
-        item["scenario_sha256"]: item for item in plan["cases"]
-    }
+    planned_by_sha = {item["scenario_sha256"]: item for item in plan["cases"]}
     if len(seals) != len(planned_by_sha):
         raise CaseValidationError("finalized suite requires exactly one seal per slot")
     policy = plan["policy"]
@@ -272,7 +269,9 @@ def verify_finalized_suite(payload: dict[str, Any]) -> str:
             field=f"members[{index}].seal_commitment_sha256",
         )
         if slot_id in slot_ids or scenario_sha in scenario_hashes:
-            raise CaseValidationError("finalized suite member identities must be unique")
+            raise CaseValidationError(
+                "finalized suite member identities must be unique"
+            )
         slot_ids.add(slot_id)
         scenario_hashes.add(scenario_sha)
         family_counts[family] += 1
@@ -437,8 +436,7 @@ def _validate_case_distribution(
     if len(family_counts) < policy["minimum_family_count"]:
         raise CaseValidationError("sealed suite contains too few families")
     if any(
-        count < policy["minimum_cases_per_family"]
-        for count in family_counts.values()
+        count < policy["minimum_cases_per_family"] for count in family_counts.values()
     ):
         raise CaseValidationError("every sealed suite family needs enough cases")
 
@@ -476,17 +474,12 @@ def _validate_seal_matrix(seal: dict[str, Any], *, policy: dict[str, Any]) -> No
             or isinstance(search_calls, bool)
             or search_calls < 0
         ):
-            raise CaseValidationError(
-                "suite seal attempt web_search_calls is invalid"
-            )
+            raise CaseValidationError("suite seal attempt web_search_calls is invalid")
         identity = (result.get("model"), result.get("repeat_index"))
         if identity in observed:
             raise CaseValidationError("suite seal contains duplicate attempts")
         observed.add(identity)
-        if (
-            status == "completed"
-            and search_calls < policy["required_web_search_calls"]
-        ):
+        if status == "completed" and search_calls < policy["required_web_search_calls"]:
             raise CaseValidationError(
                 "completed suite attempt did not meet the search-call minimum"
             )

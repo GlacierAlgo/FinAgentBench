@@ -1,4 +1,4 @@
-"""Case loading and validation for FinAgentBench."""
+"""Case loading and validation for PITFALL."""
 
 from __future__ import annotations
 

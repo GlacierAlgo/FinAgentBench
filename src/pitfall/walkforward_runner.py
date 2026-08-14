@@ -14,12 +14,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from finagentbench.adapter import (
+from pitfall.adapter import (
     AdapterError,
     StdioAdapter,
     build_adapter_request,
 )
-from finagentbench.walkforward import (
+from pitfall.walkforward import (
     WalkForwardCase,
     score_walkforward_submission,
 )
@@ -204,7 +204,7 @@ def summarize_walkforward_results(
 def render_walkforward_report(run: dict[str, Any]) -> str:
     harness_label = _harness_label(run["harness"])
     lines = [
-        "# FinAgentBench A-share frozen-web replay",
+        "# PITFALL A-share frozen-web replay",
         "",
         (
             f"Harness: `{harness_label}` · effort: "
@@ -267,7 +267,7 @@ def render_walkforward_report(run: dict[str, Any]) -> str:
 
 def _run_case(spec: WalkForwardRunSpec, *, timeout_seconds: int) -> dict[str, Any]:
     started = time.monotonic()
-    with tempfile.TemporaryDirectory(prefix="finagentbench-a-share-") as raw_dir:
+    with tempfile.TemporaryDirectory(prefix="pitfall-a-share-") as raw_dir:
         directory = Path(raw_dir)
         scenario_path = directory / "scenario.json"
         corpus_path = directory / "frozen-corpus.json"
@@ -391,9 +391,7 @@ def _run_adapter_case(
     timeout_seconds: int,
 ) -> dict[str, Any]:
     started = time.monotonic()
-    with tempfile.TemporaryDirectory(
-        prefix="finagentbench-a-share-adapter-"
-    ) as raw_dir:
+    with tempfile.TemporaryDirectory(prefix="pitfall-a-share-adapter-") as raw_dir:
         directory = Path(raw_dir)
         scenario_path = directory / "scenario.json"
         corpus_path = directory / "frozen-corpus.json"

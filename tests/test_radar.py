@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from finagentbench.radar import build_radar_data, render_radar_data_js
+from pitfall.radar import build_radar_data, render_radar_data_js
 
 REPO_ROOT = Path(__file__).parents[1]
 
@@ -63,4 +63,4 @@ def test_radar_never_promotes_public_replays_to_sealed_leaderboard() -> None:
         item["harness"]["outcome_visible_to_agent"] is False
         for item in payload["experiment_suites"]
     )
-    assert render_radar_data_js(payload).startswith("window.FINAGENTBENCH_RADAR_DATA=")
+    assert render_radar_data_js(payload).startswith("window.PITFALL_RADAR_DATA=")

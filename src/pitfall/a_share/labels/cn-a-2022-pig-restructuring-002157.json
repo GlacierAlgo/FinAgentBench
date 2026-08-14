@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "scenario_id": "cn-a-2022-pig-restructuring-002157",
+  "resolved_at": "2023-07-20",
+  "observed_at": "2023-07-21",
+  "event_occurred": true,
+  "realized": {
+    "observations": {
+      "formal_judicial_restructuring_acceptance_count_24m": 1,
+      "days_from_as_of_to_first_formal_acceptance": 446
+    },
+    "derivations": []
+  },
+  "expected_evidence_ids": ["fy2021-loss-liquidity-and-restricted-cash", "controller-pledge-over-80-and-controllable-claim"],
+  "outcome_sources": [
+    {
+      "type": "official_issuer_court_acceptance_notice",
+      "title": "江西正邦科技股份有限公司关于法院裁定受理公司重整并指定管理人暨公司股票交易将被叠加实施退市风险警示的公告",
+      "published_at": "2023-07-21",
+      "url": "https://static.cninfo.com.cn/finalpage/2023-07-21/1217348496.PDF",
+      "sha256": "a0a2f7528d5e5fada3435324b4ccb4618dff3f083bfb1ceb9e4e35dcc8f36e64",
+      "ruling_date": "2023-07-20",
+      "court": "江西省南昌市中级人民法院",
+      "civil_ruling_number": "（2022）赣01破申49号",
+      "result": "南昌中院以民事裁定正式受理债权人对上市公司正邦科技的重整申请"
+    }
+  ]
+}

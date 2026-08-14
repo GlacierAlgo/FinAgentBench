@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from finagentbench.case import CaseValidationError
+from pitfall.case import CaseValidationError
 
 
 @dataclass(frozen=True)

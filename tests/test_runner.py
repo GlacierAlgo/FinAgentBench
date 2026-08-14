@@ -1,4 +1,4 @@
-from finagentbench.runner import render_markdown_report, summarize_results
+from pitfall.runner import render_markdown_report, summarize_results
 
 
 def _result(model: str, score: float, latency: float) -> dict:

@@ -5,23 +5,21 @@ from pathlib import Path
 
 import pytest
 
-from finagentbench.adapter import AdapterError, StdioAdapter
-from finagentbench.case import load_cases
-from finagentbench.cli import (
+from pitfall.adapter import AdapterError, StdioAdapter
+from pitfall.case import load_cases
+from pitfall.cli import (
     BUILTIN_A_SHARE_CORPORA,
     BUILTIN_A_SHARE_LABELS,
     BUILTIN_A_SHARE_SCENARIOS,
     BUILTIN_CASES,
 )
-from finagentbench.runner import run_adapter_matrix
-from finagentbench.walkforward import load_walkforward_suite
-from finagentbench.walkforward_runner import run_walkforward_adapter_matrix
+from pitfall.runner import run_adapter_matrix
+from pitfall.walkforward import load_walkforward_suite
+from pitfall.walkforward_runner import run_walkforward_adapter_matrix
 
 
 def _opencode_adapter_module():
-    source = (
-        Path(__file__).parents[1] / "examples" / "adapters" / "opencode_stdio.py"
-    )
+    source = Path(__file__).parents[1] / "examples" / "adapters" / "opencode_stdio.py"
     spec = importlib.util.spec_from_file_location("opencode_stdio", source)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
@@ -112,7 +110,9 @@ def test_stdio_adapter_runs_public_case_without_exposing_answer_key(
     tmp_path: Path,
 ) -> None:
     case = next(
-        item for item in load_cases(BUILTIN_CASES) if item.id == "goodwill-impairment-risk"
+        item
+        for item in load_cases(BUILTIN_CASES)
+        if item.id == "goodwill-impairment-risk"
     )
     adapter = _adapter(tmp_path)
 
@@ -125,7 +125,7 @@ def test_stdio_adapter_runs_public_case_without_exposing_answer_key(
         adapter=adapter,
     )
 
-    assert run["harness"]["protocol"] == "finagentbench-stdio-v1"
+    assert run["harness"]["protocol"] == "pitfall-stdio-v1"
     assert run["harness"]["manifest_sha256"] == adapter.manifest_sha256
     assert run["results"][0]["status"] == "completed"
     assert run["results"][0]["score"]["prediction_correct"]

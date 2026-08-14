@@ -3,19 +3,19 @@ from copy import deepcopy
 
 import pytest
 
-from finagentbench.case import CaseValidationError
-from finagentbench.cli import (
+from pitfall.case import CaseValidationError
+from pitfall.cli import (
     BUILTIN_A_SHARE_CORPORA,
     BUILTIN_A_SHARE_LABELS,
     BUILTIN_A_SHARE_SCENARIOS,
 )
-from finagentbench.walkforward import (
+from pitfall.walkforward import (
     FrozenCorpus,
     WalkForwardLabel,
     load_walkforward_suite,
     score_walkforward_submission,
 )
-from finagentbench.walkforward_runner import (
+from pitfall.walkforward_runner import (
     _search_call_count,
     render_walkforward_report,
     summarize_walkforward_results,
@@ -1415,4 +1415,140 @@ def test_auto_payment_cycle_family_is_balanced_and_recomputable() -> None:
                 "trade_receivable_days_change_vs_fy2024"
             ]
             > 0
+        )
+
+
+def test_pig_restructuring_family_distinguishes_pre_reorganization_from_acceptance() -> (
+    None
+):
+    cases = tuple(
+        case
+        for case in _cases()
+        if case.scenario.suite == "a_share_pig_restructuring_v1"
+    )
+
+    assert len(cases) == 4
+    assert sum(case.label.event_occurred for case in cases) == 2
+    assert {case.scenario.security.ticker for case in cases} == {
+        "002124",
+        "002157",
+        "300498",
+        "603363",
+    }
+    assert {case.scenario.target_event for case in cases} == {
+        "listed_issuer_formal_judicial_restructuring_acceptance_24m"
+    }
+    assert len({case.scenario.target_definition for case in cases}) == 1
+    assert {
+        tuple(
+            (criterion.metric, criterion.comparison, criterion.value)
+            for criterion in case.scenario.criteria
+        )
+        for case in cases
+    } == {(("formal_judicial_restructuring_acceptance_count_24m", ">=", 1.0),)}
+
+    by_ticker = {case.scenario.security.ticker: case for case in cases}
+    assert by_ticker["002157"].label.event_occurred
+    assert by_ticker["603363"].label.event_occurred
+    assert not by_ticker["300498"].label.event_occurred
+    assert not by_ticker["002124"].label.event_occurred
+    assert "court-starts-pre-reorganization-not-formal-acceptance" in {
+        document.id for document in by_ticker["603363"].corpus.documents
+    }
+    assert "board-proposes-reorganization-and-pre-reorganization" in {
+        document.id for document in by_ticker["002124"].corpus.documents
+    }
+
+    for case in cases:
+        assert case.label.observed_at is not None
+        assert all(
+            document.published_at <= case.scenario.as_of
+            for document in case.corpus.documents
+        )
+        assert (
+            "2fd644a9e10ceeee7379949a55fa77aaf26d4b9b"
+            in case.scenario.authoring_provenance["pdf_text_tool"]
+        )
+
+
+def test_cross_market_bottleneck_family_separates_suppliers_from_semantic_neighbors() -> (
+    None
+):
+    cases = tuple(
+        case
+        for case in _cases()
+        if case.scenario.suite == "a_share_cross_market_bottleneck_v1"
+    )
+
+    assert len(cases) == 8
+    assert sum(case.label.event_occurred for case in cases) == 4
+    assert {case.scenario.security.ticker for case in cases} == {
+        "300223",
+        "601133",
+        "603163",
+        "603929",
+        "603986",
+        "688376",
+        "688525",
+        "688981",
+    }
+    assert {case.scenario.as_of.isoformat() for case in cases} == {"2025-12-18"}
+    assert {case.scenario.target_event for case in cases} == {
+        "cross_market_cleanroom_bottleneck_repricing_5_sessions"
+    }
+    assert len({case.scenario.target_definition for case in cases}) == 1
+    assert {
+        tuple(
+            (criterion.metric, criterion.comparison, criterion.value)
+            for criterion in case.scenario.criteria
+        )
+        for case in cases
+    } == {
+        (
+            (
+                "semiconductor_etf_excess_return_10pp_crossed_by_resolution",
+                "==",
+                1.0,
+            ),
+            ("official_limit_up_close_observed_by_resolution", "==", 1.0),
+        )
+    }
+
+    by_ticker = {case.scenario.security.ticker: case for case in cases}
+    assert {
+        ticker for ticker, case in by_ticker.items() if case.label.event_occurred
+    } == {"601133", "603163", "603929", "688376"}
+    assert (
+        by_ticker["300223"].label.realized_metrics[
+            "semiconductor_etf_excess_return_10pp_crossed_by_resolution"
+        ]
+        == 1
+    )
+    assert (
+        by_ticker["300223"].label.realized_metrics[
+            "official_limit_up_close_observed_by_resolution"
+        ]
+        == 0
+    )
+
+    for case in cases:
+        metrics = case.label.realized_metrics
+        crossed = metrics["semiconductor_etf_excess_return_10pp_crossed_by_resolution"]
+        limit_up = metrics["official_limit_up_close_observed_by_resolution"]
+        assert (
+            metrics["maximum_adjusted_close_excess_return_by_resolution"] >= 0.1
+        ) == (crossed == 1)
+        assert (metrics["limit_up_close_session_count_by_resolution"] >= 1) == (
+            limit_up == 1
+        )
+        assert case.label.event_occurred == (crossed == 1 and limit_up == 1)
+        assert case.label.observed_at == case.label.resolved_at
+        assert len(case.corpus.documents) == 3
+        assert all(
+            document.published_at <= case.scenario.as_of
+            for document in case.corpus.documents
+        )
+        assert (
+            "2fd644a9e10ceeee7379949a55fa77aaf26d4b9b"
+            in case.scenario.authoring_provenance["pdf_text_tool"]
         )

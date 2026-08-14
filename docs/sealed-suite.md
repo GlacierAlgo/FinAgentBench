@@ -5,6 +5,9 @@ prevent benchmark authors from publishing only favorable cases or choosing the
 best repeat after seeing model answers. A sealed suite pre-registers the cohort
 and complete experiment matrix before the first run.
 
+Suite artifacts use the `pitfall_*` namespace. This is a breaking contract: the
+current verifier does not accept earlier project namespaces.
+
 ## Hard-suite admission rules
 
 Version 1 deliberately sets a non-trivial floor:
@@ -91,16 +94,16 @@ validate.
 Pre-register and publish only the opaque output:
 
 ```bash
-uv run finagentbench suite preregister private-source.json \
+uv run pitfall suite preregister private-source.json \
   --plan-output private-plan.json \
   --commitment-output public-plan-commitment.json
-uv run finagentbench suite verify public-plan-commitment.json
+uv run pitfall suite verify public-plan-commitment.json
 ```
 
 Run each private scenario on exactly its as-of date with the predeclared matrix:
 
 ```bash
-uv run finagentbench shadow run scenario.json \
+uv run pitfall shadow run scenario.json \
   --model model-a --model model-b \
   --reasoning-effort low --repeats 3 --workers 3 \
   --output seals/scenario-seal.json
@@ -109,7 +112,7 @@ uv run finagentbench shadow run scenario.json \
 After every slot has one intact seal, reveal the plan and finalize the cohort:
 
 ```bash
-uv run finagentbench suite finalize \
+uv run pitfall suite finalize \
   private-plan.json public-plan-commitment.json \
   --seal seals/rd-01.json \
   --seal seals/rd-02.json \
@@ -118,7 +121,7 @@ uv run finagentbench suite finalize \
   --seal seals/cash-01.json \
   --seal seals/cash-02.json \
   --output sealed-suite.json
-uv run finagentbench suite verify sealed-suite.json
+uv run pitfall suite verify sealed-suite.json
 ```
 
 Finalization checks exact scenario digests, one seal per slot, the model and
@@ -130,6 +133,6 @@ label and the verifier creates an aggregate resolution.
 ## Existing development seal
 
 The 2026-08-12 海光信息 seal predates this cohort protocol and has one model run
-with one repeat. It remains a valid individual live-shadow development artifact
-but is not retroactively eligible for a sealed hard-case suite or formal radar
-ranking.
+with one repeat. It is retained as immutable historical evidence but is not
+accepted by the current breaking artifact namespace and is not retroactively
+eligible for a sealed hard-case suite or formal radar ranking.

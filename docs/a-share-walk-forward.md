@@ -240,6 +240,66 @@ These numbers are public one-repeat diagnostics. They validate task difficulty
 and expose failure modes; they do not qualify as a sealed leaderboard or model
 stability claim.
 
+## Version 9 cross-market bottleneck-transmission cohort
+
+Version 0.16 adds eight December 2025 cases, bringing the public development set
+to 162 cases (82 event / 80 no-event). All eight start before the 18 December
+A-share open from the same Micron information packet and use one literal target.
+The first layer is a broad memory-demand baseline: fiscal Q1 revenue and EPS
+exceeded the prior guidance range. The second layer is the marginal constraint:
+HBM's higher wafer trade ratio requires more cleanroom capacity while build-out
+lead times are lengthening. An agent must keep these layers separate rather than
+turning either one into “all semiconductor stocks benefit.”
+
+The direct-exposure cohort is 亚翔集成、圣晖集成、柏诚股份 and 美埃科技. Their
+point-in-time reports identify cleanroom engineering, system integration,
+fan-filter units or filtration equipment as products sold to semiconductor
+factories. The controls are 兆易创新、北京君正、佰维存储 and 中芯国际. They are
+deliberately close in language and industry, but sell chips, memory products,
+packaging/test or foundry output; in the causal chain they are product suppliers
+or cleanroom users rather than sellers of the bottleneck solution.
+
+The market label uses 17 December adjusted closes as the common baseline and
+observes the next five A-share sessions. Event requires both (1) a cumulative
+adjusted-close return at least 10 percentage points above semiconductor ETF
+512480 and (2) at least one close equal to the day's RQData `limit_up`. The
+event date is when both gates first coexist. 北京君正 is a hard control: it
+crossed the excess-return gate but never closed at limit-up. These are realized
+price-path labels only; they do not claim that Micron caused the moves or that
+the four suppliers received Micron orders.
+
+All eight Chinese issuer reports were parsed `--no-ocr` with Rust LiteParse
+2.12.0 at `2fd644a9e10ceeee7379949a55fa77aaf26d4b9b`, with a SHA-256 commitment per
+PDF. Micron's official IR deck is retained as the foreign primary source, but
+its edge returned HTTP 403 to automated binary retrieval during authoring. Each
+scenario therefore records the exception explicitly and makes no local hash or
+LiteParse attestation for that one document; the official event page and
+indexed official PDF text anchor its contents.
+
+## Version 8 pig-cycle formal-restructuring cohort
+
+Version 0.15 adds four historical pig-industry cases, bringing the public
+development set to 154 cases (78 event / 76 no-event). Every case asks whether
+a competent court will formally accept bankruptcy reorganization of the listed
+issuer itself within 24 calendar months. Applications, pre-reorganization,
+extensions, investor agreements, subsidiary cases, *ST status and estimated
+share-pledge trigger prices are deliberately excluded.
+
+The 2021-cycle pair contrasts 正邦科技's 92.60% leverage, restricted cash,
+negative operating cash flow and controlling-group pledge above 80% with
+温氏股份's equally conspicuous loss but positive cash flow, 1.70 cash/short-debt
+coverage and large equity buffer. The 2023-distress pair shares the same literal
+contract: 傲农生物 moved from pre-reorganization to formal acceptance, while
+天邦食品 remained in repeatedly extended pre-reorganization after the fixed
+window. This makes the latter a hard negative for agents that count risk words
+instead of identifying the precise legal event.
+
+Official PDFs were parsed with the latest upstream Rust LiteParse revision used
+for this wave, 2.12.0 at
+`2fd644a9e10ceeee7379949a55fa77aaf26d4b9b`, using native PDFium text extraction
+with `--no-ocr`. RQData rows are pinned to the earliest point-in-time annual
+statement release and every source PDF and table file has a SHA-256 commitment.
+
 ## Version 7 automotive payment-cycle cohort
 
 Version 0.14 adds eight FY2025 automotive-supplier cases, bringing the public
@@ -315,7 +375,9 @@ the author resolves upstream `main`, verifies the crate version, and records
 both values. For the lifecycle wave started on 2026-08-13, this is version
 2.11.1 at `5109b46e7f960a52ea9833704c9484c835c6ef4f`. The automotive
 payment-cycle wave uses the then-current upstream `main`, version 2.11.1 at
-`a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9`. Text-layer filings use
+`a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9`. The pig-cycle and cross-market
+bottleneck waves use version 2.12.0 at
+`2fd644a9e10ceeee7379949a55fa77aaf26d4b9b`. Text-layer filings use
 LiteParse's PDFium path. Scanned reports use its Tesseract OCR path with the
 required language data. Every new scenario records the exact version, revision,
 and extraction mode in `authoring_provenance` so later authors can reproduce

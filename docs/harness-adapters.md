@@ -1,8 +1,8 @@
 # Harness adapter protocol
 
-FinAgentBench's experiment is a complete configuration: model, reasoning
+PITFALL's experiment is a complete configuration: model, reasoning
 setting, harness, tools, evidence snapshot, and runtime version. The
-`finagentbench-stdio-v1` protocol lets a non-Codex harness join that experiment
+`pitfall-stdio-v1` protocol lets a non-Codex harness join that experiment
 without importing provider SDKs into the benchmark core.
 
 ## Trust boundary
@@ -122,7 +122,7 @@ opencode models
 Then run any listed provider/model ID:
 
 ```bash
-uv run finagentbench a-share benchmark \
+uv run pitfall a-share benchmark \
   --adapter-manifest examples/adapters/opencode.json \
   --model provider/model-id \
   --scenario-id cn-a-2020-cambricon-rd-commercial-validation \
@@ -131,10 +131,10 @@ uv run finagentbench a-share benchmark \
 ```
 
 OpenCode variants are provider-specific. The reference adapter does not claim
-that FinAgentBench's `low` label was applied unless an explicit mapping exists:
+that PITFALL's `low` label was applied unless an explicit mapping exists:
 
 ```bash
-export FINAGENTBENCH_OPENCODE_VARIANTS='{"provider/model-id":{"low":"low","high":"high"}}'
+export PITFALL_OPENCODE_VARIANTS='{"provider/model-id":{"low":"low","high":"high"}}'
 ```
 
 If no mapping exists, the provider default is used and

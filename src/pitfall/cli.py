@@ -7,9 +7,9 @@ from pathlib import Path
 
 import click
 
-from finagentbench.adapter import AdapterError, StdioAdapter
-from finagentbench.case import BenchmarkCase, CaseValidationError, load_cases
-from finagentbench.live_shadow import (
+from pitfall.adapter import AdapterError, StdioAdapter
+from pitfall.case import BenchmarkCase, CaseValidationError, load_cases
+from pitfall.live_shadow import (
     ARTIFACT_TYPE,
     RESOLUTION_TYPE,
     load_live_shadow_scenario,
@@ -18,14 +18,14 @@ from finagentbench.live_shadow import (
     verify_live_shadow_resolution,
     verify_live_shadow_seal,
 )
-from finagentbench.radar import build_radar_data, render_radar_data_js
-from finagentbench.runner import (
+from pitfall.radar import build_radar_data, render_radar_data_js
+from pitfall.runner import (
     render_markdown_report,
     run_adapter_matrix,
     run_codex_matrix,
 )
-from finagentbench.scoring import score_submission
-from finagentbench.sealed_suite import (
+from pitfall.scoring import score_submission
+from pitfall.sealed_suite import (
     PLAN_TYPE,
     PUBLIC_PLAN_TYPE,
     SUITE_TYPE,
@@ -35,12 +35,12 @@ from finagentbench.sealed_suite import (
     verify_public_plan_commitment,
     verify_suite_plan,
 )
-from finagentbench.walkforward import (
+from pitfall.walkforward import (
     WalkForwardCase,
     load_walkforward_suite,
     score_walkforward_submission,
 )
-from finagentbench.walkforward_runner import (
+from pitfall.walkforward_runner import (
     render_walkforward_report,
     run_walkforward_adapter_matrix,
     run_walkforward_codex_matrix,
@@ -54,9 +54,9 @@ BUILTIN_A_SHARE_LABELS = BUILTIN_A_SHARE / "labels"
 
 
 @click.group()
-@click.version_option(package_name="finagentbench")
+@click.version_option(package_name="pitfall")
 def main() -> None:
-    """Inspect and validate FinAgentBench evidence packets."""
+    """Inspect and validate PITFALL evidence packets."""
 
 
 def cases_dir_option(function):
@@ -160,7 +160,7 @@ def score(case_id: str, submission: Path, cases_dir: Path) -> None:
 @click.option(
     "--adapter-manifest",
     type=click.Path(path_type=Path, dir_okay=False, exists=True),
-    help="Use a finagentbench-stdio-v1 harness manifest instead of Codex CLI.",
+    help="Use a pitfall-stdio-v1 harness manifest instead of Codex CLI.",
 )
 @click.option(
     "--output",
@@ -274,9 +274,7 @@ def a_share_dirs(function):
 
 @a_share_group.command("validate")
 @a_share_dirs
-def a_share_validate(
-    scenarios_dir: Path, corpora_dir: Path, labels_dir: Path
-) -> None:
+def a_share_validate(scenarios_dir: Path, corpora_dir: Path, labels_dir: Path) -> None:
     """Validate time cutoffs, corpus domains, labels, and pair coverage."""
     cases = _load_a_share_or_fail(scenarios_dir, corpora_dir, labels_dir)
     positives = sum(case.label.event_occurred for case in cases)
@@ -310,9 +308,7 @@ def a_share_render(
         scenario_id,
         _load_a_share_or_fail(scenarios_dir, corpora_dir, labels_dir),
     )
-    click.echo(
-        json.dumps(case.scenario.agent_payload(), ensure_ascii=False, indent=2)
-    )
+    click.echo(json.dumps(case.scenario.agent_payload(), ensure_ascii=False, indent=2))
 
 
 @a_share_group.command("search")

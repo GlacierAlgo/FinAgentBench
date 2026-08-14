@@ -1,9 +1,9 @@
 (function () {
   "use strict";
 
-  const data = window.FINAGENTBENCH_RADAR_DATA;
+  const data = window.PITFALL_RADAR_DATA;
   if (!data) {
-    document.body.textContent = "Radar data is missing. Run finagentbench radar build.";
+    document.body.textContent = "Radar data is missing. Run pitfall radar build.";
     return;
   }
 

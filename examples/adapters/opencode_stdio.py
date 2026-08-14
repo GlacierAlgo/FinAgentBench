@@ -1,4 +1,4 @@
-"""Reference finagentbench-stdio-v1 adapter for OpenCode.
+"""Reference pitfall-stdio-v1 adapter for OpenCode.
 
 The adapter deliberately exposes no general tools. Historical A-share runs may
 only execute ``python3 frozen_search.py <query>`` in the temporary case folder.
@@ -87,7 +87,7 @@ def main() -> int:
 def _read_request() -> dict[str, Any]:
     payload = json.load(sys.stdin)
     if not isinstance(payload, dict) or payload.get("schema_version") != 1:
-        raise ValueError("expected a finagentbench-stdio-v1 request")
+        raise ValueError("expected a pitfall-stdio-v1 request")
     return payload
 
 
@@ -109,12 +109,12 @@ def _write_restricted_config(*, allow_frozen_search: bool) -> None:
 
 
 def _variant_for(model: str, effort: str) -> str | None:
-    raw = os.environ.get("FINAGENTBENCH_OPENCODE_VARIANTS")
+    raw = os.environ.get("PITFALL_OPENCODE_VARIANTS")
     if not raw:
         return None
     payload = json.loads(raw)
     if not isinstance(payload, dict):
-        raise TypeError("FINAGENTBENCH_OPENCODE_VARIANTS must be a JSON object")
+        raise TypeError("PITFALL_OPENCODE_VARIANTS must be a JSON object")
     model_map = payload.get(model, {})
     if not isinstance(model_map, dict):
         raise TypeError("model variant mapping must be an object")

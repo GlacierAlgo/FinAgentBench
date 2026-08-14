@@ -5,7 +5,7 @@ This directory is a dependency-free, offline-capable static site. Its checked-in
 metadata; it does not fetch scores from a client or external API.
 
 ```bash
-uv run finagentbench radar build
+uv run pitfall radar build
 python3 -m http.server 4173 --directory radar
 ```
 

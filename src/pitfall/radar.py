@@ -9,7 +9,7 @@ from pathlib import Path
 from statistics import fmean
 from typing import Any
 
-from finagentbench.case import CaseValidationError
+from pitfall.case import CaseValidationError
 
 
 def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
@@ -25,8 +25,8 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
     if not isinstance(family_labels, dict):
         raise CaseValidationError("radar source manifest requires family_labels")
 
-    scenarios = _load_objects(root / "src/finagentbench/a_share/scenarios")
-    labels = _load_objects(root / "src/finagentbench/a_share/labels")
+    scenarios = _load_objects(root / "src/pitfall/a_share/scenarios")
+    labels = _load_objects(root / "src/pitfall/a_share/labels")
     cases: dict[str, dict[str, Any]] = {}
     experiment_suites = []
     model_order: list[str] = []
@@ -56,8 +56,8 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
         }
         if None in scenario_ids or len(scenario_ids) != matrix.get("case_count"):
             raise CaseValidationError(f"{suite_id}: result case count mismatch")
-        expected_results = len(scenario_ids) * len(suite_models) * matrix.get(
-            "repeats", 1
+        expected_results = (
+            len(scenario_ids) * len(suite_models) * matrix.get("repeats", 1)
         )
         if len(results) != expected_results:
             raise CaseValidationError(f"{suite_id}: result matrix is incomplete")
@@ -146,7 +146,7 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
     event_count = sum(case["outcome"] for case in case_list)
     record = {
         "schema_version": 1,
-        "artifact_type": "finagentbench_public_radar",
+        "artifact_type": "pitfall_public_radar",
         "tier": "development_diagnostics",
         "title": _string(manifest.get("title"), field="title"),
         "subtitle": _string(manifest.get("subtitle"), field="subtitle"),
@@ -183,11 +183,15 @@ def build_radar_data(repo_root: Path, manifest_path: Path) -> dict[str, Any]:
 
 def render_radar_data_js(payload: dict[str, Any]) -> str:
     """Return an offline-friendly JavaScript assignment."""
-    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-    return f"window.FINAGENTBENCH_RADAR_DATA={encoded};\n"
+    encoded = json.dumps(
+        payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    )
+    return f"window.PITFALL_RADAR_DATA={encoded};\n"
 
 
-def _summaries(cases: list[dict[str, Any]], *, model_order: list[str]) -> dict[str, Any]:
+def _summaries(
+    cases: list[dict[str, Any]], *, model_order: list[str]
+) -> dict[str, Any]:
     model_runs: defaultdict[str, list[dict[str, Any]]] = defaultdict(list)
     suite_runs: defaultdict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     family_runs: defaultdict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
@@ -203,8 +207,7 @@ def _summaries(cases: list[dict[str, Any]], *, model_order: list[str]) -> dict[s
 
     return {
         "models": [
-            {"model": model, **_run_summary(model_runs[model])}
-            for model in model_order
+            {"model": model, **_run_summary(model_runs[model])} for model in model_order
         ],
         "suites": [
             {
@@ -350,7 +353,9 @@ def _read_object(path: Path) -> dict[str, Any]:
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
-        raise CaseValidationError(f"cannot read radar source {path}: {error}") from error
+        raise CaseValidationError(
+            f"cannot read radar source {path}: {error}"
+        ) from error
     return _object(payload, field=str(path))
 
 

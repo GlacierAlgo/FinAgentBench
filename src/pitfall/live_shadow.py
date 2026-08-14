@@ -16,15 +16,15 @@ from typing import Any
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 
-from finagentbench.case import CaseValidationError
-from finagentbench.walkforward import (
+from pitfall.case import CaseValidationError
+from pitfall.walkforward import (
     WalkForwardScenario,
     validate_realized_outcome,
 )
 
-ARTIFACT_TYPE = "finagentbench_live_shadow_seal"
-RESOLUTION_TYPE = "finagentbench_live_shadow_resolution"
-LABEL_TYPE = "finagentbench_live_shadow_label"
+ARTIFACT_TYPE = "pitfall_live_shadow_seal"
+RESOLUTION_TYPE = "pitfall_live_shadow_resolution"
+LABEL_TYPE = "pitfall_live_shadow_label"
 CANONICALIZATION = "json-sort-keys-utf8-v1"
 
 
@@ -37,9 +37,7 @@ def load_live_shadow_scenario(
     if scenario.mode != "live_shadow":
         raise CaseValidationError(f"{path}: scenario mode must be live_shadow")
     if scenario.search_policy.latest_published_at != scenario.as_of:
-        raise CaseValidationError(
-            f"{path}: live-shadow search cutoff must equal as_of"
-        )
+        raise CaseValidationError(f"{path}: live-shadow search cutoff must equal as_of")
     return payload, scenario
 
 
@@ -118,9 +116,7 @@ def run_live_shadow_codex_matrix(
         },
         "started_at": started_at.isoformat(),
         "completed_at": completed_at.isoformat(),
-        "duration_seconds": round(
-            (completed_at - started_at).total_seconds(), 3
-        ),
+        "duration_seconds": round((completed_at - started_at).total_seconds(), 3),
         "results": results,
         "timestamp_guardrail": (
             "The SHA-256 commitment binds these bytes but does not independently "
@@ -215,7 +211,7 @@ def _run_case(
 ) -> dict[str, Any]:
     started = time.monotonic()
     executed_at = datetime.now(UTC)
-    with tempfile.TemporaryDirectory(prefix="finagentbench-live-shadow-") as raw:
+    with tempfile.TemporaryDirectory(prefix="pitfall-live-shadow-") as raw:
         directory = Path(raw)
         schema_path = directory / "response-schema.json"
         output_path = directory / "response.json"
@@ -224,7 +220,7 @@ def _run_case(
             encoding="utf-8",
         )
         prompt = (
-            "你正在参加 FinAgentBench live-shadow 测试。必须使用原生实时 Web 搜索至少一次，"
+            "你正在参加 PITFALL live-shadow 测试。必须使用原生实时 Web 搜索至少一次，"
             "并综合多份截至 as_of 已公开的证据。优先使用交易所、监管机构、公司法定披露和"
             "可核验的一手行业资料；不要把新闻标题当成已证实事实。不得寻找隐藏标签，因为"
             "目标结果在本次预测封存时尚未发生。evidence_urls 必须填写你实际使用的直接来源"
@@ -407,9 +403,10 @@ def _validate_live_submission(
             raise CaseValidationError(
                 f"evidence URL domain {host!r} is not allowlisted"
             )
-    if not isinstance(submission["analysis_summary"], str) or not submission[
-        "analysis_summary"
-    ].strip():
+    if (
+        not isinstance(submission["analysis_summary"], str)
+        or not submission["analysis_summary"].strip()
+    ):
         raise CaseValidationError("analysis_summary must be non-empty")
 
 
@@ -430,9 +427,7 @@ def _validate_resolution_label(
     }
     missing = sorted(required - label.keys())
     if missing:
-        raise CaseValidationError(
-            f"live-shadow label missing: {', '.join(missing)}"
-        )
+        raise CaseValidationError(f"live-shadow label missing: {', '.join(missing)}")
     if label["schema_version"] != 1 or label["artifact_type"] != LABEL_TYPE:
         raise CaseValidationError("live-shadow label contract is unsupported")
     if label["scenario_id"] != scenario.id:
@@ -491,9 +486,7 @@ def _score_probability(
     observed = float(event_occurred)
     brier_loss = (probability - observed) ** 2
     clipped = min(max(probability, 1e-15), 1 - 1e-15)
-    log_loss = -(
-        observed * math.log(clipped) + (1 - observed) * math.log(1 - clipped)
-    )
+    log_loss = -(observed * math.log(clipped) + (1 - observed) * math.log(1 - clipped))
     expected = "event" if event_occurred else "no_event"
     return {
         "brier_score": round(100 * (1 - brier_loss), 6),

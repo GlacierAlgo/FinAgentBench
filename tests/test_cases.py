@@ -2,9 +2,9 @@ import json
 
 import pytest
 
-from finagentbench.case import BenchmarkCase, CaseValidationError, load_cases
-from finagentbench.cli import BUILTIN_CASES
-from finagentbench.scoring import score_submission
+from pitfall.case import BenchmarkCase, CaseValidationError, load_cases
+from pitfall.cli import BUILTIN_CASES
+from pitfall.scoring import score_submission
 
 
 def test_builtin_cases_are_valid_and_unique() -> None:

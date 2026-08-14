@@ -1,15 +1,17 @@
-# FinAgentBench
+# PITFALL
 
-FinAgentBench is an open benchmark for measuring whether an **agentic LLM +
-harness** can make disciplined financial predictions from point-in-time
-evidence.
+*Point-in-time financial reasoning challenge hub.*
+
+PITFALL is an open evaluation and evidence hub for measuring whether an
+**agentic LLM + harness** can make disciplined financial predictions from
+point-in-time evidence.
 
 The benchmark is designed for questions where the hard part is not recalling a
 formula. The agent must reject false premises, connect accounting and business
 facts through a causal chain, identify missing evidence, and express an
 appropriately calibrated prediction.
 
-**[Open the public A-share reasoning radar →](https://glacieralgo.github.io/FinAgentBench/)**
+**[Open the public A-share reasoning radar →](https://glacieralgo.github.io/PITFALL/)**
 
 The radar currently presents 150 real A-share historical replays and 450 model
 attempts as development diagnostics. It explicitly keeps the formal sealed
@@ -39,7 +41,7 @@ Each case tests five observable abilities:
 5. **Decision usefulness** — return a concise, structured conclusion that can
    be scored and audited.
 
-FinAgentBench asks for structured conclusions and short justifications. It does
+PITFALL asks for structured conclusions and short justifications. It does
 not require or collect a model's private chain of thought.
 
 ```mermaid
@@ -59,15 +61,18 @@ flowchart TD
 
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
+The distribution is named `pitfall`; both the Python package and command
+line entry point are named `pitfall`.
+
 ```bash
 uv sync --dev
-uv run finagentbench validate
-uv run finagentbench list
-uv run finagentbench render goodwill-impairment-risk
-uv run finagentbench a-share validate
-uv run finagentbench a-share list
-uv run finagentbench radar build
-uv run finagentbench shadow --help
+uv run pitfall validate
+uv run pitfall list
+uv run pitfall render goodwill-impairment-risk
+uv run pitfall a-share validate
+uv run pitfall a-share list
+uv run pitfall radar build
+uv run pitfall shadow --help
 uv run pytest tests
 ```
 
@@ -80,7 +85,7 @@ provide a contamination-resistant leaderboard score.
 Run the same cases through current locally available Codex models:
 
 ```bash
-uv run finagentbench benchmark \
+uv run pitfall benchmark \
   --model gpt-5.6-sol \
   --model gpt-5.6-terra \
   --model gpt-5.6-luna \
@@ -94,13 +99,13 @@ This command uses the signed-in local Codex account and consumes its usage. Each
 case gets an independent ephemeral session, a read-only sandbox, no external
 data, and a JSON Schema-constrained final answer.
 
-Version 0.8 adds the provider-neutral `finagentbench-stdio-v1` harness contract.
+Version 0.8 adds the provider-neutral `pitfall-stdio-v1` harness contract.
 
 Version 0.10 adds a dependency-free public radar generated from committed result
 artifacts. It compares Brier loss across models, task suites and nine financial
 logic families; exposes per-case event probabilities; and keeps experiment
 identity and coverage visible beside the plots. Open `radar/index.html` directly
-or rebuild `radar/data.js` with `finagentbench radar build`.
+or rebuild `radar/data.js` with `pitfall radar build`.
 
 Version 0.11 adds a tenth logic family: a same-company, approximately
 98%-pledged positive/control pair for later material judicial freeze. It also
@@ -138,9 +143,30 @@ days, cash collection and operating cash conversion. The family includes
 华域汽车 as a policy-and-affiliation hard control and three no-event companies
 whose cash metrics were strong even though receivable days lengthened.
 
+Version 0.15 adds four historical pig-cycle restructuring cases, balanced at
+two event / two no-event. Two matched snapshots contrast 正邦科技 with 温氏股份
+after the 2021 sector loss and 傲农生物 with 天邦食品 amid 2023 distress. The
+literal target is a court's formal acceptance of reorganization of the listed
+issuer within 24 months: a filing, pre-reorganization, extension, subsidiary
+case, investor agreement, pledge warning, or *ST label never qualifies. 天邦 is
+the temporal hard control because it remained in extended pre-reorganization
+after the window despite extreme liquidity stress.
+
+Version 0.16 adds eight cross-market bottleneck-transmission cases, balanced at
+four event / four no-event. A Micron earnings beat establishes the broad memory
+demand baseline; the separate disclosure that HBM consumes more wafer capacity
+and needs additional cleanroom space with lengthening build lead times supplies
+the marginal constraint. The agent must map that constraint to four verified
+A-share cleanroom engineering/equipment suppliers while rejecting four semantic
+neighbors in chip design, memory products/packaging and foundry operations. The
+literal label requires both a 10-percentage-point adjusted-close excess return
+over semiconductor ETF 512480 and at least one limit-up close within five
+sessions. It scores the observed market path, not a claim that Micron caused the
+move or that any supplier won an order.
+
 ```bash
 opencode providers login
-uv run finagentbench a-share benchmark \
+uv run pitfall a-share benchmark \
   --adapter-manifest examples/adapters/opencode.json \
   --model provider/model-id \
   --scenario-id cn-a-2020-cambricon-rd-commercial-validation \
@@ -166,8 +192,8 @@ task repository.
 Run a custom case directory without changing application code:
 
 ```bash
-uv run finagentbench validate --cases-dir /path/to/cases
-uv run finagentbench render CASE_ID --cases-dir /path/to/cases
+uv run pitfall validate --cases-dir /path/to/cases
+uv run pitfall render CASE_ID --cases-dir /path/to/cases
 ```
 
 ## Public contract score
@@ -239,12 +265,12 @@ ST加加 is a boundary no-event even though its stock maximum was +100.74%,
 because its maximum excess return was only +79.07 percentage points.
 
 ```bash
-uv run finagentbench a-share render cn-a-2019q3-goodwill-002739
-uv run finagentbench a-share search \
+uv run pitfall a-share render cn-a-2019q3-goodwill-002739
+uv run pitfall a-share search \
   cn-a-2019q3-goodwill-300467 '商誉 减值 狮之吼'
-uv run finagentbench a-share score \
+uv run pitfall a-share score \
   cn-a-2019q3-goodwill-300467 /path/to/submission.json
-uv run finagentbench a-share benchmark \
+uv run pitfall a-share benchmark \
   --model gpt-5.6-sol --model gpt-5.6-terra \
   --workers 2 --output results/a-share.json \
   --report-output results/a-share.md
@@ -264,7 +290,9 @@ records 2.11.1 at `53e4fc813d35f76d0169923d2c451b3c8700edb0`, while
 the version 0.13 lifecycle wave records 2.11.1 at
 `5109b46e7f960a52ea9833704c9484c835c6ef4f`, and the version 0.14 automotive
 payment-cycle wave records 2.11.1 at
-`a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9`. Native PDFium extraction is used
+`a8c193cdeb789d1af1d3e3b6d3323a5c9c77c7f9`. The version 0.15 pig-cycle and
+version 0.16 bottleneck-transmission waves use LiteParse 2.12.0 at
+`2fd644a9e10ceeee7379949a55fa77aaf26d4b9b`. Native PDFium extraction is used
 when a text layer exists. Every version 0.12 source selected for the checked-in
 corpora had a usable text layer and was parsed with `--no-ocr`; anti-bot HTML and
 a cross-company filing discovered during source validation were rejected before
@@ -462,16 +490,16 @@ and scored against the intact seal; the original prediction artifact is never
 rewritten.
 
 ```bash
-uv run finagentbench shadow run \
-  src/finagentbench/live_shadow/scenarios/cn-a-live-20260812-hygon-rd-efficiency.json \
+uv run pitfall shadow run \
+  /path/to/live-scenario.json \
   --model gpt-5.6-terra \
-  --output results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json
-uv run finagentbench shadow verify \
-  results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json
-uv run finagentbench shadow resolve \
-  results/live-shadow/2026-08-12-hygon-rd-efficiency-seal.json \
+  --output /path/to/seal.json
+uv run pitfall shadow verify \
+  /path/to/seal.json
+uv run pitfall shadow resolve \
+  /path/to/seal.json \
   /path/to/matured-label.json \
-  --output results/live-shadow/hygon-resolution.json
+  --output /path/to/resolution.json
 ```
 
 The first unresolved seal was created on 2026-08-12 for 海光信息 FY2026 R&D
@@ -479,7 +507,9 @@ commercial efficiency. Terra used eight native Web searches and assigned 0.56
 probability to the joint event: at least 25% revenue growth, at least 55% gross
 margin, and at least 10% operating-cash-flow margin. Its commitment is
 `3fc9b7588ac6879804dc2f901a790164c05fd5c55c70718a04b32d51c1aecbeb`.
-There is deliberately no outcome score yet. See
+It predates the breaking PITFALL namespace and is retained as immutable history,
+not as input accepted by the current verifier. There is deliberately no outcome
+score yet. See
 [`docs/live-shadow.md`](docs/live-shadow.md) for the sealing and resolution
 contract.
 
@@ -516,8 +546,8 @@ correct explanation.
 The repository now includes:
 
 - 12 synthetic, point-in-time case packets with irrelevant evidence distractors;
-- 150 real A-share walk-forward scenarios with frozen point-in-time corpora,
-  split 76 event / 74 no-event across 24 logic families;
+- 162 real A-share walk-forward scenarios with frozen point-in-time corpora,
+  split 82 event / 80 no-event across 26 logic families;
 - ST/scandal cohorts spanning cash-payment reality, public debt default,
   regulator-confirmed misstatement, next-year audit outcomes, full warning
   removal, forced delisting, and strict post-ST market paths;
@@ -554,7 +584,7 @@ and community leaderboards belong in that service layer, not in the case format.
 
 ## Status
 
-FinAgentBench is pre-alpha. The public synthetic suite is useful for authoring
+PITFALL is pre-alpha. The public synthetic suite is useful for authoring
 and harness verification but is intentionally not presented as a frontier-model
 leaderboard.
 

@@ -1,11 +1,11 @@
-"""Deterministic contract scoring for public FinAgentBench cases."""
+"""Deterministic contract scoring for public PITFALL cases."""
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from typing import Any
 
-from finagentbench.case import BenchmarkCase, CaseValidationError
+from pitfall.case import BenchmarkCase, CaseValidationError
 
 
 @dataclass(frozen=True)

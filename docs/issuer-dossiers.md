@@ -1,6 +1,6 @@
 # Issuer dossiers
 
-FinAgentBench stores a company as a stable security identity plus a dated event
+PITFALL stores a company as a stable security identity plus a dated event
 timeline.  A changed short name, an ST prefix, or a new strategy announcement is
 an event; none of them creates a new company and none is a label by itself.
 

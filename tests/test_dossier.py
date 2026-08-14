@@ -4,14 +4,14 @@ from pathlib import Path
 
 import pytest
 
-from finagentbench.a_share.dossier import (
+from pitfall.a_share.dossier import (
     ISSUER_DOMAINS,
     IssuerDossier,
     dossier_digest,
     load_dossier,
     load_dossiers,
 )
-from finagentbench.case import CaseValidationError
+from pitfall.case import CaseValidationError
 
 
 def _payload() -> dict:
@@ -251,7 +251,7 @@ def test_loaders_validate_files_and_duplicate_stable_identity(tmp_path) -> None:
 def test_builtin_zhongke_dossier_preserves_rename_and_warning_effective_dates() -> None:
     path = (
         Path(__file__).parents[1]
-        / "src/finagentbench/a_share/dossiers/issuer-002306-xshe.json"
+        / "src/pitfall/a_share/dossiers/issuer-002306-xshe.json"
     )
     dossier = load_dossier(path)
 

@@ -12,6 +12,6 @@
     "external_data_access": false,
     "session_persistence": true,
     "outcome_visible_to_agent": false,
-    "reasoning_effort_contract": "Provider-specific --variant is applied only when FINAGENTBENCH_OPENCODE_VARIANTS maps the requested model and effort; otherwise the provider default is recorded"
+    "reasoning_effort_contract": "Provider-specific --variant is applied only when PITFALL_OPENCODE_VARIANTS maps the requested model and effort; otherwise the provider default is recorded"
   }
 }
