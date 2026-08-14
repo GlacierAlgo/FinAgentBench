@@ -73,7 +73,7 @@
 ### 实际结果 / Realized outcome
 
 - **observations**:
-  - **revenue_2021**: 2310415312.0
+  - **revenue_2021**: 2310415312.15
   - **revenue_2024**: 9162148135.92
   - **operating_cost_2024**: 3324009349.21
   - **operating_cash_flow_2024**: 977081091.31
@@ -85,7 +85,7 @@
       - revenue_2021
       - revenue_2024
     - **periods**: 3
-    - **value**: 0.5828353892403499
+    - **value**: 0.5828353892060956
   - **item 2**:
     - **metric**: gross_margin_2024
     - **operation**: margin
