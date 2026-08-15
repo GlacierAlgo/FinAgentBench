@@ -7,6 +7,11 @@ from pathlib import Path
 
 import click
 
+from pitfall.baseline import (
+    render_baseline_report,
+    run_point_baseline,
+    verify_point_baseline,
+)
 from pitfall.errors import CaseValidationError
 from pitfall.evaluation import parse_evaluation
 from pitfall.live_shadow import (
@@ -93,6 +98,114 @@ def evaluation_validate(evaluation: Path) -> None:
     except (OSError, CaseValidationError) as error:
         raise click.ClickException(str(error)) from error
     click.echo(f"{result.classification.value}\t{result.decisive_reason}")
+
+
+@main.group("baseline")
+def baseline_group() -> None:
+    """Run Question -> Answer -> pinned six-class Judge."""
+
+
+@baseline_group.command("run")
+@click.option("--model", default="gpt-5.6-sol", show_default=True)
+@click.option(
+    "--reasoning-effort",
+    type=click.Choice(["low", "medium", "high", "xhigh", "max"]),
+    default="xhigh",
+    show_default=True,
+)
+@click.option("--workers", type=click.IntRange(1, 8), default=4, show_default=True)
+@click.option(
+    "--timeout-seconds", type=click.IntRange(10), default=600, show_default=True
+)
+@click.option("--point-id", "point_ids", multiple=True)
+@click.option("--resume/--no-resume", default=True, show_default=True)
+@click.option(
+    "--output",
+    type=click.Path(path_type=Path, dir_okay=False),
+    required=True,
+)
+@click.option(
+    "--report-output", type=click.Path(path_type=Path, dir_okay=False)
+)
+@points_dir_option
+def baseline_run(
+    model: str,
+    reasoning_effort: str,
+    workers: int,
+    timeout_seconds: int,
+    point_ids: tuple[str, ...],
+    resume: bool,
+    output: Path,
+    report_output: Path | None,
+    points_dir: Path,
+) -> None:
+    """Run an isolated end-to-end baseline with atomic checkpoints."""
+    all_points = _load_points_or_fail(points_dir)
+    if point_ids:
+        by_id = {point.id: point for point in all_points}
+        unknown = sorted(set(point_ids) - by_id.keys())
+        if unknown:
+            raise click.ClickException(
+                f"unknown point id(s): {', '.join(unknown)}"
+            )
+        points = tuple(by_id[point_id] for point_id in point_ids)
+    else:
+        points = all_points
+
+    def progress(item: dict) -> None:
+        classification = item.get("evaluation", {}).get("class", item["status"])
+        click.echo(f"[{classification}] {item['point_id']}", err=True)
+
+    try:
+        run = run_point_baseline(
+            points,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            workers=workers,
+            timeout_seconds=timeout_seconds,
+            output=output,
+            resume=resume,
+            progress=progress,
+        )
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    if report_output is not None:
+        report_output.parent.mkdir(parents=True, exist_ok=True)
+        report_output.write_text(render_baseline_report(run), encoding="utf-8")
+        click.echo(f"Wrote {report_output}")
+    click.echo(
+        f"Baseline {run['status']}: {run['summary']['completed']}/"
+        f"{run['point_count']} completed in {output}"
+    )
+    if run["status"] != "complete":
+        raise click.ClickException("baseline contains failed point(s); resume to retry")
+
+
+@baseline_group.command("verify")
+@click.argument("artifact", type=click.Path(path_type=Path, dir_okay=False))
+@click.option("--point-id", "point_ids", multiple=True)
+@points_dir_option
+def baseline_verify(
+    artifact: Path, point_ids: tuple[str, ...], points_dir: Path
+) -> None:
+    """Verify exact point coverage and every parsed Judge class."""
+    all_points = _load_points_or_fail(points_dir)
+    if point_ids:
+        by_id = {point.id: point for point in all_points}
+        unknown = sorted(set(point_ids) - by_id.keys())
+        if unknown:
+            raise click.ClickException(
+                f"unknown point id(s): {', '.join(unknown)}"
+            )
+        points = tuple(by_id[point_id] for point_id in point_ids)
+    else:
+        points = all_points
+    try:
+        payload = _read_json_object(artifact)
+        verify_point_baseline(payload, points)
+    except CaseValidationError as error:
+        raise click.ClickException(str(error)) from error
+    click.echo(f"Verified {len(points)} end-to-end point result(s) in {artifact}")
 
 
 @main.group("radar")
